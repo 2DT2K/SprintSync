@@ -11,36 +11,33 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.sprintsync.ui.theme.SprintSyncTheme
+import com.sprintsync.views.login.LogInScreen
+
 
 class MainActivity : ComponentActivity() {
-	override fun onCreate(savedInstanceState: Bundle?) {
-		super.onCreate(savedInstanceState)
-		setContent {
-			SprintSyncTheme {
-				// A surface container using the 'background' color from the theme
-				Surface(
-					modifier = Modifier.fillMaxSize(),
-					color = MaterialTheme.colorScheme.background
-				) {
-					Greeting("Android")
-				}
-			}
-		}
-	}
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContent {
+            SprintSyncTheme {
+                // A surface container using the 'background' color from the theme
+                LogInScreen()
+            }
+        }
+    }
 }
 
 @Composable
 fun Greeting(name: String, modifier: Modifier = Modifier) {
-	Text(
-		text = "Hello $name!",
-		modifier = modifier
-	)
+    Text(
+        text = "Hello $name!",
+        modifier = modifier
+    )
 }
 
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
-	SprintSyncTheme {
-		Greeting("Android")
-	}
+    SprintSyncTheme {
+        Greeting("Android")
+    }
 }
