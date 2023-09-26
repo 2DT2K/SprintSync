@@ -25,6 +25,9 @@ import com.sprintsync.ui.components.TopBar
 @Composable
 fun HomePage() {
     Scaffold(
+        topBar = {
+            TopBar()
+        },
         bottomBar = {
             BottomNavigation()
         }
@@ -35,7 +38,6 @@ fun HomePage() {
             horizontalAlignment = Alignment.CenterHorizontally,
 
         ) {
-            TopBar()
             HomePageViews()
             HomePageIssue()
 
