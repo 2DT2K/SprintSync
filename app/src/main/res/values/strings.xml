@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">SprintSync</string>
+    <string name="title_activity_menu_top_bar">MenuTopBar</string>
 </resources>
