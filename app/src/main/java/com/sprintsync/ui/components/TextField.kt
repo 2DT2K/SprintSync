@@ -8,8 +8,10 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.input.OffsetMapping
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -25,18 +27,20 @@ import com.sprintsync.ui.theme.SprintSyncTheme
 fun CustomTextField(
     type: String? = "normal",
     modifier: Modifier = Modifier,
+    surfaceModifier: Modifier = Modifier,
     value: String = "",
     label: String = "Email",
     placeholder: String = "Please Enter Your Email",
     isVisible: Boolean? = true,
     leadingIcon: @Composable() (() -> Unit)? = null,
     trailingIcon: @Composable() (() -> Unit)? = null,
-): Unit {
+    shape: Shape = TextFieldDefaults.outlinedShape
+) {
     var text by remember { mutableStateOf(value) }
     var passwordVisible by remember { mutableStateOf(isVisible) }
     if (type == "hidden") passwordVisible = false;
 
-    Surface {
+    Surface(modifier = surfaceModifier) {
         OutlinedTextField(
             modifier = modifier,
             value = text,
@@ -66,6 +70,7 @@ fun CustomTextField(
                 passwordVisible == false
             ) PasswordVisualTransformation() else VisualTransformation.None,
             maxLines = 1,
+            shape = shape
         )
     }
 }

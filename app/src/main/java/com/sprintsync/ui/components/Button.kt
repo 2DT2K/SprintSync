@@ -11,10 +11,11 @@ import androidx.compose.ui.Modifier
 fun CustomButton(
     type: String = "filled",
     modifier: Modifier = Modifier,
+    surfaceModifier: Modifier = Modifier,
     text: String,
     onClick: () -> Unit = {}
 ) {
-    Surface() {
+    Surface(modifier = surfaceModifier) {
         if (type == "filled") {
             Button(
                 onClick = { onClick() },

@@ -3,6 +3,7 @@ package com.sprintsync.ui.views.login
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
@@ -36,6 +37,7 @@ fun LogInScreen(modifier: Modifier = Modifier) {
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
+                    .defaultMinSize()
                     .weight(0.75f), contentAlignment = Alignment.TopCenter
             ) {
                 Image(
@@ -80,8 +82,10 @@ fun LogInScreen(modifier: Modifier = Modifier) {
                             imageVector = ImageVector.vectorResource(id = R.drawable.logo),
                             contentDescription = "email icon"
                         )
-                    }
+                    },
+                    shape = RoundedCornerShape(100),
                 )
+
                 CustomTextField(
                     type = "hidden",
                     label = "Password",
@@ -92,7 +96,8 @@ fun LogInScreen(modifier: Modifier = Modifier) {
                             imageVector = ImageVector.vectorResource(id = R.drawable.logo),
                             contentDescription = "password icon"
                         )
-                    }
+                    },
+                    shape = RoundedCornerShape(20),
                 )
                 Box(
                     modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.BottomEnd
@@ -103,11 +108,15 @@ fun LogInScreen(modifier: Modifier = Modifier) {
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .weight(0.5f),
+                    .wrapContentHeight(),
                 verticalArrangement = Arrangement.spacedBy(20.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                CustomButton(type = "filled", text = "Login", modifier = Modifier.fillMaxWidth())
+                CustomButton(
+                    type = "filled",
+                    text = "Login",
+                    surfaceModifier = Modifier.fillMaxWidth()
+                )
                 Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
                     Box(
                         modifier = Modifier
@@ -132,11 +141,25 @@ fun LogInScreen(modifier: Modifier = Modifier) {
                 }
                 Row(
                     modifier = Modifier
-                        .fillMaxWidth(),
+                        .fillMaxWidth()
+                        .wrapContentHeight(),
                     horizontalArrangement = Arrangement.spacedBy(20.dp)
                 ) {
-                    CustomButton(type = "outlined", text = "Login", modifier = Modifier.weight(1f))
-                    CustomButton(type = "outlined", text = "Login", modifier = Modifier.weight(1f))
+                    CustomButton(
+                        type = "outlined",
+                        text = "Google",
+                        modifier = Modifier.fillMaxWidth(),
+                        surfaceModifier = Modifier
+                            .weight(1f)
+                    )
+
+                    CustomButton(
+                        type = "outlined",
+                        text = "Phone",
+                        modifier = Modifier.fillMaxWidth(),
+                        surfaceModifier = Modifier
+                            .weight(1f)
+                    )
                 }
             }
             Row(
