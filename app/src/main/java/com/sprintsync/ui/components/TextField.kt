@@ -1,6 +1,7 @@
 package com.sprintsync.ui.components
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -20,6 +21,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
+import com.sprintsync.ui.theme.Purple40
 import com.sprintsync.ui.theme.SprintSyncTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -62,7 +64,7 @@ fun CustomTextField(
                     text = placeholder,
                     fontSize = 16.sp,
                     maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
+                    overflow = TextOverflow.Ellipsis,
                 )
             },
             visualTransformation = if (text.isEmpty())
@@ -70,7 +72,11 @@ fun CustomTextField(
                 passwordVisible == false
             ) PasswordVisualTransformation() else VisualTransformation.None,
             maxLines = 1,
-            shape = shape
+            shape = RoundedCornerShape(16),
+            colors = TextFieldDefaults.outlinedTextFieldColors(
+                focusedBorderColor = Purple40,
+                unfocusedBorderColor = Purple40
+            )
         )
     }
 }
