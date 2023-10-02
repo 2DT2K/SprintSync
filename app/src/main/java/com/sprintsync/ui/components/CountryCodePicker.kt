@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredHeight
 import androidx.compose.foundation.layout.requiredWidth
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.CornerBasedShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
@@ -86,7 +87,7 @@ fun CountryCodePicker(
     showDropDownAfterFlag: Boolean = false,
     isEnabled: Boolean = true,
     isReadOnly: Boolean = false,
-    flagShape: CornerBasedShape = RoundedCornerShape(0.dp),
+    flagShape: CornerBasedShape = RoundedCornerShape(16),
     @DrawableRes errorIcon: Int? = null,
     @DrawableRes dropDownIcon: Int? = null,
     showErrorIcon: Boolean = true,
@@ -150,28 +151,35 @@ fun CountryCodePicker(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     val dialog = MaterialCodePicker()
-                    dialog.MaterialCodeDialog(
-                        pickedCountry = pickedCountry,
-                        defaultSelectedCountry = defaultCountry,
-                        showCountryCode = showCountryCode,
-                        searchFieldPlaceHolderTextStyle = searchFieldPlaceHolderTextStyle,
-                        searchFieldTextStyle = searchFieldTextStyle,
-                        showCountryFlag = showCountryFlag,
-                        searchFieldShapeCornerRadiusInPercentage = searchFieldShapeCornerRadiusInPercentage,
-                        appbartitleStyle = appbartitleStyle,
-                        countryItemBgShape = countryItemBgShape,
-                        countryItemVerticalPadding = countryItemVerticalPadding,
-                        countryItemHorizontalPadding = countryItemHorizontalPadding,
-                        countrytextstyle = countrytextstyle,
-                        dialogcountrycodetextstyle = dialogcountrycodetextstyle,
-                        showCountryCodeInDIalog = showCountryCodeInDIalog,
-                        countrycodetextstyle = countrycodetextstyle,
-                        showDropDownAfterFlag = showDropDownAfterFlag,
-                        colors = colors,
-                        dropDownIcon = dropDownIcon,
-                        flagShape = flagShape,
-                        isEnabled = isEnabled,
-                    )
+                    Surface(
+                        modifier = Modifier
+                            .height(24.dp)
+                            .wrapContentWidth()
+                    ) {
+                        dialog.MaterialCodeDialog(
+                            pickedCountry = pickedCountry,
+                            defaultSelectedCountry = defaultCountry,
+                            showCountryCode = showCountryCode,
+                            searchFieldPlaceHolderTextStyle = searchFieldPlaceHolderTextStyle,
+                            searchFieldTextStyle = searchFieldTextStyle,
+                            showCountryFlag = showCountryFlag,
+                            searchFieldShapeCornerRadiusInPercentage = searchFieldShapeCornerRadiusInPercentage,
+                            appbartitleStyle = appbartitleStyle,
+                            countryItemBgShape = countryItemBgShape,
+                            countryItemVerticalPadding = countryItemVerticalPadding,
+                            countryItemHorizontalPadding = countryItemHorizontalPadding,
+                            countrytextstyle = countrytextstyle,
+                            dialogcountrycodetextstyle = dialogcountrycodetextstyle,
+                            showCountryCodeInDIalog = showCountryCodeInDIalog,
+                            countrycodetextstyle = countrycodetextstyle,
+                            showDropDownAfterFlag = showDropDownAfterFlag,
+                            colors = colors,
+                            dropDownIcon = dropDownIcon,
+                            flagShape = flagShape,
+                            isEnabled = isEnabled,
+                        )
+                    }
+
                     Surface(
                         modifier = Modifier
                             .padding(1.dp)
