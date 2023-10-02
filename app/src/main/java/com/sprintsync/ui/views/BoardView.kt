@@ -20,12 +20,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.util.lerp
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.sprintsync.ui.components.BottomNavigation
 import com.sprintsync.ui.components.boardview_components.BoardViewCategory
 import com.sprintsync.ui.components.boardview_components.BoardViewTopBar
 import com.sprintsync.ui.components.boardview_components.fakedata
+import kotlin.math.absoluteValue
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
@@ -50,7 +53,27 @@ fun BoardView() {
                 .padding(20.dp)
         ) {
             HorizontalPager(state = pagerState, pageCount = pageCount) {
-                BoardViewCategory(boardviewCategory = fakedata)
+                Row(modifier = Modifier.fillMaxWidth()
+//                    .graphicsLayer {
+//                    // Calculate the absolute offset for the current page from the
+//                    // scroll position. We use the absolute value which allows us to mirror
+//                    // any effects for both directions
+//                    val pageOffset = (
+//                            (pagerState.currentPage - 20) + pagerState
+//                                .currentPageOffsetFraction
+//                            ).absoluteValue
+//
+//                    // We animate the alpha, between 50% and 100%
+//                    alpha = lerp(
+//                        start = 0.5f,
+//                        stop = 1f,
+//                        fraction = 1f - pageOffset.coerceIn(0f, 1f)
+//                    )
+//                }
+                ) {
+                    BoardViewCategory(boardviewCategory = fakedata)
+                }
+
             }
             Row(
                 Modifier
