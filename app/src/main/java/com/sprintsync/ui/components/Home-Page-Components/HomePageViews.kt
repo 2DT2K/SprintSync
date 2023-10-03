@@ -81,13 +81,6 @@ fun HomePageViews() {
                             spotColor = Color(0x59FF6BCF),
                             ambientColor = Color(0x59FF6BCF)
                         )
-                        .padding(0.dp)
-                        .height(115.dp)
-                        .background(
-                            color = Color(0xFFFF71D1),
-                            shape = RoundedCornerShape(size = 20.dp)
-                        )
-                        .padding(start = 16.dp, end = 16.dp)
                 )
                 CustomIconButton(
                     iconID = R.drawable.task,
@@ -100,13 +93,6 @@ fun HomePageViews() {
                             spotColor = Color(0x59D272FF),
                             ambientColor = Color(0x59D272FF)
                         )
-                        .padding(0.dp)
-                        .height(115.dp)
-                        .background(
-                            color = Color(0xFFD47AFE),
-                            shape = RoundedCornerShape(size = 20.dp)
-                        )
-                        .padding(start = 16.dp, end = 16.dp)
                 )
             }
             Row(
@@ -125,13 +111,6 @@ fun HomePageViews() {
                             spotColor = Color(0x59FF829E),
                             ambientColor = Color(0x59FF829E)
                         )
-                        .padding(0.dp)
-                        .height(115.dp)
-                        .background(
-                            color = Color(0xFFFF829E),
-                            shape = RoundedCornerShape(size = 20.dp)
-                        )
-                        .padding(start = 16.dp, end = 16.dp)
                 )
                 CustomIconButton(
                     iconID = R.drawable.calendar,
@@ -144,13 +123,6 @@ fun HomePageViews() {
                             spotColor = Color(0x59FFA874),
                             ambientColor = Color(0x59FFA874)
                         )
-                        .padding(0.dp)
-                        .height(115.dp)
-                        .background(
-                            color = Color(0xFFFFA874),
-                            shape = RoundedCornerShape(size = 20.dp)
-                        )
-                        .padding(start = 16.dp, end = 16.dp)
                 )
             }
         }
