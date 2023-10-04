@@ -37,7 +37,7 @@ fun LogInScreen(modifier: Modifier = Modifier) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(start = 25.dp, end = 25.dp)
+                .padding(start = 24.dp, end = 24.dp)
         ) {
             Box(
                 modifier = Modifier
