@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -37,7 +38,7 @@ fun BoardViewCategory(boardviewCategory: IBoardViewCategory) {
     Column(
         verticalArrangement = Arrangement.spacedBy(10.dp, Alignment.CenterVertically),
         horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier
-            .fillMaxWidth()
+            .fillMaxWidth(0.96f)
             .background(color = Color(0xFFEADDFF), shape = RoundedCornerShape(size = 10.dp))
             .padding(15.dp)
     ) {
@@ -71,7 +72,7 @@ fun BoardViewCategory(boardviewCategory: IBoardViewCategory) {
                     )
                 )
             }
-            IconButton(onClick = { /*TODO*/ }) {
+            IconButton(onClick = { /*TODO*/ },modifier = Modifier.width(24.dp)) {
                 Image(painter = painterResource(id = R.drawable.plus_icon), contentDescription = "")
             }
         }
