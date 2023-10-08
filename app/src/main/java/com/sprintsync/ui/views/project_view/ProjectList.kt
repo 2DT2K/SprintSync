@@ -14,7 +14,6 @@ import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -31,32 +30,11 @@ import com.sprintsync.ui.theme.SprintSyncTheme
 import com.sprintsync.R
 import com.sprintsync.ui.components.CustomTextField
 import com.sprintsync.ui.theme.Yellow40
-
-data class ProjectList(
-    val avatar: String,
-    val projectName: String,
-    val projectKey: String,
-    var isStarred: Boolean
-)
-
-val projectList = listOf(
-    ProjectList("Student 1", "khoidz2", "khoidz", true),
-    ProjectList("Student 1", "khoidz1", "khoidz", true),
-    ProjectList("Student 1", "khoidz2", "khoidz", false),
-    ProjectList("Student 1", "khoidz3", "khoidz", false),
-    ProjectList("Student 1", "khoidz4", "khoidz", true),
-    ProjectList("Student 1", "khoidz5", "khoidz", true),
-    ProjectList("Student 1", "khoidz6", "khoidz", true),
-    ProjectList("Student 1", "khoi2dz2", "khoidz", true),
-)
+import com.sprintsync.ui.view_models.ProjectViewViewModel
 
 @Composable
-fun ProjectList(modifier: Modifier = Modifier) {
+fun ProjectList(projectViewViewModel: ProjectViewViewModel) {
     var searchTerm by remember { mutableStateOf("") }
-    var projects by remember { mutableStateOf(projectList) }
-    var index by rememberSaveable {
-        mutableStateOf(-1)
-    }
 
     Surface() {
         Column(
@@ -67,6 +45,7 @@ fun ProjectList(modifier: Modifier = Modifier) {
             CustomTextField(
                 modifier = Modifier.fillMaxWidth(),
                 label = "",
+                placeholder = "Find Projects",
                 onValueChange = {
                     searchTerm = it
                 },
@@ -82,50 +61,45 @@ fun ProjectList(modifier: Modifier = Modifier) {
                     unfocusedBorderColor = Color.Transparent,
                 )
             )
-            StarredProjectList(
-                projects = projects,
-                searchTerm = searchTerm
-            ) {
-                index = it
-                projectList[it].copy(isStarred = !projects[it].isStarred)
-                projects = projectList
-            }
-            AllProjectList(
-                projects = projects,
-                searchTerm = searchTerm
-            ) {
-                index = it
-                projectList[it].copy(isStarred = !projects[it].isStarred)
-                projects = projectList
+            Column(verticalArrangement = Arrangement.spacedBy(24.dp)) {
+                StarredProjectList(
+                    searchTerm = searchTerm,
+                    projects = projectViewViewModel.projectList
+                ) {
+                    projectViewViewModel.updateProjectList(it)
+                }
+                AllProjectList(
+                    projects = projectViewViewModel.projectList,
+                    searchTerm = searchTerm,
+                ) {
+                    projectViewViewModel.updateProjectList(it)
+                }
             }
         }
     }
+
 }
+
 
 @Composable
 fun StarredProjectList(
-    modifier: Modifier = Modifier,
     searchTerm: String = "",
-    projects: List<ProjectList>,
+    projects: List<ProjectViewViewModel.ProjectList>,
     onChange: ((Int) -> Unit)? = null
 ) {
-    Surface() {
+    val currentStarredList = projects.none { project -> project.isStarred }
+    if (!currentStarredList) Surface() {
         Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
             Text(text = "Starred")
-            Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
-                projects.forEachIndexed() { index, project ->
-                    val isStarred by remember {
-                        mutableStateOf(project.isStarred)
+            projects.forEachIndexed() { index, project ->
+                if (project.projectName.contains(
+                        searchTerm,
+                        true
+                    ) && project.isStarred
+                ) ProjectCard(project = project, index = index) {
+                    if (onChange != null) {
+                        onChange(it)
                     }
-                    if (isStarred && project.projectName.contains(
-                            searchTerm,
-                            true
-                        )
-                    ) projectCard(project = project, index = index, onChange = {
-                        if (onChange != null) {
-                            onChange(it)
-                        }
-                    })
                 }
             }
         }
@@ -136,7 +110,7 @@ fun StarredProjectList(
 fun AllProjectList(
     modifier: Modifier = Modifier,
     searchTerm: String = "",
-    projects: List<ProjectList>,
+    projects: List<ProjectViewViewModel.ProjectList>,
     onChange: ((Int) -> Unit)? = null
 ) {
     Surface() {
@@ -151,11 +125,11 @@ fun AllProjectList(
                             searchTerm,
                             true
                         )
-                    ) projectCard(project = project, index = index, onChange = {
+                    ) ProjectCard(project = project, index = index) {
                         if (onChange != null) {
                             onChange(it)
                         }
-                    })
+                    }
                 }
             }
         }
@@ -164,14 +138,12 @@ fun AllProjectList(
 }
 
 @Composable
-fun projectCard(
+fun ProjectCard(
     modifier: Modifier = Modifier,
     index: Int = -1,
-    project: ProjectList,
+    project: ProjectViewViewModel.ProjectList,
     onChange: ((Int) -> Unit)? = null
 ) {
-    var isStarred by remember { mutableStateOf(project.isStarred) }
-
     Row(
         modifier = modifier
             .fillMaxWidth()
@@ -227,13 +199,11 @@ fun projectCard(
         }
 
         IconButton(onClick = {
-            project.isStarred = !project.isStarred
-            isStarred = !isStarred
             if (onChange != null) {
                 onChange(index)
             }
         }) {
-            if (isStarred) Icon(
+            if (project.isStarred) Icon(
                 painter = painterResource(id = R.drawable.selected_star),
                 contentDescription = "starred",
                 tint = Yellow40
@@ -250,7 +220,7 @@ fun projectCard(
 @Composable
 private fun ProjectListPreview() {
     SprintSyncTheme {
-        ProjectList(Modifier)
+        ProjectList(ProjectViewViewModel())
     }
 }
 

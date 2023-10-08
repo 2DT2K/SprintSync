@@ -61,12 +61,15 @@ fun CustomTextField(
                     }
                 },
                 leadingIcon = leadingIcon,
-                trailingIcon = {
-                    if (trailingIcon != null) {
+                trailingIcon =
+                if (trailingIcon != null) {
+                    {
                         IconButton(onClick = { passwordVisible = !passwordVisible!! }) {
                             trailingIcon()
                         }
                     }
+                } else {
+                    null
                 },
                 label = { Text(label) },
                 placeholder = {
