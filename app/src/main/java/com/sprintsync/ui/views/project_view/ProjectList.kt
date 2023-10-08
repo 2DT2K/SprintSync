@@ -1,22 +1,16 @@
 package com.sprintsync.ui.views.project_view
 
 import android.util.Log
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
-import androidx.compose.foundation.gestures.Orientation
-import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Star
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
@@ -33,9 +27,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.sprintsync.ui.theme.Purple40
 import com.sprintsync.ui.theme.SprintSyncTheme
 import com.sprintsync.R
+import com.sprintsync.ui.components.CustomTextField
+import com.sprintsync.ui.theme.Yellow40
 
 data class ProjectList(
     val avatar: String,
@@ -45,22 +40,23 @@ data class ProjectList(
 )
 
 val projectList = listOf(
-    ProjectList("Student 1", "khoidz", "khoidz", true),
-    ProjectList("Student 1", "khoidz", "khoidz", true),
-    ProjectList("Student 1", "khoidz", "khoidz", false),
-    ProjectList("Student 1", "khoidz", "khoidz", false),
-    ProjectList("Student 1", "khoidz", "khoidz", true),
-    ProjectList("Student 1", "khoidz", "khoidz", true),
-    ProjectList("Student 1", "khoidz", "khoidz", true),
-    ProjectList("Student 1", "khoidz", "khoidz", true),
-
-
-    )
+    ProjectList("Student 1", "khoidz2", "khoidz", true),
+    ProjectList("Student 1", "khoidz1", "khoidz", true),
+    ProjectList("Student 1", "khoidz2", "khoidz", false),
+    ProjectList("Student 1", "khoidz3", "khoidz", false),
+    ProjectList("Student 1", "khoidz4", "khoidz", true),
+    ProjectList("Student 1", "khoidz5", "khoidz", true),
+    ProjectList("Student 1", "khoidz6", "khoidz", true),
+    ProjectList("Student 1", "khoi2dz2", "khoidz", true),
+)
 
 @Composable
 fun ProjectList(modifier: Modifier = Modifier) {
-    var searchTerm by rememberSaveable { mutableStateOf("") }
-    val scrollState = rememberScrollState()
+    var searchTerm by remember { mutableStateOf("") }
+    var projects by remember { mutableStateOf(projectList) }
+    var index by rememberSaveable {
+        mutableStateOf(-1)
+    }
 
     Surface() {
         Column(
@@ -68,20 +64,68 @@ fun ProjectList(modifier: Modifier = Modifier) {
                 .padding(start = 24.dp, end = 24.dp)
                 .verticalScroll(rememberScrollState())
         ) {
-            StarredProjectList(projects = projectList)
-            AllProjectList(projects = projectList)
+            CustomTextField(
+                modifier = Modifier.fillMaxWidth(),
+                label = "",
+                onValueChange = {
+                    searchTerm = it
+                },
+                leadingIcon = {
+                    Image(
+                        painter = painterResource(id = R.drawable.search),
+                        contentDescription = null,
+                        contentScale = ContentScale.Fit
+                    )
+                },
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedBorderColor = Color.Transparent,
+                    unfocusedBorderColor = Color.Transparent,
+                )
+            )
+            StarredProjectList(
+                projects = projects,
+                searchTerm = searchTerm
+            ) {
+                index = it
+                projectList[it].copy(isStarred = !projects[it].isStarred)
+                projects = projectList
+            }
+            AllProjectList(
+                projects = projects,
+                searchTerm = searchTerm
+            ) {
+                index = it
+                projectList[it].copy(isStarred = !projects[it].isStarred)
+                projects = projectList
+            }
         }
     }
 }
 
 @Composable
-fun StarredProjectList(modifier: Modifier = Modifier, projects: List<ProjectList>) {
+fun StarredProjectList(
+    modifier: Modifier = Modifier,
+    searchTerm: String = "",
+    projects: List<ProjectList>,
+    onChange: ((Int) -> Unit)? = null
+) {
     Surface() {
         Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
             Text(text = "Starred")
             Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
-               projects.forEach() { project ->
-                    if (project.isStarred) projectCard(project = project)
+                projects.forEachIndexed() { index, project ->
+                    val isStarred by remember {
+                        mutableStateOf(project.isStarred)
+                    }
+                    if (isStarred && project.projectName.contains(
+                            searchTerm,
+                            true
+                        )
+                    ) projectCard(project = project, index = index, onChange = {
+                        if (onChange != null) {
+                            onChange(it)
+                        }
+                    })
                 }
             }
         }
@@ -89,7 +133,12 @@ fun StarredProjectList(modifier: Modifier = Modifier, projects: List<ProjectList
 }
 
 @Composable
-fun AllProjectList(modifier: Modifier = Modifier, projects: List<ProjectList>) {
+fun AllProjectList(
+    modifier: Modifier = Modifier,
+    searchTerm: String = "",
+    projects: List<ProjectList>,
+    onChange: ((Int) -> Unit)? = null
+) {
     Surface() {
         Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
             Text(text = "All projects")
@@ -97,8 +146,16 @@ fun AllProjectList(modifier: Modifier = Modifier, projects: List<ProjectList>) {
                 modifier = modifier.wrapContentHeight(),
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                projects.forEach() { project ->
-                    projectCard(project = project)
+                projects.forEachIndexed() { index, project ->
+                    if (project.projectName.contains(
+                            searchTerm,
+                            true
+                        )
+                    ) projectCard(project = project, index = index, onChange = {
+                        if (onChange != null) {
+                            onChange(it)
+                        }
+                    })
                 }
             }
         }
@@ -107,7 +164,12 @@ fun AllProjectList(modifier: Modifier = Modifier, projects: List<ProjectList>) {
 }
 
 @Composable
-fun projectCard(modifier: Modifier = Modifier, project: ProjectList) {
+fun projectCard(
+    modifier: Modifier = Modifier,
+    index: Int = -1,
+    project: ProjectList,
+    onChange: ((Int) -> Unit)? = null
+) {
     var isStarred by remember { mutableStateOf(project.isStarred) }
 
     Row(
@@ -167,10 +229,14 @@ fun projectCard(modifier: Modifier = Modifier, project: ProjectList) {
         IconButton(onClick = {
             project.isStarred = !project.isStarred
             isStarred = !isStarred
+            if (onChange != null) {
+                onChange(index)
+            }
         }) {
             if (isStarred) Icon(
                 painter = painterResource(id = R.drawable.selected_star),
-                contentDescription = "starred"
+                contentDescription = "starred",
+                tint = Yellow40
             )
             else Icon(
                 painter = painterResource(id = R.drawable.unselected_star),

@@ -1,11 +1,8 @@
 package com.sprintsync.ui.components
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
@@ -13,12 +10,9 @@ import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldColors
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.input.OffsetMapping
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -27,7 +21,6 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
-import com.sprintsync.R
 import com.sprintsync.ui.theme.Purple40
 import com.sprintsync.ui.theme.SprintSyncTheme
 
@@ -45,6 +38,11 @@ fun CustomTextField(
     leadingIcon: @Composable() (() -> Unit)? = null,
     trailingIcon: @Composable() (() -> Unit)? = null,
     shape: Shape = OutlinedTextFieldDefaults.shape,
+    colors: TextFieldColors = OutlinedTextFieldDefaults.colors(
+        focusedBorderColor = Purple40,
+        unfocusedBorderColor = Purple40
+    ),
+    onValueChange: ((String) -> Unit)? = null,
     errorText: String = "please redo"
 ) {
     var text by remember { mutableStateOf(value) }
@@ -56,7 +54,12 @@ fun CustomTextField(
             OutlinedTextField(
                 modifier = modifier,
                 value = text,
-                onValueChange = { text = it },
+                onValueChange = {
+                    text = it
+                    if (onValueChange != null) {
+                        onValueChange(it)
+                    }
+                },
                 leadingIcon = leadingIcon,
                 trailingIcon = {
                     if (trailingIcon != null) {
@@ -80,10 +83,7 @@ fun CustomTextField(
                 ) PasswordVisualTransformation() else VisualTransformation.None,
                 maxLines = 1,
                 shape = RoundedCornerShape(16),
-                colors = OutlinedTextFieldDefaults.colors(
-                    focusedBorderColor = Purple40,
-                    unfocusedBorderColor = Purple40,
-                ),
+                colors = colors,
                 isError = isError
             )
         }
