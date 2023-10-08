@@ -2,9 +2,12 @@ package com.sprintsync.ui.views.login
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.ClickableText
+import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -50,8 +53,7 @@ fun SignUpScreen(modifier: Modifier = Modifier) {
                     painter = painterResource(id = R.drawable.logo),
                     contentDescription = "LOGO",
                     modifier = modifier
-                        .requiredWidth(width = 144.dp)
-                        .requiredHeight(height = 139.dp)
+                        .requiredSize(240.dp)
                 )
             }
             Box(
@@ -182,6 +184,13 @@ fun SignUpScreen(modifier: Modifier = Modifier) {
                 Text(text = "Don't have an account?")
                 Spacer(modifier = Modifier.width(5.dp))
                 Text(
+                    modifier = Modifier.clickable(interactionSource = MutableInteractionSource(),
+                        indication = rememberRipple(
+                            bounded = true,
+                            radius = 250.dp
+                        ),
+                        onClick = {}
+                    ),
                     text = "Login",
                     style = TextStyle(
                         fontSize = 14.sp,

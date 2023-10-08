@@ -24,6 +24,10 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -46,6 +50,9 @@ data class GridItem(val id: Int, val text: String)
 
 @Composable
 fun DetailProject() {
+    var text by remember {
+        mutableStateOf("")
+    }
     val gridItems = listOf(
         GridItem(R.drawable.dashboard, "Board"),
         GridItem(R.drawable.backlog, "BackLog"),
@@ -57,7 +64,8 @@ fun DetailProject() {
     )
     Column(
         modifier = Modifier
-            .padding(start = 24.dp, end = 24.dp, top = 24.dp).fillMaxSize(),
+            .padding(start = 24.dp, end = 24.dp, top = 24.dp)
+            .fillMaxSize(),
         verticalArrangement = Arrangement.spacedBy(32.dp)
     ) {
         Row(
@@ -93,8 +101,8 @@ fun DetailProject() {
             )
         }
         TextField(
-            value = "",
-            onValueChange = {},
+            value = text,
+            onValueChange = { text = it },
             modifier = Modifier.fillMaxWidth(),
             placeholder = { Text(text = "Search in this project") },
             leadingIcon = {

@@ -22,7 +22,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             SprintSyncTheme {
                 // A surface container using the 'background' color from the theme
-                DetailProject()
+                SignUpScreen()
             }
         }
     }

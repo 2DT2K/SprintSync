@@ -1,8 +1,10 @@
 package com.sprintsync.ui.components
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
@@ -12,7 +14,10 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldColors
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.input.OffsetMapping
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -21,6 +26,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
+import com.sprintsync.R
 import com.sprintsync.ui.theme.Purple40
 import com.sprintsync.ui.theme.SprintSyncTheme
 
@@ -65,7 +71,12 @@ fun CustomTextField(
                 if (trailingIcon != null) {
                     {
                         IconButton(onClick = { passwordVisible = !passwordVisible!! }) {
-                            trailingIcon()
+                            if (passwordVisible == true) trailingIcon()
+                            else Icon(
+                                painter = painterResource(id = R.drawable.invisibility),
+                                contentDescription = null,
+                                tint = Color(0xFF381E72)
+                            )
                         }
                     }
                 } else {
