@@ -1,6 +1,6 @@
 package com.sprintsync.ui.components
 
-import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -20,9 +20,11 @@ fun CustomButton(
     type: String = "filled",
     modifier: Modifier = Modifier,
     surfaceModifier: Modifier = Modifier,
-    text: String,
+    text: String = "",
     icon: @Composable() (() -> Unit)? = null,
-    onClick: () -> Unit = {}
+    onClick: () -> Unit = {},
+    colors: ButtonColors = ButtonDefaults.buttonColors(containerColor = Purple40),
+    content: @Composable() (RowScope.() -> Unit)? = null,
 ) {
     Surface(modifier = surfaceModifier) {
         if (type == "filled") {
@@ -30,13 +32,16 @@ fun CustomButton(
                 onClick = { onClick() },
                 modifier = modifier,
                 shape = RoundedCornerShape(16),
-                colors = ButtonDefaults.buttonColors(containerColor = Purple40)
+                colors = colors
             ) {
                 if (icon != null) {
                     icon()
                     Spacer(modifier = Modifier.width(8.dp))
                 }
                 Text(text = text)
+                if (content != null) {
+                    content()
+                }
             }
         } else if (type == "outlined") {
             OutlinedButton(
@@ -49,6 +54,9 @@ fun CustomButton(
                     Spacer(modifier = Modifier.width(8.dp))
                 }
                 Text(text = text, color = Purple40)
+                if (content != null) {
+                    content()
+                }
             }
         }
     }
