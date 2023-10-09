@@ -1,6 +1,7 @@
 package com.sprintsync.ui.components.boardview_components.boardview_category_item
 
 
+import android.graphics.Bitmap
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -18,6 +19,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -33,9 +35,9 @@ class IBoardviewCategoryItem(
     var taskName: String,
     var taskTag: List<String>,
     var taskNavigatation: String,
-    var taskImage: ImageBitmap?,
+    var taskImage: Bitmap?,
     var taskPoint: Number,
-    var taskAssignList: List<ImageBitmap>?,
+    var taskAssignList: List<Bitmap>?,
 )
 
 @Composable
@@ -50,7 +52,7 @@ fun BoardViewCategoryItem(boardviewItemDetails: IBoardviewCategoryItem) {
     ) {
         boardviewItemDetails.taskImage?.let {
             androidx.compose.foundation.Image(
-                bitmap = it,
+                bitmap = it.asImageBitmap(),
                 contentDescription = "",
                 modifier = Modifier.fillMaxWidth()
             )

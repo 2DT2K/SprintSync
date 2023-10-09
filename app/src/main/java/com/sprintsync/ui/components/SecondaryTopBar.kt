@@ -1,4 +1,4 @@
-package com.sprintsync.ui.components.boardview_components
+package com.sprintsync.ui.components
 
 
 import androidx.compose.foundation.Image
@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.sp
 import com.sprintsync.R
 
 @Composable
-fun BoardViewTopBar() {
+fun SecondaryTopBar(title:String) {
     Row(
         modifier = Modifier
             .background(color = Color(0xFFEADDFF))
@@ -40,7 +40,7 @@ fun BoardViewTopBar() {
                 Image(painter = painterResource(id = R.drawable.back_icon), contentDescription = "")
             }
             Text(
-                text = "Board View", style = TextStyle(
+                text = title, style = TextStyle(
                     fontSize = 24.sp,
                     fontWeight = FontWeight(400),
                     color = Color(0xFF21005D)
@@ -60,5 +60,5 @@ fun BoardViewTopBar() {
 @Preview(showBackground = true)
 @Composable
 fun BoardViewTopBarPreview() {
-    BoardViewTopBar()
+    SecondaryTopBar("Board View")
 }
