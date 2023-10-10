@@ -30,7 +30,7 @@ import com.sprintsync.ui.theme.SprintSyncTheme
 import com.sprintsync.R
 import com.sprintsync.ui.components.CustomTextField
 import com.sprintsync.ui.components.SearchBar
-import com.sprintsync.ui.theme.Yellow40
+import com.sprintsync.ui.theme.Yellow80
 import com.sprintsync.ui.view_models.ProjectViewViewModel
 
 @Composable
@@ -189,7 +189,7 @@ fun ProjectCard(
             if (project.isStarred) Icon(
                 painter = painterResource(id = R.drawable.selected_star),
                 contentDescription = "starred",
-                tint = Yellow40
+                tint = Yellow80
             )
             else Icon(
                 painter = painterResource(id = R.drawable.unselected_star),

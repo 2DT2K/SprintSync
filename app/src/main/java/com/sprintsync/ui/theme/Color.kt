@@ -14,4 +14,8 @@ val Grey40 = Color(0xFF999EA1)
 
 val Red80 = Color(0xFFA81912)
 
-val Yellow40 = Color(0xFFD5C000)
+val Yellow80 = Color(0xFFF7C84F)
+
+val Cyan80 = Color(0xFF79EDF5)
+
+val Green80 = Color(0xFF4FF760)

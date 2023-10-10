@@ -33,6 +33,9 @@ import java.util.Date
 import com.sprintsync.R
 import com.sprintsync.ui.components.CustomText
 import com.sprintsync.ui.components.SearchBar
+import com.sprintsync.ui.theme.Cyan80
+import com.sprintsync.ui.theme.Green80
+import com.sprintsync.ui.theme.Yellow80
 
 data class Member(
     val id: Int,
@@ -45,9 +48,9 @@ data class Member(
 )
 
 data class RoleColor(
-    val uiUxDesigner: Color = Color.Yellow,
-    val beDeveloper: Color = Color.Blue,
-    val feDeveloper: Color = Color.Green
+    val uiUxDesigner: Color = Yellow80,
+    val beDeveloper: Color = Cyan80,
+    val feDeveloper: Color = Green80
 )
 
 val memberList = listOf(
@@ -124,26 +127,21 @@ fun MemberCard(
                 }
             }
             Box(
-                modifier = Modifier.weight(1f),
+                modifier = Modifier
+                    .weight(0.8f)
+                    .padding(8.dp)
+                    .fillMaxHeight()
+                    .clip(shape = RoundedCornerShape(8.dp))
+                    .background(roleColor),
                 contentAlignment = Alignment.Center
             ) {
-                Box(
-                    modifier = Modifier
-                        .padding(8.dp)
-                        .fillMaxHeight()
-                        .clip(shape = RoundedCornerShape(8.dp))
-                        .background(roleColor),
-                    contentAlignment = Alignment.Center
-                ) {
-                    CustomText(
-                        modifier = Modifier.padding(8.dp),
-                        text = role.replace("_", " "),
-                        textAlign = TextAlign.Center,
-                        color = Color.White
-                    )
-                }
+                CustomText(
+                    modifier = Modifier.padding(8.dp),
+                    text = role.replace("_", " "),
+                    textAlign = TextAlign.Center,
+                    color = Color.White
+                )
             }
-
         }
     }
 }
