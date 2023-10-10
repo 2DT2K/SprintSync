@@ -29,6 +29,7 @@ import androidx.compose.ui.unit.sp
 import com.sprintsync.ui.theme.SprintSyncTheme
 import com.sprintsync.R
 import com.sprintsync.ui.components.CustomTextField
+import com.sprintsync.ui.components.SearchBar
 import com.sprintsync.ui.theme.Yellow40
 import com.sprintsync.ui.view_models.ProjectViewViewModel
 
@@ -42,25 +43,7 @@ fun ProjectList(projectViewViewModel: ProjectViewViewModel) {
                 .padding(start = 24.dp, end = 24.dp)
                 .verticalScroll(rememberScrollState())
         ) {
-            CustomTextField(
-                modifier = Modifier.fillMaxWidth(),
-                label = "",
-                placeholder = "Find Projects",
-                onValueChange = {
-                    searchTerm = it
-                },
-                leadingIcon = {
-                    Image(
-                        painter = painterResource(id = R.drawable.search),
-                        contentDescription = null,
-                        contentScale = ContentScale.Fit
-                    )
-                },
-                colors = OutlinedTextFieldDefaults.colors(
-                    focusedBorderColor = Color.Transparent,
-                    unfocusedBorderColor = Color.Transparent,
-                )
-            )
+            SearchBar(placeHolder = "Find Projects", onValueChange = { searchTerm = it })
             Column(verticalArrangement = Arrangement.spacedBy(24.dp)) {
                 StarredProjectList(
                     searchTerm = searchTerm,

@@ -9,10 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.sprintsync.ui.theme.SprintSyncTheme
 import com.sprintsync.ui.view_models.ProjectViewViewModel
-import com.sprintsync.ui.views.login.LogInScreen
-import com.sprintsync.ui.views.login.SignUpScreen
-import com.sprintsync.ui.views.project_view.DetailProject
-import com.sprintsync.ui.views.project_view.ProjectList
+import com.sprintsync.ui.views.project_view.member.Member
 
 
 class MainActivity : ComponentActivity() {
@@ -22,7 +19,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             SprintSyncTheme {
                 // A surface container using the 'background' color from the theme
-                SignUpScreen()
+                Member()
             }
         }
     }
