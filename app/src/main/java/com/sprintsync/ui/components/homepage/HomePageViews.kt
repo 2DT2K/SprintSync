@@ -1,4 +1,4 @@
-package com.sprintsync.ui.components.`Home-Page-Components`
+package com.sprintsync.ui.components.homepage
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.IconButton
@@ -81,13 +80,6 @@ fun HomePageViews() {
                             spotColor = Color(0x59FF6BCF),
                             ambientColor = Color(0x59FF6BCF)
                         )
-                        .padding(0.dp)
-                        .height(115.dp)
-                        .background(
-                            color = Color(0xFFFF71D1),
-                            shape = RoundedCornerShape(size = 20.dp)
-                        )
-                        .padding(start = 16.dp, end = 16.dp)
                 )
                 CustomIconButton(
                     iconID = R.drawable.task,
@@ -100,13 +92,6 @@ fun HomePageViews() {
                             spotColor = Color(0x59D272FF),
                             ambientColor = Color(0x59D272FF)
                         )
-                        .padding(0.dp)
-                        .height(115.dp)
-                        .background(
-                            color = Color(0xFFD47AFE),
-                            shape = RoundedCornerShape(size = 20.dp)
-                        )
-                        .padding(start = 16.dp, end = 16.dp)
                 )
             }
             Row(
@@ -125,13 +110,6 @@ fun HomePageViews() {
                             spotColor = Color(0x59FF829E),
                             ambientColor = Color(0x59FF829E)
                         )
-                        .padding(0.dp)
-                        .height(115.dp)
-                        .background(
-                            color = Color(0xFFFF829E),
-                            shape = RoundedCornerShape(size = 20.dp)
-                        )
-                        .padding(start = 16.dp, end = 16.dp)
                 )
                 CustomIconButton(
                     iconID = R.drawable.calendar,
@@ -144,13 +122,6 @@ fun HomePageViews() {
                             spotColor = Color(0x59FFA874),
                             ambientColor = Color(0x59FFA874)
                         )
-                        .padding(0.dp)
-                        .height(115.dp)
-                        .background(
-                            color = Color(0xFFFFA874),
-                            shape = RoundedCornerShape(size = 20.dp)
-                        )
-                        .padding(start = 16.dp, end = 16.dp)
                 )
             }
         }
