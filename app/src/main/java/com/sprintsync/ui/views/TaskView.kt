@@ -2,8 +2,6 @@ package com.sprintsync.ui.views
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -17,15 +15,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.sprintsync.ui.components.BottomNavigation
 import com.sprintsync.ui.components.SecondaryTopBar
-import com.sprintsync.ui.components.boardview_components.fakedata
-import com.sprintsync.ui.components.taskview_components.Attachment
-import com.sprintsync.ui.components.taskview_components.ChangeTaskState
-import com.sprintsync.ui.components.taskview_components.MoreInformation
-import com.sprintsync.ui.components.taskview_components.SubTask
-import com.sprintsync.ui.components.taskview_components.TaskAttachment
-import com.sprintsync.ui.components.taskview_components.TaskComments
-import com.sprintsync.ui.components.taskview_components.TaskDescription
-import com.sprintsync.ui.components.taskview_components.TaskviewTitle
+import com.sprintsync.ui.components.taskview.Attachment
+import com.sprintsync.ui.components.taskview.ChangeTaskState
+import com.sprintsync.ui.components.taskview.MoreInformation
+import com.sprintsync.ui.components.taskview.SubTask
+import com.sprintsync.ui.components.taskview.TaskAttachment
+import com.sprintsync.ui.components.taskview.TaskComments
+import com.sprintsync.ui.components.taskview.TaskDescription
+import com.sprintsync.ui.components.taskview.TaskviewTitle
 
 
 class Task(

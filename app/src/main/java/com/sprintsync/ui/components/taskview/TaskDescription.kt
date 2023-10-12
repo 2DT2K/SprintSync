@@ -1,7 +1,6 @@
-package com.sprintsync.ui.components.taskview_components
+package com.sprintsync.ui.components.taskview
 
 
-import android.app.ActivityManager.TaskDescription
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding

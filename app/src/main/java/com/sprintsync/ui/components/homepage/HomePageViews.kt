@@ -1,4 +1,4 @@
-package com.sprintsync.ui.components.homepage_components
+package com.sprintsync.ui.components.homepage
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background

@@ -1,6 +1,6 @@
-package com.sprintsync.ui.components.boardview_components
+package com.sprintsync.ui.components.boardview
 
-import com.sprintsync.ui.components.boardview_components.boardview_category_item.IBoardviewCategoryItem
+import com.sprintsync.ui.components.boardview.boardview_category_item.IBoardviewCategoryItem
 
 var faketask1: IBoardviewCategoryItem = IBoardviewCategoryItem(
     "Code Homepage",

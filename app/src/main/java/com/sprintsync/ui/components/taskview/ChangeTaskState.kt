@@ -1,4 +1,4 @@
-package com.sprintsync.ui.components.taskview_components
+package com.sprintsync.ui.components.taskview
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background

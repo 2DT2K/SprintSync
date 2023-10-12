@@ -16,8 +16,8 @@ import androidx.compose.ui.tooling.preview.Preview
 
 import androidx.compose.ui.unit.dp
 import com.sprintsync.ui.components.BottomNavigation
-import com.sprintsync.ui.components.homepage_components.HomePageIssue
-import com.sprintsync.ui.components.homepage_components.HomePageViews
+import com.sprintsync.ui.components.homepage.HomePageIssue
+import com.sprintsync.ui.components.homepage.HomePageViews
 import com.sprintsync.ui.components.TopBar
 
 @OptIn(ExperimentalMaterial3Api::class)
