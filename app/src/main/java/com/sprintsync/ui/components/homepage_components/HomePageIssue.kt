@@ -1,12 +1,17 @@
-package com.sprintsync.ui.components.`Home-Page-Components`
+package com.sprintsync.ui.components.homepage_components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.defaultMinSize
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -66,7 +71,8 @@ fun HomePageIssue() {
     val scrollState = rememberScrollState()
     Column(
         verticalArrangement = Arrangement.spacedBy(12.dp, Alignment.CenterVertically),
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
+
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -101,6 +107,7 @@ fun HomePageIssue() {
             modifier = Modifier
                 .padding(0.dp)
                 .fillMaxWidth()
+                .heightIn(max=250.dp)
                 .background(color = Color(0xFFF3EDF7), shape = RoundedCornerShape(size = 15.dp))
                 .padding(start = 16.dp, top = 16.dp, end = 16.dp, bottom = 16.dp)
                 .verticalScroll(state=scrollState),
