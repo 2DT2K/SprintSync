@@ -7,11 +7,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 
 @Composable
 fun CustomTextField(placeholder: String, value: String, onValueChange: (String) -> Unit) {
-
     BasicTextField(
         modifier = Modifier.fillMaxWidth(),
         value = value,
@@ -31,5 +31,15 @@ fun CustomTextField(placeholder: String, value: String, onValueChange: (String) 
             }
             innerTextField()
         }
+    )
+}
+
+@Preview
+@Composable
+fun CustomTextFieldPreview() {
+    CustomTextField(
+        placeholder = "Search",
+        value = "",
+        onValueChange = {}
     )
 }

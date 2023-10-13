@@ -26,6 +26,11 @@ import com.sprintsync.R
 
 @Composable
 fun IssueItem(issueType: String, issueDescription: String, issueTimeLine: String) {
+    val issueTypePicModifier = Modifier
+        .width(36.dp)
+        .height(36.dp)
+        .background(color = Color(0xFFEFB1FF), shape = RoundedCornerShape(size = 10.dp))
+        .padding(start = 6.dp, top = 6.dp, end = 6.dp, bottom = 6.dp)
 
     Row(
         horizontalArrangement = Arrangement.spacedBy(10.dp),
@@ -33,37 +38,29 @@ fun IssueItem(issueType: String, issueDescription: String, issueTimeLine: String
         modifier = Modifier
             .fillMaxWidth()
             .height(52.dp)
-            .padding(start = 12.dp, top = 7.dp, end = 12.dp, bottom = 7.dp)
+            .padding(start = 12.dp, top = 8.dp, end = 12.dp, bottom = 8.dp)
     ) {
         when (issueType) {
             "Task" -> Row(
                 horizontalArrangement = Arrangement.spacedBy(
                     10.dp,
                     Alignment.CenterHorizontally
-                ), verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier
-                    .width(36.dp)
-                    .height(36.dp)
-                    .background(color = Color(0xFFEFB1FF), shape = RoundedCornerShape(size = 10.dp))
-                    .padding(start = 6.dp, top = 6.dp, end = 6.dp, bottom = 6.dp)
+                ),
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = issueTypePicModifier
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.check),
                     contentDescription = ""
                 )
             }
-
-
             "Project" -> Row(
                 horizontalArrangement = Arrangement.spacedBy(
                     10.dp,
                     Alignment.CenterHorizontally
-                ), verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier
-                    .width(36.dp)
-                    .height(36.dp)
-                    .background(color = Color(0xFFC5B1FF), shape = RoundedCornerShape(size = 10.dp))
-                    .padding(start = 6.dp, top = 6.dp, end = 6.dp, bottom = 6.dp)
+                ),
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = issueTypePicModifier
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.folder_issue),
@@ -105,8 +102,6 @@ fun IssueItem(issueType: String, issueDescription: String, issueTimeLine: String
                 )
             )
         }
-
-
     }
 }
 
