@@ -18,29 +18,35 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun CustomIconButton(iconID: Int, content: String, backgroundColor: Long, modifier: Modifier) {
-    Row(
-        modifier = modifier,
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(
-            10.dp,
-            Alignment.Start
-        ),
-    ) {
-        Row(
-            modifier = Modifier.background(
-                color = Color(0x4FF3FFFE),
-                shape = RoundedCornerShape(size = 10.dp)
-            )
-        ) {
-            Image(modifier=Modifier.padding(10.dp),painter = painterResource(id = iconID), contentDescription = "")
-        }
-        Text(text = content, style = TextStyle(
-            fontSize = 20.sp,
-            fontWeight = FontWeight(500),
-            color = Color(0xFFFFFFFF)
-        ))
-    }
-
+fun CustomIconButton(
+	iconID: Int,
+	content: String,
+	modifier: Modifier
+) {
+	Row(
+		modifier = modifier,
+		horizontalArrangement = Arrangement.spacedBy(10.dp, Alignment.Start),
+		verticalAlignment = Alignment.CenterVertically,
+	) {
+		Row(
+			modifier = Modifier.background(
+				color = Color(0x4FF3FFFE),
+				shape = RoundedCornerShape(10.dp)
+			)
+		) {
+			Image(
+				modifier = Modifier.padding(10.dp),
+				painter = painterResource(iconID),
+				contentDescription = null
+			)
+		}
+		Text(
+			text = content,
+			style = TextStyle(
+				fontSize = 20.sp,
+				fontWeight = FontWeight(500),
+				color = Color(0xFFFFFFFF)
+			)
+		)
+	}
 }
-
