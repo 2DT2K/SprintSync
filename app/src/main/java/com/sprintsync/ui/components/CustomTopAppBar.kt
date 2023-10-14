@@ -3,12 +3,17 @@ package com.sprintsync.ui.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
@@ -62,10 +67,15 @@ fun SecondaryTopBar(title: String) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CustomTopAppBar(title: String) {
+fun CustomTopAppBar(
+    title: String,
+    navIcon: @Composable () -> Unit,
+    actionIcon: List<@Composable () -> Unit>,
+    backgroundColor: Color = Color(0xFFFFFFFF)
+) {
     TopAppBar(
         colors = TopAppBarDefaults.mediumTopAppBarColors(
-            containerColor = Color(0xFFEADDFF)
+            containerColor = backgroundColor
         ),
         title = {
             Text(
@@ -78,19 +88,14 @@ fun CustomTopAppBar(title: String) {
         },
         navigationIcon = {
             IconButton(onClick = { /*TODO*/ }) {
-                Image(
-                    painter = painterResource(id = R.drawable.back_icon),
-                    contentDescription = ""
-                )
+                navIcon()
             }
         },
         actions = {
-            IconButton(onClick = { /*TODO*/ }) {
-                Image(
-                    painter = painterResource(id = R.drawable.three_dot),
-                    contentDescription = "",
-                    contentScale = ContentScale.None
-                )
+            for (actionIcon in actionIcon) {
+                IconButton(onClick = { /*TODO*/ }) {
+                    actionIcon()
+                }
             }
         }
     )
@@ -99,5 +104,35 @@ fun CustomTopAppBar(title: String) {
 @Preview(showBackground = true)
 @Composable
 fun BoardViewTopBarPreview() {
-    CustomTopAppBar("Board View")
+    CustomTopAppBar(
+        title = "Home",
+        navIcon = {
+            Image(
+                painter = painterResource(id = R.drawable.avataricon),
+                contentDescription = ""
+            )
+        },
+        actionIcon = listOf {
+            Surface(
+                modifier = Modifier
+                    .width(40.dp)
+                    .height(40.dp)
+                    .border(
+                        width = 1.dp,
+                        color = Color(0x99CDCDCD),
+                        shape = RoundedCornerShape(size = 100.dp)
+                    ),
+                color = Color.Transparent
+            )
+            {
+                IconButton(onClick = { /*TODO*/ }) {
+                    Image(
+                        painter = painterResource(id = R.drawable.notification),
+                        contentDescription = ""
+                    )
+                }
+            }
+        },
+        backgroundColor = Color(0xFFEADDFF)
+    )
 }
