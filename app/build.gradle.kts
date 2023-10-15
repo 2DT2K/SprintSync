@@ -6,7 +6,7 @@ plugins {
 android {
 	namespace = "com.sprintsync"
 	compileSdk = 33
-
+ 
 	defaultConfig {
 		applicationId = "com.sprintsync"
 		minSdk = 24
@@ -50,7 +50,6 @@ android {
 }
 
 dependencies {
-
 	implementation("androidx.core:core-ktx:1.9.0")
 	implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
 	implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")

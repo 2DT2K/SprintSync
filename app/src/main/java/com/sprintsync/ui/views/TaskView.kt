@@ -11,10 +11,11 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.sprintsync.ui.components.BottomNavigation
-import com.sprintsync.ui.components.SecondaryTopBar
+import com.sprintsync.ui.components.TwoIconTopAppBar
 import com.sprintsync.ui.components.taskview.Attachment
 import com.sprintsync.ui.components.taskview.ChangeTaskState
 import com.sprintsync.ui.components.taskview.MoreInformation
@@ -41,7 +42,7 @@ class Task(
 fun TaskView(task: Task) {
     Scaffold(
         topBar = {
-            SecondaryTopBar(title = task.name)
+            TwoIconTopAppBar(title = "Tasks", backgroundColor = Color(0xFFFEF7FF))
         },
         bottomBar = {
             BottomNavigation()
