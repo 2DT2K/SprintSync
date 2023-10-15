@@ -1,7 +1,6 @@
 plugins {
 	id("com.android.application")
 	id("org.jetbrains.kotlin.android")
-	id("io.realm.kotlin")
 }
 
 android {
@@ -31,13 +30,8 @@ android {
 		}
 	}
 
-	compileOptions {
-		sourceCompatibility = JavaVersion.VERSION_17
-		targetCompatibility = JavaVersion.VERSION_17
-	}
-
-	kotlinOptions {
-		jvmTarget = "17"
+	kotlin {
+		jvmToolchain(17)
 	}
 
 	buildFeatures {
@@ -63,20 +57,18 @@ dependencies {
 	implementation("androidx.compose.ui:ui")
 	implementation("androidx.compose.ui:ui-graphics")
 	implementation("androidx.compose.ui:ui-tooling-preview")
-	implementation("androidx.compose.material3:material3")
-	implementation(platform("androidx.compose:compose-bom:2023.03.00"))
+	implementation("androidx.compose.material3:material3:1.1.2")
+	implementation(platform("androidx.compose:compose-bom:2023.10.00"))
 	implementation("com.google.android.gms:play-services-tagmanager-v4-impl:18.0.3")
 	implementation("com.google.android.gms:play-services-auth:20.7.0")
-	implementation("io.realm.kotlin:library-base:1.11.0")
-	implementation("io.realm.kotlin:library-sync:1.11.0")
-	implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.0")
+	implementation("io.coil-kt:coil-compose:2.4.0")
 
 	testImplementation("junit:junit:4.13.2")
 	androidTestImplementation("androidx.test.ext:junit:1.1.5")
 	androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 	androidTestImplementation("androidx.compose.ui:ui-test-junit4")
-	androidTestImplementation(platform("androidx.compose:compose-bom:2023.03.00"))
+	androidTestImplementation(platform("androidx.compose:compose-bom:2023.10.00"))
 
 	debugImplementation("androidx.compose.ui:ui-tooling")
-	debugImplementation("androidx.compose.ui:ui-test-manifest")
+	debugImplementation("androidx.compose.ui:ui-test-manifest:1.5.3")
 }
