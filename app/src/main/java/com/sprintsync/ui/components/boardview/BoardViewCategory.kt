@@ -53,6 +53,7 @@ fun BoardViewCategory(boardviewCategory: IBoardViewCategory) {
                 horizontalArrangement = Arrangement.spacedBy(15.dp, Alignment.CenterHorizontally),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
+//                Need to add TextStyle into theme/Type
                 Text(
                     text = boardviewCategory.categoryName, style = TextStyle(
                         fontSize = 11.sp,

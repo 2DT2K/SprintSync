@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -15,9 +14,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.sprintsync.ui.components.BottomNavigation
+import com.sprintsync.ui.components.HorizontalDivider
 import com.sprintsync.ui.components.TwoIconTopAppBar
 import com.sprintsync.ui.components.taskview.Attachment
-import com.sprintsync.ui.components.taskview.ChangeTaskState
+import com.sprintsync.ui.components.taskview.ChangeTaskStateButton
 import com.sprintsync.ui.components.taskview.MoreInformation
 import com.sprintsync.ui.components.taskview.SubTask
 import com.sprintsync.ui.components.taskview.TaskAttachment
@@ -26,7 +26,7 @@ import com.sprintsync.ui.components.taskview.TaskDescription
 import com.sprintsync.ui.components.taskview.TaskviewTitle
 
 
-class Task(
+data class Task(
     val name: String,
     val taskNavigation: String,
     val taskState: String,
@@ -59,31 +59,13 @@ fun TaskView(task: Task) {
             horizontalAlignment = Alignment.Start,
         ) {
             TaskviewTitle(taskNavigation = task.taskNavigation, taskAssignList = mutableListOf())
-            ChangeTaskState(taskState = task.taskState)
+            ChangeTaskStateButton(taskState = task.taskState)
             TaskDescription(taskDescription = task.description)
-            Column(
-                verticalArrangement = Arrangement.spacedBy(0.dp, Alignment.CenterVertically),
-                horizontalAlignment = Alignment.Start,
-                modifier = Modifier.padding(start = 5.dp, end = 5.dp)
-            ) {
-                Divider()
-            }
+            HorizontalDivider()
             SubTask(subTaskList = subTask)
-            Column(
-                verticalArrangement = Arrangement.spacedBy(0.dp, Alignment.CenterVertically),
-                horizontalAlignment = Alignment.Start,
-                modifier = Modifier.padding(start = 5.dp, end = 5.dp)
-            ) {
-                Divider()
-            }
+            HorizontalDivider()
             TaskAttachment(attachmentList = attachmentList)
-            Column(
-                verticalArrangement = Arrangement.spacedBy(0.dp, Alignment.CenterVertically),
-                horizontalAlignment = Alignment.Start,
-                modifier = Modifier.padding(start = 5.dp, end = 5.dp)
-            ) {
-                Divider()
-            }
+            HorizontalDivider()
             MoreInformation(
                 point = fakeData.point,
                 assigneeList = fakeData.assignees,

@@ -27,40 +27,39 @@ import androidx.compose.ui.unit.sp
 import com.sprintsync.R
 import com.sprintsync.ui.components.IssueItem
 
-interface MenuIssue {
-    val issueType: String
-    val issueName: String
+data class MenuIssue(
+    val issueType: String,
+    val issueName: String,
     val issueTime: String
-}
-
-var issueList: List<MenuIssue> = listOf(
-    object : MenuIssue {
-        override val issueType: String = "Task"
-        override val issueName: String = "Finish Sprint1"
-        override val issueTime: String = "now "
-    },
-    object : MenuIssue {
-        override val issueType: String = "Task"
-        override val issueName: String = "Finish all home work"
-        override val issueTime: String = "1 days ago"
-    },
-    object : MenuIssue {
-        override val issueType: String = "Task"
-        override val issueName: String = "Reach 5k mmr again"
-        override val issueTime: String = "2 days ago"
-    },
-    object : MenuIssue {
-        override val issueType: String = "Project"
-        override val issueName: String = "SprintSync"
-        override val issueTime: String = "3 days ago"
-    },
-    object : MenuIssue {
-        override val issueType: String = "Project"
-        override val issueName: String = "No idea"
-        override val issueTime: String = "1 week ago"
-    },
 )
 
+val issueList: List<MenuIssue> = listOf(
+    MenuIssue(
+        issueType = "Task",
+        issueName = "Finish Sprint1",
+        issueTime = "now"
+    ),
+    MenuIssue(
+        issueType = "Task",
+        issueName = "Finish all home work",
+        issueTime = "1 days ago"
+    ),
+    MenuIssue(
+        issueType = "Task",
+        issueName = "Reach 5k mmr again",
+        issueTime = "2 days ago"
+    ),
+    MenuIssue(
+        issueType = "Project",
+        issueName = "SprintSync",
+        issueTime = "3 days ago"
+    ),
+    MenuIssue(
+        issueType = "Project",
+        issueName = "No idea",
+        issueTime = "1 week ago"
+    )
+)
 
 @Composable
 fun HomePageIssue() {
@@ -69,7 +68,7 @@ fun HomePageIssue() {
         verticalArrangement = Arrangement.spacedBy(12.dp, Alignment.CenterVertically),
         horizontalAlignment = Alignment.CenterHorizontally,
 
-    ) {
+        ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
@@ -97,21 +96,20 @@ fun HomePageIssue() {
                 }
             }
 
-
         }
         Column(
             modifier = Modifier
                 .padding(0.dp)
                 .fillMaxWidth()
-                .heightIn(max=250.dp)
+                .heightIn(max = 250.dp)
                 .background(color = Color(0xFFF3EDF7), shape = RoundedCornerShape(size = 15.dp))
                 .padding(start = 16.dp, top = 16.dp, end = 16.dp, bottom = 16.dp)
-                .verticalScroll(state=scrollState),
+                .verticalScroll(state = scrollState),
             verticalArrangement = Arrangement.spacedBy(4.dp, Alignment.CenterVertically),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             issueList.forEach { item ->
-                Column (horizontalAlignment = Alignment.CenterHorizontally){
+                Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     IssueItem(
                         issueType = item.issueType,
                         issueDescription = item.issueName,
@@ -121,14 +119,10 @@ fun HomePageIssue() {
                         Divider(modifier = Modifier.fillMaxWidth(0.9f))
                     }
                 }
-
             }
-
         }
     }
-
 }
-
 
 @Preview(showBackground = true)
 @Composable

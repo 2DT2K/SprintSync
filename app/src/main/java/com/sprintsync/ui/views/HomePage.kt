@@ -36,15 +36,12 @@ fun HomePage() {
                 .verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.spacedBy(20.dp, Alignment.Top),
             horizontalAlignment = Alignment.CenterHorizontally,
-
-
-            ) {
+        ) {
             HomePageViews()
             HomePageIssue()
 
         }
     }
-
 }
 
 @Preview

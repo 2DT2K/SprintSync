@@ -57,13 +57,11 @@ fun BoardView() {
                 contentPadding = PaddingValues(start = 24.dp, end = 24.dp),
             ) {
                 Row(
-
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.Center
                 ) {
                     BoardViewCategory(boardviewCategory = fakedata)
                 }
-
             }
             Row(
                 Modifier

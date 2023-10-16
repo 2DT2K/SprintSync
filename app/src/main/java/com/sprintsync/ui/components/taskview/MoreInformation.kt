@@ -1,22 +1,35 @@
 package com.sprintsync.ui.components.taskview
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.paddingFromBaseline
+import androidx.compose.foundation.layout.requiredHeight
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Divider
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.SuggestionChip
+import androidx.compose.material3.SuggestionChipDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -25,7 +38,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sprintsync.R
+import com.sprintsync.ui.components.SimpleMemberInfor
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MoreInformation(
     point: Number,
@@ -37,7 +52,7 @@ fun MoreInformation(
         verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
         horizontalAlignment = Alignment.Start,
         modifier = Modifier
-            .padding(5.dp)
+            .padding(4.dp)
             .fillMaxWidth()
     ) {
         Row(
@@ -133,37 +148,14 @@ fun MoreInformation(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 assigneeList.forEach {
-                    Row(
-                        horizontalArrangement = Arrangement.spacedBy(
-                            4.dp,
-                            Alignment.CenterHorizontally
-                        ),
-                        verticalAlignment = Alignment.CenterVertically,
-                    ) {
-                        Image(
-                            painter = painterResource(id = R.drawable.avataricon),
-                            contentDescription = "",
-                            modifier = Modifier
-                                .width(24.dp)
-                                .height(24.dp)
-                        )
-                        Text(
-                            text = it, style = TextStyle(
-                                fontSize = 15.sp,
-                                lineHeight = 20.sp,
-                                fontWeight = FontWeight(400),
-                                color = Color(0xD921005D),
-                                letterSpacing = 0.1.sp,
-                            )
-                        )
-                    }
+                    SimpleMemberInfor(name = it)
                 }
             }
         }
         Column(
             verticalArrangement = Arrangement.spacedBy(10.dp, Alignment.Top),
             horizontalAlignment = Alignment.Start,
-            modifier = Modifier.padding(5.dp)
+            modifier = Modifier.padding(4.dp)
         ) {
             Text(
                 text = "Labels",
@@ -175,92 +167,52 @@ fun MoreInformation(
                 )
             )
             Row(
-                horizontalArrangement = Arrangement.spacedBy(10.dp, Alignment.Start),
-                verticalAlignment = Alignment.Top,
+                horizontalArrangement = Arrangement.spacedBy(
+                    10.dp,
+                    Alignment.CenterHorizontally
+                ),
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.padding(top = 0.dp, bottom = 0.dp).height(31.dp)
             ) {
                 taskTag.forEach {
-                    Row(
-                        modifier = Modifier
-                            .padding(0.dp)
-                            .background(
-                                color = Color(0xFFDCCFE3),
-                                shape = RoundedCornerShape(size = 3.dp)
-                            ),
-                        horizontalArrangement = Arrangement.spacedBy(
-                            0.dp,
-                            Alignment.CenterHorizontally
+                    SuggestionChip(
+                        onClick = { /*TODO*/ },
+                        label = { Text(it) },
+                        border = null,
+                        shape = RoundedCornerShape(size = 4.dp),
+                        colors = SuggestionChipDefaults.suggestionChipColors(
+                            containerColor = Color(0xFFDCCFE3),
+                            labelColor = Color(0xFF49454F)
                         ),
-                        verticalAlignment = Alignment.CenterVertically,
-                    ) {
-                        Row(
-                            modifier = Modifier.padding(
-                                start = 8.dp,
-                                top = 6.dp,
-                                end = 8.dp,
-                                bottom = 6.dp
-                            ),
-                            horizontalArrangement = Arrangement.spacedBy(
-                                8.dp,
-                                Alignment.CenterHorizontally
-                            ),
-                            verticalAlignment = Alignment.CenterVertically,
-                        ) {
-                            Text(
-                                text = it,
-                                style = TextStyle(
-                                    fontSize = 10.sp,
-                                    lineHeight = 20.sp,
-                                    fontWeight = FontWeight(500),
-                                    color = Color(0xFF49454F),
-                                    textAlign = TextAlign.Center,
-                                    letterSpacing = 0.1.sp,
-                                )
-                            )
-                        }
-                    }
-                }
-                Row(
-                    horizontalArrangement = Arrangement.spacedBy(
-                        0.dp,
-                        Alignment.CenterHorizontally
-                    ),
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.border(
-                        width = 1.dp,
-                        color = Color(0xFF79747E),
-                        shape = RoundedCornerShape(size = 3.dp)
                     )
+                }
+                Button(
+                    onClick = { /*TODO*/ },
+                    modifier = Modifier.defaultMinSize(minWidth = 1.dp, minHeight = 1.dp),
+                    contentPadding = PaddingValues(start = 8.dp, end = 8.dp, top = 7.dp, bottom = 7.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color.Transparent,
+                        contentColor = Color(0xFF49454F)
+                    ),
+                    border = BorderStroke(1.dp, Color(0xFF79747E)),
+                    shape = RoundedCornerShape(size = 4.dp),
                 ) {
-                    Row(
-                        horizontalArrangement = Arrangement.spacedBy(
-                            0.dp,
-                            Alignment.CenterHorizontally
-                        ),
-                        verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier.padding(
-                            start = 8.dp,
-                            top = 4.dp,
-                            end = 2.dp,
-                            bottom = 4.dp
+                    Text(
+                        text = "Add ",
+                        style = TextStyle(
+                            fontSize = 10.sp,
+                            lineHeight = 12.2.sp,
+                            fontWeight = FontWeight(500),
+                            color = Color(0xFF49454F),
+                            textAlign = TextAlign.Center,
+                            letterSpacing = 0.1.sp,
                         )
-                    ) {
-                        Text(
-                            text = "Add ",
-                            style = TextStyle(
-                                fontSize = 10.sp,
-                                lineHeight = 20.sp,
-                                fontWeight = FontWeight(500),
-                                color = Color(0xFF49454F),
-                                textAlign = TextAlign.Center,
-                                letterSpacing = 0.1.sp,
-                            )
-                        )
-                        Image(
-                            painter = painterResource(id = R.drawable.normal_add),
-                            contentDescription = "",
-                            modifier = Modifier.height(18.dp)
-                        )
-                    }
+                    )
+                    Image(
+                        painter = painterResource(id = R.drawable.normal_add),
+                        contentDescription = "",
+                        modifier = Modifier.height(18.dp)
+                    )
                 }
             }
         }
@@ -282,29 +234,7 @@ fun MoreInformation(
                 horizontalArrangement = Arrangement.spacedBy(4.dp, Alignment.Start),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                Row(
-                    horizontalArrangement = Arrangement.spacedBy(
-                        4.dp,
-                        Alignment.CenterHorizontally
-                    ),
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.avataricon),
-                        contentDescription = "",
-                        modifier = Modifier.width(24.dp)
-                    )
-                    Text(
-                        text = reporter,
-                        style = TextStyle(
-                            fontSize = 15.sp,
-                            lineHeight = 20.sp,
-                            fontWeight = FontWeight(400),
-                            color = Color(0xD921005D),
-                            letterSpacing = 0.1.sp,
-                        )
-                    )
-                }
+                SimpleMemberInfor(name = reporter)
             }
         }
     }
