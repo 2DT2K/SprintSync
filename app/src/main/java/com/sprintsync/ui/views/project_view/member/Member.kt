@@ -69,7 +69,6 @@ fun Member() {
     Surface {
         Column(
             modifier = Modifier
-                .padding(start = 24.dp, end = 24.dp)
                 .verticalScroll(rememberScrollState())
         ) {
             SearchBar(placeHolder = "Search a member", onValueChange = { searchTerm = it })
