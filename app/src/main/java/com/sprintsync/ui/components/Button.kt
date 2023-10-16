@@ -61,10 +61,3 @@ fun CustomButton(
         }
     }
 }
-
-@Composable
-fun test() {
-    CustomButton(text = "name") {
-
-    }
-}

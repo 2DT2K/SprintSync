@@ -5,7 +5,7 @@ plugins {
 
 android {
 	namespace = "com.sprintsync"
-	compileSdk = 33
+	compileSdk = 34
 
 	defaultConfig {
 		applicationId = "com.sprintsync"
@@ -67,4 +67,8 @@ dependencies {
 	debugImplementation("androidx.compose.ui:ui-test-manifest")
 
 	implementation ("com.github.TuleSimon:xMaterialccp:1.22")
+
+	val nav_version = "2.7.4"
+
+	implementation("androidx.navigation:navigation-compose:$nav_version")
 }

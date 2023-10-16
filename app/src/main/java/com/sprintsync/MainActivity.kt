@@ -7,6 +7,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.rememberNavController
 import com.sprintsync.ui.theme.SprintSyncTheme
 import com.sprintsync.ui.view_models.ProjectViewViewModel
 import com.sprintsync.ui.views.project_view.member.Member
@@ -19,7 +20,8 @@ class MainActivity : ComponentActivity() {
         setContent {
             SprintSyncTheme {
                 // A surface container using the 'background' color from the theme
-                Member()
+                val navController = rememberNavController()
+                
             }
         }
     }

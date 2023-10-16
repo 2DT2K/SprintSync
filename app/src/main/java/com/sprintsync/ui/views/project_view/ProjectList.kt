@@ -1,6 +1,7 @@
 package com.sprintsync.ui.views.project_view
 
 import android.util.Log
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
@@ -72,7 +73,10 @@ fun StarredProjectList(
 ) {
     val currentStarredList = projects.none { project -> project.isStarred }
     if (!currentStarredList) Surface() {
-        Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
+        Column(
+            modifier = Modifier.animateContentSize(),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
             Text(text = "Starred")
             projects.forEachIndexed() { index, project ->
                 if (project.projectName.contains(
@@ -97,7 +101,10 @@ fun AllProjectList(
     onChange: ((Int) -> Unit)? = null
 ) {
     Surface() {
-        Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
+        Column(
+            modifier = Modifier.animateContentSize(),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
             Text(text = "All projects")
             Column(
                 modifier = modifier.wrapContentHeight(),
