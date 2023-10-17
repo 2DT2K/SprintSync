@@ -22,42 +22,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sprintsync.R
 
-//@OptIn(ExperimentalMaterial3Api::class)
-//@Composable
-//fun CustomTopAppBar(
-//    title: String,
-//    navIcon: @Composable () -> Unit,
-//    actionIcon: List<@Composable () -> Unit>,
-//    backgroundColor: Color = Color(0xFFFFFFFF)
-//) {
-//    TopAppBar(
-//        colors = TopAppBarDefaults.mediumTopAppBarColors(
-//            containerColor = backgroundColor
-//        ),
-//        title = {
-//            Text(
-//                text = title, style = TextStyle(
-//                    fontSize = 24.sp,
-//                    fontWeight = FontWeight(400),
-//                    color = Color(0xFF21005D)
-//                )
-//            )
-//        },
-//        navigationIcon = {
-//            IconButton(onClick = { /*TODO*/ }) {
-//                navIcon()
-//            }
-//        },
-//        actions = {
-//            for (actionIcon in actionIcon) {
-//                IconButton(onClick = { /*TODO*/ }) {
-//                    actionIcon()
-//                }
-//            }
-//        }
-//    )
-//}
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TwoIconTopAppBar(title: String, backgroundColor: Color = Color(0xFFFFFFFF)) {
@@ -139,34 +103,4 @@ fun HomeTopAppBar(title: String, backgroundColor: Color = Color(0xFFFFFFFF)) {
             }
         }
     )
-//    CustomTopAppBar(
-//        title = "Home",
-//        navIcon = {
-//            Image(
-//                painter = painterResource(id = R.drawable.avataricon),
-//                contentDescription = ""
-//            )
-//        },
-//        actionIcon = listOf {
-//            Surface(
-//                modifier = Modifier
-//                    .width(40.dp)
-//                    .height(40.dp)
-//                    .border(
-//                        width = 1.dp,
-//                        color = Color(0x99CDCDCD),
-//                        shape = RoundedCornerShape(size = 100.dp)
-//                    ),
-//                color = Color.Transparent
-//            )
-//            {
-//                IconButton(onClick = { /*TODO*/ }) {
-//                    Image(
-//                        painter = painterResource(id = R.drawable.notification),
-//                        contentDescription = ""
-//                    )
-//                }
-//            }
-//        }
-//    )
 }

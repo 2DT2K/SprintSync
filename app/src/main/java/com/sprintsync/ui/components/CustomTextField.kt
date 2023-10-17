@@ -17,30 +17,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun CustomTextField(placeholder: String, value: String, onValueChange: (String) -> Unit) {
-    BasicTextField(
-        modifier = Modifier.fillMaxWidth(),
-        value = value,
-        onValueChange = onValueChange,
-        textStyle = TextStyle(
-            color = if (isSystemInDarkTheme()) Color(0xFF969EBD) else Color.Gray
-        ),
-        decorationBox = { innerTextField ->
-            Row(modifier = Modifier.fillMaxWidth()) {
-                if (value.isEmpty()) {
-                    Text(
-                        text = placeholder,
-                        color = if (isSystemInDarkTheme()) Color(0xFF969EBD) else Color.Gray,
-                        fontSize = 14.sp
-                    )
-                }
-            }
-            innerTextField()
-        }
-    )
-}
-
-@Composable
 fun CommentTextField(
     placeholder: String,
     value: String,
