@@ -14,7 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.sprintsync.ui.components.BottomNavigation
-import com.sprintsync.ui.components.SecondaryTopBar
+import com.sprintsync.ui.components.CustomTopAppBar
 import com.sprintsync.ui.components.taskview.Attachment
 import com.sprintsync.ui.components.taskview.ChangeTaskState
 import com.sprintsync.ui.components.taskview.MoreInformation
@@ -33,7 +33,8 @@ class Task(
     val assignor: String,
     val assignees: List<String>,
     val point: Int,
-    val comments: List<TaskComments>
+    val comments: List<TaskComments>,
+    val issueType: String? = null,
 )
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -41,7 +42,7 @@ class Task(
 fun TaskView(task: Task) {
     Scaffold(
         topBar = {
-            SecondaryTopBar(title = task.name)
+            CustomTopAppBar(title = task.name)
         },
         bottomBar = {
             BottomNavigation()
@@ -107,7 +108,7 @@ var subTask2 = SubTask(
     assignees = mutableListOf(),
 )
 var subTask3 = SubTask(
-    status = "To do",
+    status = "Todo",
     taskName = "Play dota",
     taskNavigation = "SCRUMMER-1",
     assignees = mutableListOf(),
@@ -136,7 +137,8 @@ val fakeData = Task(
     assignor = "Vo Tin Du",
     assignees = listOf("Tran Chien Thang", "Nguyen Hai Dan"),
     point = 70,
-    comments = listOf(fakeCmt1, fakeCmt2)
+    comments = listOf(fakeCmt1, fakeCmt2),
+    issueType="Task"
 )
 
 @Preview(showBackground = true)

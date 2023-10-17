@@ -27,6 +27,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sprintsync.R
+import com.sprintsync.ui.components.TaskPoint
 import com.sprintsync.ui.components.TaskTag
 
 
@@ -121,24 +122,11 @@ fun BoardViewCategoryItem(boardviewItemDetails: IBoardviewCategoryItem) {
                     ),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Row(
-                        modifier = Modifier
-                            .background(
-                                color = Color(0xFFDCCFE3),
-                                shape = RoundedCornerShape(size = 10.dp)
-                            )
-
-                    ) {
-                        Text(
-                            text = boardviewItemDetails.taskPoint.toString(),
-                            modifier = Modifier.padding(
-                                start = 5.dp,
-                                top = 2.dp,
-                                end = 5.dp,
-                                bottom = 2.dp
-                            )
-                        )
-                    }
+                    TaskPoint(boardviewItemDetails.taskPoint, Modifier
+                        .background(
+                            color = Color(0xFFDCCFE3),
+                            shape = RoundedCornerShape(size = 10.dp)
+                        ))
                     Box {
 //                        if (boardviewItemDetails?.taskAssignList != null) {
 //                            for (image in boardviewItemDetails.taskAssignList!!) {

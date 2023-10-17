@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.pager.HorizontalPager
@@ -25,7 +24,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.sprintsync.ui.components.BottomNavigation
 import com.sprintsync.ui.components.CustomTopAppBar
-import com.sprintsync.ui.components.SecondaryTopBar
 import com.sprintsync.ui.components.boardview.BoardViewCategory
 import com.sprintsync.ui.components.boardview.fakedata
 
@@ -35,7 +33,9 @@ fun BoardView() {
     var pageCount = 4
 
     @OptIn(ExperimentalFoundationApi::class)
-    val pagerState = rememberPagerState(initialPage = 1, initialPageOffsetFraction = 0f)
+    val pagerState = rememberPagerState(pageCount = {
+        4
+    })
 
     Scaffold(
         topBar = {
@@ -55,18 +55,17 @@ fun BoardView() {
         ) {
             HorizontalPager(
                 state = pagerState,
-                pageCount = pageCount,
-                contentPadding = PaddingValues(start = 24.dp, end = 24.dp),
+                contentPadding = PaddingValues(20.dp),
             ) {
                 Row(
-
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.Center
                 ) {
                     BoardViewCategory(boardviewCategory = fakedata)
                 }
-
             }
+
+
             Row(
                 Modifier
                     .fillMaxWidth()
