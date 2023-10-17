@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -34,7 +35,8 @@ data class Task(
     val assignor: String,
     val assignees: List<String>,
     val point: Int,
-    val comments: List<TaskComments>
+    val comments: List<TaskComments>,
+    val issueType: String? = null,
 )
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -90,7 +92,7 @@ var subTask2 = SubTask(
     assignees = mutableListOf(),
 )
 var subTask3 = SubTask(
-    status = "To do",
+    status = "Todo",
     taskName = "Play dota",
     taskNavigation = "SCRUMMER-1",
     assignees = mutableListOf(),
@@ -119,7 +121,8 @@ val fakeData = Task(
     assignor = "Vo Tin Du",
     assignees = listOf("Tran Chien Thang", "Nguyen Hai Dan"),
     point = 70,
-    comments = listOf(fakeCmt1, fakeCmt2)
+    comments = listOf(fakeCmt1, fakeCmt2),
+    issueType="Task"
 )
 
 @Preview(showBackground = true)

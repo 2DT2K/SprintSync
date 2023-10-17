@@ -31,6 +31,7 @@ import androidx.compose.ui.zIndex
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
 import com.sprintsync.R
+import com.sprintsync.ui.components.TaskProcess
 
 
 class SubTask(
@@ -131,43 +132,10 @@ fun SubTask(subTaskList: List<SubTask>) {
                             )
                         }
                     }
-                    var color: Long = 0xFF8ABB78
                     when (it.status) {
-                        "In progress" -> color = 0xFFF7C84F
-                        "Productivity" -> color = 0xFFAA60AB
-                    }
-                    Row(
-                        horizontalArrangement = Arrangement.spacedBy(
-                            0.dp,
-                            Alignment.CenterHorizontally
-                        ),
-                        verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier.background(
-                            color = Color(color),
-                            shape = RoundedCornerShape(size = 4.dp)
-                        )
-                    ) {
-                        Row(
-                            horizontalArrangement = Arrangement.spacedBy(
-                                8.dp,
-                                Alignment.CenterHorizontally
-                            ),
-                            verticalAlignment = Alignment.CenterVertically,
-                            modifier = Modifier.padding(4.dp)
-                        ) {
-                            Text(
-                                text = it.status,
-                                style = TextStyle(
-                                    fontSize = 10.sp,
-                                    lineHeight = 12.sp,
-                                    fontWeight = FontWeight(500),
-                                    color = Color(0xFFFFFFFF),
-                                    textAlign = TextAlign.Center,
-                                    letterSpacing = 0.1.sp,
-                                ),
-                                maxLines = 1,
-                            )
-                        }
+                        "In progress" -> TaskProcess(title="In progress",color=0xFFF7C84F)
+                        "Productivity" -> TaskProcess(title="Productivity",color=0xFFAA60AB)
+                        "Todo"->TaskProcess(title="Todo",color=0xFF4CF590)
                     }
                 }
             }
@@ -188,7 +156,7 @@ var subTask2 = SubTask(
     assignees = mutableListOf(),
 )
 var subTask3 = SubTask(
-    status = "To do",
+    status = "Todo",
     taskName = "Play dota",
     taskNavigation = "SCRUMMER-1",
     assignees = mutableListOf(),
