@@ -13,7 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.sprintsync.ui.components.BottomNavigation
-import com.sprintsync.ui.components.CustomTopAppBar
+import com.sprintsync.ui.components.TwoIconTopAppBar
 import com.sprintsync.ui.components.reportview.Problem
 import com.sprintsync.ui.components.reportview.ReportChart
 
@@ -22,7 +22,7 @@ import com.sprintsync.ui.components.reportview.ReportChart
 fun ReportView() {
     Scaffold(
         topBar = {
-            CustomTopAppBar(title = "Report")
+            TwoIconTopAppBar(title = "ReportView")
         },
         bottomBar = {
             BottomNavigation()
