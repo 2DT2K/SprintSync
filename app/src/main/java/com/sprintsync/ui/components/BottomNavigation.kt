@@ -49,7 +49,10 @@ fun BottomNavigation() {
                         )
                     }
                 },
-                label = { Text(item) })
+                // Add this to make item only show label when selected
+                alwaysShowLabel = selectedItem == index,
+                label = { Text(item) }
+            )
         }
     }
 }

@@ -70,11 +70,6 @@ fun CustomIconButtonPreview() {
         content = "Timeline",
         backgroundColor = 0xFFFF829E,
         modifier = Modifier
-            .shadow(
-                elevation = 8.dp,
-                spotColor = Color(0x59FF829E),
-                ambientColor = Color(0x59FF829E)
-            )
             .padding(0.dp)
             .height(115.dp)
             .background(
