@@ -91,4 +91,10 @@ dependencies {
 		// For the view system.
 		implementation("com.patrykandpatrick.vico:views:1.12.0")
 	}
+
+	implementation ("com.github.TuleSimon:xMaterialccp:1.22")
+
+	val nav_version = "2.7.4"
+
+	implementation("androidx.navigation:navigation-compose:$nav_version")
 }
