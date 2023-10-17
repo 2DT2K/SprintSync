@@ -132,11 +132,3 @@ fun placeHolderFilter(text: AnnotatedString, placeholder: String): TransformedTe
 
     return TransformedText(AnnotatedString(placeholder), numberOffsetTranslator)
 }
-
-@Preview(showBackground = true)
-@Composable
-private fun EmailTextFieldPreview() {
-    SprintSyncTheme {
-
-    }
-}

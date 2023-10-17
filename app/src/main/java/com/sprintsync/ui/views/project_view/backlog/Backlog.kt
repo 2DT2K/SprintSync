@@ -290,7 +290,7 @@ fun TaskCard(task: BacklogViewModel.Task) {
         horizontalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         Image(
-            modifier = Modifier.size(24.dp),
+            modifier = Modifier.size(32.dp),
             painter = painterResource(id = icon),
             contentDescription = "task status icon"
         )
@@ -352,7 +352,6 @@ fun TaskCard(task: BacklogViewModel.Task) {
 @Preview(showBackground = true)
 @Composable
 fun BacklogPreview() {
-    //sample
     val backlogViewModel = BacklogViewModel("")
     SprintSyncTheme {
         Backlog(backlogViewModel)
