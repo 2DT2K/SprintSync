@@ -13,14 +13,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.sprintsync.auth.UserData
 
 @Composable
-fun User(
-	acc: GoogleSignInAccount,
+fun ProfileScreen(
+	data: UserData?,
 	signOut: () -> Unit
 ) {
 	Column(
@@ -32,8 +33,9 @@ fun User(
 			modifier = Modifier
 				.size(128.dp)
 				.clip(CircleShape),
-			model = acc.photoUrl,
-			contentDescription = null
+			model = data?.profilePictureUrl?.toString(),
+			contentDescription = null,
+			contentScale = ContentScale.Crop
 		)
 
 		Spacer(modifier = Modifier.height(16.dp))
@@ -43,7 +45,7 @@ fun User(
 			fontSize = 32.sp
 		)
 		Text(
-			text = acc.displayName ?: "Anonymous",
+			text = data?.userName ?: "Anonymous",
 			fontSize = 32.sp
 		)
 

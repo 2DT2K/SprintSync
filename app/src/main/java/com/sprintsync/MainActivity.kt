@@ -5,26 +5,96 @@ import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
+import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.android.gms.common.api.ApiException
-import com.google.android.gms.common.api.Scope
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.google.android.gms.auth.api.identity.Identity
+import com.sprintsync.auth.GoogleAuthUiClient
+import com.sprintsync.auth.SignInViewModel
 import com.sprintsync.ui.theme.SprintSyncTheme
+import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
+	private val googleAuthUiClient by lazy {
+		GoogleAuthUiClient(
+			context = applicationContext,
+			oneTapClient = Identity.getSignInClient(applicationContext)
+		)
+	}
+
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		setContent {
 			SprintSyncTheme {
-				MainContent()
+				val navController = rememberNavController()
+				NavHost(navController = navController, startDestination = "sign_in") {
+					composable("sign_in") {
+						val viewModel = viewModel<SignInViewModel>()
+						val state by viewModel.state.collectAsStateWithLifecycle()
+
+						LaunchedEffect(Unit) {
+							googleAuthUiClient
+								.getSignedInUser()
+								?.let {
+									navController.navigate("profile")
+								}
+						}
+
+						val launcher = rememberLauncherForActivityResult(
+							contract = ActivityResultContracts.StartIntentSenderForResult()
+						) { result ->
+							if (result.resultCode == RESULT_OK) {
+								lifecycleScope.launch {
+									googleAuthUiClient
+										.signInWithIntent(result.data ?: return@launch)
+										.let { viewModel.onSignInResult(it) }
+								}
+							}
+						}
+
+						LaunchedEffect(state.isSignInSuccessful) {
+							if (state.isSignInSuccessful) {
+								Toast
+									.makeText(applicationContext, "Signed in", Toast.LENGTH_LONG)
+									.show()
+
+								navController.navigate("profile")
+								viewModel.resetState()
+							}
+						}
+
+						SignInScreen(state = state) {
+							lifecycleScope.launch {
+								googleAuthUiClient
+									.signIn()
+									.let {
+										launcher.launch(
+											IntentSenderRequest
+												.Builder(it ?: return@launch)
+												.build()
+										)
+									}
+							}
+						}
+					}
+					composable("profile") {
+						ProfileScreen(googleAuthUiClient.getSignedInUser()) {
+							lifecycleScope.launch {
+								googleAuthUiClient.signOut()
+								navController.popBackStack()
+							}
+						}
+					}
+				}
 			}
 		}
 	}
@@ -33,45 +103,4 @@ class MainActivity : ComponentActivity() {
 @Preview(showBackground = true)
 @Composable
 fun MainContent() {
-	val context = LocalContext.current
-
-	var acc by remember { mutableStateOf(GoogleSignIn.getLastSignedInAccount(context)) }
-
-	val launcher =
-		rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-			val task = GoogleSignIn.getSignedInAccountFromIntent(it.data)
-			acc =
-				try {
-					task.getResult(ApiException::class.java)
-				}
-				catch (e: ApiException) {
-					Toast
-						.makeText(context, "Sign in failed", Toast.LENGTH_SHORT)
-						.show()
-					null
-				}
-		}
-
-	val gsc = GoogleSignIn.getClient(
-		context,
-		GoogleSignInOptions
-			.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-			.requestProfile()
-			.requestScopes(
-				Scope("https://www.googleapis.com/auth/gmail.send")
-			)
-			.build()
-	)
-
-	if (acc != null) User(acc = acc!!) {
-		gsc
-			.signOut()
-			.addOnCompleteListener {
-				Toast
-					.makeText(context, "Sign out successfully", Toast.LENGTH_SHORT)
-					.show()
-				acc = null
-			}
-	}
-	else SignInScreen { launcher.launch(gsc.signInIntent) }
 }
