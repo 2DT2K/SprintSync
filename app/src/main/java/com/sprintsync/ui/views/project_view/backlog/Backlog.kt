@@ -1,16 +1,9 @@
 package com.sprintsync.ui.views.project_view.backlog
 
 import androidx.compose.animation.animateContentSize
-import androidx.compose.animation.core.MutableTransitionState
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.expandVertically
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -23,13 +16,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
@@ -52,7 +41,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
 import com.sprintsync.R
 import com.sprintsync.ui.components.CustomText
-import com.sprintsync.ui.components.StoryPoint
+import com.sprintsync.ui.components.TaskPoint
 import com.sprintsync.ui.theme.Green80
 import com.sprintsync.ui.theme.Grey60
 import com.sprintsync.ui.theme.Purple80
@@ -204,13 +193,31 @@ fun SprintCard(sprint: BacklogViewModel.Sprint, isActive: Boolean = false) {
 
             Spacer(modifier = Modifier.weight(1.0f))
 
-            StoryPoint(point = 70)
+            TaskPoint(
+                70, Modifier
+                    .background(
+                        color = Color(0xFFDCCFE3),
+                        shape = RoundedCornerShape(size = 10.dp)
+                    )
+            )
             Spacer(modifier = Modifier.width(8.dp))
 
-            StoryPoint(point = 70)
+            TaskPoint(
+                70, Modifier
+                    .background(
+                        color = Color(0xFFDCCFE3),
+                        shape = RoundedCornerShape(size = 10.dp)
+                    )
+            )
             Spacer(modifier = Modifier.width(8.dp))
 
-            StoryPoint(point = 70)
+            TaskPoint(
+                70, Modifier
+                    .background(
+                        color = Color(0xFFDCCFE3),
+                        shape = RoundedCornerShape(size = 10.dp)
+                    )
+            )
             Spacer(modifier = Modifier.width(8.dp))
 
             Icon(
@@ -309,7 +316,13 @@ fun TaskCard(task: BacklogViewModel.Task) {
                     text = task.name,
                     color = Grey60,
                 )
-                StoryPoint(point = task.point)
+                TaskPoint(
+                    task.point, Modifier
+                        .background(
+                            color = Color(0xFFDCCFE3),
+                            shape = RoundedCornerShape(size = 10.dp)
+                        )
+                )
                 Box(
                     modifier = Modifier
                         .background(

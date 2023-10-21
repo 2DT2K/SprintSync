@@ -1,11 +1,10 @@
 package com.sprintsync.ui.components
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -13,7 +12,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -26,8 +24,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.sprintsync.ui.theme.SprintSyncTheme
 import com.sprintsync.R
+import com.sprintsync.ui.theme.SprintSyncTheme
 
 @Composable
 fun CustomFloatingActionButton() {
@@ -51,7 +49,7 @@ fun PreviewFloatingActionButton() {
         }) { innerPadding ->
             if (showBottomSheet) {
                 ModalBottomSheet(
-                    modifier = Modifier.heightIn(min = 200.dp, max = 1000.dp),
+                    modifier = Modifier.heightIn(min = 200.dp, max = 1000.dp).padding(innerPadding),
                     onDismissRequest = {
                         showBottomSheet = false
                     },
@@ -59,7 +57,7 @@ fun PreviewFloatingActionButton() {
                 ) {
                     Column {
                         CustomText(text = "Project name")
-                        CustomTextField(
+                        ExpandTextField(
                             label = "",
                             placeholder = "Add a description",
                             colors = OutlinedTextFieldDefaults.colors(
@@ -76,7 +74,7 @@ fun PreviewFloatingActionButton() {
                     }
                     Column {
                         CustomText(text = "Project name")
-                        CustomTextField(
+                        ExpandTextField(
                             label = "",
                             placeholder = "Add a description",
                             colors = OutlinedTextFieldDefaults.colors(
@@ -93,7 +91,7 @@ fun PreviewFloatingActionButton() {
                     }
                     Column {
                         CustomText(text = "Project name")
-                        CustomTextField(
+                        ExpandTextField(
                             label = "",
                             placeholder = "Add a description",
                             colors = OutlinedTextFieldDefaults.colors(

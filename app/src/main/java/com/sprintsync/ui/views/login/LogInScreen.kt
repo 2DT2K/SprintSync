@@ -4,12 +4,24 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.defaultMinSize
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.requiredSize
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -24,7 +36,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sprintsync.R
 import com.sprintsync.ui.components.CustomButton
-import com.sprintsync.ui.components.CustomTextField
+import com.sprintsync.ui.components.ExpandTextField
 import com.sprintsync.ui.theme.Grey40
 import com.sprintsync.ui.theme.Purple40
 import com.sprintsync.ui.theme.Red80
@@ -80,7 +92,7 @@ fun LogInScreen(modifier: Modifier = Modifier) {
                     .wrapContentHeight(),
                 verticalArrangement = Arrangement.spacedBy(20.dp)
             ) {
-                CustomTextField(
+                ExpandTextField(
                     label = "Email",
                     placeholder = "Please Enter Your Email",
                     modifier = Modifier.fillMaxWidth(),
@@ -93,7 +105,7 @@ fun LogInScreen(modifier: Modifier = Modifier) {
                     }
                 )
 
-                CustomTextField(
+                ExpandTextField(
                     type = "hidden",
                     label = "Password",
                     placeholder = "Please Enter Your Password",
@@ -153,7 +165,7 @@ fun LogInScreen(modifier: Modifier = Modifier) {
                                 .height(2.dp)
                                 .weight(1f)
                                 .background(Purple40)
-                        ) {}
+                        )
                         ClickableText(
                             text = AnnotatedString("Show replies"),
                             onClick = {},
@@ -168,7 +180,7 @@ fun LogInScreen(modifier: Modifier = Modifier) {
                                 .height(2.dp)
                                 .weight(1f)
                                 .background(Purple40)
-                        ) {}
+                        )
                     }
                     Row(
                         modifier = Modifier
