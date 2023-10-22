@@ -61,6 +61,11 @@ dependencies {
 	implementation("io.coil-kt:coil-compose:2.4.0")
 
 	implementation(platform("androidx.compose:compose-bom:2023.10.00"))
+	implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
+	implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2")
+	implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.2")
+	implementation("androidx.activity:activity-compose:1.7.2")
+	implementation(platform("androidx.compose:compose-bom:2023.03.00"))
 	implementation("androidx.compose.ui:ui")
 	implementation("androidx.compose.ui:ui-graphics")
 	implementation("androidx.compose.ui:ui-tooling-preview")
@@ -81,4 +86,32 @@ dependencies {
 //	debugging dependencies
 	debugImplementation("androidx.compose.ui:ui-tooling")
 	debugImplementation("androidx.compose.ui:ui-test-manifest:1.5.3")
+    androidTestImplementation(platform("androidx.compose:compose-bom:2023.03.00"))
+    debugImplementation("androidx.compose.ui:ui-tooling")
+	debugImplementation("androidx.compose.ui:ui-test-manifest")
+	implementation ("androidx.compose.ui:ui-util:1.3.3")
+
+//	VICO Chart
+	dependencies {
+		// For Jetpack Compose.
+		implementation("com.patrykandpatrick.vico:compose:1.12.0")
+
+		// For `compose`. Creates a `ChartStyle` based on an M2 Material Theme.
+		implementation("com.patrykandpatrick.vico:compose-m2:1.12.0")
+
+		// For `compose`. Creates a `ChartStyle` based on an M3 Material Theme.
+		implementation("com.patrykandpatrick.vico:compose-m3:1.12.0")
+
+		// Houses the core logic for charts and other elements. Included in all other modules.
+		implementation("com.patrykandpatrick.vico:core:1.12.0")
+
+		// For the view system.
+		implementation("com.patrykandpatrick.vico:views:1.12.0")
+	}
+
+	implementation ("com.github.TuleSimon:xMaterialccp:1.22")
+
+	val nav_version = "2.7.4"
+
+	implementation("androidx.navigation:navigation-compose:$nav_version")
 }
