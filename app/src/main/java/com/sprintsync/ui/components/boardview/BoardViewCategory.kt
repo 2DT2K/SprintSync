@@ -28,63 +28,63 @@ import com.sprintsync.ui.components.boardview.boardview_category_item.IBoardview
 
 
 class IBoardViewCategory(
-    var categoryName: String,
-    var numberOfTask: Number,
-    var taskList: List<IBoardviewCategoryItem>?
+	var categoryName: String,
+	var numberOfTask: Number,
+	var taskList: List<IBoardviewCategoryItem>?
 )
 
 @Composable
 fun BoardViewCategory(boardviewCategory: IBoardViewCategory) {
-    Column(
-        verticalArrangement = Arrangement.spacedBy(10.dp, Alignment.CenterVertically),
-        horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier
-            .fillMaxWidth(0.96f)
-            .background(color = Color(0xFFEADDFF), shape = RoundedCornerShape(size = 10.dp))
-            .padding(15.dp)
-    ) {
-        Row(
-            modifier = Modifier
-                .height(24.dp)
-                .fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(15.dp, Alignment.CenterHorizontally),
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
+	Column(
+		verticalArrangement = Arrangement.spacedBy(10.dp, Alignment.CenterVertically),
+		horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier
+			.fillMaxWidth(0.96f)
+			.background(color = Color(0xFFEADDFF), shape = RoundedCornerShape(size = 10.dp))
+			.padding(15.dp)
+	) {
+		Row(
+			modifier = Modifier
+				.height(24.dp)
+				.fillMaxWidth(),
+			horizontalArrangement = Arrangement.SpaceBetween,
+			verticalAlignment = Alignment.CenterVertically,
+		) {
+			Row(
+				horizontalArrangement = Arrangement.spacedBy(15.dp, Alignment.CenterHorizontally),
+				verticalAlignment = Alignment.CenterVertically,
+			) {
 //                Need to add TextStyle into theme/Type
-                Text(
-                    text = boardviewCategory.categoryName, style = TextStyle(
-                        fontSize = 11.sp,
-                        lineHeight = 16.sp,
-                        fontWeight = FontWeight(500),
-                        color = Color(0xFF21005D),
-                        letterSpacing = 0.5.sp,
-                    )
-                )
-                Text(
-                    text = boardviewCategory.numberOfTask.toString(), style = TextStyle(
-                        fontSize = 11.sp,
-                        lineHeight = 16.sp,
-                        fontWeight = FontWeight(500),
-                        color = Color(0xFF21005D),
-                        letterSpacing = 0.5.sp,
-                    )
-                )
-            }
-            IconButton(onClick = { /*TODO*/ },modifier = Modifier.width(24.dp)) {
-                Image(painter = painterResource(id = R.drawable.plus_icon), contentDescription = "")
-            }
-        }
-        boardviewCategory.taskList?.forEach {
-            BoardViewCategoryItem(boardviewItemDetails = it)
-        }
-    }
+				Text(
+					text = boardviewCategory.categoryName, style = TextStyle(
+						fontSize = 11.sp,
+						lineHeight = 16.sp,
+						fontWeight = FontWeight(500),
+						color = Color(0xFF21005D),
+						letterSpacing = 0.5.sp,
+					)
+				)
+				Text(
+					text = boardviewCategory.numberOfTask.toString(), style = TextStyle(
+						fontSize = 11.sp,
+						lineHeight = 16.sp,
+						fontWeight = FontWeight(500),
+						color = Color(0xFF21005D),
+						letterSpacing = 0.5.sp,
+					)
+				)
+			}
+			IconButton(onClick = { /*TODO*/ }, modifier = Modifier.width(24.dp)) {
+				Image(painter = painterResource(id = R.drawable.plus_icon), contentDescription = "")
+			}
+		}
+		boardviewCategory.taskList?.forEach {
+			BoardViewCategoryItem(boardviewItemDetails = it)
+		}
+	}
 }
 
 @Preview(showBackground = true)
 @Composable
 fun BoardViewCategoryPreview() {
-    BoardViewCategory(fakedata)
+	BoardViewCategory(fakedata)
 }

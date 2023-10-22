@@ -9,29 +9,15 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
-import androidx.compose.material3.Divider
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.DefaultAlpha
-import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
@@ -44,13 +30,7 @@ import com.patrykandpatrick.vico.compose.axis.horizontal.rememberBottomAxis
 import com.patrykandpatrick.vico.compose.axis.vertical.rememberStartAxis
 import com.patrykandpatrick.vico.compose.chart.Chart
 import com.patrykandpatrick.vico.compose.chart.line.lineChart
-import com.patrykandpatrick.vico.compose.chart.scroll.rememberChartScrollState
-import com.patrykandpatrick.vico.compose.component.shape.shader.fromBrush
 import com.patrykandpatrick.vico.compose.style.ProvideChartStyle
-import com.patrykandpatrick.vico.core.chart.line.LineChart
-import com.patrykandpatrick.vico.core.component.shape.shader.DynamicShaders
-import com.patrykandpatrick.vico.core.entry.ChartEntryModelProducer
-import com.patrykandpatrick.vico.core.entry.FloatEntry
 import com.patrykandpatrick.vico.core.entry.entriesOf
 import com.patrykandpatrick.vico.core.entry.entryModelOf
 import com.patrykandpatrick.vico.core.entry.entryOf
@@ -102,168 +82,170 @@ fun ReportChart() {
 //        modelProducer.setEntries(datasetForModel)
 //    }
 
-    val chartEntryModel = entryModelOf(entriesOf(4f, 12f, 8f, 16f), entriesOf(12f, 16f, 4f, 12f))
+	val chartEntryModel = entryModelOf(entriesOf(4f, 12f, 8f, 16f), entriesOf(12f, 16f, 4f, 12f))
 //    val chartEntryModelProducer = ChartEntryModelProducer(getRandomEntries(), getRandomEntries())
-    Column(
-        verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterVertically),
-        horizontalAlignment = Alignment.Start, modifier = Modifier.fillMaxWidth()
-    ) {
-        Row(
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Text(
-                text = "Title",
-                style = TextStyle(
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight(600),
-                    color = Color(0xFF243465),
-                    letterSpacing = 0.28.sp,
-                )
-            )
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(0.dp, Alignment.Start),
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier
-                    .border(
-                        width = 1.dp,
-                        color = Color(0xFF848A9C),
-                        shape = RoundedCornerShape(size = 16.dp)
-                    )
-                    .padding(start = 8.dp, top = 4.dp, end = 4.dp, bottom = 4.dp)
-            ) {
-                Text(
-                    text = "Sprint 2",
-                    style = TextStyle(
-                        fontSize = 12.sp,
-                        fontWeight = FontWeight(600),
-                        color = Color(0xFF848A9C),
-                        letterSpacing = 0.18.sp,
-                    )
-                )
-                Image(
-                    painter = painterResource(id = R.drawable.mini_down_arrow),
-                    contentDescription = "image description",
-                    contentScale = ContentScale.None,
-                    modifier = Modifier
-                        .padding(1.dp)
-                        .width(16.dp)
-                        .height(16.dp)
-                )
-            }
-        }
-        Column(modifier = Modifier.fillMaxWidth()) {
-            Card(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(220.dp)
-            ) {
-                // in case there is no data
-                ProvideChartStyle {
-                    Chart(
-                        chart = lineChart(),
-                        model = chartEntryModel,
-                        startAxis = rememberStartAxis(),
-                        bottomAxis = rememberBottomAxis(),
-                    )
-                }
-            }
-        }
-        Column(
-            verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.Top),
-            horizontalAlignment = Alignment.Start,
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(12.dp, Alignment.Start),
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Box(
-                    modifier = Modifier
-                        .width(4.dp)
-                        .height(20.dp)
-                        .background(
-                            color = Color(0xFF04BFDA),
-                            shape = RoundedCornerShape(size = 3.dp)
-                        )
-                ) {
-                }
-                Row(
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Text(
-                        text = "Remaining work",
-                        style = TextStyle(
-                            fontSize = 13.sp,
-                            lineHeight = 15.6.sp,
-                            fontWeight = FontWeight(500),
-                            color = Color(0xFF7B7B7B),
-                        )
-                    )
-                    Text(
-                        text = "8",
-                        style = TextStyle(
-                            fontSize = 14.sp,
-                            lineHeight = 20.sp,
-                            fontWeight = FontWeight(400),
-                            color = Color(0xFF7B7B7B),
-                            textAlign = TextAlign.Right,
-                        )
-                    )
-                }
-            }
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(12.dp, Alignment.Start),
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Box(
-                    modifier = Modifier
-                        .width(4.dp)
-                        .height(20.dp)
-                        .background(
-                            color = Color(0xFFE1E3E8),
-                            shape = RoundedCornerShape(size = 3.dp)
-                        )
-                ) {
-                }
-                Row(
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Text(
-                        text = "Completed work",
-                        style = TextStyle(
-                            fontSize = 13.sp,
-                            lineHeight = 15.6.sp,
-                            fontWeight = FontWeight(500),
-                            color = Color(0xFF7B7B7B),
-                        )
-                    )
-                    Text(
-                        text = "4",
-                        style = TextStyle(
-                            fontSize = 14.sp,
-                            lineHeight = 20.sp,
-                            fontWeight = FontWeight(400),
-                            color = Color(0xFF7B7B7B),
-                            textAlign = TextAlign.Right,
-                        )
-                    )
-                }
-            }
-        }
-    }
+	Column(
+		verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterVertically),
+		horizontalAlignment = Alignment.Start, modifier = Modifier.fillMaxWidth()
+	) {
+		Row(
+			horizontalArrangement = Arrangement.SpaceBetween,
+			verticalAlignment = Alignment.CenterVertically,
+			modifier = Modifier.fillMaxWidth()
+		) {
+			Text(
+				text = "Title",
+				style = TextStyle(
+					fontSize = 18.sp,
+					fontWeight = FontWeight(600),
+					color = Color(0xFF243465),
+					letterSpacing = 0.28.sp,
+				)
+			)
+			Row(
+				horizontalArrangement = Arrangement.spacedBy(0.dp, Alignment.Start),
+				verticalAlignment = Alignment.CenterVertically,
+				modifier = Modifier
+					.border(
+						width = 1.dp,
+						color = Color(0xFF848A9C),
+						shape = RoundedCornerShape(size = 16.dp)
+					)
+					.padding(start = 8.dp, top = 4.dp, end = 4.dp, bottom = 4.dp)
+			) {
+				Text(
+					text = "Sprint 2",
+					style = TextStyle(
+						fontSize = 12.sp,
+						fontWeight = FontWeight(600),
+						color = Color(0xFF848A9C),
+						letterSpacing = 0.18.sp,
+					)
+				)
+				Image(
+					painter = painterResource(id = R.drawable.mini_down_arrow),
+					contentDescription = "image description",
+					contentScale = ContentScale.None,
+					modifier = Modifier
+						.padding(1.dp)
+						.width(16.dp)
+						.height(16.dp)
+				)
+			}
+		}
+		Column(modifier = Modifier.fillMaxWidth()) {
+			Card(
+				modifier = Modifier
+					.fillMaxWidth()
+					.height(220.dp)
+			) {
+				// in case there is no data
+				ProvideChartStyle {
+					Chart(
+						chart = lineChart(),
+						model = chartEntryModel,
+						startAxis = rememberStartAxis(),
+						bottomAxis = rememberBottomAxis(),
+					)
+				}
+			}
+		}
+		Column(
+			verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.Top),
+			horizontalAlignment = Alignment.Start,
+			modifier = Modifier.fillMaxWidth()
+		) {
+			Row(
+				horizontalArrangement = Arrangement.spacedBy(12.dp, Alignment.Start),
+				verticalAlignment = Alignment.CenterVertically,
+				modifier = Modifier.fillMaxWidth()
+			) {
+				Box(
+					modifier = Modifier
+						.width(4.dp)
+						.height(20.dp)
+						.background(
+							color = Color(0xFF04BFDA),
+							shape = RoundedCornerShape(size = 3.dp)
+						)
+				) {
+				}
+				Row(
+					horizontalArrangement = Arrangement.SpaceBetween,
+					verticalAlignment = Alignment.CenterVertically,
+					modifier = Modifier.fillMaxWidth()
+				) {
+					Text(
+						text = "Remaining work",
+						style = TextStyle(
+							fontSize = 13.sp,
+							lineHeight = 15.6.sp,
+							fontWeight = FontWeight(500),
+							color = Color(0xFF7B7B7B),
+						)
+					)
+					Text(
+						text = "8",
+						style = TextStyle(
+							fontSize = 14.sp,
+							lineHeight = 20.sp,
+							fontWeight = FontWeight(400),
+							color = Color(0xFF7B7B7B),
+							textAlign = TextAlign.Right,
+						)
+					)
+				}
+			}
+			Row(
+				horizontalArrangement = Arrangement.spacedBy(12.dp, Alignment.Start),
+				verticalAlignment = Alignment.CenterVertically,
+				modifier = Modifier.fillMaxWidth()
+			) {
+				Box(
+					modifier = Modifier
+						.width(4.dp)
+						.height(20.dp)
+						.background(
+							color = Color(0xFFE1E3E8),
+							shape = RoundedCornerShape(size = 3.dp)
+						)
+				) {
+				}
+				Row(
+					horizontalArrangement = Arrangement.SpaceBetween,
+					verticalAlignment = Alignment.CenterVertically,
+					modifier = Modifier.fillMaxWidth()
+				) {
+					Text(
+						text = "Completed work",
+						style = TextStyle(
+							fontSize = 13.sp,
+							lineHeight = 15.6.sp,
+							fontWeight = FontWeight(500),
+							color = Color(0xFF7B7B7B),
+						)
+					)
+					Text(
+						text = "4",
+						style = TextStyle(
+							fontSize = 14.sp,
+							lineHeight = 20.sp,
+							fontWeight = FontWeight(400),
+							color = Color(0xFF7B7B7B),
+							textAlign = TextAlign.Right,
+						)
+					)
+				}
+			}
+		}
+	}
 }
+
 fun getRandomEntries() = List(4) { entryOf(it, Random.nextFloat() * 16f) }
+
 @Preview
 @Composable
 fun ReportChartPreview() {
-    ReportChart()
+	ReportChart()
 }
 

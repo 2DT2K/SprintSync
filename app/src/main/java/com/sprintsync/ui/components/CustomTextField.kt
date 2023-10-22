@@ -34,146 +34,149 @@ import com.sprintsync.ui.theme.Purple40
 
 
 class PlaceholderTransformation(private val placeholder: String) : VisualTransformation {
-    override fun filter(text: AnnotatedString): TransformedText {
-        return placeHolderFilter(text, placeholder)
-    }
+	override fun filter(text: AnnotatedString): TransformedText {
+		return placeHolderFilter(text, placeholder)
+	}
 }
 
 @Composable
 fun CommentTextField(
-    placeholder: String,
-    value: String,
-    onValueChange: (String) -> Unit,
-    modifier: Modifier
+	placeholder: String,
+	value: String,
+	onValueChange: (String) -> Unit,
+	modifier: Modifier
 ) {
-    BasicTextField(
-        modifier = modifier,
-        value = value,
-        onValueChange = onValueChange,
-        textStyle = TextStyle(
-            color = if (isSystemInDarkTheme()) Color(0xFF969EBD) else Color.Gray
-        ),
-        decorationBox = { innerTextField ->
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(
-                        color = if (isSystemInDarkTheme()) Color(0xFF969EBD) else Color.White,
-                        shape = RoundedCornerShape(8.dp)
-                    )
-                    .border(
-                        1.dp,
-                        Color(0xFF969EBD),
-                        shape = RoundedCornerShape(8.dp)
-                    )
-            ) {
-                if (value.isEmpty()) {
-                    Text(
-                        text = placeholder,
-                        color = if (isSystemInDarkTheme()) Color(0xFF969EBD) else Color.Gray,
-                        fontSize = 14.sp,
-                        modifier = Modifier.padding(8.dp)
-                    )
-                }
-            }
-            innerTextField()
-        }
-    )
+	BasicTextField(
+		modifier = modifier,
+		value = value,
+		onValueChange = onValueChange,
+		textStyle = TextStyle(
+			color = if (isSystemInDarkTheme()) Color(0xFF969EBD) else Color.Gray
+		),
+		decorationBox = { innerTextField ->
+			Row(
+				modifier = Modifier
+					.fillMaxWidth()
+					.background(
+						color = if (isSystemInDarkTheme()) Color(0xFF969EBD) else Color.White,
+						shape = RoundedCornerShape(8.dp)
+					)
+					.border(
+						1.dp,
+						Color(0xFF969EBD),
+						shape = RoundedCornerShape(8.dp)
+					)
+			) {
+				if (value.isEmpty()) {
+					Text(
+						text = placeholder,
+						color = if (isSystemInDarkTheme()) Color(0xFF969EBD) else Color.Gray,
+						fontSize = 14.sp,
+						modifier = Modifier.padding(8.dp)
+					)
+				}
+			}
+			innerTextField()
+		}
+	)
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ExpandTextField(
-    type: String? = "normal",
-    modifier: Modifier = Modifier,
-    surfaceModifier: Modifier = Modifier,
-    value: String = "",
-    label: String = "Email",
-    placeholder: String = "Please Enter Your Email",
-    isVisible: Boolean? = true,
-    isError: Boolean = false,
-    leadingIcon: @Composable() (() -> Unit)? = null,
-    trailingIcon: @Composable() (() -> Unit)? = null,
-    shape: Shape = OutlinedTextFieldDefaults.shape,
-    colors: TextFieldColors = OutlinedTextFieldDefaults.colors(
-        focusedBorderColor = Purple40,
-        unfocusedBorderColor = Purple40
-    ),
-    onValueChange: ((String) -> Unit)? = null,
-    errorText: String = "please redo"
+	type: String? = "normal",
+	modifier: Modifier = Modifier,
+	surfaceModifier: Modifier = Modifier,
+	value: String = "",
+	label: String = "Email",
+	placeholder: String = "Please Enter Your Email",
+	isVisible: Boolean? = true,
+	isError: Boolean = false,
+	leadingIcon: @Composable() (() -> Unit)? = null,
+	trailingIcon: @Composable() (() -> Unit)? = null,
+	shape: Shape = OutlinedTextFieldDefaults.shape,
+	colors: TextFieldColors = OutlinedTextFieldDefaults.colors(
+		focusedBorderColor = Purple40,
+		unfocusedBorderColor = Purple40
+	),
+	onValueChange: ((String) -> Unit)? = null,
+	errorText: String = "please redo"
 ) {
-    var text by remember { mutableStateOf(value) }
-    var passwordVisible by remember { mutableStateOf(isVisible) }
-    if (type == "hidden") passwordVisible = false;
+	var text by remember { mutableStateOf(value) }
+	var passwordVisible by remember { mutableStateOf(isVisible) }
+	if (type == "hidden") passwordVisible = false;
 
-    Column {
-        Surface(modifier = surfaceModifier) {
-            OutlinedTextField(
-                modifier = modifier,
-                value = text,
-                onValueChange = {
-                    text = it
-                    if (onValueChange != null) {
-                        onValueChange(it)
-                    }
-                },
-                leadingIcon = leadingIcon,
-                trailingIcon =
-                if (trailingIcon != null) {
-                    {
-                        IconButton(onClick = { passwordVisible = !passwordVisible!! }) {
-                            if (passwordVisible == true) trailingIcon()
-                            else Icon(
-                                painter = painterResource(id = R.drawable.invisibility),
-                                contentDescription = null,
-                                tint = Color(0xFF381E72)
-                            )
-                        }
-                    }
-                } else {
-                    null
-                },
-                label = { Text(label) },
-                placeholder = {
-                    Text(
-                        text = placeholder,
-                        fontSize = 16.sp,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis,
-                    )
-                },
-                visualTransformation = if (text.isEmpty())
-                    PlaceholderTransformation(placeholder) else if (passwordVisible != null &&
-                    passwordVisible == false
-                ) PasswordVisualTransformation() else VisualTransformation.None,
-                maxLines = 1,
-                shape = RoundedCornerShape(16),
-                colors = colors,
-                isError = isError
-            )
-        }
-        if (isError) Text(
-            text = errorText,
-            color = MaterialTheme.colorScheme.error,
-            style = MaterialTheme.typography.bodyMedium,
-            modifier = Modifier
-        )
-    }
+	Column {
+		Surface(modifier = surfaceModifier) {
+			OutlinedTextField(
+				modifier = modifier,
+				value = text,
+				onValueChange = {
+					text = it
+					if (onValueChange != null) {
+						onValueChange(it)
+					}
+				},
+				leadingIcon = leadingIcon,
+				trailingIcon =
+				if (trailingIcon != null) {
+					{
+						IconButton(onClick = { passwordVisible = !passwordVisible!! }) {
+							if (passwordVisible == true) trailingIcon()
+							else Icon(
+								painter = painterResource(id = R.drawable.invisibility),
+								contentDescription = null,
+								tint = Color(0xFF381E72)
+							)
+						}
+					}
+				}
+				else {
+					null
+				},
+				label = { Text(label) },
+				placeholder = {
+					Text(
+						text = placeholder,
+						fontSize = 16.sp,
+						maxLines = 1,
+						overflow = TextOverflow.Ellipsis,
+					)
+				},
+				visualTransformation = if (text.isEmpty())
+					PlaceholderTransformation(placeholder)
+				else if (passwordVisible != null &&
+					passwordVisible == false
+				) PasswordVisualTransformation()
+				else VisualTransformation.None,
+				maxLines = 1,
+				shape = RoundedCornerShape(16),
+				colors = colors,
+				isError = isError
+			)
+		}
+		if (isError) Text(
+			text = errorText,
+			color = MaterialTheme.colorScheme.error,
+			style = MaterialTheme.typography.bodyMedium,
+			modifier = Modifier
+		)
+	}
 }
 
 fun placeHolderFilter(text: AnnotatedString, placeholder: String): TransformedText {
 
-    var out = placeholder
+	var out = placeholder
 
-    val numberOffsetTranslator = object : OffsetMapping {
-        override fun originalToTransformed(offset: Int): Int {
-            return 0
-        }
+	val numberOffsetTranslator = object : OffsetMapping {
+		override fun originalToTransformed(offset: Int): Int {
+			return 0
+		}
 
-        override fun transformedToOriginal(offset: Int): Int {
-            return 0
-        }
-    }
+		override fun transformedToOriginal(offset: Int): Int {
+			return 0
+		}
+	}
 
-    return TransformedText(AnnotatedString(placeholder), numberOffsetTranslator)
+	return TransformedText(AnnotatedString(placeholder), numberOffsetTranslator)
 }

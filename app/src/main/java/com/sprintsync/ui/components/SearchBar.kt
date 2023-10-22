@@ -16,29 +16,29 @@ import com.sprintsync.R
 
 @Composable
 fun SearchBar(placeHolder: String, onValueChange: ((String) -> Unit)? = null) {
-    var searchTerm by remember { mutableStateOf("") }
+	var searchTerm by remember { mutableStateOf("") }
 
-    ExpandTextField(
-        modifier = Modifier.fillMaxWidth(),
-        value = searchTerm,
-        label = "",
-        placeholder = placeHolder,
-        onValueChange = {
-            searchTerm = it
-            if (onValueChange != null) {
-                onValueChange(searchTerm)
-            }
-        },
-        leadingIcon = {
-            Image(
-                painter = painterResource(id = R.drawable.search),
-                contentDescription = null,
-                contentScale = ContentScale.Fit
-            )
-        },
-        colors = OutlinedTextFieldDefaults.colors(
-            focusedBorderColor = Color.Transparent,
-            unfocusedBorderColor = Color.Transparent,
-        )
-    )
+	ExpandTextField(
+		modifier = Modifier.fillMaxWidth(),
+		value = searchTerm,
+		label = "",
+		placeholder = placeHolder,
+		onValueChange = {
+			searchTerm = it
+			if (onValueChange != null) {
+				onValueChange(searchTerm)
+			}
+		},
+		leadingIcon = {
+			Image(
+				painter = painterResource(id = R.drawable.search),
+				contentDescription = null,
+				contentScale = ContentScale.Fit
+			)
+		},
+		colors = OutlinedTextFieldDefaults.colors(
+			focusedBorderColor = Color.Transparent,
+			unfocusedBorderColor = Color.Transparent,
+		)
+	)
 }

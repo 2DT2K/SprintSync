@@ -21,32 +21,32 @@ import com.sprintsync.ui.components.homepage.HomePageViews
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomePage() {
-    Scaffold(
-        topBar = {
-            HomeTopAppBar(title = "SprintSync")
-        },
-        bottomBar = {
-            BottomNavigation()
-        }
-    ) { innerPadding ->
-        Column(
-            Modifier
-                .padding(innerPadding)
-                .padding(16.dp)
-                .verticalScroll(rememberScrollState()),
-            verticalArrangement = Arrangement.spacedBy(20.dp, Alignment.Top),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            ) {
-            HomePageViews()
-            HomePageIssue()
+	Scaffold(
+		topBar = {
+			HomeTopAppBar(title = "SprintSync")
+		},
+		bottomBar = {
+			BottomNavigation()
+		}
+	) { innerPadding ->
+		Column(
+			Modifier
+				.padding(innerPadding)
+				.padding(16.dp)
+				.verticalScroll(rememberScrollState()),
+			verticalArrangement = Arrangement.spacedBy(20.dp, Alignment.Top),
+			horizontalAlignment = Alignment.CenterHorizontally,
+		) {
+			HomePageViews()
+			HomePageIssue()
 
-        }
-    }
+		}
+	}
 
 }
 
 @Preview
 @Composable
 fun HomePagePreview() {
-    HomePage()
+	HomePage()
 }

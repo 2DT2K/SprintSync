@@ -28,127 +28,127 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.sprintsync.ui.theme.SprintSyncTheme
-import java.util.Date
 import com.sprintsync.R
 import com.sprintsync.ui.components.CustomText
 import com.sprintsync.ui.components.SearchBar
 import com.sprintsync.ui.theme.Cyan80
 import com.sprintsync.ui.theme.Green80
+import com.sprintsync.ui.theme.SprintSyncTheme
 import com.sprintsync.ui.theme.Yellow80
+import java.util.Date
 
 data class Member(
-    val id: Int,
-    val name: String,
-    val email: String,
-    val password: String,
-    val dob: Date,
-    val role: String,
-    val teamName: String
+	val id: Int,
+	val name: String,
+	val email: String,
+	val password: String,
+	val dob: Date,
+	val role: String,
+	val teamName: String
 )
 
 data class RoleColor(
-    val uiUxDesigner: Color = Yellow80,
-    val beDeveloper: Color = Cyan80,
-    val feDeveloper: Color = Green80
+	val uiUxDesigner: Color = Yellow80,
+	val beDeveloper: Color = Cyan80,
+	val feDeveloper: Color = Green80
 )
 
 val memberList = listOf(
-    Member(1, "khoi", "khoi@gmail.com", "fadfa", Date(2003), "FE_developer", "SprintSync"),
-    Member(2, "khoi", "khoi@gmail.com", "fadfa", Date(2003), "BE_developer", "SprintSync"),
-    Member(3, "khoi", "khoi@gmail.com", "fadfa", Date(2003), "FE_developer", "SprintSync"),
-    Member(4, "khoi", "khoi@gmail.com", "fadfa", Date(2003), "BE_developer", "SprintSync"),
-    Member(5, "khoi", "khoi@gmail.com", "fadfa", Date(2003), "UI/UX_developer", "SprintSync"),
+	Member(1, "khoi", "khoi@gmail.com", "fadfa", Date(2003), "FE_developer", "SprintSync"),
+	Member(2, "khoi", "khoi@gmail.com", "fadfa", Date(2003), "BE_developer", "SprintSync"),
+	Member(3, "khoi", "khoi@gmail.com", "fadfa", Date(2003), "FE_developer", "SprintSync"),
+	Member(4, "khoi", "khoi@gmail.com", "fadfa", Date(2003), "BE_developer", "SprintSync"),
+	Member(5, "khoi", "khoi@gmail.com", "fadfa", Date(2003), "UI/UX_developer", "SprintSync"),
 )
 
 @Composable
 fun Member() {
-    var searchTerm by remember {
-        mutableStateOf("")
-    }
-    Surface {
-        Column(
-            modifier = Modifier
-                .verticalScroll(rememberScrollState())
-        ) {
-            SearchBar(placeHolder = "Search a member", onValueChange = { searchTerm = it })
-            memberList.forEach() { member ->
-                if (member.name.contains(searchTerm)) MemberCard(
-                    memberName = member.name,
-                    teamName = member.teamName,
-                    role = member.role,
-                )
-            }
-        }
-    }
+	var searchTerm by remember {
+		mutableStateOf("")
+	}
+	Surface {
+		Column(
+			modifier = Modifier
+				.verticalScroll(rememberScrollState())
+		) {
+			SearchBar(placeHolder = "Search a member", onValueChange = { searchTerm = it })
+			memberList.forEach() { member ->
+				if (member.name.contains(searchTerm)) MemberCard(
+					memberName = member.name,
+					teamName = member.teamName,
+					role = member.role,
+				)
+			}
+		}
+	}
 }
 
 @Composable
 fun MemberCard(
-    avatar: String = "",
-    memberName: String,
-    teamName: String,
-    role: String,
+	avatar: String = "",
+	memberName: String,
+	teamName: String,
+	role: String,
 ) {
-    var roleColor: Color = Color.Transparent
-    when (role) {
-        "FE_developer" -> roleColor = RoleColor().feDeveloper
-        "BE_developer" -> roleColor = RoleColor().beDeveloper
-        "UI/UX_developer" -> roleColor = RoleColor().uiUxDesigner
-    }
+	var roleColor: Color = Color.Transparent
+	when (role) {
+		"FE_developer"    -> roleColor = RoleColor().feDeveloper
+		"BE_developer"    -> roleColor = RoleColor().beDeveloper
+		"UI/UX_developer" -> roleColor = RoleColor().uiUxDesigner
+	}
 
-    Surface {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(56.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Row(
-                modifier = Modifier.weight(1f),
-                horizontalArrangement = Arrangement.spacedBy(16.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Icon(
-                    painter = painterResource(id = R.drawable.email),
-                    contentDescription = "avatar"
-                )
-                Column(
-                    verticalArrangement = Arrangement.spacedBy(4.dp, Alignment.CenterVertically),
-                    horizontalAlignment = Alignment.Start,
-                ) {
-                    CustomText(text = memberName)
-                    CustomText(
-                        text = teamName,
-                        fontWeight = FontWeight(500),
-                        color = Color(0xD95E4E79),
-                    )
-                }
-            }
-            Box(
-                modifier = Modifier
-                    .weight(0.8f)
-                    .padding(8.dp)
-                    .fillMaxHeight()
-                    .clip(shape = RoundedCornerShape(8.dp))
-                    .background(roleColor),
-                contentAlignment = Alignment.Center
-            ) {
-                CustomText(
-                    modifier = Modifier.padding(8.dp),
-                    text = role.replace("_", " "),
-                    textAlign = TextAlign.Center,
-                    color = Color.White
-                )
-            }
-        }
-    }
+	Surface {
+		Row(
+			modifier = Modifier
+				.fillMaxWidth()
+				.height(56.dp),
+			verticalAlignment = Alignment.CenterVertically
+		) {
+			Row(
+				modifier = Modifier.weight(1f),
+				horizontalArrangement = Arrangement.spacedBy(16.dp),
+				verticalAlignment = Alignment.CenterVertically
+			) {
+				Icon(
+					painter = painterResource(id = R.drawable.email),
+					contentDescription = "avatar"
+				)
+				Column(
+					verticalArrangement = Arrangement.spacedBy(4.dp, Alignment.CenterVertically),
+					horizontalAlignment = Alignment.Start,
+				) {
+					CustomText(text = memberName)
+					CustomText(
+						text = teamName,
+						fontWeight = FontWeight(500),
+						color = Color(0xD95E4E79),
+					)
+				}
+			}
+			Box(
+				modifier = Modifier
+					.weight(0.8f)
+					.padding(8.dp)
+					.fillMaxHeight()
+					.clip(shape = RoundedCornerShape(8.dp))
+					.background(roleColor),
+				contentAlignment = Alignment.Center
+			) {
+				CustomText(
+					modifier = Modifier.padding(8.dp),
+					text = role.replace("_", " "),
+					textAlign = TextAlign.Center,
+					color = Color.White
+				)
+			}
+		}
+	}
 }
 
 @Preview
 @Composable
 fun MemberPreview() {
-    SprintSyncTheme {
-        Member()
-    }
+	SprintSyncTheme {
+		Member()
+	}
 }

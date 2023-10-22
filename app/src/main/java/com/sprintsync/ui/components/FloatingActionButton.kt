@@ -29,85 +29,87 @@ import com.sprintsync.ui.theme.SprintSyncTheme
 
 @Composable
 fun CustomFloatingActionButton() {
-    FloatingActionButton(onClick = { }) {
-        Icon(Icons.Default.Add, contentDescription = "Create new project")
-    }
+	FloatingActionButton(onClick = { }) {
+		Icon(Icons.Default.Add, contentDescription = "Create new project")
+	}
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview
 @Composable
 fun PreviewFloatingActionButton() {
-    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = false)
-    val scope = rememberCoroutineScope()
-    var showBottomSheet by remember { mutableStateOf(true) }
-    SprintSyncTheme {
-        Scaffold(floatingActionButton = {
-            FloatingActionButton(onClick = { showBottomSheet = true }) {
+	val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = false)
+	val scope = rememberCoroutineScope()
+	var showBottomSheet by remember { mutableStateOf(true) }
+	SprintSyncTheme {
+		Scaffold(floatingActionButton = {
+			FloatingActionButton(onClick = { showBottomSheet = true }) {
 
-            }
-        }) { innerPadding ->
-            if (showBottomSheet) {
-                ModalBottomSheet(
-                    modifier = Modifier.heightIn(min = 200.dp, max = 1000.dp).padding(innerPadding),
-                    onDismissRequest = {
-                        showBottomSheet = false
-                    },
-                    sheetState = sheetState
-                ) {
-                    Column {
-                        CustomText(text = "Project name")
-                        ExpandTextField(
-                            label = "",
-                            placeholder = "Add a description",
-                            colors = OutlinedTextFieldDefaults.colors(
-                                focusedBorderColor = Color.Transparent,
-                                unfocusedBorderColor = Color.Transparent,
-                            )
-                        )
-                    }
-                    IconButton(onClick = { /*TODO*/ }) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.email),
-                            contentDescription = "create project"
-                        )
-                    }
-                    Column {
-                        CustomText(text = "Project name")
-                        ExpandTextField(
-                            label = "",
-                            placeholder = "Add a description",
-                            colors = OutlinedTextFieldDefaults.colors(
-                                focusedBorderColor = Color.Transparent,
-                                unfocusedBorderColor = Color.Transparent,
-                            )
-                        )
-                    }
-                    IconButton(onClick = { /*TODO*/ }) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.email),
-                            contentDescription = "create project"
-                        )
-                    }
-                    Column {
-                        CustomText(text = "Project name")
-                        ExpandTextField(
-                            label = "",
-                            placeholder = "Add a description",
-                            colors = OutlinedTextFieldDefaults.colors(
-                                focusedBorderColor = Color.Transparent,
-                                unfocusedBorderColor = Color.Transparent,
-                            )
-                        )
-                    }
-                    IconButton(onClick = { /*TODO*/ }) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.email),
-                            contentDescription = "create project"
-                        )
-                    }
-                }
-            }
-        }
-    }
+			}
+		}) { innerPadding ->
+			if (showBottomSheet) {
+				ModalBottomSheet(
+					modifier = Modifier
+						.heightIn(min = 200.dp, max = 1000.dp)
+						.padding(innerPadding),
+					onDismissRequest = {
+						showBottomSheet = false
+					},
+					sheetState = sheetState
+				) {
+					Column {
+						CustomText(text = "Project name")
+						ExpandTextField(
+							label = "",
+							placeholder = "Add a description",
+							colors = OutlinedTextFieldDefaults.colors(
+								focusedBorderColor = Color.Transparent,
+								unfocusedBorderColor = Color.Transparent,
+							)
+						)
+					}
+					IconButton(onClick = { /*TODO*/ }) {
+						Icon(
+							painter = painterResource(id = R.drawable.email),
+							contentDescription = "create project"
+						)
+					}
+					Column {
+						CustomText(text = "Project name")
+						ExpandTextField(
+							label = "",
+							placeholder = "Add a description",
+							colors = OutlinedTextFieldDefaults.colors(
+								focusedBorderColor = Color.Transparent,
+								unfocusedBorderColor = Color.Transparent,
+							)
+						)
+					}
+					IconButton(onClick = { /*TODO*/ }) {
+						Icon(
+							painter = painterResource(id = R.drawable.email),
+							contentDescription = "create project"
+						)
+					}
+					Column {
+						CustomText(text = "Project name")
+						ExpandTextField(
+							label = "",
+							placeholder = "Add a description",
+							colors = OutlinedTextFieldDefaults.colors(
+								focusedBorderColor = Color.Transparent,
+								unfocusedBorderColor = Color.Transparent,
+							)
+						)
+					}
+					IconButton(onClick = { /*TODO*/ }) {
+						Icon(
+							painter = painterResource(id = R.drawable.email),
+							contentDescription = "create project"
+						)
+					}
+				}
+			}
+		}
+	}
 }

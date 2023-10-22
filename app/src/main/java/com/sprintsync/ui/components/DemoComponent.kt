@@ -16,7 +16,9 @@ fun DemoComponent(demoViewModel: DemoViewModel = viewModel()) {
 	val name = demoViewModel.name.collectAsState()
 
 	fun randomizeName() {
-		val randomName = Random.nextLong().toString()
+		val randomName = Random
+			.nextLong()
+			.toString()
 		demoViewModel.onChangeName(randomName)
 	}
 

@@ -17,31 +17,31 @@ import androidx.compose.ui.unit.sp
 
 @Composable
 fun TaskProcess(title: String, color: Long) {
-    Box(
-        modifier = Modifier
-            .background(
-                color = Color(color),
-                shape = RoundedCornerShape(size = 4.dp)
-            )
-            .padding(start = 8.dp, top = 4.dp, bottom = 4.dp, end = 8.dp)
-    ) {
-        Text(
-            text = title,
-            style = TextStyle(
-                fontSize = 10.sp,
-                lineHeight = 12.sp,
-                fontWeight = FontWeight(500),
-                color = Color(0xFFFFFFFF),
-                textAlign = TextAlign.Center,
-                letterSpacing = 0.1.sp,
-            ),
-            maxLines = 1,
-        )
-    }
+	Box(
+		modifier = Modifier
+			.background(
+				color = Color(color),
+				shape = RoundedCornerShape(size = 4.dp)
+			)
+			.padding(start = 8.dp, top = 4.dp, bottom = 4.dp, end = 8.dp)
+	) {
+		Text(
+			text = title,
+			style = TextStyle(
+				fontSize = 10.sp,
+				lineHeight = 12.sp,
+				fontWeight = FontWeight(500),
+				color = Color(0xFFFFFFFF),
+				textAlign = TextAlign.Center,
+				letterSpacing = 0.1.sp,
+			),
+			maxLines = 1,
+		)
+	}
 }
 
 @Preview(showBackground = true)
 @Composable
 fun TaskProcesspreview() {
-    TaskProcess(title = "In Progress", color = 0xFFF7C84F)
+	TaskProcess(title = "In Progress", color = 0xFFF7C84F)
 }
