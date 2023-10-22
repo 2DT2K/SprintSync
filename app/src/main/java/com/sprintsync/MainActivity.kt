@@ -114,10 +114,8 @@ fun MainContent() {
 					scope.launch {
 						authenticator
 							.signUp(email, password)
-							.let {
-								viewModel.update(it)
-								navController.navigate("profile")
-							}
+							.let { viewModel.update(it) }
+						navController.navigate("sign_in")
 					}
 				},
 				signIn = { navController.popBackStack() }
@@ -129,9 +127,9 @@ fun MainContent() {
 				data = authenticator.signedInUser,
 				signOut = {
 					scope.launch {
+						viewModel.reset()
 						authenticator.signOut()
 						navController.navigate("sign_in")
-						viewModel.reset()
 					}
 				},
 				verifyEmail = {

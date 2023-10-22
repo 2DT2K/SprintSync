@@ -101,7 +101,7 @@ fun SignUp(
 			onClick = { signUpWithPassword(email, password) },
 			enabled = email.isNotEmpty() && password.isNotEmpty() && password == confirmPassword
 		) {
-			Text(text = "SIGN IN")
+			Text(text = "SIGN UP")
 		}
 
 		Row(
