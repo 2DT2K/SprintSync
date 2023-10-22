@@ -88,8 +88,7 @@ fun LogInScreen(modifier: Modifier = Modifier) {
                 }
             }
             Column(
-                modifier = Modifier
-                    .wrapContentHeight(),
+                modifier = Modifier.wrapContentHeight(),
                 verticalArrangement = Arrangement.spacedBy(20.dp)
             ) {
                 ExpandTextField(
@@ -126,10 +125,12 @@ fun LogInScreen(modifier: Modifier = Modifier) {
                     }
                 )
                 Box(
-                    modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.BottomEnd
+                    modifier = Modifier.fillMaxWidth(),
+                    contentAlignment = Alignment.BottomEnd
                 ) {
                     Text(
-                        modifier = Modifier.clickable(interactionSource = MutableInteractionSource(),
+                        modifier = Modifier.clickable(
+                            interactionSource = MutableInteractionSource(),
                             indication = rememberRipple(
                                 bounded = true,
                                 radius = 250.dp
@@ -159,7 +160,8 @@ fun LogInScreen(modifier: Modifier = Modifier) {
                         text = "Login",
                         surfaceModifier = Modifier.fillMaxWidth()
                     )
-                    Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+                    Row(Modifier.fillMaxWidth(),
+                        verticalAlignment = Alignment.CenterVertically) {
                         Box(
                             modifier = Modifier
                                 .height(2.dp)
@@ -196,7 +198,7 @@ fun LogInScreen(modifier: Modifier = Modifier) {
                                 .weight(1f),
                             icon = {
                                 Image(
-                                    painter = painterResource(id = R.drawable.google),
+                                    painter = painterResource(id = R.drawable.google_icon),
                                     contentDescription = null,
                                     contentScale = ContentScale.Fit
                                 )
