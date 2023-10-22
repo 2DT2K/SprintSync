@@ -1,4 +1,4 @@
-package com.sprintsync.ui.views.login
+package com.sprintsync.ui.views.auth
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background

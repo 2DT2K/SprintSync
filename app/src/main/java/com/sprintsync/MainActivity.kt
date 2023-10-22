@@ -23,10 +23,6 @@ import com.sprintsync.ui.theme.SprintSyncTheme
 import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
-	private val authenticator by lazy {
-		Authenticator(context = applicationContext)
-	}
-
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		setContent {
@@ -95,18 +91,55 @@ fun MainContent() {
 								)
 							}
 					}
-				}
+				},
+				resetPassword = { navController.navigate("reset_password") },
+				signUp = { navController.navigate("sign_up") }
+			)
+		}
+
+		composable("reset_password") {
+			ResetPassword(
+				resetPassword = { email ->
+					scope.launch {
+						authenticator.resetPassword(email)
+					}
+				},
+				back = { navController.popBackStack() }
+			)
+		}
+
+		composable("sign_up") {
+			SignUp(
+				signUpWithPassword = { email, password ->
+					scope.launch {
+						authenticator
+							.signUp(email, password)
+							.let {
+								viewModel.update(it)
+								navController.navigate("profile")
+							}
+					}
+				},
+				signIn = { navController.popBackStack() }
 			)
 		}
 
 		composable("profile") {
-			Profile(authenticator.signedInUser) {
-				scope.launch {
-					authenticator.signOut()
-					navController.popBackStack()
-					viewModel.reset()
+			Profile(
+				data = authenticator.signedInUser,
+				signOut = {
+					scope.launch {
+						authenticator.signOut()
+						navController.navigate("sign_in")
+						viewModel.reset()
+					}
+				},
+				verifyEmail = {
+					scope.launch {
+						authenticator.verifyEmail()
+					}
 				}
-			}
+			)
 		}
 	}
 }

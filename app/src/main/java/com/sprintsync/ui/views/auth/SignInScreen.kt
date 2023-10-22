@@ -1,4 +1,4 @@
-package com.sprintsync.ui.views.login
+package com.sprintsync.ui.views.auth
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -15,10 +15,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredSize
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material.ripple.rememberRipple
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -43,12 +45,12 @@ import com.sprintsync.ui.theme.Red80
 import com.sprintsync.ui.theme.SprintSyncTheme
 
 @Composable
-fun LogInScreen(modifier: Modifier = Modifier) {
-	Surface() {
+fun SignInScreen(modifier: Modifier = Modifier) {
+	Surface {
 		Column(
 			modifier = Modifier
 				.fillMaxSize()
-				.padding(start = 24.dp, end = 24.dp)
+				.padding(horizontal = 24.dp)
 		) {
 			Box(
 				modifier = Modifier
@@ -60,8 +62,7 @@ fun LogInScreen(modifier: Modifier = Modifier) {
 				Image(
 					painter = painterResource(id = R.drawable.logo),
 					contentDescription = "LOGO",
-					modifier = modifier
-						.requiredSize(240.dp)
+					modifier = modifier.requiredSize(240.dp)
 				)
 			}
 			Box(
@@ -171,13 +172,13 @@ fun LogInScreen(modifier: Modifier = Modifier) {
 								.background(Purple40)
 						)
 						ClickableText(
-							text = AnnotatedString("Show replies"),
-							onClick = {},
 							modifier = Modifier.weight(1f),
+							text = AnnotatedString("Or continue with"),
 							style = TextStyle(
 								textAlign = TextAlign.Center,
 								color = Purple40
 							),
+							onClick = { /*TODO*/ },
 						)
 						Box(
 							modifier = Modifier
@@ -196,31 +197,17 @@ fun LogInScreen(modifier: Modifier = Modifier) {
 							type = "outlined",
 							text = "Google",
 							modifier = Modifier.fillMaxWidth(),
-							surfaceModifier = Modifier
-								.weight(1f),
+							surfaceModifier = Modifier.weight(1f),
 							icon = {
 								Image(
-									painter = painterResource(id = R.drawable.google_icon),
+									modifier = Modifier.size(ButtonDefaults.IconSize),
+									painter = painterResource(id = R.drawable.google),
 									contentDescription = null,
 									contentScale = ContentScale.Fit
 								)
 							}
 						)
 
-						CustomButton(
-							type = "outlined",
-							text = "Phone",
-							modifier = Modifier.fillMaxWidth(),
-							surfaceModifier = Modifier
-								.weight(1f),
-							icon = {
-								Image(
-									painter = painterResource(id = R.drawable.phone),
-									contentDescription = null,
-									contentScale = ContentScale.Fit
-								)
-							}
-						)
 					}
 				}
 			}
@@ -258,6 +245,6 @@ fun LogInScreen(modifier: Modifier = Modifier) {
 @Composable
 private fun LoginPreview() {
 	SprintSyncTheme {
-		LogInScreen(Modifier)
+		SignInScreen(Modifier)
 	}
 }

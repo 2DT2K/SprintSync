@@ -11,8 +11,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
 import com.sprintsync.ui.view_models.ProjectViewViewModel
-import com.sprintsync.ui.views.login.LogInScreen
-import com.sprintsync.ui.views.login.SignUpScreen
+import com.sprintsync.ui.views.auth.SignInScreen
+import com.sprintsync.ui.views.auth.SignUpScreen
 import com.sprintsync.ui.views.project_view.DetailProject
 import com.sprintsync.ui.views.project_view.ProjectList
 
@@ -39,7 +39,7 @@ fun SprintSyncApp() {
 fun NavGraphBuilder.loginGraph(navController: NavController) {
 	navigation(startDestination = "username", route = "login") {
 		composable("username") {
-			LogInScreen()
+			SignInScreen()
 
 		}
 		composable("registration") {

@@ -39,6 +39,22 @@ class Authenticator(context: Context) {
 			.build()
 
 	//	<--- Authenticate using Password-Based Account --->
+	suspend fun signUp(email: String, password: String): AuthState {
+		return try {
+			AuthState(
+				signedIn = auth
+					.createUserWithEmailAndPassword(email, password)
+					.await()
+					.user != null
+			)
+		}
+		catch (e: Exception) {
+			Log.e("Password Auth", "Failed to sign up", e)
+			if (e is CancellationException) throw e
+			AuthState(errorMessage = e.message)
+		}
+	}
+
 	suspend fun signIn(email: String, password: String): AuthState {
 		return try {
 			AuthState(
@@ -52,6 +68,18 @@ class Authenticator(context: Context) {
 			Log.e("Password Auth", "Failed to sign in", e)
 			if (e is CancellationException) throw e
 			AuthState(errorMessage = e.message)
+		}
+	}
+
+	suspend fun resetPassword(email: String) {
+		try {
+			auth
+				.sendPasswordResetEmail(email)
+				.await()
+		}
+		catch (e: Exception) {
+			Log.e("Password Auth", "Failed to reset password", e)
+			if (e is CancellationException) throw e
 		}
 	}
 
@@ -84,6 +112,20 @@ class Authenticator(context: Context) {
 			Log.e("Google Auth", "Failed to sign in with intent", e)
 			if (e is CancellationException) throw e
 			AuthState(errorMessage = e.message)
+		}
+	}
+
+	//	<--- Verify Email --->
+	suspend fun verifyEmail() {
+		try {
+			auth
+				.currentUser
+				?.sendEmailVerification()
+				?.await()
+		}
+		catch (e: Exception) {
+			Log.e("Email Auth", "Failed to verify email", e)
+			if (e is CancellationException) throw e
 		}
 	}
 
