@@ -20,7 +20,7 @@ import coil.compose.AsyncImage
 import com.sprintsync.auth.UserData
 
 @Composable
-fun ProfileScreen(
+fun Profile(
 	data: UserData?,
 	signOut: () -> Unit
 ) {
@@ -45,7 +45,7 @@ fun ProfileScreen(
 			fontSize = 32.sp
 		)
 		Text(
-			text = data?.userName ?: "Anonymous",
+			text = data?.name ?: "Anonymous",
 			fontSize = 32.sp
 		)
 
