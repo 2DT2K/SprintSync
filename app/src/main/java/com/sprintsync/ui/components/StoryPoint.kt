@@ -18,6 +18,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -27,20 +28,20 @@ import com.sprintsync.ui.theme.Grey80
 import com.sprintsync.ui.theme.SprintSyncTheme
 
 @Composable
-fun StoryPoint(point: Int, modifier: Modifier = Modifier) {
+fun StoryPoint(point: Int, color: Color = Grey80) {
     Box(
-        modifier = modifier
+        modifier = Modifier
             .padding(0.dp)
             .background(
-                color = Grey80,
-                shape = RoundedCornerShape(size = 8.dp)
+                color = color,
+                shape = RoundedCornerShape(size = 16.dp)
             )
-            .padding(start = 4.dp, end = 4.dp),
+            .padding(start = 8.dp, end = 8.dp, top = 4.dp, bottom = 4.dp),
         contentAlignment = Alignment.Center
     ) {
         CustomText(
             text = point.toString(),
-            fontSize = 13.sp,
+            fontSize = 10.sp,
             fontWeight = FontWeight(400),
         )
     }

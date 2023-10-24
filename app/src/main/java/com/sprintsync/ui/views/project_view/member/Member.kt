@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -33,8 +34,11 @@ import java.util.Date
 import com.sprintsync.R
 import com.sprintsync.ui.components.CustomText
 import com.sprintsync.ui.components.SearchBar
+import com.sprintsync.ui.components.member.MemberCard
 import com.sprintsync.ui.theme.Cyan80
 import com.sprintsync.ui.theme.Green80
+import com.sprintsync.ui.theme.Grey40
+import com.sprintsync.ui.theme.Grey60
 import com.sprintsync.ui.theme.Yellow80
 
 data class Member(
@@ -73,73 +77,12 @@ fun Member() {
         ) {
             SearchBar(placeHolder = "Search a member", onValueChange = { searchTerm = it })
             memberList.forEach() { member ->
-                if (member.name.contains(searchTerm)) MemberCard(
-                    memberName = member.name,
-                    teamName = member.teamName,
-                    role = member.role,
-                )
-            }
-        }
-    }
-}
-
-@Composable
-fun MemberCard(
-    avatar: String = "",
-    memberName: String,
-    teamName: String,
-    role: String,
-) {
-    var roleColor: Color = Color.Transparent
-    when (role) {
-        "FE_developer" -> roleColor = RoleColor().feDeveloper
-        "BE_developer" -> roleColor = RoleColor().beDeveloper
-        "UI/UX_developer" -> roleColor = RoleColor().uiUxDesigner
-    }
-
-    Surface {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(56.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Row(
-                modifier = Modifier.weight(1f),
-                horizontalArrangement = Arrangement.spacedBy(16.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Icon(
-                    painter = painterResource(id = R.drawable.email),
-                    contentDescription = "avatar"
-                )
-                Column(
-                    verticalArrangement = Arrangement.spacedBy(4.dp, Alignment.CenterVertically),
-                    horizontalAlignment = Alignment.Start,
-                ) {
-                    CustomText(text = memberName)
-                    CustomText(
-                        text = teamName,
-                        fontWeight = FontWeight(500),
-                        color = Color(0xD95E4E79),
+                if (member.name.contains(searchTerm))
+                    MemberCard(
+                        memberName = member.name,
+                        teamName = member.teamName,
+                        role = member.role,
                     )
-                }
-            }
-            Box(
-                modifier = Modifier
-                    .weight(0.8f)
-                    .padding(8.dp)
-                    .fillMaxHeight()
-                    .clip(shape = RoundedCornerShape(8.dp))
-                    .background(roleColor),
-                contentAlignment = Alignment.Center
-            ) {
-                CustomText(
-                    modifier = Modifier.padding(8.dp),
-                    text = role.replace("_", " "),
-                    textAlign = TextAlign.Center,
-                    color = Color.White
-                )
             }
         }
     }

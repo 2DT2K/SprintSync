@@ -24,7 +24,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sprintsync.R
 import com.sprintsync.ui.components.CustomButton
+import com.sprintsync.ui.components.CustomText
 import com.sprintsync.ui.components.CustomTextField
+import com.sprintsync.ui.components.authentication.Email
+import com.sprintsync.ui.components.authentication.Password
+import com.sprintsync.ui.components.authentication.SignInButtonGroup
+import com.sprintsync.ui.components.authentication.Title
 import com.sprintsync.ui.theme.Grey40
 import com.sprintsync.ui.theme.Purple40
 import com.sprintsync.ui.theme.Red80
@@ -38,6 +43,7 @@ fun LogInScreen(modifier: Modifier = Modifier) {
                 .fillMaxSize()
                 .padding(start = 24.dp, end = 24.dp)
         ) {
+
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -52,67 +58,26 @@ fun LogInScreen(modifier: Modifier = Modifier) {
                         .requiredSize(240.dp)
                 )
             }
+
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
                     .weight(0.5f)
             ) {
-                Column {
-                    Text(
-                        text = "Hi, Welcome Back! ",
-                        style = TextStyle(
-                            fontSize = 24.sp,
-                            color = Purple40,
-                            fontWeight = FontWeight(800),
-                        ),
-                    )
-                    Text(
-                        text = "Hello again, we missed you <3",
-                        style = TextStyle(
-                            fontSize = 16.sp,
-                            color = Grey40
-                        ),
-                    )
-                }
+                Title(
+                    "Hi, Welcome Back! ",
+                    "Hello again, we missed you <3"
+                )
             }
             Column(
                 modifier = Modifier
                     .wrapContentHeight(),
                 verticalArrangement = Arrangement.spacedBy(20.dp)
             ) {
-                CustomTextField(
-                    label = "Email",
-                    placeholder = "Please Enter Your Email",
-                    modifier = Modifier.fillMaxWidth(),
-                    leadingIcon = {
-                        Image(
-                            painter = painterResource(id = R.drawable.email),
-                            contentDescription = null,
-                            contentScale = ContentScale.Fit
-                        )
-                    }
-                )
 
-                CustomTextField(
-                    type = "hidden",
-                    label = "Password",
-                    placeholder = "Please Enter Your Password",
-                    modifier = Modifier.fillMaxWidth(),
-                    leadingIcon = {
-                        Image(
-                            painter = painterResource(id = R.drawable.key),
-                            contentDescription = null,
-                            contentScale = ContentScale.Fit
-                        )
-                    },
-                    trailingIcon = {
-                        Image(
-                            painter = painterResource(id = R.drawable.visibility),
-                            contentDescription = null,
-                            contentScale = ContentScale.Fit
-                        )
-                    }
-                )
+                Email()
+                Password()
+
                 Box(
                     modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.BottomEnd
                 ) {
@@ -129,6 +94,7 @@ fun LogInScreen(modifier: Modifier = Modifier) {
                     )
                 }
             }
+
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -136,78 +102,9 @@ fun LogInScreen(modifier: Modifier = Modifier) {
                 verticalArrangement = Arrangement.Bottom,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    verticalArrangement = Arrangement.spacedBy(20.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    CustomButton(
-                        type = "filled",
-                        text = "Login",
-                        surfaceModifier = Modifier.fillMaxWidth()
-                    )
-                    Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-                        Box(
-                            modifier = Modifier
-                                .height(2.dp)
-                                .weight(1f)
-                                .background(Purple40)
-                        ) {}
-                        ClickableText(
-                            text = AnnotatedString("Show replies"),
-                            onClick = {},
-                            modifier = Modifier.weight(1f),
-                            style = TextStyle(
-                                textAlign = TextAlign.Center,
-                                color = Purple40
-                            ),
-                        )
-                        Box(
-                            modifier = Modifier
-                                .height(2.dp)
-                                .weight(1f)
-                                .background(Purple40)
-                        ) {}
-                    }
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .wrapContentHeight(),
-                        horizontalArrangement = Arrangement.spacedBy(20.dp)
-                    ) {
-                        CustomButton(
-                            type = "outlined",
-                            text = "Google",
-                            modifier = Modifier.fillMaxWidth(),
-                            surfaceModifier = Modifier
-                                .weight(1f),
-                            icon = {
-                                Image(
-                                    painter = painterResource(id = R.drawable.google),
-                                    contentDescription = null,
-                                    contentScale = ContentScale.Fit
-                                )
-                            }
-                        )
-
-                        CustomButton(
-                            type = "outlined",
-                            text = "Phone",
-                            modifier = Modifier.fillMaxWidth(),
-                            surfaceModifier = Modifier
-                                .weight(1f),
-                            icon = {
-                                Image(
-                                    painter = painterResource(id = R.drawable.phone),
-                                    contentDescription = null,
-                                    contentScale = ContentScale.Fit
-                                )
-                            }
-                        )
-                    }
-                }
+                SignInButtonGroup()
             }
+
             Row(
                 modifier = Modifier
                     .fillMaxSize()
@@ -215,9 +112,14 @@ fun LogInScreen(modifier: Modifier = Modifier) {
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Center
             ) {
-                Text(text = "Don't have an account?")
+                CustomText(
+                    text = "Don't have an account?",
+                    color = Grey40
+                )
+
                 Spacer(modifier = Modifier.width(5.dp))
-                Text(
+
+                CustomText(
                     modifier = Modifier.clickable(interactionSource = MutableInteractionSource(),
                         indication = rememberRipple(
                             bounded = true,
@@ -226,11 +128,8 @@ fun LogInScreen(modifier: Modifier = Modifier) {
                         onClick = {}
                     ),
                     text = "Sign Up",
-                    style = TextStyle(
-                        fontSize = 14.sp,
-                        fontWeight = FontWeight(400),
-                        color = Color(0xFF160062),
-                    )
+                    color = Purple40,
+                    fontWeight = FontWeight.Bold
                 )
             }
         }
@@ -239,7 +138,7 @@ fun LogInScreen(modifier: Modifier = Modifier) {
 
 @Preview(showBackground = true)
 @Composable
-private fun LoginPreview() {
+fun LoginPreview() {
     SprintSyncTheme {
         LogInScreen(Modifier)
     }
