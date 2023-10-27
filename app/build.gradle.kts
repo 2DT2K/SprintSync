@@ -51,6 +51,8 @@ android {
 
 dependencies {
 
+	implementation("androidx.navigation:navigation-compose:2.7.4")
+	implementation("androidx.compose.material:material:1.5.4")
 	implementation("androidx.core:core-ktx:1.9.0")
 	implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
 	implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
@@ -73,6 +75,7 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-tooling")
 	debugImplementation("androidx.compose.ui:ui-test-manifest")
 	implementation ("androidx.compose.ui:ui-util:1.3.3")
+	implementation("com.fasterxml.jackson.core:jackson-databind:2.0.1")
 
 //	VICO Chart
 	dependencies {

@@ -34,6 +34,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.sprintsync.R
 import com.sprintsync.ui.components.CustomButton
 import com.sprintsync.ui.components.ExpandTextField
@@ -43,7 +44,7 @@ import com.sprintsync.ui.theme.Red80
 import com.sprintsync.ui.theme.SprintSyncTheme
 
 @Composable
-fun LogInScreen(modifier: Modifier = Modifier) {
+fun LogInScreen(modifier: Modifier = Modifier, navController: NavController? = null) {
     Surface() {
         Column(
             modifier = Modifier
@@ -235,7 +236,7 @@ fun LogInScreen(modifier: Modifier = Modifier) {
                             bounded = true,
                             radius = 250.dp
                         ),
-                        onClick = {}
+                        onClick = { navController?.navigate("signup") }
                     ),
                     text = "Sign Up",
                     style = TextStyle(

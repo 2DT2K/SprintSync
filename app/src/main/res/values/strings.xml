@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">SprintSync</string>
     <string name="title_activity_menu_top_bar">MenuTopBar</string>
+    <string name="home">Home</string>
+    <string name="project">Project</string>
+    <string name="calendar">Calendar</string>
+    <string name="profile">Profile</string>
 </resources>
