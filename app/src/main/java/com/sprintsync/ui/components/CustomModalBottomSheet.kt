@@ -1,9 +1,11 @@
 package com.sprintsync.ui.components
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.windowInsetsBottomHeight
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -23,28 +25,27 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun CustomModalBottomSheet(
     isSheetShown: Boolean,
-    sheetContent: @Composable() (() -> Unit)
+    changeVisibility: (Boolean) -> Unit,
+    sheetContent: @Composable() (ColumnScope.() -> Unit),
 ) {
-    var showBottomSheet by remember { mutableStateOf(isSheetShown) }
     val sheetState = rememberModalBottomSheetState()
     val scope = rememberCoroutineScope()
 
-    if (showBottomSheet) {
+    Log.d("fdsa", "works")
+    if (isSheetShown) {
         ModalBottomSheet(
             onDismissRequest = {
-                showBottomSheet = false
+                changeVisibility(false)
             },
             sheetState = sheetState,
             windowInsets = WindowInsets(0),
         ) {
 
-            sheetContent
+            sheetContent()
 
             Spacer(
                 Modifier
-                    .background(Color.Transparent)
-                    .fillMaxWidth()
-                    .windowInsetsBottomHeight(WindowInsets(bottom = 40.dp))
+                    .windowInsetsBottomHeight(WindowInsets(bottom = 64.dp))
             )
         }
     }

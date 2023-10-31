@@ -31,7 +31,6 @@ import com.sprintsync.ui.view_models.BacklogViewModel
 fun SprintCard(sprint: BacklogViewModel.Sprint, isActive: Boolean = false) {
     var isOpen by remember { mutableStateOf(false) }
     var isSprintStatusExpanded by remember { mutableStateOf(false) }
-    var isCreateTaskExpanded by remember { mutableStateOf(false) }
 
     Column(
         modifier = Modifier
@@ -133,7 +132,7 @@ fun SprintCard(sprint: BacklogViewModel.Sprint, isActive: Boolean = false) {
 
                     Spacer(modifier = Modifier.weight(1f))
 
-                    TaskComposer(isCreateTaskExpanded)
+                    TaskComposer()
                 }
             }
         }

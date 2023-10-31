@@ -61,16 +61,14 @@ fun CustomTextField(
                 value = text,
                 onValueChange = {
                     text = it
-                    if (onValueChange != null) {
-                        onValueChange(it)
-                    }
+                    onValueChange?.invoke(it)
                 },
                 leadingIcon = leadingIcon,
                 trailingIcon =
                 if (trailingIcon != null) {
                     {
-                        IconButton(onClick = { passwordVisible = !passwordVisible!! }) {
-                            if (passwordVisible == true) trailingIcon()
+                        IconButton(onClick = { passwordVisible = !passwordVisible }) {
+                            if (passwordVisible) trailingIcon()
                             else Icon(
                                 painter = painterResource(id = R.drawable.invisibility),
                                 contentDescription = null,
@@ -91,8 +89,7 @@ fun CustomTextField(
                     )
                 },
                 visualTransformation = if (text.isEmpty())
-                    PlaceholderTransformation(placeholder) else if (passwordVisible != null &&
-                    passwordVisible == false
+                    PlaceholderTransformation(placeholder) else if (!passwordVisible
                 ) PasswordVisualTransformation() else VisualTransformation.None,
                 maxLines = 1,
                 shape = RoundedCornerShape(16),

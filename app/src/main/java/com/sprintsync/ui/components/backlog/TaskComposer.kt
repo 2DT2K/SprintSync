@@ -41,8 +41,8 @@ import com.sprintsync.ui.components.CustomText
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TaskComposer(isExpanded: Boolean) {
-    var showBottomSheet by remember { mutableStateOf(isExpanded) }
+fun TaskComposer() {
+    var showBottomSheet by remember { mutableStateOf(false) }
 
     Box(modifier = Modifier) {
         Image(
@@ -51,8 +51,11 @@ fun TaskComposer(isExpanded: Boolean) {
             contentDescription = "attach file icon"
         )
 
-        CustomModalBottomSheet(isSheetShown = showBottomSheet) {
+        CustomModalBottomSheet(
+            isSheetShown = showBottomSheet,
+            changeVisibility = { showBottomSheet = it }) {
             Column(
+                modifier = Modifier.padding(start = 10.dp),
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 CustomText(text = "Create issue with attachment")
