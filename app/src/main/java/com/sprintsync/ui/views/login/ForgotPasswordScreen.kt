@@ -140,7 +140,7 @@ fun ForgotPasswordScreen() {
                     modifier = Modifier
                         .width(176.dp)
                         .height(56.dp),
-                    shape = RoundedCornerShape(30),
+                    shape = RoundedCornerShape(40),
                     onClick = {},
                     colors = ButtonDefaults.buttonColors(containerColor = Purple40)
                 ) {

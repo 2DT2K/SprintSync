@@ -2,6 +2,7 @@ package com.sprintsync.ui.components.authentication
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -13,13 +14,12 @@ import com.sprintsync.ui.components.CustomTextField
 fun Email(){
     CustomTextField(
         label = "Email",
-        placeholder = "Please Enter Your Email",
+        placeholder = "Enter Your Email",
         modifier = Modifier.fillMaxWidth(),
         leadingIcon = {
-            Image(
+            Icon(
                 painter = painterResource(id = R.drawable.email),
                 contentDescription = null,
-                contentScale = ContentScale.Fit
             )
         }
     )

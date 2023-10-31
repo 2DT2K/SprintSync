@@ -31,6 +31,7 @@ import com.sprintsync.ui.components.authentication.Password
 import com.sprintsync.ui.components.authentication.SignInButtonGroup
 import com.sprintsync.ui.components.authentication.Title
 import com.sprintsync.ui.theme.Grey40
+import com.sprintsync.ui.theme.Grey80
 import com.sprintsync.ui.theme.Purple40
 import com.sprintsync.ui.theme.Red80
 import com.sprintsync.ui.theme.SprintSyncTheme
@@ -80,19 +81,28 @@ fun LogInScreen(modifier: Modifier = Modifier) {
                 Password()
 
                 Box(
-                    modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.BottomEnd
-                ) {
-                    Text(
-                        modifier = Modifier.clickable(interactionSource = MutableInteractionSource(),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable(interactionSource = MutableInteractionSource(),
                             indication = rememberRipple(
                                 bounded = true,
                                 radius = 250.dp
                             ),
                             onClick = {}
-                        ),
-                        text = "Forgot Password",
-                        color = Red80
-                    )
+                        ), contentAlignment = Alignment.BottomEnd
+                ) {
+                    Row {
+                        Text(
+                            text = "Forgot Password?",
+                            color = Grey40
+                        )
+                        Spacer(modifier = Modifier.width(4.dp))
+                        Text(
+                            text = "Reset",
+                            color = Red80,
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
                 }
             }
 

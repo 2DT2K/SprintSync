@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -17,6 +18,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.sprintsync.R
 import com.sprintsync.ui.components.CustomButton
 import com.sprintsync.ui.components.CustomText
@@ -34,7 +36,10 @@ fun SignInButtonGroup() {
         CustomButton(
             type = "filled",
             text = "Login",
-            surfaceModifier = Modifier.fillMaxWidth()
+            fontSize = 18.sp,
+            surfaceModifier = Modifier
+                .fillMaxWidth()
+                .height(48.dp)
         )
         Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
             Box(
@@ -69,29 +74,14 @@ fun SignInButtonGroup() {
             CustomButton(
                 type = "outlined",
                 text = "Google",
+                fontSize = 18.sp,
                 modifier = Modifier.fillMaxWidth(),
                 surfaceModifier = Modifier
-                    .weight(1f),
+                    .height(48.dp),
                 icon = {
-                    Image(
+                    Icon(
                         painter = painterResource(id = R.drawable.google),
                         contentDescription = null,
-                        contentScale = ContentScale.Fit
-                    )
-                }
-            )
-
-            CustomButton(
-                type = "outlined",
-                text = "Phone",
-                modifier = Modifier.fillMaxWidth(),
-                surfaceModifier = Modifier
-                    .weight(1f),
-                icon = {
-                    Image(
-                        painter = painterResource(id = R.drawable.phone),
-                        contentDescription = null,
-                        contentScale = ContentScale.Fit
                     )
                 }
             )
