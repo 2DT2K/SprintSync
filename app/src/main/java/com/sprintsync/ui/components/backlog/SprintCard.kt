@@ -107,8 +107,13 @@ fun SprintCard(sprint: BacklogViewModel.Sprint, isActive: Boolean = false) {
             }
         }
 
-        Column(modifier = Modifier.padding(8.dp)) {
-            if (isOpen) {
+        if (isOpen) {
+            Column(
+                modifier = Modifier.padding(
+                    start = 8.dp,
+                    end = 8.dp
+                )
+            ) {
                 sprint.task.forEach { task ->
                     TaskCard(task = task)
                 }

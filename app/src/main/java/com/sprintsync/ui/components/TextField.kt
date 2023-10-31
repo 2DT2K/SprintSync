@@ -89,8 +89,9 @@ fun CustomTextField(
                     )
                 },
                 visualTransformation = if (text.isEmpty())
-                    PlaceholderTransformation(placeholder) else if (!passwordVisible
-                ) PasswordVisualTransformation() else VisualTransformation.None,
+                    PlaceholderTransformation(placeholder)
+                else if (!passwordVisible) PasswordVisualTransformation()
+                else VisualTransformation.None,
                 maxLines = 1,
                 shape = RoundedCornerShape(16),
                 colors = colors,

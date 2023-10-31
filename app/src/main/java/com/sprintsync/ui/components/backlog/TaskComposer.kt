@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
@@ -33,11 +34,17 @@ import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.sprintsync.R
 import com.sprintsync.ui.components.CustomModalBottomSheet
 import com.sprintsync.ui.components.CustomText
+import com.sprintsync.ui.theme.Grey40
+import com.sprintsync.ui.theme.Grey80
+import com.sprintsync.ui.theme.Purple20
+import com.sprintsync.ui.theme.Purple40
+import com.sprintsync.ui.theme.Purple80
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -56,33 +63,64 @@ fun TaskComposer() {
             changeVisibility = { showBottomSheet = it }) {
             Column(
                 modifier = Modifier.padding(start = 10.dp),
-                verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                CustomText(text = "Create issue with attachment")
+                CustomText(
+                    text = "Create issue with attachment",
+                    color = Purple20,
+                    fontWeight = FontWeight.Bold
+                )
+
+                Spacer(modifier = Modifier.height(8.dp))
 
                 Row(
-                    horizontalArrangement = Arrangement.spacedBy(16.dp)
+                    modifier = Modifier
+                        .clickable { }
+                        .padding(
+                            start = 8.dp,
+                            top = 16.dp,
+                            bottom = 16.dp
+                        )
+                        .fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(16.dp),
                 ) {
                     Icon(
                         painter = painterResource(id = R.drawable.camera),
-                        contentDescription = "take photo"
+                        contentDescription = "take photo",
+                        tint = Purple40
                     )
 
                     CustomText(text = "Take photo")
                 }
 
                 Row(
+                    modifier = Modifier
+                        .clickable { }
+                        .padding(
+                            start = 8.dp,
+                            top = 16.dp,
+                            bottom = 16.dp
+                        )
+                        .fillMaxWidth(),
                     horizontalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
                     Icon(
                         painter = painterResource(id = R.drawable.videocam),
-                        contentDescription = "Record video"
+                        contentDescription = "Record video",
+                        tint = Purple40
                     )
 
                     CustomText(text = "Record video")
                 }
 
                 Row(
+                    modifier = Modifier
+                        .clickable { }
+                        .padding(
+                            start = 8.dp,
+                            top = 16.dp,
+                            bottom = 16.dp
+                        )
+                        .fillMaxWidth(),
                     horizontalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
                     Icon(
@@ -91,7 +129,8 @@ fun TaskComposer() {
                             .width(24.dp)
                             .scale(1.5f),
                         painter = painterResource(id = R.drawable.attach_file_icon),
-                        contentDescription = "Choose file"
+                        contentDescription = "Choose file",
+                        tint = Purple40
                     )
 
                     CustomText(text = "Choose file")
