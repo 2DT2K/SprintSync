@@ -107,32 +107,34 @@ fun SprintCard(sprint: BacklogViewModel.Sprint, isActive: Boolean = false) {
             }
         }
 
-        if (isOpen) {
-            sprint.task.forEach { task ->
-                TaskCard(task = task)
-            }
+        Column(modifier = Modifier.padding(8.dp)) {
+            if (isOpen) {
+                sprint.task.forEach { task ->
+                    TaskCard(task = task)
+                }
 
-            // row for creating task
-            if (isActive) {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clickable { }
-                        .height(64.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.add),
-                        contentDescription = "create task icon"
-                    )
+                // row for creating task
+                if (isActive) {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clickable { }
+                            .height(64.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Image(
+                            painter = painterResource(id = R.drawable.add),
+                            contentDescription = "create task icon"
+                        )
 
-                    Spacer(modifier = Modifier.width(8.dp))
+                        Spacer(modifier = Modifier.width(8.dp))
 
-                    CustomText(text = "Create")
+                        CustomText(text = "Create")
 
-                    Spacer(modifier = Modifier.weight(1f))
+                        Spacer(modifier = Modifier.weight(1f))
 
-                    TaskComposer()
+                        TaskComposer()
+                    }
                 }
             }
         }
