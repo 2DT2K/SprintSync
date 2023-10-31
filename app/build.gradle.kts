@@ -64,6 +64,7 @@ dependencies {
 	implementation("io.coil-kt:coil-compose:2.4.0")
 
 	implementation(platform("androidx.compose:compose-bom:2023.10.01"))
+	implementation("androidx.compose.material:material")
 	implementation("androidx.compose.material3:material3")
 	implementation("androidx.compose.ui:ui")
 	implementation("androidx.compose.ui:ui-graphics")
@@ -75,6 +76,8 @@ dependencies {
 
 	implementation("com.google.android.gms:play-services-auth:20.7.0")
 
+	implementation("com.fasterxml.jackson.core:jackson-databind:2.15.2")
+
 //	testing dependencies
 	testImplementation("junit:junit:4.13.2")
 	androidTestImplementation("androidx.test.ext:junit:1.1.5")
@@ -85,8 +88,6 @@ dependencies {
 //	debugging dependencies
 	debugImplementation("androidx.compose.ui:ui-tooling")
 	debugImplementation("androidx.compose.ui:ui-test-manifest")
-	implementation ("androidx.compose.ui:ui-util:1.3.3")
-	implementation("com.fasterxml.jackson.core:jackson-databind:2.0.1")
 
 //	VICO Chart
 	dependencies {

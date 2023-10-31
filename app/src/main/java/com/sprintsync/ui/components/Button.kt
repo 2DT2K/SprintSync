@@ -17,48 +17,42 @@ import com.sprintsync.ui.theme.Purple40
 
 @Composable
 fun CustomButton(
-	type: String = "filled",
 	modifier: Modifier = Modifier,
 	surfaceModifier: Modifier = Modifier,
 	text: String = "",
-	icon: @Composable() (() -> Unit)? = null,
+	isFilled: Boolean = true,
 	onClick: () -> Unit = {},
 	colors: ButtonColors = ButtonDefaults.buttonColors(containerColor = Purple40),
-	content: @Composable() (RowScope.() -> Unit)? = null,
+	icon: @Composable (() -> Unit)? = null,
+	content: @Composable (RowScope.() -> Unit)? = null,
 ) {
 	Surface(modifier = surfaceModifier) {
-		if (type == "filled") {
+		if (isFilled)
 			Button(
-				onClick = { onClick() },
 				modifier = modifier,
+				onClick = onClick,
 				shape = RoundedCornerShape(16),
 				colors = colors
 			) {
-				if (icon != null) {
-					icon()
+				icon?.let {
+					it()
 					Spacer(modifier = Modifier.width(8.dp))
 				}
 				Text(text = text)
-				if (content != null) {
-					content()
-				}
+				content?.let { it() }
 			}
-		}
-		else if (type == "outlined") {
+		else
 			OutlinedButton(
-				onClick = { onClick() },
 				modifier = modifier,
+				onClick = onClick,
 				shape = RoundedCornerShape(16),
 			) {
-				if (icon != null) {
-					icon()
+				icon?.let {
+					it()
 					Spacer(modifier = Modifier.width(8.dp))
 				}
 				Text(text = text, color = Purple40)
-				if (content != null) {
-					content()
-				}
+				content?.let { it() }
 			}
-		}
 	}
 }

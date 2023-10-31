@@ -19,11 +19,16 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.text.ClickableText
+import androidx.compose.material.Icon
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -38,19 +43,28 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sprintsync.R
 import com.sprintsync.ui.components.CustomButton
-import com.sprintsync.ui.components.ExpandTextField
+import com.sprintsync.ui.components.ExpandableTextField
 import com.sprintsync.ui.theme.Grey40
 import com.sprintsync.ui.theme.Purple40
 import com.sprintsync.ui.theme.Red80
 import com.sprintsync.ui.theme.SprintSyncTheme
 
 @Composable
-fun SignInScreen(modifier: Modifier = Modifier) {
+fun SignInScreen(
+	modifier: Modifier = Modifier,
+	signInWithPassword: (String, String) -> Unit = { _, _ -> },
+	signInWithGoogle: () -> Unit = {},
+	resetPassword: () -> Unit = {},
+	signUp: () -> Unit = {}
+) {
+	var email by remember { mutableStateOf("") }
+	var password by remember { mutableStateOf("") }
+
 	Surface {
 		Column(
 			modifier = Modifier
 				.fillMaxSize()
-				.padding(horizontal = 24.dp)
+				.padding(start = 24.dp, end = 24.dp)
 		) {
 			Box(
 				modifier = Modifier
@@ -92,36 +106,31 @@ fun SignInScreen(modifier: Modifier = Modifier) {
 				modifier = Modifier.wrapContentHeight(),
 				verticalArrangement = Arrangement.spacedBy(20.dp)
 			) {
-				ExpandTextField(
-					label = "Email",
-					placeholder = "Please Enter Your Email",
+				ExpandableTextField(
 					modifier = Modifier.fillMaxWidth(),
+					onValueChange = { email = it },
+					label = "Email",
+					placeholder = "Enter Your Email",
 					leadingIcon = {
-						Image(
+						Icon(
 							painter = painterResource(id = R.drawable.email),
 							contentDescription = null,
-							contentScale = ContentScale.Fit
+							tint = Color(0xFF381E72)
 						)
 					}
 				)
 
-				ExpandTextField(
-					type = "hidden",
-					label = "Password",
-					placeholder = "Please Enter Your Password",
+				ExpandableTextField(
 					modifier = Modifier.fillMaxWidth(),
+					onValueChange = { password = it },
+					isPassword = true,
+					label = "Password",
+					placeholder = "Enter Your Password",
 					leadingIcon = {
-						Image(
+						Icon(
 							painter = painterResource(id = R.drawable.key),
 							contentDescription = null,
-							contentScale = ContentScale.Fit
-						)
-					},
-					trailingIcon = {
-						Image(
-							painter = painterResource(id = R.drawable.visibility),
-							contentDescription = null,
-							contentScale = ContentScale.Fit
+							tint = Color(0xFF381E72)
 						)
 					}
 				)
@@ -136,7 +145,7 @@ fun SignInScreen(modifier: Modifier = Modifier) {
 								bounded = true,
 								radius = 250.dp
 							),
-							onClick = {}
+							onClick = resetPassword
 						),
 						text = "Forgot Password",
 						color = Red80
@@ -151,15 +160,14 @@ fun SignInScreen(modifier: Modifier = Modifier) {
 				horizontalAlignment = Alignment.CenterHorizontally
 			) {
 				Column(
-					modifier = Modifier
-						.fillMaxWidth(),
+					modifier = Modifier.fillMaxWidth(),
 					verticalArrangement = Arrangement.spacedBy(20.dp),
 					horizontalAlignment = Alignment.CenterHorizontally
 				) {
 					CustomButton(
-						type = "filled",
+						surfaceModifier = Modifier.fillMaxWidth(),
 						text = "Login",
-						surfaceModifier = Modifier.fillMaxWidth()
+						onClick = { signInWithPassword(email, password) }
 					)
 					Row(
 						Modifier.fillMaxWidth(),
@@ -194,10 +202,10 @@ fun SignInScreen(modifier: Modifier = Modifier) {
 						horizontalArrangement = Arrangement.spacedBy(20.dp)
 					) {
 						CustomButton(
-							type = "outlined",
-							text = "Google",
 							modifier = Modifier.fillMaxWidth(),
 							surfaceModifier = Modifier.weight(1f),
+							text = "Google",
+							isFilled = false,
 							icon = {
 								Image(
 									modifier = Modifier.size(ButtonDefaults.IconSize),
@@ -205,7 +213,8 @@ fun SignInScreen(modifier: Modifier = Modifier) {
 									contentDescription = null,
 									contentScale = ContentScale.Fit
 								)
-							}
+							},
+							onClick = signInWithGoogle
 						)
 
 					}
@@ -227,13 +236,13 @@ fun SignInScreen(modifier: Modifier = Modifier) {
 							bounded = true,
 							radius = 250.dp
 						),
-						onClick = {}
+						onClick = signUp
 					),
 					text = "Sign Up",
 					style = TextStyle(
 						fontSize = 14.sp,
 						fontWeight = FontWeight(400),
-						color = Color(0xFF160062),
+						color = Color(0xFF160062)
 					)
 				)
 			}
@@ -243,8 +252,8 @@ fun SignInScreen(modifier: Modifier = Modifier) {
 
 @Preview(showBackground = true)
 @Composable
-private fun LoginPreview() {
+private fun SignInPreview() {
 	SprintSyncTheme {
-		SignInScreen(Modifier)
+		SignInScreen()
 	}
 }

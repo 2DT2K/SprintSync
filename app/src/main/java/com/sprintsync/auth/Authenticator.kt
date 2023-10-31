@@ -16,8 +16,6 @@ import java.util.concurrent.CancellationException
 class Authenticator(context: Context) {
 	// <--- Firebase Auth --->
 	private val auth = Firebase.auth
-	val signedIn
-		get() = auth.currentUser != null
 	val signedInUser
 		get() = auth.currentUser?.run {
 			UserData(uid, displayName, email, isEmailVerified, photoUrl)

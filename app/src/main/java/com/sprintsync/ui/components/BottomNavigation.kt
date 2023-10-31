@@ -58,10 +58,10 @@ fun BottomNavigation(navController: NavController? = null) {
 					Image(
 						painter = painterResource(
 							id = when (screen) {
-								Screens.Home -> R.drawable.home
-								Screens.Project -> R.drawable.folder_share
+								Screens.Home     -> R.drawable.home
+								Screens.Project  -> R.drawable.folder_share
 								Screens.Calendar -> R.drawable.calendar_month
-								Screens.Profile -> R.drawable.profile
+								Screens.Profile  -> R.drawable.profile
 							}
 						), contentDescription = null
 					)

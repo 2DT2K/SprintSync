@@ -59,7 +59,7 @@ fun PreviewFloatingActionButton() {
 				) {
 					Column {
 						CustomText(text = "Project name")
-						ExpandTextField(
+						ExpandableTextField(
 							label = "",
 							placeholder = "Add a description",
 							colors = OutlinedTextFieldDefaults.colors(
@@ -76,7 +76,7 @@ fun PreviewFloatingActionButton() {
 					}
 					Column {
 						CustomText(text = "Project name")
-						ExpandTextField(
+						ExpandableTextField(
 							label = "",
 							placeholder = "Add a description",
 							colors = OutlinedTextFieldDefaults.colors(
@@ -93,7 +93,7 @@ fun PreviewFloatingActionButton() {
 					}
 					Column {
 						CustomText(text = "Project name")
-						ExpandTextField(
+						ExpandableTextField(
 							label = "",
 							placeholder = "Add a description",
 							colors = OutlinedTextFieldDefaults.colors(
