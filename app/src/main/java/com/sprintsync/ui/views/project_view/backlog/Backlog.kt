@@ -1,5 +1,6 @@
 package com.sprintsync.ui.views.project_view.backlog
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -78,7 +79,7 @@ fun IsDoneSprintView(doneSprints: List<BacklogViewModel.Sprint>) {
             verticalAlignment = Alignment.CenterVertically
         ) {
             if (isOpen) Icon(
-                painter = painterResource(id = R.drawable.arrow_down),
+                painter = painterResource(id = R.drawable.arrow_down_2),
                 modifier = Modifier
                     .width(28.dp)
                     .height(28.dp),
@@ -109,7 +110,7 @@ fun IsDoneSprintView(doneSprints: List<BacklogViewModel.Sprint>) {
             )
         }
 
-        if (isOpen) {
+        AnimatedVisibility(visible = isOpen) {
             doneSprints.forEach() { sprint ->
                 SprintCard(sprint = sprint)
             }

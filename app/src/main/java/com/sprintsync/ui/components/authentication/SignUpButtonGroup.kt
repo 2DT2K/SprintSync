@@ -23,7 +23,6 @@ fun SignUpButtonGroup() {
     Column(
         modifier = Modifier
             .fillMaxWidth(),
-        verticalArrangement = Arrangement.spacedBy(20.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         CustomButton(
@@ -31,38 +30,5 @@ fun SignUpButtonGroup() {
             text = "Sign Up",
             modifier = Modifier.fillMaxWidth()
         )
-        Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-            Box(
-                modifier = Modifier
-                    .height(2.dp)
-                    .weight(1f)
-                    .background(Purple40)
-            ) {}
-            ClickableText(
-                text = AnnotatedString("Or With"),
-                onClick = {},
-                modifier = Modifier.weight(1f),
-                style = TextStyle(
-                    textAlign = TextAlign.Center,
-                    color = Purple40
-                ),
-            )
-            Box(
-                modifier = Modifier
-                    .height(2.dp)
-                    .weight(1f)
-                    .background(Purple40)
-            ) {}
-        }
-        Row(
-            modifier = Modifier
-                .fillMaxWidth(),
-        ) {
-            CustomButton(
-                type = "outlined",
-                text = "Google",
-                modifier = Modifier.fillMaxWidth()
-            )
-        }
     }
 }

@@ -38,6 +38,7 @@ import com.sprintsync.ui.theme.SprintSyncTheme
 @Composable
 fun LogInScreen(modifier: Modifier = Modifier) {
     Surface() {
+// TODO: remove padding when we have main scaffold reddy for login and signup
         Column(
             modifier = Modifier
                 .fillMaxSize()

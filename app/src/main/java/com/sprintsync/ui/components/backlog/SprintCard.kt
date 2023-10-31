@@ -1,5 +1,6 @@
 package com.sprintsync.ui.components.backlog
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -107,7 +108,7 @@ fun SprintCard(sprint: BacklogViewModel.Sprint, isActive: Boolean = false) {
             }
         }
 
-        if (isOpen) {
+        AnimatedVisibility(visible = isOpen) {
             Column(
                 modifier = Modifier.padding(
                     start = 8.dp,

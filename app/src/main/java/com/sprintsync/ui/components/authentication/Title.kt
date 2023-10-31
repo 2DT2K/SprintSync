@@ -8,7 +8,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import com.sprintsync.ui.theme.Grey40
-import com.sprintsync.ui.theme.Purple40
+import com.sprintsync.ui.theme.Purple20
 
 @Composable
 fun Title(mainTitle: String, description: String) {
@@ -18,7 +18,7 @@ fun Title(mainTitle: String, description: String) {
                 text = mainTitle,
                 style = TextStyle(
                     fontSize = 24.sp,
-                    color = Purple40,
+                    color = Purple20,
                     fontWeight = FontWeight(800),
                 ),
             )
