@@ -5,7 +5,12 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.material3.Divider
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
+import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -25,6 +30,8 @@ import com.sprintsync.ui.view_models.BacklogViewModel
 @Composable
 fun SprintCard(sprint: BacklogViewModel.Sprint, isActive: Boolean = false) {
     var isOpen by remember { mutableStateOf(false) }
+    var isSprintStatusExpanded by remember { mutableStateOf(false) }
+    var isCreateTaskExpanded by remember { mutableStateOf(false) }
 
     Column(
         modifier = Modifier
@@ -75,17 +82,38 @@ fun SprintCard(sprint: BacklogViewModel.Sprint, isActive: Boolean = false) {
             StoryPoint(point = 70, Green80)
             Spacer(modifier = Modifier.width(8.dp))
 
-            Icon(
-                painter = painterResource(R.drawable.more),
-                contentDescription = null,
-                modifier = Modifier.clickable { }
-            )
+            //3dots icon editing status of sprint
+            Box(modifier = Modifier) {
+                Icon(
+                    painter = painterResource(R.drawable.more),
+                    contentDescription = null,
+                    modifier = Modifier.clickable {
+                        isSprintStatusExpanded = true
+                    }
+                )
+                DropdownMenu(
+                    expanded = isSprintStatusExpanded,
+                    onDismissRequest = { isSprintStatusExpanded = false }
+                ) {
+                    DropdownMenuItem(
+                        text = { Text("Refresh") },
+                        onClick = { /* Handle refresh! */ })
+                    DropdownMenuItem(
+                        text = { Text("Refresh") },
+                        onClick = { /* Handle refresh! */ })
+                    DropdownMenuItem(
+                        text = { Text("Refresh") },
+                        onClick = { /* Handle refresh! */ })
+                }
+            }
         }
 
         if (isOpen) {
             sprint.task.forEach { task ->
                 TaskCard(task = task)
             }
+
+            // row for creating task
             if (isActive) {
                 Row(
                     modifier = Modifier
@@ -105,11 +133,7 @@ fun SprintCard(sprint: BacklogViewModel.Sprint, isActive: Boolean = false) {
 
                     Spacer(modifier = Modifier.weight(1f))
 
-                    Image(
-                        modifier = Modifier.clickable { },
-                        painter = painterResource(id = R.drawable.attach_file),
-                        contentDescription = "attach file icon"
-                    )
+                    TaskComposer(isCreateTaskExpanded)
                 }
             }
         }

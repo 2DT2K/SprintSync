@@ -39,7 +39,6 @@ fun CustomTextField(
     value: String = "",
     label: String = "Email",
     placeholder: String = "Please Enter Your Email",
-    isVisible: Boolean? = true,
     isError: Boolean = false,
     leadingIcon: @Composable() (() -> Unit)? = null,
     trailingIcon: @Composable() (() -> Unit)? = null,
@@ -52,7 +51,7 @@ fun CustomTextField(
     errorText: String = "please redo"
 ) {
     var text by remember { mutableStateOf(value) }
-    var passwordVisible by remember { mutableStateOf(isVisible) }
+    var passwordVisible by remember { mutableStateOf(true) }
     if (type == "hidden") passwordVisible = false;
 
     Column {
