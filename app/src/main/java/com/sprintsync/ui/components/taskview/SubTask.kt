@@ -110,7 +110,7 @@ fun SubTask(subTaskList: List<SubTask>) {
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.Start),
                     verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.padding(end = 8.dp).weight(1f)
+                    modifier = Modifier.weight(1f)
                 ) {
                     Row(
                         horizontalArrangement = Arrangement.spacedBy((-14).dp, Alignment.End),

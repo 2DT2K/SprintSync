@@ -15,6 +15,8 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.Divider
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -46,6 +48,8 @@ import com.patrykandpatrick.vico.compose.chart.Chart
 import com.patrykandpatrick.vico.compose.chart.line.lineChart
 import com.patrykandpatrick.vico.compose.chart.scroll.rememberChartScrollState
 import com.patrykandpatrick.vico.compose.component.shape.shader.fromBrush
+import com.patrykandpatrick.vico.compose.m3.style.m3ChartStyle
+import com.patrykandpatrick.vico.compose.style.ChartStyle
 import com.patrykandpatrick.vico.compose.style.ProvideChartStyle
 import com.patrykandpatrick.vico.core.chart.line.LineChart
 import com.patrykandpatrick.vico.core.component.shape.shader.DynamicShaders
@@ -104,6 +108,10 @@ fun ReportChart() {
 
     val chartEntryModel = entryModelOf(entriesOf(4f, 12f, 8f, 16f), entriesOf(12f, 16f, 4f, 12f))
 //    val chartEntryModelProducer = ChartEntryModelProducer(getRandomEntries(), getRandomEntries())
+
+    var expanded by remember {
+        mutableStateOf(false)
+    }
     Column(
         verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterVertically),
         horizontalAlignment = Alignment.Start, modifier = Modifier.fillMaxWidth()
@@ -122,35 +130,40 @@ fun ReportChart() {
                     letterSpacing = 0.28.sp,
                 )
             )
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(0.dp, Alignment.Start),
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier
-                    .border(
-                        width = 1.dp,
-                        color = Color(0xFF848A9C),
-                        shape = RoundedCornerShape(size = 16.dp)
-                    )
-                    .padding(start = 8.dp, top = 4.dp, end = 4.dp, bottom = 4.dp)
-            ) {
-                Text(
-                    text = "Sprint 2",
-                    style = TextStyle(
-                        fontSize = 12.sp,
-                        fontWeight = FontWeight(600),
-                        color = Color(0xFF848A9C),
-                        letterSpacing = 0.18.sp,
-                    )
-                )
-                Image(
-                    painter = painterResource(id = R.drawable.mini_down_arrow),
-                    contentDescription = "image description",
-                    contentScale = ContentScale.None,
+            Box {
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(0.dp, Alignment.Start),
+                    verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier
-                        .padding(1.dp)
-                        .width(16.dp)
-                        .height(16.dp)
-                )
+                        .border(
+                            width = 1.dp,
+                            color = Color(0xFF848A9C),
+                            shape = RoundedCornerShape(size = 16.dp)
+                        )
+                        .padding(start = 8.dp, top = 4.dp, end = 4.dp, bottom = 4.dp)
+                ) {
+                    Text(
+                        text = "Sprint 2",
+                        style = TextStyle(
+                            fontSize = 12.sp,
+                            fontWeight = FontWeight(600),
+                            color = Color(0xFF848A9C),
+                            letterSpacing = 0.18.sp,
+                        )
+                    )
+                    Image(
+                        painter = painterResource(id = R.drawable.mini_down_arrow),
+                        contentDescription = "image description",
+                        contentScale = ContentScale.None,
+                        modifier = Modifier
+                            .padding(1.dp)
+                            .width(16.dp)
+                            .height(16.dp)
+                    )
+                }
+                DropdownMenu(expanded = expanded, onDismissRequest = { expanded = !expanded }) {
+
+                }
             }
         }
         Column(modifier = Modifier.fillMaxWidth()) {
@@ -158,11 +171,50 @@ fun ReportChart() {
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(220.dp)
+                    .padding(10.dp)
+                    .background(color = Color.White)
             ) {
                 // in case there is no data
-                ProvideChartStyle {
+                val datasetLineSPec = remember {
+                    arrayListOf<LineChart.LineSpec>()
+                }
+                datasetLineSPec.add(
+                    LineChart.LineSpec(
+                        lineColor = Color(0xFF04BFDA).toArgb(),
+//                        lineBackgroundShader = DynamicShaders.fromBrush(
+//                            brush = Brush.verticalGradient(
+//                                listOf(
+//                                    Color(0xFF04BFDA).copy(com.patrykandpatrick.vico.core.DefaultAlpha.LINE_BACKGROUND_SHADER_START),
+//                                    Color(0xFF04BFDA).copy(com.patrykandpatrick.vico.core.DefaultAlpha.LINE_BACKGROUND_SHADER_END),
+//                                )
+//                            )
+//                        )
+                    )
+
+                )
+                datasetLineSPec.add(
+                    LineChart.LineSpec(
+                        lineColor = Color.Gray.toArgb(),
+                    )
+
+                )
+                ProvideChartStyle(
+                    chartStyle = m3ChartStyle(
+                        axisLabelColor = MaterialTheme.colorScheme.onBackground,
+                        axisGuidelineColor = MaterialTheme.colorScheme.outline,
+                        axisLineColor = MaterialTheme.colorScheme.outline,
+                        entityColors = listOf(
+                            MaterialTheme.colorScheme.primary,
+                            MaterialTheme.colorScheme.secondary,
+                            MaterialTheme.colorScheme.tertiary,
+                        ), elevationOverlayColor = Color.Red
+                    )
+                ) {
                     Chart(
-                        chart = lineChart(),
+                        modifier = Modifier.background(color = Color.White),
+                        chart = lineChart(
+                            lines = datasetLineSPec,
+                        ),
                         model = chartEntryModel,
                         startAxis = rememberStartAxis(),
                         bottomAxis = rememberBottomAxis(),
@@ -260,8 +312,10 @@ fun ReportChart() {
         }
     }
 }
+
 fun getRandomEntries() = List(4) { entryOf(it, Random.nextFloat() * 16f) }
-@Preview
+
+@Preview(showBackground = true)
 @Composable
 fun ReportChartPreview() {
     ReportChart()
