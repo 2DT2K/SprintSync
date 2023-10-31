@@ -6,7 +6,7 @@ data class Team(
 	@JsonProperty("_id")
 	val id: String,
 	val name: String,
-	val teamLeader: String,
-	val members: List<String>,
-	val project: String
+	val teamLeader: Member,
+	val members: List<Member>,
+	val project: Project
 )

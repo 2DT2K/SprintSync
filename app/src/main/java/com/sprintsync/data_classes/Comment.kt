@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 data class Comment(
 	@JsonProperty("_id")
 	val id: String,
-	val commenter: String,
+	val commenter: Member,
 	val content: String,
-	val attachments: List<String>? = null,
+	val attachments: List<Attachment>? = null,
 )

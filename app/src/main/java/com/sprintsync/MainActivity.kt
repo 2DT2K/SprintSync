@@ -44,7 +44,7 @@ class MainActivity : ComponentActivity() {
 				Surface(modifier = Modifier.padding(it)) {
 					NavHost(navController = navController, startDestination = "home") {
 						composable("login") { LogInScreen(navController = navController) }
-						composable("signup") { SignUpScreen(navController = navController) }
+						composable("signup") { SignUpScreen() }
 						composable("home") { HomePage() }
 						composable("project") { DetailProject() }
 						composable("calendar") { TODO("Have not implement calendar view") }
