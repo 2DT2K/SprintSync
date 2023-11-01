@@ -11,16 +11,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navigation
 import com.sprintsync.ui.components.BottomNavigation
 import com.sprintsync.ui.views.BoardView
 import com.sprintsync.ui.views.HomePage
-import com.sprintsync.ui.views.login.LogInScreen
-import com.sprintsync.ui.views.login.SignUpScreen
+import com.sprintsync.ui.views.auth.LogInScreen
+import com.sprintsync.ui.views.auth.SignUpScreen
 import com.sprintsync.ui.views.project_view.DetailProject
 
 class MainActivity : ComponentActivity() {

@@ -1,4 +1,4 @@
-package com.sprintsync.ui.components.authentication
+package com.sprintsync.ui.components.auth
 
 import android.graphics.BlurMaskFilter
 import android.graphics.PorterDuff

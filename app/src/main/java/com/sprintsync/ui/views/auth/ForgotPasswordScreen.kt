@@ -1,4 +1,4 @@
-package com.sprintsync.ui.views.login
+package com.sprintsync.ui.views.auth
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -37,7 +37,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sprintsync.R
 import com.sprintsync.ui.components.CustomText
-import com.sprintsync.ui.components.authentication.innerShadow
+import com.sprintsync.ui.components.auth.innerShadow
 import com.sprintsync.ui.theme.Purple20
 import com.sprintsync.ui.theme.Purple40
 import com.sprintsync.ui.theme.SprintSyncTheme
