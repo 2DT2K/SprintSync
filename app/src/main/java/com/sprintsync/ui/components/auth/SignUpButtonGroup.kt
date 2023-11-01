@@ -21,32 +21,52 @@ import com.sprintsync.ui.components.CustomButton
 import com.sprintsync.ui.components.CustomText
 import com.sprintsync.ui.theme.Grey40
 import com.sprintsync.ui.theme.Purple40
-import androidx.compose.ui.tooling.preview.Preview
 
-@Preview
 @Composable
-fun SignUpButtonGroup() {
-    Column(
-        modifier = Modifier
-            .fillMaxWidth(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.SpaceBetween
-    ) {
-        CustomButton(
-            type = "filled",
-            text = "Sign Up",
-            fontSize = 18.sp,
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(48.dp),
-            shape = RoundedCornerShape(24)
-        )
+fun SignUpButtonGroup(
+	signUpWithPassword: () -> Unit = {},
+	signIn: () -> Unit = {}
+) {
+	Column(
+		modifier = Modifier.fillMaxWidth(),
+		horizontalAlignment = Alignment.CenterHorizontally,
+		verticalArrangement = Arrangement.SpaceBetween
+	) {
+		CustomButton(
+			modifier = Modifier
+				.fillMaxWidth()
+				.height(48.dp),
+			onClick = signUpWithPassword,
+			text = "Sign Up",
+			fontSize = 18.sp,
+			shape = RoundedCornerShape(24)
+		)
 
-        PromptRow(
-            "Already have an account?",
-            "Log In",
-            Purple40,
-            onClick = {}
-        )
-    }
+		Row(
+			modifier = Modifier.height(40.dp),
+			verticalAlignment = Alignment.CenterVertically,
+			horizontalArrangement = Arrangement.Center
+		) {
+			CustomText(
+				text = "Already have an account ?",
+				color = Grey40
+			)
+
+			Spacer(modifier = Modifier.width(5.dp))
+
+			CustomText(
+				modifier = Modifier.clickable(
+					interactionSource = MutableInteractionSource(),
+					indication = rememberRipple(
+						bounded = true,
+						radius = 250.dp
+					),
+					onClick = signIn
+				),
+				text = "Login",
+				color = Purple40,
+				fontWeight = FontWeight.Bold
+			)
+		}
+	}
 }

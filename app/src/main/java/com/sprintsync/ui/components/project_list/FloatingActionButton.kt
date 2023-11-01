@@ -47,24 +47,24 @@ import com.sprintsync.ui.theme.SprintSyncTheme
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CustomFloatingActionButton() {
-    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
-    val scope = rememberCoroutineScope()
-    var showBottomSheet by remember { mutableStateOf(false) }
+	val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+	val scope = rememberCoroutineScope()
+	var showBottomSheet by remember { mutableStateOf(false) }
 
-    Scaffold(
-        floatingActionButton = {
-            ExtendedFloatingActionButton(
-                text = { Text("Show bottom sheet") },
-                icon = { Icon(Icons.Filled.Add, contentDescription = "") },
-                onClick = {
-                    showBottomSheet = true
-                }
-            )
-        }
-    ) { contentPadding ->
-        // Screen content
+	Scaffold(
+		floatingActionButton = {
+			ExtendedFloatingActionButton(
+				text = { Text("Show bottom sheet") },
+				icon = { Icon(Icons.Filled.Add, contentDescription = "") },
+				onClick = {
+					showBottomSheet = true
+				}
+			)
+		}
+	) { contentPadding ->
+		// Screen content
 
-        if (showBottomSheet) {
+		if (showBottomSheet) {
 
             ModalBottomSheet(
                 onDismissRequest = {
@@ -108,39 +108,39 @@ fun CustomFloatingActionButton() {
                     placeholder = "Add a description",
                     onValueChange = {
 
-                    },
-                    colors = OutlinedTextFieldDefaults.colors(
-                        focusedBorderColor = Color.Transparent,
-                        unfocusedBorderColor = Color.Transparent,
-                    )
-                )
+					},
+					colors = OutlinedTextFieldDefaults.colors(
+						focusedBorderColor = Color.Transparent,
+						unfocusedBorderColor = Color.Transparent,
+					)
+				)
 
-                Box(modifier = Modifier.fillMaxWidth()) {
-                    IconButton(
-                        modifier = Modifier.align(Alignment.CenterEnd),
-                        onClick = { /*TODO*/ }) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.send),
-                            contentDescription = "create project"
-                        )
-                    }
-                }
+				Box(modifier = Modifier.fillMaxWidth()) {
+					IconButton(
+						modifier = Modifier.align(Alignment.CenterEnd),
+						onClick = { /*TODO*/ }) {
+						Icon(
+							painter = painterResource(id = R.drawable.send),
+							contentDescription = "create project"
+						)
+					}
+				}
 
-                Spacer(
-                    Modifier
-                        .background(Color.Transparent)
-                        .fillMaxWidth()
-                        .windowInsetsPadding(WindowInsets.systemBars.only(WindowInsetsSides.Bottom))
-                )
-            }
-        }
-    }
+				Spacer(
+					Modifier
+						.background(Color.Transparent)
+						.fillMaxWidth()
+						.windowInsetsPadding(WindowInsets.systemBars.only(WindowInsetsSides.Bottom))
+				)
+			}
+		}
+	}
 }
 
 @Preview
 @Composable
 fun PreviewFloatingActionButton() {
-    SprintSyncTheme {
-        CustomFloatingActionButton()
-    }
+	SprintSyncTheme {
+		CustomFloatingActionButton()
+	}
 }

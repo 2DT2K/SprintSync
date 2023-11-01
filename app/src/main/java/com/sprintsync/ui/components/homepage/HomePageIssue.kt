@@ -28,104 +28,104 @@ import com.sprintsync.R
 import com.sprintsync.ui.components.IssueItem
 
 data class MenuIssue(
-    val issueType: String,
-    val issueName: String,
-    val issueTime: String
+	val issueType: String,
+	val issueName: String,
+	val issueTime: String
 )
 
 val issueList: List<MenuIssue> = listOf(
-    MenuIssue(
-        issueType = "Task",
-        issueName = "Finish Sprint1",
-        issueTime = "now"
-    ),
-    MenuIssue(
-        issueType = "Task",
-        issueName = "Finish all home work",
-        issueTime = "1 days ago"
-    ),
-    MenuIssue(
-        issueType = "Task",
-        issueName = "Reach 5k mmr again",
-        issueTime = "2 days ago"
-    ),
-    MenuIssue(
-        issueType = "Project",
-        issueName = "SprintSync",
-        issueTime = "3 days ago"
-    ),
-    MenuIssue(
-        issueType = "Project",
-        issueName = "No idea",
-        issueTime = "1 week ago"
-    )
+	MenuIssue(
+		issueType = "Task",
+		issueName = "Finish Sprint1",
+		issueTime = "now"
+	),
+	MenuIssue(
+		issueType = "Task",
+		issueName = "Finish all home work",
+		issueTime = "1 days ago"
+	),
+	MenuIssue(
+		issueType = "Task",
+		issueName = "Reach 5k mmr again",
+		issueTime = "2 days ago"
+	),
+	MenuIssue(
+		issueType = "Project",
+		issueName = "SprintSync",
+		issueTime = "3 days ago"
+	),
+	MenuIssue(
+		issueType = "Project",
+		issueName = "No idea",
+		issueTime = "1 week ago"
+	)
 )
 
 @Composable
 fun HomePageIssue() {
-    val scrollState = rememberScrollState()
-    Column(
-        verticalArrangement = Arrangement.spacedBy(12.dp, Alignment.CenterVertically),
-        horizontalAlignment = Alignment.CenterHorizontally,
+	val scrollState = rememberScrollState()
+	Column(
+		verticalArrangement = Arrangement.spacedBy(12.dp, Alignment.CenterVertically),
+		horizontalAlignment = Alignment.CenterHorizontally,
 
-        ) {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            Text(
-                text = "Recent Issues", style = TextStyle(
-                    fontSize = 24.sp,
-                    fontWeight = FontWeight(700),
-                    color = Color(0xFF1D192B)
-                )
-            )
-            Row(
-                modifier = Modifier.background(
-                    color = Color(0xFFF3EDF7),
-                    shape =
-                    RoundedCornerShape(5.dp)
-                )
-            ) {
-                IconButton(onClick = { /*TODO*/ }) {
-                    Image(
-                        painter = painterResource(id = R.drawable.three_dot),
-                        contentDescription = ""
-                    )
-                }
-            }
+		) {
+		Row(
+			modifier = Modifier.fillMaxWidth(),
+			verticalAlignment = Alignment.CenterVertically,
+			horizontalArrangement = Arrangement.SpaceBetween
+		) {
+			Text(
+				text = "Recent Issues", style = TextStyle(
+					fontSize = 24.sp,
+					fontWeight = FontWeight(700),
+					color = Color(0xFF1D192B)
+				)
+			)
+			Row(
+				modifier = Modifier.background(
+					color = Color(0xFFF3EDF7),
+					shape =
+					RoundedCornerShape(5.dp)
+				)
+			) {
+				IconButton(onClick = { /*TODO*/ }) {
+					Image(
+						painter = painterResource(id = R.drawable.three_dot),
+						contentDescription = ""
+					)
+				}
+			}
 
-        }
-        Column(
-            modifier = Modifier
-                .padding(0.dp)
-                .fillMaxWidth()
-                .heightIn(max = 250.dp)
-                .background(color = Color(0xFFF3EDF7), shape = RoundedCornerShape(size = 15.dp))
-                .padding(start = 16.dp, top = 16.dp, end = 16.dp, bottom = 16.dp)
-                .verticalScroll(state = scrollState),
-            verticalArrangement = Arrangement.spacedBy(4.dp, Alignment.CenterVertically),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            issueList.forEach { item ->
-                Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    IssueItem(
-                        issueType = item.issueType,
-                        issueDescription = item.issueName,
-                        issueTimeLine = item.issueTime
-                    )
-                    if (issueList.size - 1 >= 1 && item != issueList[issueList.size - 1]) {
-                        Divider(modifier = Modifier.fillMaxWidth(0.9f))
-                    }
-                }
-            }
-        }
-    }
+		}
+		Column(
+			modifier = Modifier
+				.padding(0.dp)
+				.fillMaxWidth()
+				.heightIn(max = 250.dp)
+				.background(color = Color(0xFFF3EDF7), shape = RoundedCornerShape(size = 15.dp))
+				.padding(start = 16.dp, top = 16.dp, end = 16.dp, bottom = 16.dp)
+				.verticalScroll(state = scrollState),
+			verticalArrangement = Arrangement.spacedBy(4.dp, Alignment.CenterVertically),
+			horizontalAlignment = Alignment.CenterHorizontally
+		) {
+			issueList.forEach { item ->
+				Column(horizontalAlignment = Alignment.CenterHorizontally) {
+					IssueItem(
+						issueType = item.issueType,
+						issueDescription = item.issueName,
+						issueTimeLine = item.issueTime
+					)
+					if (issueList.size - 1 >= 1 && item != issueList[issueList.size - 1]) {
+						Divider(modifier = Modifier.fillMaxWidth(0.9f))
+					}
+				}
+			}
+		}
+	}
 }
 
 @Preview(showBackground = true)
 @Composable
 fun MenuIssuePreview() {
-    HomePageIssue()
+	HomePageIssue()
 }

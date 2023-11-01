@@ -1,6 +1,7 @@
 plugins {
 	id("com.android.application")
 	id("org.jetbrains.kotlin.android")
+	id("com.google.gms.google-services")
 }
 
 android {
@@ -10,7 +11,7 @@ android {
 	defaultConfig {
 		applicationId = "com.sprintsync"
 		minSdk = 26
-		targetSdk = 33
+		targetSdk = 34
 		versionCode = 1
 		versionName = "1.0"
 
@@ -67,6 +68,17 @@ dependencies {
     implementation(platform("androidx.compose:compose-bom:2023.03.00"))
     implementation("com.google.android.gms:play-services-tagmanager-v4-impl:18.0.4")
     testImplementation("junit:junit:4.13.2")
+	implementation("androidx.compose.ui:ui-util")
+
+	implementation(platform("com.google.firebase:firebase-bom:32.4.0"))
+	implementation("com.google.firebase:firebase-auth-ktx")
+
+	implementation("com.google.android.gms:play-services-auth:20.7.0")
+
+	implementation("com.fasterxml.jackson.core:jackson-databind:2.15.2")
+
+//	testing dependencies
+	testImplementation("junit:junit:4.13.2")
 	androidTestImplementation("androidx.test.ext:junit:1.1.5")
 	androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 	androidTestImplementation(platform("androidx.compose:compose-bom:2023.03.00"))

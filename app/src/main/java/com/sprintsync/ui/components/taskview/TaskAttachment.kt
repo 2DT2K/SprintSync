@@ -29,82 +29,81 @@ import androidx.compose.ui.unit.sp
 import com.sprintsync.R
 
 class Attachment(
-    val name: String,
-    val fileType: String,
-    val fileSize: Double,
+	val name: String,
+	val fileType: String,
+	val fileSize: Double,
 )
 
 @Composable
 fun TaskAttachment(attachmentList: List<Attachment>) {
-    Column(
-        verticalArrangement = Arrangement.spacedBy(5.dp, Alignment.CenterVertically),
-        horizontalAlignment = Alignment.Start,
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(start = 5.dp, top = 5.dp, end = 5.dp, bottom = 5.dp)
-    ) {
-        Text(
-            text = "Attachment",
-            style = TextStyle(
-                fontSize = 12.sp,
-                lineHeight = 16.sp,
-                fontWeight = FontWeight(600),
-                color = Color(0xB221005D),
-            )
-        )
-        Row(
-            modifier = Modifier
-                .fillMaxWidth().horizontalScroll(rememberScrollState())
-            ,
-            horizontalArrangement = Arrangement.spacedBy(5.dp, Alignment.Start),
-            verticalAlignment = Alignment.CenterVertically,
+	Column(
+		verticalArrangement = Arrangement.spacedBy(5.dp, Alignment.CenterVertically),
+		horizontalAlignment = Alignment.Start,
+		modifier = Modifier
+			.fillMaxWidth()
+			.padding(start = 5.dp, top = 5.dp, end = 5.dp, bottom = 5.dp)
+	) {
+		Text(
+			text = "Attachment",
+			style = TextStyle(
+				fontSize = 12.sp,
+				lineHeight = 16.sp,
+				fontWeight = FontWeight(600),
+				color = Color(0xB221005D),
+			)
+		)
+		Row(
+			modifier = Modifier
+				.fillMaxWidth(),
+			horizontalArrangement = Arrangement.spacedBy(5.dp, Alignment.Start),
+			verticalAlignment = Alignment.CenterVertically,
 
-            ) {
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(5.dp, Alignment.Start),
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                attachmentList.forEach {
-                    SingleFileAttachment(
-                        fileName = it.name,
-                        fileType = it.fileType,
-                        fileSize = it.fileSize
-                    )
-                }
-            }
+			) {
+			Row(
+				horizontalArrangement = Arrangement.spacedBy(5.dp, Alignment.Start),
+				verticalAlignment = Alignment.CenterVertically,
+			) {
+				attachmentList.forEach {
+					SingleFileAttachment(
+						fileName = it.name,
+						fileType = it.fileType,
+						fileSize = it.fileSize
+					)
+				}
+			}
 
-            Row(
-                modifier = Modifier
-                    .border(
-                        width = 1.dp,
-                        color = Color(0xFFC7BBDA),
-                        shape = RoundedCornerShape(size = 8.dp)
-                    )
-                    .background(color = Color(0xFFEDE2FF), shape = RoundedCornerShape(size = 8.dp))
-                    .padding(4.dp),
+			Row(
+				modifier = Modifier
+					.border(
+						width = 1.dp,
+						color = Color(0xFFC7BBDA),
+						shape = RoundedCornerShape(size = 8.dp)
+					)
+					.background(color = Color(0xFFEDE2FF), shape = RoundedCornerShape(size = 8.dp))
+					.padding(4.dp),
 //                    .drawBehind {
 //                        drawRoundRect(color = Color.Red, style = Style.)
 //                    },
-                horizontalArrangement = Arrangement.spacedBy(10.dp, Alignment.CenterHorizontally),
-                verticalAlignment = Alignment.CenterVertically,
+				horizontalArrangement = Arrangement.spacedBy(10.dp, Alignment.CenterHorizontally),
+				verticalAlignment = Alignment.CenterVertically,
 
-                ) {
-                IconButton(
-                    onClick = { /*TODO*/ }
-                ) {
-                    Image(
-                        modifier = Modifier
-                            .padding(1.dp)
-                            .width(24.dp)
-                            .height(24.dp)
-                            .background(color = Color(0xFFEDE2FF)),
-                        painter = painterResource(id = R.drawable.upload_file),
-                        contentDescription = ""
-                    )
-                }
-            }
-        }
-    }
+				) {
+				IconButton(
+					onClick = { /*TODO*/ }
+				) {
+					Image(
+						modifier = Modifier
+							.padding(1.dp)
+							.width(24.dp)
+							.height(24.dp)
+							.background(color = Color(0xFFEDE2FF)),
+						painter = painterResource(id = R.drawable.upload_file),
+						contentDescription = ""
+					)
+				}
+			}
+		}
+	}
 }
 
 var firstAttachment = Attachment("Test", "pdf", 6.8)
@@ -114,5 +113,5 @@ var attachmentList = listOf<Attachment>(firstAttachment, secondAttachment)
 @Preview(showBackground = true)
 @Composable
 fun TaskAttachmentPreview() {
-    TaskAttachment(attachmentList = attachmentList)
+	TaskAttachment(attachmentList = attachmentList)
 }

@@ -21,7 +21,7 @@ import com.sprintsync.ui.theme.Purple40
 
 @Composable
 fun SelectCountryWithCountryCode() {
-    val context = LocalContext.current
+	val context = LocalContext.current
 //    val phonecode = getLibCountries().single { it.countryCode == "+84" }
     var phoneCode by remember { mutableStateOf("+84") }
     val phoneNumber = rememberSaveable { mutableStateOf("") }
@@ -74,7 +74,7 @@ fun SelectCountryWithCountryCode() {
             ),
         )
 
-        val fullPhoneNumber = "$phoneCode${phoneNumber.value}"
+		val fullPhoneNumber = "$phoneCode${phoneNumber.value}"
 //        val checkPhoneNumber = checkPhoneNumber(
 //            phone = phoneNumber.value,
 //            fullPhoneNumber = fullPhoneNumber,
@@ -93,5 +93,5 @@ fun SelectCountryWithCountryCode() {
 //        ) {
 //            Text(text = "Phone Verify")
 //        }
-    }
+	}
 }

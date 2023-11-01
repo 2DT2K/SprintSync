@@ -1,10 +1,8 @@
 package com.sprintsync.ui.components.backlog
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -13,7 +11,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -24,7 +21,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
@@ -41,84 +37,90 @@ import com.sprintsync.ui.view_models.BacklogViewModel
 
 @Composable
 fun TaskCard(task: BacklogViewModel.Task) {
-    var status = ""
-    var backgroundColor: Color = Color.Transparent
-    var icon = 0
-    when (task.status) {
-        1 -> {
-            status = "To Do"
-            backgroundColor = Yellow80
-            icon = R.drawable.in_progress
-        }
+	var status = ""
+	var backgroundColor: Color = Color.Transparent
+	var icon = 0
+	when (task.status) {
+		1 -> {
+			status = "To Do"
+			backgroundColor = Yellow80
+			icon = R.drawable.in_progress
+		}
 
-        2 -> {
-            status = "In Progress"
-            backgroundColor = Green80
-            icon = R.drawable.production
-        }
+		2 -> {
+			status = "In Progress"
+			backgroundColor = Green80
+			icon = R.drawable.production
+		}
 
-        3 -> {
-            status = "Productivity"
-            backgroundColor = Purple80
-            icon = R.drawable.production
-        }
-    }
+		3 -> {
+			status = "Productivity"
+			backgroundColor = Purple80
+			icon = R.drawable.production
+		}
+	}
 
-    Row(
-        modifier = Modifier
-            .clickable { }
-            .fillMaxWidth()
-            .height(64.dp),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(16.dp)
-    ) {
-        Image(
-            modifier = Modifier.size(32.dp),
-            painter = painterResource(id = icon),
-            contentDescription = "task status icon"
-        )
-        Column(verticalArrangement = Arrangement.SpaceBetween) {
-            CustomText(
-                text = task.title,
-                color = Purple20,
-                fontWeight = FontWeight(400),
-            )
+	Row(
+		modifier = Modifier
+			.clickable { }
+			.fillMaxWidth()
+			.height(64.dp),
+		verticalAlignment = Alignment.CenterVertically,
+		horizontalArrangement = Arrangement.spacedBy(16.dp)
+	) {
+		Image(
+			modifier = Modifier.size(32.dp),
+			painter = painterResource(id = icon),
+			contentDescription = "task status icon"
+		)
+		Column(verticalArrangement = Arrangement.SpaceBetween) {
+			CustomText(
+				text = task.title,
+				color = Purple20,
+				fontWeight = FontWeight(400),
+			)
 
-            Row(
-                modifier = Modifier.height(32.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
-            ) {
-                CustomText(
-                    modifier = Modifier.padding(0.dp),
-                    text = task.name,
-                    color = Grey60,
-                    fontWeight = FontWeight(500)
-                )
+			Row(
+				modifier = Modifier.height(32.dp),
+				verticalAlignment = Alignment.CenterVertically,
+				horizontalArrangement = Arrangement.spacedBy(8.dp),
+			) {
+				CustomText(
+					modifier = Modifier.padding(0.dp),
+					text = task.name,
+					color = Grey60,
+					fontWeight = FontWeight(500)
+				)
 
-                StoryPoint(point = task.point)
+				StoryPoint(point = task.point)
 
-                TaskProcess(title = status, color = backgroundColor.toArgb().toLong())
-            }
-        }
-        Spacer(modifier = Modifier.weight(1.0f))
-        ContextCompat.getDrawable(LocalContext.current, R.drawable.nice_avatar)?.let { it1 ->
-            task.assignees = mutableListOf(it1.toBitmap(), it1.toBitmap())
-        }
-        Row(
-            horizontalArrangement = Arrangement.spacedBy((-14).dp, Alignment.End),
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            task.assignees.forEachIndexed { index, image ->
-                Image(
-                    bitmap = image.asImageBitmap(),
-                    contentDescription = "",
-                    modifier = Modifier
-                        .zIndex(index.toFloat())
-                        .width(24.dp)
-                        .height(24.dp)
-                )
-            }
-        }
-    }
+				TaskProcess(
+					title = status, color = backgroundColor
+						.toArgb()
+						.toLong()
+				)
+			}
+		}
+		Spacer(modifier = Modifier.weight(1.0f))
+		ContextCompat
+			.getDrawable(LocalContext.current, R.drawable.nice_avatar)
+			?.let { it1 ->
+				task.assignees = mutableListOf(it1.toBitmap(), it1.toBitmap())
+			}
+		Row(
+			horizontalArrangement = Arrangement.spacedBy((-14).dp, Alignment.End),
+			verticalAlignment = Alignment.CenterVertically,
+		) {
+			task.assignees.forEachIndexed { index, image ->
+				Image(
+					bitmap = image.asImageBitmap(),
+					contentDescription = "",
+					modifier = Modifier
+						.zIndex(index.toFloat())
+						.width(24.dp)
+						.height(24.dp)
+				)
+			}
+		}
+	}
 }

@@ -50,7 +50,7 @@ fun StoryPoint(point: Int, color: Color = Grey80) {
 @Preview
 @Composable
 fun StoryPointPreview() {
-    SprintSyncTheme {
-        StoryPoint(11000)
-    }
+	SprintSyncTheme {
+		StoryPoint(11000)
+	}
 }

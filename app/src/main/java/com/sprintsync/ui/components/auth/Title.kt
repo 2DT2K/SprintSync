@@ -11,24 +11,27 @@ import com.sprintsync.ui.theme.Grey40
 import com.sprintsync.ui.theme.Purple20
 
 @Composable
-fun Title(mainTitle: String, description: String) {
-    Surface {
-        Column {
-            Text(
-                text = mainTitle,
-                style = TextStyle(
-                    fontSize = 24.sp,
-                    color = Purple20,
-                    fontWeight = FontWeight(800),
-                ),
-            )
-            Text(
-                text = description,
-                style = TextStyle(
-                    fontSize = 16.sp,
-                    color = Grey40
-                ),
-            )
-        }
-    }
+fun Title(
+	title: String,
+	subtitle: String
+) {
+	Surface {
+		Column {
+			Text(
+				text = title,
+				style = TextStyle(
+					fontSize = 24.sp,
+					color = Purple20,
+					fontWeight = FontWeight(800),
+				),
+			)
+			Text(
+				text = subtitle,
+				style = TextStyle(
+					fontSize = 16.sp,
+					color = Grey40
+				),
+			)
+		}
+	}
 }

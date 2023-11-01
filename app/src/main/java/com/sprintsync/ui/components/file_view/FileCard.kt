@@ -30,60 +30,60 @@ import com.sprintsync.ui.views.project_view.file_view.FileView
 
 @Composable
 fun FileCard(
-    file: Attachment
+	file: Attachment
 ) {
-    // TODO: add more file type to icon
-    val icon: Int = when (file.fileType) {
-        "pdf" -> R.drawable.pdf
-        "xlsx" -> R.drawable.pdf
-        else -> {
-            R.drawable.picture
-        }
-    }
+	// TODO: add more file type to icon
+	var icon: Int = when (file.fileType) {
+		"pdf"  -> R.drawable.pdf
+		"xlsx" -> R.drawable.pdf
+		else   -> {
+			R.drawable.picture
+		}
+	}
 
-    Surface {
-        Row(
-            modifier = Modifier
-                .padding(top = 8.dp, bottom = 8.dp)
-                .fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Icon(
-                painter = painterResource(id = icon),
-                contentDescription = "file type icon",
-                tint = Color.Unspecified
-            )
-            Column(
-                verticalArrangement = Arrangement.spacedBy(4.dp, Alignment.CenterVertically),
-                horizontalAlignment = Alignment.Start,
-            ) {
-                CustomText(text = file.name)
-                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                    Box(modifier = Modifier.width(48.dp)) {
-                        CustomText(
-                            text = file.user,
-                            overflow = TextOverflow.Ellipsis,
-                            color = Grey60,
-                            fontWeight = FontWeight(500)
-                        )
-                    }
-                    CustomText(
-                        text = file.size,
-                        color = Purple20,
-                        fontWeight = FontWeight(500)
-                    )
-                }
-            }
-        }
-    }
+	Surface {
+		Row(
+			modifier = Modifier
+				.padding(top = 8.dp, bottom = 8.dp)
+				.fillMaxWidth(),
+			horizontalArrangement = Arrangement.spacedBy(8.dp),
+			verticalAlignment = Alignment.CenterVertically
+		) {
+			Icon(
+				painter = painterResource(id = icon),
+				contentDescription = "file type icon",
+				tint = Color.Unspecified
+			)
+			Column(
+				verticalArrangement = Arrangement.spacedBy(4.dp, Alignment.CenterVertically),
+				horizontalAlignment = Alignment.Start,
+			) {
+				CustomText(text = file.name)
+				Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+					Box(modifier = Modifier.width(48.dp)) {
+						CustomText(
+							text = file.user,
+							overflow = TextOverflow.Ellipsis,
+							color = Grey60,
+							fontWeight = FontWeight(500)
+						)
+					}
+					CustomText(
+						text = file.size,
+						color = Purple20,
+						fontWeight = FontWeight(500)
+					)
+				}
+			}
+		}
+	}
 }
 
 
 @Preview(showBackground = true)
 @Composable
 fun FileViewPreview() {
-    SprintSyncTheme {
-        FileView()
-    }
+	SprintSyncTheme {
+		FileView()
+	}
 }
