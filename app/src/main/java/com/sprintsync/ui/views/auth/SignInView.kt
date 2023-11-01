@@ -78,9 +78,9 @@ fun SignInView(
 				modifier = Modifier.wrapContentHeight(),
 				verticalArrangement = Arrangement.spacedBy(20.dp)
 			) {
-				EmailField { email = it }
+				EmailField(onValueChange = { email = it })
 
-				PasswordField { password = it }
+				PasswordField(onValueChange = { password = it })
 
 				Box(
 					modifier = Modifier.fillMaxWidth(),

@@ -60,7 +60,7 @@ fun MainContent() {
 
 	Scaffold(
 		bottomBar = {
-			if (currentRoute !in listOf("sign_in", "sign_up")) {
+			if (currentRoute !in listOf("sign_in", "sign_up", "password_reset")) {
 				BottomNavigation(navController = navController)
 			}
 		}
