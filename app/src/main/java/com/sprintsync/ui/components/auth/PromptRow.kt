@@ -1,4 +1,4 @@
-package com.sprintsync.ui.components.authentication
+package com.sprintsync.ui.components.auth
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
