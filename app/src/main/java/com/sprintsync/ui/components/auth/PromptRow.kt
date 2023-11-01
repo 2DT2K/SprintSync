@@ -16,7 +16,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.sprintsync.ui.components.CustomText
 import com.sprintsync.ui.theme.Grey40
-import com.sprintsync.ui.theme.Purple40
 
 @Composable
 fun PromptRow(normalText: String, highlightedText: String, highlightColor: Color, onClick: () -> Unit, modifier: Modifier = Modifier.height(40.dp)) {
