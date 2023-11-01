@@ -18,7 +18,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MailOutline
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -31,6 +30,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -42,13 +42,11 @@ import com.sprintsync.ui.theme.Purple20
 import com.sprintsync.ui.theme.Purple40
 import com.sprintsync.ui.theme.SprintSyncTheme
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ForgotPasswordScreen() {
-	var emailValue by remember {
-		mutableStateOf("")
-	}
-	Surface() {
+fun PasswordResetView(resetPassword: (String) -> Unit = {}) {
+	var email by remember { mutableStateOf("") }
+
+	Surface {
 		// TODO: remove padding when we have main scaffold
 		Column(
 			modifier = Modifier
@@ -58,8 +56,7 @@ fun ForgotPasswordScreen() {
 			verticalArrangement = Arrangement.spacedBy(40.dp)
 		) {
 			Box(
-				modifier = Modifier
-					.weight(1.25f),
+				modifier = Modifier.weight(1.25f),
 				contentAlignment = Alignment.BottomCenter
 			) {
 				Image(
@@ -67,7 +64,7 @@ fun ForgotPasswordScreen() {
 						.fillMaxWidth()
 						.height(400.dp),
 					painter = painterResource(id = R.drawable.forgotpassword),
-					contentDescription = "forgot picture"
+					contentDescription = null
 				)
 			}
 
@@ -84,7 +81,8 @@ fun ForgotPasswordScreen() {
 						fontWeight = FontWeight.Bold,
 						color = Purple20
 					)
-					Box(modifier = Modifier) {
+
+					Box {
 						CustomText(
 							text = "Don’t worry ! It happens." +
 								" Please enter your email address, we wil send " +
@@ -95,20 +93,22 @@ fun ForgotPasswordScreen() {
 					}
 
 				}
+
 				BasicTextField(
 					modifier = Modifier.fillMaxWidth(),
-					value = emailValue,
-					onValueChange = { newText ->
-						emailValue = newText
-					},
-					textStyle = androidx.compose.ui.text.TextStyle(
+					value = email,
+					onValueChange = { email = it },
+					textStyle = TextStyle(
 						color = Color(0xFF746983),
 						fontSize = 16.sp
 					),
 					decorationBox = { innerTextField ->
 						Row(
 							Modifier
-								.background(Color(0xFFEAEAEA), RoundedCornerShape(8.dp))
+								.background(
+									color = Color(0xFFEAEAEA),
+									shape = RoundedCornerShape(8.dp)
+								)
 								.innerShadow(
 									blur = 4.dp,
 									color = Color(0xFFdbdad7),
@@ -121,13 +121,18 @@ fun ForgotPasswordScreen() {
 							Icon(
 								Icons.Default.MailOutline,
 								contentDescription = null,
-								tint = Color((0xFF6B6678))
+								tint = Color(0xFF6B6678)
 							)
+
 							Spacer(Modifier.width(16.dp))
-							if (emailValue.isEmpty()) {
-								Text(text = "Enter Your Email", color = Color(0xFF746983))
-							}
-							else innerTextField()
+
+							if (email.isEmpty())
+								Text(
+									text = "Enter Your Email",
+									color = Color(0xFF746983)
+								)
+							else
+								innerTextField()
 						}
 					}
 				)
@@ -137,8 +142,8 @@ fun ForgotPasswordScreen() {
 						.width(140.dp)
 						.height(48.dp),
 					shape = RoundedCornerShape(40),
-					onClick = {},
-					colors = ButtonDefaults.buttonColors(containerColor = Purple40)
+					colors = ButtonDefaults.buttonColors(containerColor = Purple40),
+					onClick = { resetPassword(email) }
 				) {
 					Text(
 						text = "Submit",
@@ -152,8 +157,8 @@ fun ForgotPasswordScreen() {
 
 @Preview(showBackground = true)
 @Composable
-fun PreviewForgot() {
+fun PasswordResetPreview() {
 	SprintSyncTheme {
-		ForgotPasswordScreen()
+		PasswordResetView()
 	}
 }

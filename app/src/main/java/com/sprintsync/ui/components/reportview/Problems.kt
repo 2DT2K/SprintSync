@@ -250,7 +250,7 @@ fun Problem(title: String, incompleProblems: List<Task>) {
 
 											Image(
 												painter = painterResource(
-													id = R.drawable.nice_avartar
+													id = R.drawable.nice_avatar
 												),
 												modifier = Modifier.size(22.dp),
 												contentDescription = ""

@@ -41,7 +41,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.sprintsync.R
 import com.sprintsync.ui.components.CustomText
-import com.sprintsync.ui.components.ExpandTextField
+import com.sprintsync.ui.components.ExpandableTextField
 import com.sprintsync.ui.theme.SprintSyncTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -67,28 +67,26 @@ fun CustomFloatingActionButton() {
 		if (showBottomSheet) {
 
 			ModalBottomSheet(
-				onDismissRequest = {
-					showBottomSheet = false
-				},
+				onDismissRequest = { showBottomSheet = false },
 				sheetState = sheetState,
 				windowInsets = WindowInsets(0),
 				dragHandle = {
 					Row(
 						modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(vertical = 24.dp),
+							.fillMaxWidth()
+							.padding(vertical = 24.dp),
 						verticalAlignment = Alignment.CenterVertically,
 						horizontalArrangement = Arrangement.Center
 					) {
 						Box(
 							modifier = Modifier
-                                .padding(0.dp)
-                                .width(32.dp)
-                                .height(4.dp)
-                                .background(
-                                    color = Color(0xFF79747E),
-                                    shape = RoundedCornerShape(size = 100.dp)
-                                )
+								.padding(0.dp)
+								.width(32.dp)
+								.height(4.dp)
+								.background(
+									color = Color(0xFF79747E),
+									shape = RoundedCornerShape(size = 100.dp)
+								)
 						)
 					}
 				}
@@ -100,10 +98,10 @@ fun CustomFloatingActionButton() {
 					fontWeight = FontWeight(600)
 				)
 
-				ExpandTextField(
+				ExpandableTextField(
 					modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(start = 8.dp),
+						.fillMaxWidth()
+						.padding(start = 8.dp),
 					value = "",
 					label = "",
 					placeholder = "Add a description",
@@ -128,10 +126,10 @@ fun CustomFloatingActionButton() {
 				}
 
 				Spacer(
-                    Modifier
-                        .background(Color.Transparent)
-                        .fillMaxWidth()
-                        .windowInsetsPadding(WindowInsets.systemBars.only(WindowInsetsSides.Bottom))
+					Modifier
+						.background(Color.Transparent)
+						.fillMaxWidth()
+						.windowInsetsPadding(WindowInsets.systemBars.only(WindowInsetsSides.Bottom))
 				)
 			}
 		}

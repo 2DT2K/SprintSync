@@ -27,7 +27,9 @@ import com.sprintsync.auth.AuthViewModel
 import com.sprintsync.auth.Authenticator
 import com.sprintsync.ui.components.BottomNavigation
 import com.sprintsync.ui.views.HomePage
+import com.sprintsync.ui.views.auth.PasswordResetView
 import com.sprintsync.ui.views.auth.SignInView
+import com.sprintsync.ui.views.auth.SignUpView
 import com.sprintsync.ui.views.project_view.DetailProject
 import kotlinx.coroutines.launch
 
@@ -107,8 +109,29 @@ fun MainContent() {
 						signUp = { navController.navigate("sign_up") }
 					)
 				}
-				composable("sign_up") { TODO("Have not implement sign up view") }
-				composable("password_reset") { TODO("Have not implement password reset view") }
+				composable("sign_up") {
+					SignUpView(
+						signUpWithPassword = { email, password ->
+							scope.launch {
+								authenticator
+									.signUp(email, password)
+									.let { viewModel.update(it) }
+								navController.popBackStack()
+							}
+						},
+						signIn = { navController.popBackStack() }
+					)
+				}
+				composable("password_reset") {
+					PasswordResetView(
+						resetPassword = { email ->
+							scope.launch {
+								authenticator.resetPassword(email)
+								navController.popBackStack()
+							}
+						}
+					)
+				}
 				composable("home") { HomePage() }
 				composable("project") { DetailProject() }
 				composable("calendar") { TODO("Have not implement calendar view") }

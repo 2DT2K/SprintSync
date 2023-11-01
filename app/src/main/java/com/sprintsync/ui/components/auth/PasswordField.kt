@@ -9,16 +9,16 @@ import com.sprintsync.R
 import com.sprintsync.ui.components.ExpandableTextField
 
 @Composable
-fun Password(
+fun PasswordField(
 	isNormal: Boolean = true,
 	onValueChange: ((String) -> Unit)? = null,
 ) {
 	ExpandableTextField(
+		modifier = Modifier.fillMaxWidth(),
 		isPassword = true,
 		onValueChange = onValueChange,
 		label = "Password",
 		placeholder = "${if (isNormal) "Enter" else "Confirm"} Your Password",
-		modifier = Modifier.fillMaxWidth(),
 		leadingIcon = {
 			Icon(
 				painter = painterResource(id = if (isNormal) R.drawable.key else R.drawable.lock),

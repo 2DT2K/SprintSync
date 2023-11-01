@@ -13,6 +13,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
@@ -21,9 +22,7 @@ import androidx.compose.ui.unit.sp
 import com.sprintsync.R
 import com.sprintsync.ui.components.CustomButton
 import com.sprintsync.ui.components.CustomText
-import com.sprintsync.ui.components.authentication.PromptRow
 import com.sprintsync.ui.theme.Purple40
-
 
 @Composable
 fun SignInButtonGroup(
@@ -41,7 +40,7 @@ fun SignInButtonGroup(
 				.fillMaxWidth()
 				.height(48.dp),
 			onClick = signInWithPassword,
-			text = "Login",
+			text = "Sign In",
 			fontSize = 18.sp,
 			shape = RoundedCornerShape(24)
 		)
@@ -92,6 +91,7 @@ fun SignInButtonGroup(
 					Icon(
 						painter = painterResource(id = R.drawable.google),
 						contentDescription = null,
+						tint = Color.Unspecified
 					)
 				}
 			)

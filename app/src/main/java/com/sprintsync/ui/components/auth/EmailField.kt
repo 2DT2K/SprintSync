@@ -9,9 +9,7 @@ import com.sprintsync.R
 import com.sprintsync.ui.components.ExpandableTextField
 
 @Composable
-fun Email(
-	onValueChange: ((String) -> Unit)? = null
-) {
+fun EmailField(onValueChange: ((String) -> Unit)? = null) {
 	ExpandableTextField(
 		modifier = Modifier.fillMaxWidth(),
 		onValueChange = onValueChange,

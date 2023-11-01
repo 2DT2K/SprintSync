@@ -11,13 +11,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sprintsync.ui.components.CustomButton
-import com.sprintsync.ui.components.authentication.PromptRow
 import com.sprintsync.ui.theme.Purple40
 
 @Composable
 fun SignUpButtonGroup(
-	signUpWithPassword: () -> Unit,
-	signIn: () -> Unit
+	signUpWithPassword: () -> Unit = {},
+	signIn: () -> Unit = {}
 ) {
 	Column(
 		modifier = Modifier.fillMaxWidth(),

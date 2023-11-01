@@ -61,8 +61,6 @@ dependencies {
 	implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.2")
 	implementation("androidx.navigation:navigation-compose:2.7.4")
 
-	implementation("io.coil-kt:coil-compose:2.4.0")
-
 	implementation(platform("androidx.compose:compose-bom:2023.10.01"))
 	implementation("androidx.compose.material:material")
 	implementation("androidx.compose.material3:material3")
@@ -71,25 +69,14 @@ dependencies {
 	implementation("androidx.compose.ui:ui-tooling-preview")
 	implementation("androidx.compose.ui:ui-util")
 
-	implementation(platform("com.google.firebase:firebase-bom:32.4.0"))
-	implementation("com.google.firebase:firebase-auth-ktx")
+	// Retrofit
+	implementation("com.squareup.retrofit2:retrofit:2.9.0")
+	implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+	implementation(platform("com.squareup.okhttp3:okhttp-bom:4.11.0"))
+	implementation("com.squareup.okhttp3:okhttp")
+	implementation("com.squareup.okhttp3:logging-interceptor")
 
-	implementation("com.google.android.gms:play-services-auth:20.7.0")
-
-	implementation("com.fasterxml.jackson.core:jackson-databind:2.15.2")
-
-//	testing dependencies
-	testImplementation("junit:junit:4.13.2")
-	androidTestImplementation("androidx.test.ext:junit:1.1.5")
-	androidTestImplementation("androidx.compose.ui:ui-test-junit4")
-	androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
-	androidTestImplementation(platform("androidx.compose:compose-bom:2023.10.01"))
-
-//	debugging dependencies
-	debugImplementation("androidx.compose.ui:ui-tooling")
-	debugImplementation("androidx.compose.ui:ui-test-manifest")
-
-//	VICO Chart
+	//	VICO Chart
 	dependencies {
 		// For Jetpack Compose.
 		implementation("com.patrykandpatrick.vico:compose:1.12.0")
@@ -107,5 +94,25 @@ dependencies {
 		implementation("com.patrykandpatrick.vico:views:1.12.0")
 	}
 
+	// Firebase
+	implementation(platform("com.google.firebase:firebase-bom:32.4.0"))
+	implementation("com.google.firebase:firebase-auth-ktx")
+
+	// Google Auth
+	implementation("com.google.android.gms:play-services-auth:20.7.0")
+
+	implementation("com.fasterxml.jackson.core:jackson-databind:2.15.2")
+
 	implementation("com.github.TuleSimon:xMaterialccp:1.22")
+
+//	testing dependencies
+	testImplementation("junit:junit:4.13.2")
+	androidTestImplementation("androidx.test.ext:junit:1.1.5")
+	androidTestImplementation("androidx.compose.ui:ui-test-junit4")
+	androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+	androidTestImplementation(platform("androidx.compose:compose-bom:2023.10.01"))
+
+//	debugging dependencies
+	debugImplementation("androidx.compose.ui:ui-tooling")
+	debugImplementation("androidx.compose.ui:ui-test-manifest")
 }

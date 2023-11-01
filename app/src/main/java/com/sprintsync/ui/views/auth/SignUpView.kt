@@ -22,8 +22,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.sprintsync.R
-import com.sprintsync.ui.components.auth.Email
-import com.sprintsync.ui.components.auth.Password
+import com.sprintsync.ui.components.auth.EmailField
+import com.sprintsync.ui.components.auth.PasswordField
 import com.sprintsync.ui.components.auth.SignUpButtonGroup
 import com.sprintsync.ui.components.auth.Title
 import com.sprintsync.ui.theme.SprintSyncTheme
@@ -72,11 +72,11 @@ fun SignUpView(
 				modifier = Modifier.wrapContentHeight(),
 				verticalArrangement = Arrangement.spacedBy(20.dp)
 			) {
-				Email { email = it }
+				EmailField { email = it }
 
-				Password { password = it }
+				PasswordField { password = it }
 
-				Password(isNormal = false) { confirmPassword = it }
+				PasswordField(isNormal = false) { confirmPassword = it }
 			}
 
 			Column(
@@ -85,7 +85,7 @@ fun SignUpView(
 					.weight(0.75f),
 				horizontalAlignment = Alignment.CenterHorizontally
 			) {
-				Spacer(modifier = Modifier.weight(0.6f))
+				Spacer(modifier = Modifier.weight(0.5f))
 
 				Surface(modifier = Modifier.weight(1f)) {
 					SignUpButtonGroup(
