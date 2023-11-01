@@ -21,13 +21,15 @@ import androidx.compose.ui.unit.sp
 import com.sprintsync.R
 import com.sprintsync.ui.components.CustomButton
 import com.sprintsync.ui.components.CustomText
+import com.sprintsync.ui.components.authentication.PromptRow
 import com.sprintsync.ui.theme.Purple40
 
 
 @Composable
 fun SignInButtonGroup(
-	signInWithPassword: () -> Unit = {},
-	signInWithGoogle: () -> Unit = {}
+	signInWithPassword: () -> Unit,
+	signInWithGoogle: () -> Unit,
+	signUp: () -> Unit
 ) {
 	Column(
 		modifier = Modifier.fillMaxWidth(),
@@ -43,6 +45,7 @@ fun SignInButtonGroup(
 			fontSize = 18.sp,
 			shape = RoundedCornerShape(24)
 		)
+
 		Row(
 			Modifier.fillMaxWidth(),
 			verticalAlignment = Alignment.CenterVertically
@@ -70,6 +73,7 @@ fun SignInButtonGroup(
 					.background(Purple40)
 			)
 		}
+
 		Row(
 			modifier = Modifier
 				.fillMaxWidth()
@@ -92,5 +96,12 @@ fun SignInButtonGroup(
 				}
 			)
 		}
+
+		PromptRow(
+			normalText = "Don't have an account?",
+			highlightedText = "Sign Up",
+			highlightColor = Purple40,
+			onClick = signUp
+		)
 	}
 }
