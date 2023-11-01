@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sprintsync.ui.components.CustomButton
@@ -24,6 +25,7 @@ import com.sprintsync.ui.components.CustomText
 import com.sprintsync.ui.theme.Grey40
 import com.sprintsync.ui.theme.Purple40
 
+@Preview
 @Composable
 fun SignUpButtonGroup() {
     Column(
@@ -42,30 +44,11 @@ fun SignUpButtonGroup() {
             shape = RoundedCornerShape(24)
         )
 
-        Row(
-            modifier = Modifier.height(40.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Center
-        ) {
-            CustomText(
-                text = "Already have an account ?",
-                color = Grey40
-            )
-
-            Spacer(modifier = Modifier.width(5.dp))
-
-            CustomText(
-                modifier = Modifier.clickable(interactionSource = MutableInteractionSource(),
-                    indication = rememberRipple(
-                        bounded = true,
-                        radius = 250.dp
-                    ),
-                    onClick = {}
-                ),
-                text = "Login",
-                color = Purple40,
-                fontWeight = FontWeight.Bold
-            )
-        }
+        PromptRow(
+            "Already have an account?",
+            "Log In",
+            Purple40,
+            onClick = {}
+        )
     }
 }

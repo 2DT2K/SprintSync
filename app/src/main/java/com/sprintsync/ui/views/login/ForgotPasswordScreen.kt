@@ -68,7 +68,7 @@ fun ForgotPasswordScreen() {
                 .fillMaxSize()
                 .padding(start = 24.dp, end = 24.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(50.dp)
+            verticalArrangement = Arrangement.spacedBy(40.dp)
         ) {
             Box(
                 modifier = Modifier
@@ -77,8 +77,8 @@ fun ForgotPasswordScreen() {
             ) {
                 Image(
                     modifier = Modifier
-                        .width(365.dp)
-                        .height(387.dp),
+                        .fillMaxWidth()
+                        .height(400.dp),
                     painter = painterResource(id = R.drawable.forgotpassword),
                     contentDescription = "forgot picture"
                 )
@@ -102,22 +102,26 @@ fun ForgotPasswordScreen() {
                             text = "Don’t worry ! It happens." +
                                     " Please enter your email address, we wil send " +
                                     "your the link to reset your password.",
-                            fontSize = 13.sp,
+                            fontSize = 14.sp,
+                            color = Color(0xFF5B5858)
                         )
                     }
 
                 }
-
                 BasicTextField(
                     modifier = Modifier.fillMaxWidth(),
                     value = emailValue,
                     onValueChange = { newText ->
                         emailValue = newText
                     },
+                    textStyle = androidx.compose.ui.text.TextStyle(
+                        color = Color(0xFF746983),
+                        fontSize = 16.sp
+                    ),
                     decorationBox = { innerTextField ->
                         Row(
                             Modifier
-                                .background(Grey120, RoundedCornerShape(8.dp))
+                                .background(Color(0xFFEAEAEA), RoundedCornerShape(8.dp))
                                 .innerShadow(
                                     blur = 4.dp,
                                     color = Color(0xFFdbdad7),
@@ -127,10 +131,10 @@ fun ForgotPasswordScreen() {
                                 .padding(16.dp),
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            Icon(Icons.Default.MailOutline, contentDescription = null)
+                            Icon(Icons.Default.MailOutline, contentDescription = null, tint = Color((0xFF6B6678)))
                             Spacer(Modifier.width(16.dp))
                             if (emailValue.isEmpty()) {
-                                Text(text = "Enter Your Email")
+                                Text(text = "Enter Your Email", color = Color(0xFF746983))
                             } else innerTextField()
                         }
                     }
@@ -138,15 +142,15 @@ fun ForgotPasswordScreen() {
 
                 Button(
                     modifier = Modifier
-                        .width(176.dp)
-                        .height(56.dp),
+                        .width(140.dp)
+                        .height(48.dp),
                     shape = RoundedCornerShape(40),
                     onClick = {},
                     colors = ButtonDefaults.buttonColors(containerColor = Purple40)
                 ) {
                     Text(
                         text = "Submit",
-                        fontSize = 20.sp
+                        fontSize = 16.sp
                     )
                 }
             }

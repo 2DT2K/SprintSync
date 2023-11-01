@@ -28,6 +28,7 @@ import com.sprintsync.ui.components.CustomText
 import com.sprintsync.ui.components.CustomTextField
 import com.sprintsync.ui.components.authentication.Email
 import com.sprintsync.ui.components.authentication.Password
+import com.sprintsync.ui.components.authentication.PromptRow
 import com.sprintsync.ui.components.authentication.SignInButtonGroup
 import com.sprintsync.ui.components.authentication.Title
 import com.sprintsync.ui.theme.Grey40
@@ -50,7 +51,7 @@ fun LogInScreen(modifier: Modifier = Modifier) {
                 modifier = Modifier
                     .fillMaxWidth()
                     .defaultMinSize()
-                    .weight(0.75f),
+                    .weight(0.7f),
                 contentAlignment = Alignment.TopCenter
             ) {
                 Image(
@@ -64,7 +65,7 @@ fun LogInScreen(modifier: Modifier = Modifier) {
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .weight(0.5f)
+                    .weight(0.3f)
             ) {
                 Title(
                     "Hi, Welcome Back! ",
@@ -91,18 +92,13 @@ fun LogInScreen(modifier: Modifier = Modifier) {
                             onClick = {}
                         ), contentAlignment = Alignment.BottomEnd
                 ) {
-                    Row {
-                        Text(
-                            text = "Forgot Password?",
-                            color = Grey40
-                        )
-                        Spacer(modifier = Modifier.width(4.dp))
-                        Text(
-                            text = "Reset",
-                            color = Red80,
-                            fontWeight = FontWeight.Bold
-                        )
-                    }
+                    PromptRow(
+                        normalText = "Forgot Password?",
+                        highlightedText = "Reset",
+                        highlightColor = Red80,
+                        onClick = {},
+                        modifier = Modifier.height(20.dp)
+                    )
                 }
             }
 
@@ -116,33 +112,6 @@ fun LogInScreen(modifier: Modifier = Modifier) {
                 SignInButtonGroup()
             }
 
-            Row(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .weight(0.5f),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Center
-            ) {
-                CustomText(
-                    text = "Don't have an account?",
-                    color = Grey40
-                )
-
-                Spacer(modifier = Modifier.width(5.dp))
-
-                CustomText(
-                    modifier = Modifier.clickable(interactionSource = MutableInteractionSource(),
-                        indication = rememberRipple(
-                            bounded = true,
-                            radius = 250.dp
-                        ),
-                        onClick = {}
-                    ),
-                    text = "Sign Up",
-                    color = Purple40,
-                    fontWeight = FontWeight.Bold
-                )
-            }
         }
     }
 }
