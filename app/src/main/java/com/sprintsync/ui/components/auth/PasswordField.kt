@@ -9,7 +9,7 @@ import com.sprintsync.R
 import com.sprintsync.ui.components.ExpandableTextField
 
 @Composable
-fun Password(
+fun PasswordField(
 	isNormal: Boolean = true,
 	onValueChange: ((String) -> Unit)? = null,
 ) {

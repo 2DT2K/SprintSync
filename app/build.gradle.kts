@@ -101,6 +101,11 @@ dependencies {
 	// Google Auth
 	implementation("com.google.android.gms:play-services-auth:20.7.0")
 
+	// Calendar
+	implementation("io.github.boguszpawlowski.composecalendar:composecalendar:1.1.1")
+	implementation("io.github.boguszpawlowski.composecalendar:kotlinx-datetime:1.1.1")
+	implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.1")
+
 	implementation("com.fasterxml.jackson.core:jackson-databind:2.15.2")
 
 	implementation("com.github.TuleSimon:xMaterialccp:1.22")
