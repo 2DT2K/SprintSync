@@ -41,107 +41,107 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.sprintsync.R
 import com.sprintsync.ui.components.CustomText
-import com.sprintsync.ui.components.CustomTextField
+import com.sprintsync.ui.components.ExpandTextField
 import com.sprintsync.ui.theme.SprintSyncTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CustomFloatingActionButton() {
-	val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
-	val scope = rememberCoroutineScope()
-	var showBottomSheet by remember { mutableStateOf(false) }
+    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+    val scope = rememberCoroutineScope()
+    var showBottomSheet by remember { mutableStateOf(false) }
 
-	Scaffold(
-		floatingActionButton = {
-			ExtendedFloatingActionButton(
-				text = { Text("Show bottom sheet") },
-				icon = { Icon(Icons.Filled.Add, contentDescription = "") },
-				onClick = {
-					showBottomSheet = true
-				}
-			)
-		}
-	) { contentPadding ->
-		// Screen content
+    Scaffold(
+        floatingActionButton = {
+            ExtendedFloatingActionButton(
+                text = { Text("Show bottom sheet") },
+                icon = { Icon(Icons.Filled.Add, contentDescription = "") },
+                onClick = {
+                    showBottomSheet = true
+                }
+            )
+        }
+    ) { contentPadding ->
+        // Screen content
 
-		if (showBottomSheet) {
+        if (showBottomSheet) {
 
-			ModalBottomSheet(
-				onDismissRequest = {
-					showBottomSheet = false
-				},
-				sheetState = sheetState,
-				windowInsets = WindowInsets(0),
-				dragHandle = {
-					Row(
-						modifier = Modifier
-							.fillMaxWidth()
-							.padding(vertical = 24.dp),
-						verticalAlignment = Alignment.CenterVertically,
-						horizontalArrangement = Arrangement.Center
-					) {
-						Box(
-							modifier = Modifier
-								.padding(0.dp)
-								.width(32.dp)
-								.height(4.dp)
-								.background(
-									color = Color(0xFF79747E),
-									shape = RoundedCornerShape(size = 100.dp)
-								)
-						)
-					}
-				}
-			) {
-				// Sheet content
-				CustomText(
-					text = "Project name",
-					modifier = Modifier.padding(start = 24.dp),
-					fontWeight = FontWeight(600)
-				)
+            ModalBottomSheet(
+                onDismissRequest = {
+                    showBottomSheet = false
+                },
+                sheetState = sheetState,
+                windowInsets = WindowInsets(0),
+                dragHandle = {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 24.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.Center
+                    ) {
+                        Box(
+                            modifier = Modifier
+                                .padding(0.dp)
+                                .width(32.dp)
+                                .height(4.dp)
+                                .background(
+                                    color = Color(0xFF79747E),
+                                    shape = RoundedCornerShape(size = 100.dp)
+                                )
+                        )
+                    }
+                }
+            ) {
+                // Sheet content
+                CustomText(
+                    text = "Project name",
+                    modifier = Modifier.padding(start = 24.dp),
+                    fontWeight = FontWeight(600)
+                )
 
-				CustomTextField(
-					modifier = Modifier
-						.fillMaxWidth()
-						.padding(start = 8.dp),
-					value = "",
-					label = "",
-					placeholder = "Add a description",
-					onValueChange = {
+                ExpandTextField(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(start = 8.dp),
+                    value = "",
+                    label = "",
+                    placeholder = "Add a description",
+                    onValueChange = {
 
-					},
-					colors = OutlinedTextFieldDefaults.colors(
-						focusedBorderColor = Color.Transparent,
-						unfocusedBorderColor = Color.Transparent,
-					)
-				)
+                    },
+                    colors = OutlinedTextFieldDefaults.colors(
+                        focusedBorderColor = Color.Transparent,
+                        unfocusedBorderColor = Color.Transparent,
+                    )
+                )
 
-				Box(modifier = Modifier.fillMaxWidth()) {
-					IconButton(
-						modifier = Modifier.align(Alignment.CenterEnd),
-						onClick = { /*TODO*/ }) {
-						Icon(
-							painter = painterResource(id = R.drawable.send),
-							contentDescription = "create project"
-						)
-					}
-				}
+                Box(modifier = Modifier.fillMaxWidth()) {
+                    IconButton(
+                        modifier = Modifier.align(Alignment.CenterEnd),
+                        onClick = { /*TODO*/ }) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.send),
+                            contentDescription = "create project"
+                        )
+                    }
+                }
 
-				Spacer(
-					Modifier
-						.background(Color.Transparent)
-						.fillMaxWidth()
-						.windowInsetsPadding(WindowInsets.systemBars.only(WindowInsetsSides.Bottom))
-				)
-			}
-		}
-	}
+                Spacer(
+                    Modifier
+                        .background(Color.Transparent)
+                        .fillMaxWidth()
+                        .windowInsetsPadding(WindowInsets.systemBars.only(WindowInsetsSides.Bottom))
+                )
+            }
+        }
+    }
 }
 
 @Preview
 @Composable
 fun PreviewFloatingActionButton() {
-	SprintSyncTheme {
-		CustomFloatingActionButton()
-	}
+    SprintSyncTheme {
+        CustomFloatingActionButton()
+    }
 }

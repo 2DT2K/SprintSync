@@ -45,114 +45,114 @@ import com.sprintsync.ui.theme.SprintSyncTheme
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ForgotPasswordScreen() {
-	var emailValue by remember {
-		mutableStateOf("")
-	}
-	Surface() {
-		// TODO: remove padding when we have main scaffold
-		Column(
-			modifier = Modifier
+    var emailValue by remember {
+        mutableStateOf("")
+    }
+    Surface() {
+        // TODO: remove padding when we have main scaffold
+        Column(
+            modifier = Modifier
                 .fillMaxSize()
                 .padding(start = 24.dp, end = 24.dp),
-			horizontalAlignment = Alignment.CenterHorizontally,
-			verticalArrangement = Arrangement.spacedBy(40.dp)
-		) {
-			Box(
-				modifier = Modifier
-					.weight(1.25f),
-				contentAlignment = Alignment.BottomCenter
-			) {
-				Image(
-					modifier = Modifier
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(40.dp)
+        ) {
+            Box(
+                modifier = Modifier
+                    .weight(1.25f),
+                contentAlignment = Alignment.BottomCenter
+            ) {
+                Image(
+                    modifier = Modifier
                         .fillMaxWidth()
                         .height(400.dp),
-					painter = painterResource(id = R.drawable.forgotpassword),
-					contentDescription = "forgot picture"
-				)
-			}
+                    painter = painterResource(id = R.drawable.forgotpassword),
+                    contentDescription = "forgot picture"
+                )
+            }
 
 
-			Column(
-				modifier = Modifier.weight(1f),
-				verticalArrangement = Arrangement.spacedBy(40.dp),
-				horizontalAlignment = Alignment.CenterHorizontally
-			) {
-				Column(modifier = Modifier.fillMaxWidth()) {
-					CustomText(
-						text = "Forgot password?",
-						fontSize = 25.sp,
-						fontWeight = FontWeight.Bold,
-						color = Purple20
-					)
-					Box(modifier = Modifier) {
-						CustomText(
-							text = "Don’t worry ! It happens." +
-								" Please enter your email address, we wil send " +
-								"your the link to reset your password.",
-							fontSize = 14.sp,
-							color = Color(0xFF5B5858)
-						)
-					}
+            Column(
+                modifier = Modifier.weight(1f),
+                verticalArrangement = Arrangement.spacedBy(40.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Column(modifier = Modifier.fillMaxWidth()) {
+                    CustomText(
+                        text = "Forgot password?",
+                        fontSize = 25.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Purple20
+                    )
+                    Box(modifier = Modifier) {
+                        CustomText(
+                            text = "Don’t worry ! It happens." +
+                                    " Please enter your email address, we wil send " +
+                                    "your the link to reset your password.",
+                            fontSize = 14.sp,
+                            color = Color(0xFF5B5858)
+                        )
+                    }
 
-				}
-				BasicTextField(
-					modifier = Modifier.fillMaxWidth(),
-					value = emailValue,
-					onValueChange = { newText ->
-						emailValue = newText
-					},
-					textStyle = androidx.compose.ui.text.TextStyle(
-						color = Color(0xFF746983),
-						fontSize = 16.sp
-					),
-					decorationBox = { innerTextField ->
-						Row(
-							Modifier
-								.background(Color(0xFFEAEAEA), RoundedCornerShape(8.dp))
-								.innerShadow(
-									blur = 4.dp,
-									color = Color(0xFFdbdad7),
-									spread = 8.dp,
-									cornersRadius = 8.dp
-								)
-								.padding(16.dp),
-							verticalAlignment = Alignment.CenterVertically
-						) {
-							Icon(
-								Icons.Default.MailOutline, contentDescription = null,
-								tint = Color((0xFF6B6678))
-							)
-							Spacer(Modifier.width(16.dp))
-							if (emailValue.isEmpty()) {
-								Text(text = "Enter Your Email", color = Color(0xFF746983))
-							}
-							else innerTextField()
-						}
-					}
-				)
+                }
+                BasicTextField(
+                    modifier = Modifier.fillMaxWidth(),
+                    value = emailValue,
+                    onValueChange = { newText ->
+                        emailValue = newText
+                    },
+                    textStyle = androidx.compose.ui.text.TextStyle(
+                        color = Color(0xFF746983),
+                        fontSize = 16.sp
+                    ),
+                    decorationBox = { innerTextField ->
+                        Row(
+                            Modifier
+                                .background(Color(0xFFEAEAEA), RoundedCornerShape(8.dp))
+                                .innerShadow(
+                                    blur = 4.dp,
+                                    color = Color(0xFFdbdad7),
+                                    spread = 8.dp,
+                                    cornersRadius = 8.dp
+                                )
+                                .padding(16.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Icon(
+                                Icons.Default.MailOutline,
+                                contentDescription = null,
+                                tint = Color((0xFF6B6678))
+                            )
+                            Spacer(Modifier.width(16.dp))
+                            if (emailValue.isEmpty()) {
+                                Text(text = "Enter Your Email", color = Color(0xFF746983))
+                            } else innerTextField()
+                        }
+                    }
+                )
 
-				Button(
-					modifier = Modifier
+                Button(
+                    modifier = Modifier
                         .width(140.dp)
                         .height(48.dp),
-					shape = RoundedCornerShape(40),
-					onClick = {},
-					colors = ButtonDefaults.buttonColors(containerColor = Purple40)
-				) {
-					Text(
-						text = "Submit",
-						fontSize = 16.sp
-					)
-				}
-			}
-		}
-	}
+                    shape = RoundedCornerShape(40),
+                    onClick = {},
+                    colors = ButtonDefaults.buttonColors(containerColor = Purple40)
+                ) {
+                    Text(
+                        text = "Submit",
+                        fontSize = 16.sp
+                    )
+                }
+            }
+        }
+    }
 }
 
 @Preview(showBackground = true)
 @Composable
 fun PreviewForgot() {
-	SprintSyncTheme {
-		ForgotPasswordScreen()
-	}
+    SprintSyncTheme {
+        ForgotPasswordScreen()
+    }
 }

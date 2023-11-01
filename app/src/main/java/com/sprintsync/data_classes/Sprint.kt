@@ -6,8 +6,11 @@ import java.time.LocalDateTime
 data class Sprint(
 	@JsonProperty("_id")
 	val id: String,
+	val sprintName: String,
 	val startDate: LocalDateTime,
 	val endDate: LocalDateTime,
 	val sprintNumber: Int,
-	val project: String
+	val task: List<Task>,
+	val project: String,
+	val isDone: Boolean
 )
