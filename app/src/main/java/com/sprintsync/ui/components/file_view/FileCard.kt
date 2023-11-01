@@ -22,6 +22,7 @@ import com.sprintsync.R
 import com.sprintsync.ui.components.CustomText
 import com.sprintsync.ui.theme.Grey60
 import com.sprintsync.ui.theme.Purple20
+import com.sprintsync.ui.theme.Purple40
 import com.sprintsync.ui.theme.SprintSyncTheme
 import com.sprintsync.ui.views.project_view.file_view.Attachment
 import com.sprintsync.ui.views.project_view.file_view.FileView

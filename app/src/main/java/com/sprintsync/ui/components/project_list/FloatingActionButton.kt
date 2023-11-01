@@ -66,46 +66,47 @@ fun CustomFloatingActionButton() {
 
 		if (showBottomSheet) {
 
-			ModalBottomSheet(
-				onDismissRequest = { showBottomSheet = false },
-				sheetState = sheetState,
-				windowInsets = WindowInsets(0),
-				dragHandle = {
-					Row(
-						modifier = Modifier
-							.fillMaxWidth()
-							.padding(vertical = 24.dp),
-						verticalAlignment = Alignment.CenterVertically,
-						horizontalArrangement = Arrangement.Center
-					) {
-						Box(
-							modifier = Modifier
-								.padding(0.dp)
-								.width(32.dp)
-								.height(4.dp)
-								.background(
-									color = Color(0xFF79747E),
-									shape = RoundedCornerShape(size = 100.dp)
-								)
-						)
-					}
-				}
-			) {
-				// Sheet content
-				CustomText(
-					text = "Project name",
-					modifier = Modifier.padding(start = 24.dp),
-					fontWeight = FontWeight(600)
-				)
-
+            ModalBottomSheet(
+                onDismissRequest = {
+                    showBottomSheet = false
+                },
+                sheetState = sheetState,
+                windowInsets = WindowInsets(0),
+                dragHandle = {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 24.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.Center
+                    ) {
+                        Box(
+                            modifier = Modifier
+                                .padding(0.dp)
+                                .width(32.dp)
+                                .height(4.dp)
+                                .background(
+                                    color = Color(0xFF79747E),
+                                    shape = RoundedCornerShape(size = 100.dp)
+                                )
+                        )
+                    }
+                }
+            ) {
+                // Sheet content
+                CustomText(
+                    text = "Project name",
+                    modifier = Modifier.padding(start = 24.dp),
+                    fontWeight = FontWeight(600)
+                )
 				ExpandableTextField(
-					modifier = Modifier
-						.fillMaxWidth()
-						.padding(start = 8.dp),
-					value = "",
-					label = "",
-					placeholder = "Add a description",
-					onValueChange = {
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(start = 8.dp),
+                    value = "",
+                    label = "",
+                    placeholder = "Add a description",
+                    onValueChange = {
 
 					},
 					colors = OutlinedTextFieldDefaults.colors(

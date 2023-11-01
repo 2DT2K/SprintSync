@@ -85,8 +85,8 @@ fun PasswordResetView(resetPassword: (String) -> Unit = {}) {
 					Box {
 						CustomText(
 							text = "Don’t worry ! It happens." +
-								" Please enter your email address, we wil send " +
-								"your the link to reset your password.",
+									" Please enter your email address, we wil send " +
+									"your the link to reset your password.",
 							fontSize = 14.sp,
 							color = Color(0xFF5B5858)
 						)
