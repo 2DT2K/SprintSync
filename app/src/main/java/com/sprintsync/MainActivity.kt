@@ -43,7 +43,7 @@ class MainActivity : ComponentActivity() {
 			) {
 				Surface(modifier = Modifier.padding(it)) {
 					NavHost(navController = navController, startDestination = "home") {
-						composable("login") { LogInScreen(navController = navController) }
+						composable("login") { LogInScreen() }
 						composable("signup") { SignUpScreen() }
 						composable("home") { HomePage() }
 						composable("project") { DetailProject() }
