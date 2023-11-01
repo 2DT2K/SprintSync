@@ -27,9 +27,9 @@ import com.sprintsync.ui.theme.Purple40
 
 @Composable
 fun SignInButtonGroup(
-	signInWithPassword: () -> Unit,
-	signInWithGoogle: () -> Unit,
-	signUp: () -> Unit
+	signInWithPassword: () -> Unit = {},
+	signInWithGoogle: () -> Unit = {},
+	signUp: () -> Unit = {}
 ) {
 	Column(
 		modifier = Modifier.fillMaxWidth(),
@@ -47,7 +47,7 @@ fun SignInButtonGroup(
 		)
 
 		Row(
-			Modifier.fillMaxWidth(),
+			modifier = Modifier.fillMaxWidth(),
 			verticalAlignment = Alignment.CenterVertically
 		) {
 			Box(

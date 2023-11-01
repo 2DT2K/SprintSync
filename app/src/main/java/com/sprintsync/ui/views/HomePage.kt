@@ -18,20 +18,20 @@ import com.sprintsync.ui.components.homepage.HomePageViews
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomePage() {
-    Column(
-        Modifier
-            .padding(16.dp)
-            .verticalScroll(rememberScrollState()),
-        verticalArrangement = Arrangement.spacedBy(20.dp, Alignment.Top),
-        horizontalAlignment = Alignment.CenterHorizontally,
-    ) {
-        HomePageViews()
-        HomePageIssue()
-    }
+	Column(
+		Modifier
+			.padding(16.dp)
+			.verticalScroll(rememberScrollState()),
+		verticalArrangement = Arrangement.spacedBy(20.dp, Alignment.Top),
+		horizontalAlignment = Alignment.CenterHorizontally,
+	) {
+		HomePageViews()
+		HomePageIssue()
+	}
 }
 
 @Preview
 @Composable
 fun HomePagePreview() {
-    HomePage()
+	HomePage()
 }

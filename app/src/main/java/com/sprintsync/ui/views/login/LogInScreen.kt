@@ -32,87 +32,87 @@ import com.sprintsync.ui.theme.SprintSyncTheme
 
 @Composable
 fun LogInScreen(modifier: Modifier = Modifier) {
-    Surface() {
+	Surface() {
 // TODO: remove padding when we have main scaffold reddy for login and signup
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(start = 24.dp, end = 24.dp)
-        ) {
+		Column(
+			modifier = Modifier
+				.fillMaxSize()
+				.padding(start = 24.dp, end = 24.dp)
+		) {
 
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .defaultMinSize()
-                    .weight(0.7f),
-                contentAlignment = Alignment.TopCenter
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.logo),
-                    contentDescription = "LOGO",
-                    modifier = modifier
-                        .requiredSize(240.dp)
-                )
-            }
+			Box(
+				modifier = Modifier
+					.fillMaxWidth()
+					.defaultMinSize()
+					.weight(0.7f),
+				contentAlignment = Alignment.TopCenter
+			) {
+				Image(
+					painter = painterResource(id = R.drawable.logo),
+					contentDescription = "LOGO",
+					modifier = modifier
+						.requiredSize(240.dp)
+				)
+			}
 
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .weight(0.3f)
-            ) {
-                Title(
-                    "Hi, Welcome Back! ",
-                    "Hello again, we missed you <3"
-                )
-            }
-            Column(
-                modifier = Modifier
-                    .wrapContentHeight(),
-                verticalArrangement = Arrangement.spacedBy(20.dp)
-            ) {
+			Box(
+				modifier = Modifier
+					.fillMaxWidth()
+					.weight(0.3f)
+			) {
+				Title(
+					"Hi, Welcome Back! ",
+					"Hello again, we missed you <3"
+				)
+			}
+			Column(
+				modifier = Modifier
+					.wrapContentHeight(),
+				verticalArrangement = Arrangement.spacedBy(20.dp)
+			) {
 
-                Email()
-                Password()
+				Email()
+				Password()
 
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clickable(interactionSource = MutableInteractionSource(),
-                            indication = rememberRipple(
-                                bounded = true,
-                                radius = 250.dp
-                            ),
-                            onClick = {}
-                        ), contentAlignment = Alignment.BottomEnd
-                ) {
-                    PromptRow(
-                        normalText = "Forgot Password?",
-                        highlightedText = "Reset",
-                        highlightColor = Red80,
-                        onClick = {},
-                        modifier = Modifier.height(20.dp)
-                    )
-                }
-            }
+				Box(
+					modifier = Modifier
+						.fillMaxWidth()
+						.clickable(interactionSource = MutableInteractionSource(),
+							indication = rememberRipple(
+								bounded = true,
+								radius = 250.dp
+							),
+							onClick = {}
+						), contentAlignment = Alignment.BottomEnd
+				) {
+					PromptRow(
+						normalText = "Forgot Password?",
+						highlightedText = "Reset",
+						highlightColor = Red80,
+						onClick = {},
+						modifier = Modifier.height(20.dp)
+					)
+				}
+			}
 
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .weight(0.9f),
-                verticalArrangement = Arrangement.Bottom,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                SignInButtonGroup()
-            }
+			Column(
+				modifier = Modifier
+					.fillMaxWidth()
+					.weight(0.9f),
+				verticalArrangement = Arrangement.Bottom,
+				horizontalAlignment = Alignment.CenterHorizontally
+			) {
+				SignInButtonGroup()
+			}
 
-        }
-    }
+		}
+	}
 }
 
 @Preview(showBackground = true)
 @Composable
 fun LoginPreview() {
-    SprintSyncTheme {
-        LogInScreen(Modifier)
-    }
+	SprintSyncTheme {
+		LogInScreen(Modifier)
+	}
 }

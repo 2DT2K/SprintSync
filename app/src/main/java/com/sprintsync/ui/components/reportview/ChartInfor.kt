@@ -22,54 +22,54 @@ import androidx.compose.ui.unit.sp
 
 @Composable
 fun ChartInfor(remaining: Int, completed: Int, remainingColor: Color, completedColor: Color) {
-    Column(
-        modifier = Modifier.fillMaxWidth(),
-        verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.Top),
-        horizontalAlignment = Alignment.Start
-    ) {
-        WorkItem("Remaining work", remaining.toString(), remainingColor)
-        WorkItem("Completed work", completed.toString(), completedColor)
-    }
+	Column(
+		modifier = Modifier.fillMaxWidth(),
+		verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.Top),
+		horizontalAlignment = Alignment.Start
+	) {
+		WorkItem("Remaining work", remaining.toString(), remainingColor)
+		WorkItem("Completed work", completed.toString(), completedColor)
+	}
 }
 
 @Composable
 fun WorkItem(title: String, count: String, color: Color) {
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.spacedBy(12.dp, Alignment.Start),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Box(
-            modifier = Modifier
-                .width(4.dp)
-                .height(20.dp)
-                .background(color = color, shape = RoundedCornerShape(3.dp))
-        ) {
-        }
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(
-                text = title,
-                style = TextStyle(
-                    fontSize = 12.sp,
-                    lineHeight = 14.4.sp,
-                    fontWeight = FontWeight(500),
-                    color = Color(0xFF7B7B7B)
-                )
-            )
-            Text(
-                text = count,
-                style = TextStyle(
-                    fontSize = 14.sp,
-                    lineHeight = 16.8.sp,
-                    fontWeight = FontWeight(400),
-                    color = Color(0xFF7B7B7B),
-                    textAlign = TextAlign.Right
-                )
-            )
-        }
-    }
+	Row(
+		modifier = Modifier.fillMaxWidth(),
+		horizontalArrangement = Arrangement.spacedBy(12.dp, Alignment.Start),
+		verticalAlignment = Alignment.CenterVertically
+	) {
+		Box(
+			modifier = Modifier
+				.width(4.dp)
+				.height(20.dp)
+				.background(color = color, shape = RoundedCornerShape(3.dp))
+		) {
+		}
+		Row(
+			modifier = Modifier.fillMaxWidth(),
+			horizontalArrangement = Arrangement.SpaceBetween,
+			verticalAlignment = Alignment.CenterVertically
+		) {
+			Text(
+				text = title,
+				style = TextStyle(
+					fontSize = 12.sp,
+					lineHeight = 14.4.sp,
+					fontWeight = FontWeight(500),
+					color = Color(0xFF7B7B7B)
+				)
+			)
+			Text(
+				text = count,
+				style = TextStyle(
+					fontSize = 14.sp,
+					lineHeight = 16.8.sp,
+					fontWeight = FontWeight(400),
+					color = Color(0xFF7B7B7B),
+					textAlign = TextAlign.Right
+				)
+			)
+		}
+	}
 }
