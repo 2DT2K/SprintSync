@@ -95,6 +95,11 @@ dependencies {
 	implementation("com.squareup.okhttp3:okhttp")
 	implementation("com.squareup.okhttp3:logging-interceptor")
 
+
+// Calendar
+	implementation ("io.github.boguszpawlowski.composecalendar:composecalendar:1.1.1")
+	implementation ("io.github.boguszpawlowski.composecalendar:kotlinx-datetime:1.1.1")
+	implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.1")
 //	VICO Chart
 	dependencies {
 		// For Jetpack Compose.
