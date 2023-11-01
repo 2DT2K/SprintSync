@@ -21,7 +21,6 @@ import androidx.compose.ui.unit.sp
 import com.sprintsync.R
 import com.sprintsync.ui.components.CustomButton
 import com.sprintsync.ui.components.CustomText
-import com.sprintsync.ui.components.authentication.PromptRow
 import com.sprintsync.ui.theme.Purple40
 
 

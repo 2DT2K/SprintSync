@@ -121,7 +121,7 @@ fun SubTask(subTaskList: List<SubTask>) {
 						verticalAlignment = Alignment.CenterVertically,
 					) {
 						ContextCompat
-							.getDrawable(context, R.drawable.nice_avartar)
+							.getDrawable(context, R.drawable.nice_avatar)
 							?.let { it1 ->
 								it.assignees.add(
 									it1.toBitmap()

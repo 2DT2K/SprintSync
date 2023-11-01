@@ -130,36 +130,8 @@ fun SignInView(
 			) {
 				SignInButtonGroup(
 					signInWithPassword = { signInWithPassword(email, password) },
-					signInWithGoogle = signInWithGoogle
-				)
-			}
-
-			Row(
-				modifier = Modifier
-					.fillMaxSize()
-					.weight(0.5f),
-				verticalAlignment = Alignment.CenterVertically,
-				horizontalArrangement = Arrangement.Center
-			) {
-				CustomText(
-					text = "Don't have an account?",
-					color = Grey40
-				)
-
-				Spacer(modifier = Modifier.width(5.dp))
-
-				CustomText(
-					modifier = Modifier.clickable(
-						interactionSource = MutableInteractionSource(),
-						indication = rememberRipple(
-							bounded = true,
-							radius = 250.dp
-						),
-						onClick = signUp
-					),
-					text = "Sign Up",
-					color = Purple40,
-					fontWeight = FontWeight.Bold
+					signInWithGoogle = signInWithGoogle,
+					signUp = signUp
 				)
 			}
 		}

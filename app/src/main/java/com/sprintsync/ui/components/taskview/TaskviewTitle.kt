@@ -61,7 +61,7 @@ fun TaskviewTitle(taskNavigation: String, taskAssignList: MutableList<Bitmap>?) 
 		// Add ImageBitmap objects to the list
 		if (taskAssignList != null) {
 			ContextCompat
-				.getDrawable(context, R.drawable.nice_avartar)
+				.getDrawable(context, R.drawable.nice_avatar)
 				?.let {
 					taskAssignList.add(it.toBitmap())
 				}
