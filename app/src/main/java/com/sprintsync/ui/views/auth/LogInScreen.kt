@@ -3,25 +3,30 @@ package com.sprintsync.ui.views.auth
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.defaultMinSize
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.requiredSize
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.sprintsync.R
-import com.sprintsync.ui.components.CustomText
 import com.sprintsync.ui.components.auth.Email
 import com.sprintsync.ui.components.auth.Password
 import com.sprintsync.ui.components.auth.SignInButtonGroup
 import com.sprintsync.ui.components.auth.Title
-import com.sprintsync.ui.theme.Grey40
-import com.sprintsync.ui.theme.Purple40
+import com.sprintsync.ui.components.auth.PromptRow
 import com.sprintsync.ui.theme.Red80
 import com.sprintsync.ui.theme.SprintSyncTheme
 
@@ -39,7 +44,7 @@ fun LogInScreen(modifier: Modifier = Modifier) {
                 modifier = Modifier
                     .fillMaxWidth()
                     .defaultMinSize()
-                    .weight(0.75f),
+                    .weight(0.7f),
                 contentAlignment = Alignment.TopCenter
             ) {
                 Image(
@@ -53,7 +58,7 @@ fun LogInScreen(modifier: Modifier = Modifier) {
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .weight(0.5f)
+                    .weight(0.3f)
             ) {
                 Title(
                     "Hi, Welcome Back! ",
@@ -80,18 +85,13 @@ fun LogInScreen(modifier: Modifier = Modifier) {
                             onClick = {}
                         ), contentAlignment = Alignment.BottomEnd
                 ) {
-                    Row {
-                        Text(
-                            text = "Forgot Password?",
-                            color = Grey40
-                        )
-                        Spacer(modifier = Modifier.width(4.dp))
-                        Text(
-                            text = "Reset",
-                            color = Red80,
-                            fontWeight = FontWeight.Bold
-                        )
-                    }
+                    PromptRow(
+                        normalText = "Forgot Password?",
+                        highlightedText = "Reset",
+                        highlightColor = Red80,
+                        onClick = {},
+                        modifier = Modifier.height(20.dp)
+                    )
                 }
             }
 
@@ -105,33 +105,6 @@ fun LogInScreen(modifier: Modifier = Modifier) {
                 SignInButtonGroup()
             }
 
-            Row(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .weight(0.5f),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Center
-            ) {
-                CustomText(
-                    text = "Don't have an account?",
-                    color = Grey40
-                )
-
-                Spacer(modifier = Modifier.width(5.dp))
-
-                CustomText(
-                    modifier = Modifier.clickable(interactionSource = MutableInteractionSource(),
-                        indication = rememberRipple(
-                            bounded = true,
-                            radius = 250.dp
-                        ),
-                        onClick = {}
-                    ),
-                    text = "Sign Up",
-                    color = Purple40,
-                    fontWeight = FontWeight.Bold
-                )
-            }
         }
     }
 }

@@ -57,7 +57,8 @@ fun CustomIconButton(iconID: Int, content: String, backgroundColor: Long, modifi
                 fontSize = 20.sp,
                 fontWeight = FontWeight(500),
                 color = Color(0xFFFFFFFF)
-            )
+            ),
+            maxLines = 1
         )
     }
 }

@@ -6,11 +6,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import com.sprintsync.R
-import com.sprintsync.ui.components.CustomTextField
+import com.sprintsync.ui.components.ExpandTextField
 
 @Composable
 fun Email(){
-    CustomTextField(
+    ExpandTextField(
         label = "Email",
         placeholder = "Enter Your Email",
         modifier = Modifier.fillMaxWidth(),

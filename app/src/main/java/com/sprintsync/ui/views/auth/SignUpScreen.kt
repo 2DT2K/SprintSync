@@ -61,7 +61,7 @@ fun SignUpScreen(modifier: Modifier = Modifier) {
                     .weight(0.75f),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Spacer(modifier = Modifier.weight(0.6f))
+                Spacer(modifier = Modifier.weight(0.5f))
                 Surface(modifier = Modifier.weight(1f)) {
                     SignUpButtonGroup()
                 }

@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sprintsync.R
@@ -24,6 +25,7 @@ import com.sprintsync.ui.components.CustomText
 import com.sprintsync.ui.theme.Purple40
 
 
+@Preview
 @Composable
 fun SignInButtonGroup() {
     Column(
@@ -87,5 +89,11 @@ fun SignInButtonGroup() {
                 shape = RoundedCornerShape(24)
             )
         }
+
+        PromptRow(
+            "Don't have an account?",
+            "Sign Up",
+            Purple40,
+            onClick = {})
     }
 }

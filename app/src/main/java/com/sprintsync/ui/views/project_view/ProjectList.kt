@@ -30,6 +30,7 @@ import androidx.compose.ui.unit.sp
 import com.sprintsync.ui.theme.SprintSyncTheme
 import com.sprintsync.ui.components.SearchBar
 import com.sprintsync.ui.components.project_list.ProjectCard
+import com.sprintsync.ui.theme.SprintSyncTheme
 import com.sprintsync.ui.theme.Yellow80
 import com.sprintsync.ui.view_models.ProjectViewViewModel
 
@@ -123,6 +124,7 @@ fun AllProjectList(
             }
         }
     }
+
 }
 
 @Preview(showBackground = true)

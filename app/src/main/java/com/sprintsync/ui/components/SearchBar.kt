@@ -19,7 +19,7 @@ import com.sprintsync.R
 fun SearchBar(placeHolder: String, onValueChange: ((String) -> Unit)? = null) {
     var searchTerm by remember { mutableStateOf("") }
 
-    CustomTextField(
+    ExpandTextField(
         modifier = Modifier.fillMaxWidth(),
         value = searchTerm,
         label = "",
