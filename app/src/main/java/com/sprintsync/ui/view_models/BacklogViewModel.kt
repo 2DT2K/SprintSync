@@ -28,21 +28,13 @@ class BacklogViewModel(private val backlogRepository: String) : ViewModel() {
 
     data class Member(val id: Int, val name: String, val email: String, val password: String)
 
-    data class SprintUiState(val activeSprint: Sprint, val doneSprints: List<Sprint>)
+    data class SprintUiState(val activeSprint: List<Sprint>, val doneSprints: List<Sprint>)
 
     //demo
     private val _uiState =
         MutableStateFlow(
             SprintUiState(
-                Sprint(
-                    0,
-                    "",
-                    1,
-                    "",
-                    "",
-                    emptyList(),
-                    true
-                ), emptyList()
+                emptyList(), emptyList()
             )
         )
 
@@ -170,29 +162,54 @@ class BacklogViewModel(private val backlogRepository: String) : ViewModel() {
             ),
         )
 
-        val activeSprint = Sprint(
-            id = 3,
-            sprintName = "Sprint 3",
-            sprintNumber = 3,
-            startDate = "2023-12-01",
-            endDate = "2023-12-15",
-            task = listOf(
-                task1,
-                task2,
-                task1,
-                task2,
-                task1,
-                task2,
-                task1,
-                task2,
-                task1,
-                task2,
-                task1,
-                task2,
-                task1,
-                task2
-            ),
-            isDone = true
+        val activeSprint = listOf(
+            Sprint(
+                id = 3,
+                sprintName = "Sprint 3",
+                sprintNumber = 3,
+                startDate = "2023-12-01",
+                endDate = "2023-12-15",
+                task = listOf(
+                    task1,
+                    task2,
+                    task1,
+                    task2,
+                    task1,
+                    task2,
+                    task1,
+                    task2,
+                    task1,
+                    task2,
+                    task1,
+                    task2,
+                    task1,
+                    task2
+                ),
+                isDone = true
+            ), Sprint(
+                id = 3,
+                sprintName = "Sprint 4",
+                sprintNumber = 3,
+                startDate = "2023-12-01",
+                endDate = "2023-12-15",
+                task = listOf(
+                    task1,
+                    task2,
+                    task1,
+                    task2,
+                    task1,
+                    task2,
+                    task1,
+                    task2,
+                    task1,
+                    task2,
+                    task1,
+                    task2,
+                    task1,
+                    task2
+                ),
+                isDone = true
+            )
         )
 
         _uiState.value = SprintUiState(activeSprint, doneSprints)

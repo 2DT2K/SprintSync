@@ -12,7 +12,10 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.sprintsync.ui.theme.Purple40
 
 @Composable
@@ -21,6 +24,8 @@ fun CustomButton(
     modifier: Modifier = Modifier,
     surfaceModifier: Modifier = Modifier,
     text: String = "",
+    fontSize: TextUnit = TextUnit.Unspecified,
+    shape: Shape = RoundedCornerShape(16),
     icon: @Composable() (() -> Unit)? = null,
     onClick: () -> Unit = {},
     colors: ButtonColors = ButtonDefaults.buttonColors(containerColor = Purple40),
@@ -31,14 +36,14 @@ fun CustomButton(
             Button(
                 onClick = { onClick() },
                 modifier = modifier,
-                shape = RoundedCornerShape(16),
+                shape = shape,
                 colors = colors
             ) {
                 if (icon != null) {
                     icon()
                     Spacer(modifier = Modifier.width(8.dp))
                 }
-                Text(text = text)
+                Text(text = text, fontSize = fontSize)
                 if (content != null) {
                     content()
                 }
@@ -47,13 +52,13 @@ fun CustomButton(
             OutlinedButton(
                 onClick = { onClick() },
                 modifier = modifier,
-                shape = RoundedCornerShape(16),
+                shape = shape,
             ) {
                 if (icon != null) {
                     icon()
                     Spacer(modifier = Modifier.width(8.dp))
                 }
-                Text(text = text, color = Purple40)
+                Text(text = text, color = Purple40, fontSize = fontSize)
                 if (content != null) {
                     content()
                 }

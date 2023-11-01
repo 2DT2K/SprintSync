@@ -14,7 +14,6 @@ import androidx.compose.ui.unit.dp
 fun TaskPoint(point:Number,modifier: Modifier){
     Row(
         modifier = modifier
-
     ) {
         Text(
             text = point.toString(),
