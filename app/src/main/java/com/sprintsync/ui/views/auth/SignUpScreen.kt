@@ -1,22 +1,19 @@
-package com.sprintsync.ui.views.login
+package com.sprintsync.ui.views.auth
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.*
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.sprintsync.R
-import com.sprintsync.ui.components.authentication.Email
-import com.sprintsync.ui.components.authentication.Password
-import com.sprintsync.ui.components.authentication.SelectCountryWithCountryCode
-import com.sprintsync.ui.components.authentication.SignUpButtonGroup
-import com.sprintsync.ui.components.authentication.Title
+import com.sprintsync.ui.components.auth.Email
+import com.sprintsync.ui.components.auth.Password
+import com.sprintsync.ui.components.auth.SignUpButtonGroup
+import com.sprintsync.ui.components.auth.Title
 import com.sprintsync.ui.theme.SprintSyncTheme
 
 @Composable

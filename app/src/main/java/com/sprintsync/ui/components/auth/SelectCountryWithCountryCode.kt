@@ -1,4 +1,4 @@
-package com.sprintsync.ui.components.authentication
+package com.sprintsync.ui.components.auth
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth

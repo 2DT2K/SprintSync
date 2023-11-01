@@ -1,6 +1,5 @@
 package com.sprintsync.ui.components
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -16,7 +15,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.input.OffsetMapping
@@ -24,17 +22,14 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TransformedText
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import com.sprintsync.R
 import com.sprintsync.ui.theme.Purple40
-import com.sprintsync.ui.theme.SprintSyncTheme
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CustomTextField(
-    type: String? = "normal",
     modifier: Modifier = Modifier,
+    type: String? = "normal",
     surfaceModifier: Modifier = Modifier,
     value: String = "",
     label: String = "Email",

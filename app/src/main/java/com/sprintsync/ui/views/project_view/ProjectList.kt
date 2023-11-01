@@ -28,8 +28,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sprintsync.ui.theme.SprintSyncTheme
-import com.sprintsync.R
-import com.sprintsync.ui.components.CustomTextField
 import com.sprintsync.ui.components.SearchBar
 import com.sprintsync.ui.components.project_list.ProjectCard
 import com.sprintsync.ui.theme.Yellow80

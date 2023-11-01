@@ -1,4 +1,4 @@
-package com.sprintsync.ui.components.authentication
+package com.sprintsync.ui.components.auth
 
 import android.graphics.BlurMaskFilter
 import android.graphics.PorterDuff
@@ -10,7 +10,6 @@ import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
-import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 

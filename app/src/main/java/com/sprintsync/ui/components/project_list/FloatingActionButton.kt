@@ -55,7 +55,6 @@ import androidx.compose.ui.zIndex
 import com.sprintsync.ui.theme.SprintSyncTheme
 import com.sprintsync.R
 import com.sprintsync.ui.components.CustomText
-import com.sprintsync.ui.components.CustomTextField
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -114,21 +113,21 @@ fun CustomFloatingActionButton() {
                     fontWeight = FontWeight(600)
                 )
 
-                CustomTextField(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(start = 8.dp),
-                    value = "",
-                    label = "",
-                    placeholder = "Add a description",
-                    onValueChange = {
-
-                    },
-                    colors = OutlinedTextFieldDefaults.colors(
-                        focusedBorderColor = Color.Transparent,
-                        unfocusedBorderColor = Color.Transparent,
-                    )
-                )
+//                CustomTextField(
+//                    modifier = Modifier
+//                        .fillMaxWidth()
+//                        .padding(start = 8.dp),
+//                    value = "",
+//                    label = "",
+//                    placeholder = "Add a description",
+//                    onValueChange = {
+//
+//                    },
+//                    colors = OutlinedTextFieldDefaults.colors(
+//                        focusedBorderColor = Color.Transparent,
+//                        unfocusedBorderColor = Color.Transparent,
+//                    )
+//                )
 
                 Box(modifier = Modifier.fillMaxWidth()) {
                     IconButton(
