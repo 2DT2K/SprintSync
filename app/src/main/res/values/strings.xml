@@ -2,8 +2,8 @@
 	<string name="app_name">Sprint Sync</string>
 	<string name="title_activity_menu_top_bar">MenuTopBar</string>
 	<string name="web_client_id">533966317107-3b6kelquvbgr80j3dqnuhc7egog6lbee.apps.googleusercontent.com</string>
-    <string name="home">Home</string>
-    <string name="project">Project</string>
-    <string name="calendar">Calendar</string>
-    <string name="profile">Profile</string>
+	<string name="home">Home</string>
+	<string name="project">Project</string>
+	<string name="calendar">Calendar</string>
+	<string name="profile">Profile</string>
 </resources>

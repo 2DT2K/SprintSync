@@ -27,8 +27,7 @@ import com.sprintsync.auth.AuthViewModel
 import com.sprintsync.auth.Authenticator
 import com.sprintsync.ui.components.BottomNavigation
 import com.sprintsync.ui.views.HomePage
-import com.sprintsync.ui.views.auth.SignInScreen
-import com.sprintsync.ui.views.auth.SignUpScreen
+import com.sprintsync.ui.views.auth.SignInView
 import com.sprintsync.ui.views.project_view.DetailProject
 import kotlinx.coroutines.launch
 
@@ -83,7 +82,7 @@ fun MainContent() {
 						}
 					}
 
-					SignInScreen(
+					SignInView(
 						signInWithPassword = { email, password ->
 							scope.launch {
 								authenticator
@@ -108,7 +107,7 @@ fun MainContent() {
 						signUp = { navController.navigate("sign_up") }
 					)
 				}
-				composable("sign_up") { SignUpScreen() }
+				composable("sign_up") { TODO("Have not implement sign up view") }
 				composable("password_reset") { TODO("Have not implement password reset view") }
 				composable("home") { HomePage() }
 				composable("project") { DetailProject() }

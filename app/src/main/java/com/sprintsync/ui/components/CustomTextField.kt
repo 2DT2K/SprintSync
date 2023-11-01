@@ -40,10 +40,10 @@ import com.sprintsync.ui.theme.Purple40
 
 @Composable
 fun CommentTextField(
+	modifier: Modifier,
 	placeholder: String,
 	value: String,
-	onValueChange: (String) -> Unit,
-	modifier: Modifier
+	onValueChange: (String) -> Unit
 ) {
 	BasicTextField(
 		modifier = modifier,
@@ -84,11 +84,11 @@ fun CommentTextField(
 fun ExpandableTextField(
 	modifier: Modifier = Modifier,
 	surfaceModifier: Modifier = Modifier,
+	isPassword: Boolean = false,
 	value: String = "",
 	onValueChange: ((String) -> Unit)? = null,
 	label: String = "Label",
 	placeholder: String = "Placeholder",
-	isPassword: Boolean = false,
 	leadingIcon: @Composable (() -> Unit)? = null,
 	shape: Shape = OutlinedTextFieldDefaults.shape,
 	colors: TextFieldColors = OutlinedTextFieldDefaults.colors(

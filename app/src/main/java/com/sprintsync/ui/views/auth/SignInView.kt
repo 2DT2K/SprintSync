@@ -8,39 +8,51 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.material.Icon
-import androidx.compose.material.icons.Icons
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.sprintsync.R
-import com.sprintsync.ui.components.CustomButton
-import com.sprintsync.ui.components.ExpandableTextField
+import com.sprintsync.ui.components.CustomText
+import com.sprintsync.ui.components.auth.Email
+import com.sprintsync.ui.components.auth.Password
+import com.sprintsync.ui.components.auth.SignInButtonGroup
+import com.sprintsync.ui.components.auth.Title
 import com.sprintsync.ui.theme.Grey40
 import com.sprintsync.ui.theme.Purple40
+import com.sprintsync.ui.theme.Red80
 import com.sprintsync.ui.theme.SprintSyncTheme
 
 @Composable
-fun SignUpScreen(
-	modifier: Modifier = Modifier
+fun SignInView(
+	modifier: Modifier = Modifier,
+	signInWithPassword: (String, String) -> Unit = { _, _ -> },
+	signInWithGoogle: () -> Unit = {},
+	resetPassword: () -> Unit = {},
+	signUp: () -> Unit = {}
 ) {
+	var email by remember { mutableStateOf("") }
+	var password by remember { mutableStateOf("") }
+
 	Surface {
+		// TODO: remove padding when we have main scaffold
 		Column(
 			modifier = Modifier
 				.fillMaxSize()
@@ -49,133 +61,115 @@ fun SignUpScreen(
 			Box(
 				modifier = Modifier
 					.fillMaxWidth()
-					.weight(0.5f),
-				contentAlignment = Alignment.Center
+					.defaultMinSize()
+					.weight(0.75f),
+				contentAlignment = Alignment.TopCenter
 			) {
 				Image(
-					modifier = modifier.requiredSize(240.dp),
 					painter = painterResource(id = R.drawable.logo),
-					contentDescription = "LOGO"
+					contentDescription = "LOGO",
+					modifier = modifier.requiredSize(240.dp)
 				)
 			}
+
 			Box(
 				modifier = Modifier
 					.fillMaxWidth()
-					.weight(0.3f)
+					.weight(0.5f)
 			) {
-				Column {
-					Text(
-						text = "Create an account ",
-						style = TextStyle(
-							fontSize = 24.sp,
-							color = Purple40,
-							fontWeight = FontWeight(800),
-						),
-					)
-					Text(
-						text = "Join us today !",
-						style = TextStyle(
-							fontSize = 16.sp,
-							color = Grey40
-						),
-					)
-				}
+				Title(
+					title = "Hi, Welcome Back! ",
+					subtitle = "Hello again, we missed you <3"
+				)
 			}
 
 			Column(
 				modifier = Modifier.wrapContentHeight(),
 				verticalArrangement = Arrangement.spacedBy(20.dp)
 			) {
-				ExpandableTextField(
-					modifier = Modifier.fillMaxWidth(),
-					label = "Email",
-					placeholder = "Enter Your Email",
-					leadingIcon = {
-						Icon(
-							painter = painterResource(id = R.drawable.email),
-							contentDescription = null,
-							tint = Color(0xFF381E72)
-						)
-					}
-				)
+				Email { email = it }
 
-				ExpandableTextField(
-					modifier = Modifier.fillMaxWidth(),
-					isPassword = true,
-					label = "Password",
-					placeholder = "Enter Your Password",
-					leadingIcon = {
-						Icon(
-							painter = painterResource(id = R.drawable.key),
-							contentDescription = null,
-							tint = Color(0xFF381E72)
-						)
-					}
-				)
+				Password { password = it }
 
-				ExpandableTextField(
-					modifier = Modifier.fillMaxWidth(),
-					isPassword = true,
-					label = "Confirm Password",
-					placeholder = "Confirm Your Password",
-					leadingIcon = {
-						Icon(
-							painter = painterResource(id = R.drawable.key),
-							contentDescription = null,
-							tint = Color(0xFF381E72)
+				Box(
+					modifier = Modifier
+						.fillMaxWidth()
+						.clickable(
+							interactionSource = MutableInteractionSource(),
+							indication = rememberRipple(
+								bounded = true,
+								radius = 250.dp
+							),
+							onClick = resetPassword
+						),
+					contentAlignment = Alignment.BottomEnd
+				) {
+					Row {
+						Text(
+							text = "Forgot Password?",
+							color = Grey40
+						)
+
+						Spacer(modifier = Modifier.width(4.dp))
+
+						Text(
+							text = "Reset",
+							color = Red80,
+							fontWeight = FontWeight.Bold
 						)
 					}
-				)
+				}
 			}
 
 			Column(
 				modifier = Modifier
 					.fillMaxWidth()
-					.weight(0.5f),
-				verticalArrangement = Arrangement.Center,
+					.weight(0.9f),
+				verticalArrangement = Arrangement.Bottom,
 				horizontalAlignment = Alignment.CenterHorizontally
 			) {
-				CustomButton(
-					modifier = Modifier.fillMaxWidth(),
-					text = "Sign Up"
+				SignInButtonGroup(
+					signInWithPassword = { signInWithPassword(email, password) },
+					signInWithGoogle = signInWithGoogle
 				)
 			}
 
 			Row(
 				modifier = Modifier
 					.fillMaxSize()
-					.weight(0.25f),
+					.weight(0.5f),
 				verticalAlignment = Alignment.CenterVertically,
 				horizontalArrangement = Arrangement.Center
 			) {
-				Text(text = "Already have an account?")
+				CustomText(
+					text = "Don't have an account?",
+					color = Grey40
+				)
+
 				Spacer(modifier = Modifier.width(5.dp))
-				Text(
+
+				CustomText(
 					modifier = Modifier.clickable(
 						interactionSource = MutableInteractionSource(),
 						indication = rememberRipple(
 							bounded = true,
 							radius = 250.dp
 						),
-						onClick = {}
+						onClick = signUp
 					),
-					text = "Sign In",
-					style = TextStyle(
-						fontSize = 14.sp,
-						fontWeight = FontWeight(400),
-						color = Color(0xFF160062),
-					)
+					text = "Sign Up",
+					color = Purple40,
+					fontWeight = FontWeight.Bold
 				)
 			}
 		}
 	}
 }
 
-
 @Preview(showBackground = true)
 @Composable
-private fun SignUpPreview() {
+private fun SignInPreview() {
 	SprintSyncTheme {
-		SignUpScreen()
+		SignInView()
 	}
 }
