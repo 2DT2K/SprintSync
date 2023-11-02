@@ -20,6 +20,7 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.Surface
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
@@ -56,15 +57,17 @@ import com.sprintsync.ui.view_models.BacklogViewModel
 fun Backlog(backlogViewModel: BacklogViewModel) {
     val backlogUiState by backlogViewModel.uiState.collectAsState()
 
-    Column(
-        modifier = Modifier
-            .animateContentSize()
-            .fillMaxSize()
-            .verticalScroll(rememberScrollState())
-    ) {
-        CurrentSprintView(backlogUiState.activeSprint)
-        Divider()
-        IsDoneSprintView(backlogUiState.doneSprints)
+    Surface {
+        Column(
+            modifier = Modifier
+                .animateContentSize()
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState())
+        ) {
+            CurrentSprintView(backlogUiState.activeSprint)
+            Divider()
+            IsDoneSprintView(backlogUiState.doneSprints)
+        }
     }
 }
 

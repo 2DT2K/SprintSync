@@ -51,12 +51,13 @@ fun DetailProject() {
     val gridItems = listOf(
         GridItem(R.drawable.dashboard, "Board"),
         GridItem(R.drawable.backlog, "BackLog"),
-        GridItem(R.drawable.calendar, "Calendar"),
+        GridItem(R.drawable.timelapse, "Timeline"),
         GridItem(R.drawable.tasks, "Tasks"),
         GridItem(R.drawable.files, "Files"),
         GridItem(R.drawable.people, "People"),
         GridItem(R.drawable.report, "Report"),
     )
+
     Column(
         modifier = Modifier
             .padding(start = 24.dp, end = 24.dp, top = 24.dp)
@@ -121,7 +122,8 @@ fun DetailProject() {
             items(gridItems) {
                 CustomButton(
                     surfaceModifier = Modifier.height(80.dp),
-                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFE8E1EC))
+                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFE8E1EC)),
+                    onClick = {}
                 ) {
                     Column(
                         modifier = Modifier.fillMaxSize(),
