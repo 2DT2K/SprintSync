@@ -100,7 +100,8 @@ fun ExpandTextField(
         unfocusedBorderColor = Purple40
     ),
     onValueChange: ((String) -> Unit)? = null,
-    errorText: String = "please redo"
+    errorText: String = "please redo",
+    readOnly: Boolean = false,
 ) {
     var text by remember { mutableStateOf(value) }
     var passwordVisible by remember { mutableStateOf(isVisible) }
@@ -149,7 +150,8 @@ fun ExpandTextField(
                 maxLines = 1,
                 shape = RoundedCornerShape(16),
                 colors = colors,
-                isError = isError
+                isError = isError,
+                readOnly = readOnly
             )
         }
         if (isError) Text(
