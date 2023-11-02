@@ -36,9 +36,7 @@ fun FileCard(
     val icon: Int = when (file.fileType) {
         "pdf" -> R.drawable.pdf
         "xlsx" -> R.drawable.pdf
-        else -> {
-            R.drawable.picture
-        }
+        else -> R.drawable.picture
     }
 
     Surface {
