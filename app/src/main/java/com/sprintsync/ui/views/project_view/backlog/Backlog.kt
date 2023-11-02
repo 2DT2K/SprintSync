@@ -1,5 +1,6 @@
 package com.sprintsync.ui.views.project_view.backlog
 
+import android.annotation.SuppressLint
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.clickable
@@ -26,12 +27,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.sprintsync.R
 import com.sprintsync.ui.components.CustomText
 import com.sprintsync.ui.components.backlog.SprintCard
 import com.sprintsync.ui.theme.Grey40
+import com.sprintsync.ui.theme.Purple20
 import com.sprintsync.ui.theme.SprintSyncTheme
 import com.sprintsync.ui.view_models.BacklogViewModel
 
@@ -102,13 +105,15 @@ fun IsDoneSprintView(doneSprints: List<BacklogViewModel.Sprint>) {
 			Column {
 				CustomText(
 					text = "IsDone Sprint",
+					fontWeight = FontWeight.Bold,
+					color = Purple20
 				)
 			}
 
 			Spacer(modifier = Modifier.weight(1.0f))
 
 			Icon(
-				painter = painterResource(R.drawable.search),
+				painter = painterResource(R.drawable.more),
 				contentDescription = null,
 				modifier = Modifier.clickable(onClick = {})
 			)
