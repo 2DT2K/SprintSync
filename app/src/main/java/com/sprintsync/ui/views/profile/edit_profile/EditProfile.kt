@@ -32,7 +32,7 @@ import androidx.compose.ui.unit.dp
 import com.sprintsync.ui.theme.SprintSyncTheme
 import com.sprintsync.R
 import com.sprintsync.ui.components.CustomText
-import com.sprintsync.ui.components.ExpandTextField
+import com.sprintsync.ui.components.ExpandableTextField
 
 @Composable
 fun EditProfile() {
@@ -51,7 +51,7 @@ fun EditProfile() {
         }
 
         CustomText(text = "Name")
-        ExpandTextField()
+        ExpandableTextField()
 
         CountryDropDownMenu()
     }
@@ -74,7 +74,7 @@ fun CountryDropDownMenu() {
                 expanded = !expanded
             }
         ) {
-            ExpandTextField(
+            ExpandableTextField(
                 value = selectedText,
                 onValueChange = {},
                 readOnly = true,
