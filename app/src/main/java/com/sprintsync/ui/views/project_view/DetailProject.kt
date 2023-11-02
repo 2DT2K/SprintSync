@@ -145,7 +145,7 @@ fun DetailProject() {
 @Preview(showBackground = true)
 @Composable
 fun DetailProjectPreview() {
-    SprintSyncTheme {
-        DetailProject()
-    }
+	SprintSyncTheme {
+		DetailProject()
+	}
 }

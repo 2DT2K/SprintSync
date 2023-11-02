@@ -133,6 +133,6 @@ fun ReportChart() {
 @Preview(showBackground = true)
 @Composable
 fun ReportChartPreview() {
-    ReportChart()
+	ReportChart()
 }
 

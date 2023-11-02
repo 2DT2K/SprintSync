@@ -30,66 +30,66 @@ import com.sprintsync.ui.views.project_view.member.RoleColor
 
 @Composable
 fun MemberCard(
-    avatar: String = "",
-    memberName: String,
-    teamName: String,
-    role: String,
+	avatar: String = "",
+	memberName: String,
+	teamName: String,
+	role: String,
 ) {
-    var roleColor: Color = Color.Transparent
-    when (role) {
-        "FE_developer" -> roleColor = RoleColor().feDeveloper
-        "BE_developer" -> roleColor = RoleColor().beDeveloper
-        "UI/UX_developer" -> roleColor = RoleColor().uiUxDesigner
-    }
+	var roleColor: Color = Color.Transparent
+	when (role) {
+		"FE_developer"    -> roleColor = RoleColor().feDeveloper
+		"BE_developer"    -> roleColor = RoleColor().beDeveloper
+		"UI/UX_developer" -> roleColor = RoleColor().uiUxDesigner
+	}
 
-    Surface {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(56.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Row(
-                modifier = Modifier.weight(1f),
-                horizontalArrangement = Arrangement.spacedBy(16.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Icon(
-                    modifier = Modifier
-                        .width(36.dp)
-                        .height(36.dp)
-                        .clip(shape = RoundedCornerShape(1f)),
-                    painter = painterResource(id = R.drawable.email),
-                    contentDescription = "avatar"
-                )
-                Column(
-                    verticalArrangement = Arrangement.spacedBy(4.dp, Alignment.CenterVertically),
-                    horizontalAlignment = Alignment.Start,
-                ) {
-                    CustomText(text = memberName)
-                    CustomText(
-                        text = teamName,
-                        fontWeight = FontWeight(500),
-                        color = Grey60,
-                    )
-                }
-            }
-            Box(
-                modifier = Modifier
-                    .weight(0.8f)
-                    .padding(8.dp)
-                    .fillMaxHeight()
-                    .clip(shape = RoundedCornerShape(8.dp))
-                    .background(roleColor),
-                contentAlignment = Alignment.Center
-            ) {
-                CustomText(
-                    modifier = Modifier.padding(8.dp),
-                    text = role.replace("_", " "),
-                    textAlign = TextAlign.Center,
-                    color = Color.White
-                )
-            }
-        }
-    }
+	Surface {
+		Row(
+			modifier = Modifier
+				.fillMaxWidth()
+				.height(56.dp),
+			verticalAlignment = Alignment.CenterVertically
+		) {
+			Row(
+				modifier = Modifier.weight(1f),
+				horizontalArrangement = Arrangement.spacedBy(16.dp),
+				verticalAlignment = Alignment.CenterVertically
+			) {
+				Icon(
+					modifier = Modifier
+						.width(36.dp)
+						.height(36.dp)
+						.clip(shape = RoundedCornerShape(1f)),
+					painter = painterResource(id = R.drawable.email),
+					contentDescription = "avatar"
+				)
+				Column(
+					verticalArrangement = Arrangement.spacedBy(4.dp, Alignment.CenterVertically),
+					horizontalAlignment = Alignment.Start,
+				) {
+					CustomText(text = memberName)
+					CustomText(
+						text = teamName,
+						fontWeight = FontWeight(500),
+						color = Grey60,
+					)
+				}
+			}
+			Box(
+				modifier = Modifier
+					.weight(0.8f)
+					.padding(8.dp)
+					.fillMaxHeight()
+					.clip(shape = RoundedCornerShape(8.dp))
+					.background(roleColor),
+				contentAlignment = Alignment.Center
+			) {
+				CustomText(
+					modifier = Modifier.padding(8.dp),
+					text = role.replace("_", " "),
+					textAlign = TextAlign.Center,
+					color = Color.White
+				)
+			}
+		}
+	}
 }

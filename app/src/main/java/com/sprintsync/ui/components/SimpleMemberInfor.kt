@@ -18,27 +18,27 @@ import com.sprintsync.R
 
 @Composable
 fun SimpleMemberInfor(name: String) {
-    Row(
-        horizontalArrangement = Arrangement.spacedBy(
-            4.dp,
-            Alignment.CenterHorizontally
-        ),
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        Image(
-            painter = painterResource(id = R.drawable.avataricon),
-            contentDescription = "",
-            modifier = Modifier.width(24.dp)
-        )
-        Text(
-            text = name,
-            style = TextStyle(
-                fontSize = 15.sp,
-                lineHeight = 20.sp,
-                fontWeight = FontWeight(400),
-                color = Color(0xD921005D),
-                letterSpacing = 0.1.sp,
-            )
-        )
-    }
+	Row(
+		horizontalArrangement = Arrangement.spacedBy(
+			4.dp,
+			Alignment.CenterHorizontally
+		),
+		verticalAlignment = Alignment.CenterVertically,
+	) {
+		Image(
+			painter = painterResource(id = R.drawable.avataricon),
+			contentDescription = "",
+			modifier = Modifier.width(24.dp)
+		)
+		Text(
+			text = name,
+			style = TextStyle(
+				fontSize = 15.sp,
+				lineHeight = 20.sp,
+				fontWeight = FontWeight(400),
+				color = Color(0xD921005D),
+				letterSpacing = 0.1.sp,
+			)
+		)
+	}
 }

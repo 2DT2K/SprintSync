@@ -18,30 +18,37 @@ import com.sprintsync.ui.components.CustomText
 import com.sprintsync.ui.theme.Grey40
 
 @Composable
-fun PromptRow(normalText: String, highlightedText: String, highlightColor: Color, onClick: () -> Unit, modifier: Modifier = Modifier.height(40.dp)) {
-    Row(
-        modifier = modifier,
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.Center
-    ) {
-        CustomText(
-            text = normalText,
-            color = Grey40
-        )
+fun PromptRow(
+	modifier: Modifier = Modifier.height(40.dp),
+	normalText: String,
+	highlightedText: String,
+	highlightColor: Color,
+	onClick: () -> Unit
+) {
+	Row(
+		modifier = modifier,
+		verticalAlignment = Alignment.CenterVertically,
+		horizontalArrangement = Arrangement.Center
+	) {
+		CustomText(
+			text = normalText,
+			color = Grey40
+		)
 
-        Spacer(modifier = Modifier.width(5.dp))
+		Spacer(modifier = Modifier.width(5.dp))
 
-        CustomText(
-            modifier = Modifier.clickable(interactionSource = MutableInteractionSource(),
-                indication = rememberRipple(
-                    bounded = true,
-                    radius = 250.dp
-                ),
-                onClick = onClick
-            ),
-            text = highlightedText,
-            color = highlightColor,
-            fontWeight = FontWeight.Bold
-        )
-    }
+		CustomText(
+			modifier = Modifier.clickable(
+				interactionSource = MutableInteractionSource(),
+				indication = rememberRipple(
+					bounded = true,
+					radius = 250.dp
+				),
+				onClick = onClick
+			),
+			text = highlightedText,
+			color = highlightColor,
+			fontWeight = FontWeight.Bold
+		)
+	}
 }

@@ -11,11 +11,11 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun HorizontalDivider() {
-    Column(
-        verticalArrangement = Arrangement.spacedBy(0.dp, Alignment.CenterVertically),
-        horizontalAlignment = Alignment.Start,
-        modifier = Modifier.padding(start = 5.dp, end = 5.dp)
-    ) {
-        Divider()
-    }
+	Column(
+		verticalArrangement = Arrangement.spacedBy(0.dp, Alignment.CenterVertically),
+		horizontalAlignment = Alignment.Start,
+		modifier = Modifier.padding(start = 5.dp, end = 5.dp)
+	) {
+		Divider()
+	}
 }

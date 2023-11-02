@@ -24,7 +24,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sprintsync.R
@@ -33,79 +32,79 @@ import com.sprintsync.ui.view_models.ProjectViewViewModel
 
 @Composable
 fun ProjectCard(
-    modifier: Modifier = Modifier,
-    index: Int = -1,
-    project: ProjectViewViewModel.ProjectList,
-    onChange: ((Int) -> Unit)? = null
+	modifier: Modifier = Modifier,
+	index: Int = -1,
+	project: ProjectViewViewModel.ProjectList,
+	onChange: ((Int) -> Unit)? = null
 ) {
-    Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .height(40.dp),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween
-    ) {
-        Row(
-            modifier = Modifier,
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(24.dp)
-        )
-        {
-            Box(
-                modifier = Modifier
-                    .size(40.dp)
-                    .border(
-                        width = 2.dp,
-                        color = Color(0xFF444444),
-                        shape = RoundedCornerShape(size = 7.dp)
-                    ), contentAlignment = Alignment.Center
-            )
-            {
-                Image(
-                    modifier = Modifier
-                        .size(24.dp)
-                        .clip(CircleShape),
-                    painter = painterResource(id = R.drawable.email),
-                    contentDescription = "project avatar",
-                    contentScale = ContentScale.Crop,
-                )
-            }
+	Row(
+		modifier = modifier
+			.fillMaxWidth()
+			.height(40.dp),
+		verticalAlignment = Alignment.CenterVertically,
+		horizontalArrangement = Arrangement.SpaceBetween
+	) {
+		Row(
+			modifier = Modifier,
+			verticalAlignment = Alignment.CenterVertically,
+			horizontalArrangement = Arrangement.spacedBy(24.dp)
+		)
+		{
+			Box(
+				modifier = Modifier
+					.size(40.dp)
+					.border(
+						width = 2.dp,
+						color = Color(0xFF444444),
+						shape = RoundedCornerShape(size = 7.dp)
+					), contentAlignment = Alignment.Center
+			)
+			{
+				Image(
+					modifier = Modifier
+						.size(24.dp)
+						.clip(CircleShape),
+					painter = painterResource(id = R.drawable.email),
+					contentDescription = "project avatar",
+					contentScale = ContentScale.Crop,
+				)
+			}
 
-            Column(modifier = Modifier) {
-                Text(
-                    text = project.projectName,
-                    style = TextStyle(
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight(400),
-                        color = Color(0xFF000000),
-                    ),
-                    textAlign = TextAlign.Center
-                )
-                Text(
-                    text = project.projectKey,
-                    style = TextStyle(
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = Color(0xFF000000),
-                    ), textAlign = TextAlign.Center
-                )
-            }
-        }
+			Column(modifier = Modifier) {
+				Text(
+					text = project.projectName,
+					style = TextStyle(
+						fontSize = 16.sp,
+						fontWeight = FontWeight(400),
+						color = Color(0xFF000000),
+					),
+					textAlign = TextAlign.Center
+				)
+				Text(
+					text = project.projectKey,
+					style = TextStyle(
+						fontSize = 16.sp,
+						fontWeight = FontWeight.Bold,
+						color = Color(0xFF000000),
+					), textAlign = TextAlign.Center
+				)
+			}
+		}
 
-        IconButton(onClick = {
-            if (onChange != null) {
-                onChange(index)
-            }
-        }) {
-            if (project.isStarred) Icon(
-                painter = painterResource(id = R.drawable.selected_star),
-                contentDescription = "starred",
-                tint = Yellow80
-            )
-            else Icon(
-                painter = painterResource(id = R.drawable.unselected_star),
-                contentDescription = "unstarred"
-            )
-        }
-    }
+		IconButton(onClick = {
+			if (onChange != null) {
+				onChange(index)
+			}
+		}) {
+			if (project.isStarred) Icon(
+				painter = painterResource(id = R.drawable.selected_star),
+				contentDescription = "starred",
+				tint = Yellow80
+			)
+			else Icon(
+				painter = painterResource(id = R.drawable.unselected_star),
+				contentDescription = "unstarred"
+			)
+		}
+	}
 }

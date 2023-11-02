@@ -47,9 +47,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sprintsync.R
 import com.sprintsync.ui.components.CustomText
-import com.sprintsync.ui.components.ExpandTextField
 import com.sprintsync.ui.theme.Grey40
 import com.sprintsync.ui.theme.Grey80
+import com.sprintsync.ui.components.ExpandableTextField
 import com.sprintsync.ui.theme.SprintSyncTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -95,7 +95,7 @@ fun CustomFloatingActionButton(
                 modifier = Modifier.padding(start = 24.dp),
                 fontWeight = FontWeight(600)
             )
-            ExpandTextField(
+            ExpandableTextField(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(start = 24.dp, end = 24.dp),
@@ -119,7 +119,7 @@ fun CustomFloatingActionButton(
                 fontWeight = FontWeight(600)
             )
 
-            ExpandTextField(
+            ExpandableTextField(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(start = 24.dp, end = 24.dp),

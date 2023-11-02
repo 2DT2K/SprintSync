@@ -38,7 +38,7 @@ import com.sprintsync.ui.views.fakeData
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun Problem(title:String, incompleProblems: List<Task>) {
+fun Problem(title: String, incompleProblems: List<Task>) {
     Column(
         verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.Top),
         horizontalAlignment = Alignment.Start,
@@ -47,7 +47,8 @@ fun Problem(title:String, incompleProblems: List<Task>) {
             .padding(8.dp)
     ) {
         Text(
-            text = title, style = TextStyle(
+            text = title,
+            style = TextStyle(
                 fontSize = 18.sp,
                 fontWeight = FontWeight(600),
                 color = Color(0xFF243465),
@@ -74,7 +75,8 @@ fun Problem(title:String, incompleProblems: List<Task>) {
                 incompleProblems.forEach {
                     Text(
                         text = it.taskNavigation,
-                        Modifier.height(22.dp), style = TextStyle(
+                        modifier = Modifier.height(22.dp),
+                        style = TextStyle(
                             fontSize = 10.sp,
                             lineHeight = 20.sp,
                             fontWeight = FontWeight(400),
@@ -86,7 +88,9 @@ fun Problem(title:String, incompleProblems: List<Task>) {
             Column(
                 verticalArrangement = Arrangement.spacedBy(0.dp, Alignment.Top),
                 horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier.width(1.dp).fillMaxHeight()
+                modifier = Modifier
+                    .width(1.dp)
+                    .fillMaxHeight()
             ) {
                 Divider()
             }
@@ -123,7 +127,9 @@ fun Problem(title:String, incompleProblems: List<Task>) {
                                 incompleProblems.forEach { it2 ->
                                     Text(
                                         text = it2.name,
-                                        Modifier.height(22.dp).width(160.dp),
+                                        Modifier
+                                            .height(22.dp)
+                                            .width(160.dp),
                                         style = TextStyle(
                                             fontSize = 10.sp,
                                             lineHeight = 20.sp,
@@ -208,84 +214,92 @@ fun Problem(title:String, incompleProblems: List<Task>) {
                                     var color = 0L
                                     when (it3.taskState) {
                                         "In Progress" -> color = 0xFFF7C84F
-                                        "Review" -> color = 0xFF4FF7E3
-                                        "Todo" -> color = 0xFF4FF774
+                                        "Review"      -> color = 0xFF4FF7E3
+                                        "Todo"        -> color = 0xFF4FF774
                                     }
                                     TaskProcess(title = it3.taskState, color = color)
 
 
-                                }
-                            }
-                            Column(
-                                verticalArrangement = Arrangement.spacedBy(
-                                    8.dp,
-                                    Alignment.CenterVertically
-                                ),
-                                horizontalAlignment = Alignment.CenterHorizontally,
-                            ) {
-                                Text(
-                                    text = "Assignee",
-                                    style = TextStyle(
-                                        fontSize = 12.sp,
-                                        lineHeight = 14.4.sp,
-                                        fontWeight = FontWeight(500),
-                                        color = Color(0xFF7B7B7B),
-                                    )
-                                )
-                                incompleProblems.forEach { it4 ->
-                                    Row(
-                                        horizontalArrangement = Arrangement.spacedBy(
-                                            (-14).dp,
-                                            Alignment.End
-                                        ),
-                                        verticalAlignment = Alignment.CenterVertically,
-                                    ) {
-                                        it4.assignees.forEach {
+								}
+							}
+							Column(
+								verticalArrangement = Arrangement.spacedBy(
+									8.dp,
+									Alignment.CenterVertically
+								),
+								horizontalAlignment = Alignment.CenterHorizontally,
+							) {
+								Text(
+									text = "Assignee",
+									style = TextStyle(
+										fontSize = 12.sp,
+										lineHeight = 14.4.sp,
+										fontWeight = FontWeight(500),
+										color = Color(0xFF7B7B7B),
+									)
+								)
+								incompleProblems.forEach { it4 ->
+									Row(
+										horizontalArrangement = Arrangement.spacedBy(
+											(-14).dp,
+											Alignment.End
+										),
+										verticalAlignment = Alignment.CenterVertically,
+									) {
+										it4.assignees.forEach {
 
-                                            Image(
-                                                painter = painterResource(id = R.drawable.nice_avartar),
-                                                modifier = Modifier.size(22.dp),
-                                                contentDescription = ""
-                                            )
-                                        }
-                                    }
+											Image(
+												painter = painterResource(
+													id = R.drawable.nice_avatar
+												),
+												modifier = Modifier.size(22.dp),
+												contentDescription = ""
+											)
+										}
+									}
 
-                                }
-                            }
-                            Column(
-                                verticalArrangement = Arrangement.spacedBy(
-                                    8.dp,
-                                    Alignment.CenterVertically
-                                ),
-                                horizontalAlignment = Alignment.CenterHorizontally
-                            ) {
-                                Text(
-                                    text = "Story points",
-                                    style = TextStyle(
-                                        fontSize = 12.sp,
-                                        lineHeight = 14.4.sp,
-                                        fontWeight = FontWeight(500),
-                                        color = Color(0xFF7B7B7B),
-                                    )
-                                )
-                                incompleProblems.forEach { item ->
-                                    TaskPoint(point = item.point,Modifier
-                                        .background(
-                                            color = Color(0xFFDCCFE3),
-                                            shape = RoundedCornerShape(size = 10.dp)
-                                        ).height(22.dp))
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
+								}
+							}
+							Column(
+								verticalArrangement = Arrangement.spacedBy(
+									8.dp,
+									Alignment.CenterVertically
+								),
+								horizontalAlignment = Alignment.CenterHorizontally
+							) {
+								Text(
+									text = "Story points",
+									style = TextStyle(
+										fontSize = 12.sp,
+										lineHeight = 14.4.sp,
+										fontWeight = FontWeight(500),
+										color = Color(0xFF7B7B7B),
+									)
+								)
+								incompleProblems.forEach { item ->
+									TaskPoint(
+										point = item.point, Modifier
+											.background(
+												color = Color(0xFFDCCFE3),
+												shape = RoundedCornerShape(size = 10.dp)
+											)
+											.height(22.dp)
+									)
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
 }
 
 @Preview(showBackground = true)
 @Composable
 fun IncompleteProblemPreview() {
-    Problem(title = "Incomplete problem", incompleProblems = listOf(fakeData, fakeData, fakeData, fakeData))
+    Problem(
+        title = "Incomplete problem",
+        incompleProblems = listOf(fakeData, fakeData, fakeData, fakeData)
+    )
 }

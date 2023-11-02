@@ -32,102 +32,104 @@ import com.sprintsync.ui.components.TaskTag
 
 
 class IBoardviewCategoryItem(
-    var taskName: String,
-    var taskTag: List<String>,
-    var taskNavigatation: String,
-    var taskImage: Bitmap?,
-    var taskPoint: Number,
-    var taskAssignList: List<Bitmap>?,
+	var taskName: String,
+	var taskTag: List<String>,
+	var taskNavigatation: String,
+	var taskImage: Bitmap?,
+	var taskPoint: Number,
+	var taskAssignList: List<Bitmap>?,
 )
 
 @Composable
 fun BoardViewCategoryItem(boardviewItemDetails: IBoardviewCategoryItem) {
-    Column(
-        modifier = Modifier
-            .background(
-                color = Color(0xFFFFFFFF),
-                shape = RoundedCornerShape(10.dp)
-            )
-            .fillMaxWidth()
-    ) {
-        boardviewItemDetails.taskImage?.let {
-            androidx.compose.foundation.Image(
-                bitmap = it.asImageBitmap(),
-                contentDescription = "",
-                modifier = Modifier.fillMaxWidth()
-            )
-        }
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
+	Column(
+		modifier = Modifier
+			.background(
+				color = Color(0xFFFFFFFF),
+				shape = RoundedCornerShape(10.dp)
+			)
+			.fillMaxWidth()
+	) {
+		boardviewItemDetails.taskImage?.let {
+			androidx.compose.foundation.Image(
+				bitmap = it.asImageBitmap(),
+				contentDescription = "",
+				modifier = Modifier.fillMaxWidth()
+			)
+		}
+		Column(
+			modifier = Modifier
+				.fillMaxWidth()
 //                .background(
 //                    color = Color(0xFFFFFFFF),
 //                    shape = RoundedCornerShape(size = 10.dp)
 //                )
-                .padding(start = 10.dp, top = 10.dp, end = 10.dp, bottom = 10.dp),
+				.padding(start = 10.dp, top = 10.dp, end = 10.dp, bottom = 10.dp),
 
-            verticalArrangement = Arrangement.spacedBy(5.dp, Alignment.Top),
-            horizontalAlignment = Alignment.Start
-        ) {
-            Text(
-                text = boardviewItemDetails.taskName, style = TextStyle(
-                    fontSize = 14.sp,
-                    lineHeight = 16.sp,
-                    fontWeight = FontWeight(400),
-                    color = Color(0xFF21005D),
-                    letterSpacing = 0.5.sp
-                )
-            )
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(10.dp, Alignment.Start),
-                verticalAlignment = Alignment.Top,
-                modifier = Modifier.height(32.dp)
-            ) {
-                boardviewItemDetails.taskTag.forEach { TaskTag(tagName = it) }
-            }
-            Row(
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Row(
-                    horizontalArrangement = Arrangement.spacedBy(
-                        0.dp,
-                        Alignment.CenterHorizontally
-                    ), verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.padding(3.dp, bottom = 3.dp)
-                ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.check_box),
-                        contentDescription = "",
-                        modifier = Modifier
-                            .width(24.dp)
-                            .height(24.dp)
-                    )
-                    Text(
-                        text = boardviewItemDetails.taskNavigatation, style = TextStyle(
-                            fontSize = 12.sp,
-                            lineHeight = 20.sp,
-                            fontWeight = FontWeight(500),
-                            color = Color(0xD95E4E79),
-                            textAlign = TextAlign.Center,
-                            letterSpacing = 0.1.sp,
-                        )
-                    )
-                }
-                Row(
-                    horizontalArrangement = Arrangement.spacedBy(
-                        5.dp,
-                        Alignment.CenterHorizontally
-                    ),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    TaskPoint(boardviewItemDetails.taskPoint, Modifier
-                        .background(
-                            color = Color(0xFFDCCFE3),
-                            shape = RoundedCornerShape(size = 10.dp)
-                        ))
-                    Box {
+			verticalArrangement = Arrangement.spacedBy(5.dp, Alignment.Top),
+			horizontalAlignment = Alignment.Start
+		) {
+			Text(
+				text = boardviewItemDetails.taskName, style = TextStyle(
+					fontSize = 14.sp,
+					lineHeight = 16.sp,
+					fontWeight = FontWeight(400),
+					color = Color(0xFF21005D),
+					letterSpacing = 0.5.sp
+				)
+			)
+			Row(
+				horizontalArrangement = Arrangement.spacedBy(10.dp, Alignment.Start),
+				verticalAlignment = Alignment.Top,
+				modifier = Modifier.height(32.dp)
+			) {
+				boardviewItemDetails.taskTag.forEach { TaskTag(tagName = it) }
+			}
+			Row(
+				horizontalArrangement = Arrangement.SpaceBetween,
+				verticalAlignment = Alignment.CenterVertically,
+				modifier = Modifier.fillMaxWidth()
+			) {
+				Row(
+					horizontalArrangement = Arrangement.spacedBy(
+						0.dp,
+						Alignment.CenterHorizontally
+					), verticalAlignment = Alignment.CenterVertically,
+					modifier = Modifier.padding(3.dp, bottom = 3.dp)
+				) {
+					Image(
+						painter = painterResource(id = R.drawable.check_box),
+						contentDescription = "",
+						modifier = Modifier
+							.width(24.dp)
+							.height(24.dp)
+					)
+					Text(
+						text = boardviewItemDetails.taskNavigatation, style = TextStyle(
+							fontSize = 12.sp,
+							lineHeight = 20.sp,
+							fontWeight = FontWeight(500),
+							color = Color(0xD95E4E79),
+							textAlign = TextAlign.Center,
+							letterSpacing = 0.1.sp,
+						)
+					)
+				}
+				Row(
+					horizontalArrangement = Arrangement.spacedBy(
+						5.dp,
+						Alignment.CenterHorizontally
+					),
+					verticalAlignment = Alignment.CenterVertically
+				) {
+					TaskPoint(
+						boardviewItemDetails.taskPoint, Modifier
+							.background(
+								color = Color(0xFFDCCFE3),
+								shape = RoundedCornerShape(size = 10.dp)
+							)
+					)
+					Box {
 //                        if (boardviewItemDetails?.taskAssignList != null) {
 //                            for (image in boardviewItemDetails.taskAssignList!!) {
 //                                Image(
@@ -140,30 +142,30 @@ fun BoardViewCategoryItem(boardviewItemDetails: IBoardviewCategoryItem) {
 //                                )
 //                            }
 //                        }
-                        Image(
-                            painter = painterResource(id = R.drawable.profile),
-                            contentDescription = ""
-                        )
+						Image(
+							painter = painterResource(id = R.drawable.profile),
+							contentDescription = ""
+						)
 
-                    }
-                }
+					}
+				}
 
-            }
-        }
-    }
+			}
+		}
+	}
 }
 
 var fakeData: IBoardviewCategoryItem = IBoardviewCategoryItem(
-    "Code Homepage",
-    listOf("Homepage", "FE"),
-    "Scrummer123",
-    null,
-    90,
-    null,
+	"Code Homepage",
+	listOf("Homepage", "FE"),
+	"Scrummer123",
+	null,
+	90,
+	null,
 )
 
 @Preview
 @Composable
 fun BoardViewCategoryItemPreview() {
-    BoardViewCategoryItem(fakeData)
+	BoardViewCategoryItem(fakeData)
 }

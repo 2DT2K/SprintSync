@@ -15,69 +15,56 @@ import androidx.compose.ui.unit.dp
 
 
 fun Modifier.innerShadow(
-    color: Color = Color.Black,
-    cornersRadius: Dp = 0.dp,
-    spread: Dp = 0.dp,
-    blur: Dp = 0.dp,
-    offsetY: Dp = 0.dp,
-    offsetX: Dp = 0.dp
+	color: Color = Color.Black,
+	blur: Dp = 0.dp,
+	cornersRadius: Dp = 0.dp,
+	spread: Dp = 0.dp,
+	offsetX: Dp = 0.dp,
+	offsetY: Dp = 0.dp
 ) = drawWithContent {
 
-    drawContent()
+	drawContent()
 
-    val rect = Rect(Offset.Zero, size)
-    val paint = Paint()
+	val rect = Rect(Offset.Zero, size)
+	val paint = Paint()
 
-    drawIntoCanvas {
+	drawIntoCanvas {
 
-        paint.color = color
-        paint.isAntiAlias = true
-        it.saveLayer(rect, paint)
-        it.drawRoundRect(
-            left = rect.left,
-            top = rect.top,
-            right = rect.right,
-            bottom = rect.bottom,
-            cornersRadius.toPx(),
-            cornersRadius.toPx(),
-            paint
-        )
-        val frameworkPaint = paint.asFrameworkPaint()
-        frameworkPaint.xfermode = PorterDuffXfermode(PorterDuff.Mode.DST_OUT)
-        if (blur.toPx() > 0) {
-            frameworkPaint.maskFilter = BlurMaskFilter(blur.toPx(), BlurMaskFilter.Blur.NORMAL)
-        }
-        val left = if (offsetX > 0.dp) {
-            rect.left + offsetX.toPx()
-        } else {
-            rect.left
-        }
-        val top = if (offsetY > 0.dp) {
-            rect.top + offsetY.toPx()
-        } else {
-            rect.top
-        }
-        val right = if (offsetX < 0.dp) {
-            rect.right + offsetX.toPx()
-        } else {
-            rect.right
-        }
-        val bottom = if (offsetY < 0.dp) {
-            rect.bottom + offsetY.toPx()
-        } else {
-            rect.bottom
-        }
-        paint.color = Color.Black
-        it.drawRoundRect(
-            left = left + spread.toPx() / 2,
-            top = top + spread.toPx() / 2,
-            right = right ,
-            bottom = bottom,
-            cornersRadius.toPx(),
-            cornersRadius.toPx(),
-            paint
-        )
-        frameworkPaint.xfermode = null
-        frameworkPaint.maskFilter = null
-    }
+		paint.color = color
+		paint.isAntiAlias = true
+		it.saveLayer(rect, paint)
+		it.drawRoundRect(
+			left = rect.left,
+			top = rect.top,
+			right = rect.right,
+			bottom = rect.bottom,
+			cornersRadius.toPx(),
+			cornersRadius.toPx(),
+			paint
+		)
+		val frameworkPaint = paint.asFrameworkPaint()
+		frameworkPaint.xfermode = PorterDuffXfermode(PorterDuff.Mode.DST_OUT)
+		if (blur.toPx() > 0)
+			frameworkPaint.maskFilter = BlurMaskFilter(blur.toPx(), BlurMaskFilter.Blur.NORMAL)
+
+		val top = if (offsetY > 0.dp) rect.top + offsetY.toPx() else rect.top
+		val bottom = if (offsetY < 0.dp) rect.bottom + offsetY.toPx() else rect.bottom
+		val left = if (offsetX > 0.dp) rect.left + offsetX.toPx() else rect.left
+		val right = if (offsetX < 0.dp) rect.right + offsetX.toPx() else rect.right
+
+		paint.color = Color.Black
+
+		it.drawRoundRect(
+			top = top + spread.toPx() / 2,
+			bottom = bottom,
+			left = left + spread.toPx() / 2,
+			right = right,
+			radiusX = cornersRadius.toPx(),
+			radiusY = cornersRadius.toPx(),
+			paint = paint
+		)
+
+		frameworkPaint.xfermode = null
+		frameworkPaint.maskFilter = null
+	}
 }

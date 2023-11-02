@@ -17,33 +17,35 @@ import androidx.compose.ui.unit.sp
 
 @Composable
 fun TaskDescription(taskDescription: String) {
-    Column(
-        verticalArrangement = Arrangement.spacedBy(5.dp, Alignment.CenterVertically),
-        horizontalAlignment = Alignment.Start,
-        modifier = Modifier.padding(start = 5.dp, top = 5.dp, end = 5.dp, bottom = 5.dp)
-    ) {
-        Text(
-            text = "Description", style = TextStyle(
-                fontSize = 12.sp,
-                lineHeight = 16.sp,
-                fontWeight = FontWeight(600),
-                color = Color(0xB221005D),
-            )
-        )
-        Text(
-            text = taskDescription, style = TextStyle(
-                fontSize = 14.sp,
-                lineHeight = 16.8.sp,
-                fontWeight = FontWeight(400),
-                color = Color(0xFF641677),
-                letterSpacing = 0.1.sp,
-            )
-        )
-    }
+	Column(
+		verticalArrangement = Arrangement.spacedBy(5.dp, Alignment.CenterVertically),
+		horizontalAlignment = Alignment.Start,
+		modifier = Modifier.padding(start = 5.dp, top = 5.dp, end = 5.dp, bottom = 5.dp)
+	) {
+		Text(
+			text = "Description", style = TextStyle(
+				fontSize = 12.sp,
+				lineHeight = 16.sp,
+				fontWeight = FontWeight(600),
+				color = Color(0xB221005D),
+			)
+		)
+		Text(
+			text = taskDescription, style = TextStyle(
+				fontSize = 14.sp,
+				lineHeight = 16.8.sp,
+				fontWeight = FontWeight(400),
+				color = Color(0xFF641677),
+				letterSpacing = 0.1.sp,
+			)
+		)
+	}
 }
 
 @Preview(showBackground = true)
 @Composable
 fun TaskDescriptionPreview() {
-    TaskDescription(taskDescription = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce aliquet convallis iaculis. Donec pharetra gravida libero lacinia finibus. Interdum et malesuada fames ac ante ipsum primis in faucibus. Aenean lorem sapien, lacinia ut odio a, dictum scelerisque est. Fusce mattis ac eros ut efficitur. Integer vel magna suscipit, tincidunt risus commodo, viverra est. ")
+	TaskDescription(
+		taskDescription = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce aliquet convallis iaculis. Donec pharetra gravida libero lacinia finibus. Interdum et malesuada fames ac ante ipsum primis in faucibus. Aenean lorem sapien, lacinia ut odio a, dictum scelerisque est. Fusce mattis ac eros ut efficitur. Integer vel magna suscipit, tincidunt risus commodo, viverra est. "
+	)
 }

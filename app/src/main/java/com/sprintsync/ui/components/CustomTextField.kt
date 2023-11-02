@@ -3,10 +3,12 @@ package com.sprintsync.ui.components
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -15,7 +17,11 @@ import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldColors
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
@@ -32,19 +38,12 @@ import androidx.compose.ui.unit.sp
 import com.sprintsync.R
 import com.sprintsync.ui.theme.Purple40
 
-
-class PlaceholderTransformation(private val placeholder: String) : VisualTransformation {
-    override fun filter(text: AnnotatedString): TransformedText {
-        return placeHolderFilter(text, placeholder)
-    }
-}
-
 @Composable
 fun CommentTextField(
+    modifier: Modifier,
     placeholder: String,
     value: String,
-    onValueChange: (String) -> Unit,
-    modifier: Modifier
+    onValueChange: (String) -> Unit
 ) {
     BasicTextField(
         modifier = modifier,
@@ -69,10 +68,10 @@ fun CommentTextField(
             ) {
                 if (value.isEmpty()) {
                     Text(
+                        modifier = Modifier.padding(8.dp),
                         text = placeholder,
-                        color = if (isSystemInDarkTheme()) Color(0xFF969EBD) else Color.Gray,
                         fontSize = 14.sp,
-                        modifier = Modifier.padding(8.dp)
+                        color = if (isSystemInDarkTheme()) Color(0xFF969EBD) else Color.Gray
                     )
                 }
             }
@@ -81,31 +80,27 @@ fun CommentTextField(
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ExpandTextField(
-    type: String? = "normal",
+fun ExpandableTextField(
     modifier: Modifier = Modifier,
     surfaceModifier: Modifier = Modifier,
+    isPassword: Boolean = false,
     value: String = "",
-    label: String = "Email",
-    placeholder: String = "Please Enter Your Email",
-    isVisible: Boolean? = true,
-    isError: Boolean = false,
-    leadingIcon: @Composable() (() -> Unit)? = null,
-    trailingIcon: @Composable() (() -> Unit)? = null,
+    onValueChange: ((String) -> Unit)? = null,
+    label: String = "Label",
+    placeholder: String = "Placeholder",
+    leadingIcon: @Composable (() -> Unit)? = null,
     shape: Shape = OutlinedTextFieldDefaults.shape,
     colors: TextFieldColors = OutlinedTextFieldDefaults.colors(
         focusedBorderColor = Purple40,
         unfocusedBorderColor = Purple40
     ),
-    onValueChange: ((String) -> Unit)? = null,
-    errorText: String = "please redo",
-    readOnly: Boolean = false,
+    isError: Boolean = false,
+    errorText: String = "Something is wrong...",
+    readOnly: Boolean = false
 ) {
     var text by remember { mutableStateOf(value) }
-    var passwordVisible by remember { mutableStateOf(isVisible) }
-    if (type == "hidden") passwordVisible = false;
+    var isVisible by remember { mutableStateOf(!isPassword) }
 
     Column {
         Surface(modifier = surfaceModifier) {
@@ -114,25 +109,21 @@ fun ExpandTextField(
                 value = text,
                 onValueChange = {
                     text = it
-                    if (onValueChange != null) {
-                        onValueChange(it)
-                    }
+                    onValueChange?.invoke(it)
                 },
                 leadingIcon = leadingIcon,
-                trailingIcon =
-                if (trailingIcon != null) {
-                    {
-                        IconButton(onClick = { passwordVisible = !passwordVisible!! }) {
-                            if (passwordVisible == true) trailingIcon()
-                            else Icon(
-                                painter = painterResource(id = R.drawable.invisibility),
+                trailingIcon = {
+                    if (isPassword) {
+                        IconButton(onClick = { isVisible = !isVisible }) {
+                            Icon(
+                                painter = painterResource(
+                                    id = if (isVisible) R.drawable.eye_slash else R.drawable.eye
+                                ),
                                 contentDescription = null,
                                 tint = Color(0xFF381E72)
                             )
                         }
                     }
-                } else {
-                    null
                 },
                 label = { Text(label) },
                 placeholder = {
@@ -143,10 +134,11 @@ fun ExpandTextField(
                         overflow = TextOverflow.Ellipsis,
                     )
                 },
-                visualTransformation = if (text.isEmpty())
-                    PlaceholderTransformation(placeholder) else if (passwordVisible != null &&
-                    passwordVisible == false
-                ) PasswordVisualTransformation() else VisualTransformation.None,
+                visualTransformation = when {
+                    text.isEmpty() -> PlaceholderTransformation(placeholder)
+                    !isVisible -> PasswordVisualTransformation()
+                    else -> VisualTransformation.None
+                },
                 maxLines = 1,
                 shape = RoundedCornerShape(16),
                 colors = colors,
@@ -154,28 +146,24 @@ fun ExpandTextField(
                 readOnly = readOnly
             )
         }
-        if (isError) Text(
-            text = errorText,
-            color = MaterialTheme.colorScheme.error,
-            style = MaterialTheme.typography.bodyMedium,
-            modifier = Modifier
-        )
+
+        if (isError)
+            Text(
+                modifier = Modifier,
+                text = errorText,
+                color = MaterialTheme.colorScheme.error,
+                style = MaterialTheme.typography.bodyMedium
+            )
     }
 }
 
-fun placeHolderFilter(text: AnnotatedString, placeholder: String): TransformedText {
-
-    var out = placeholder
-
-    val numberOffsetTranslator = object : OffsetMapping {
-        override fun originalToTransformed(offset: Int): Int {
-            return 0
+class PlaceholderTransformation(private val placeholder: String) : VisualTransformation {
+    override fun filter(text: AnnotatedString): TransformedText {
+        val offsetTranslator = object : OffsetMapping {
+            override fun originalToTransformed(offset: Int): Int = 0
+            override fun transformedToOriginal(offset: Int): Int = 0
         }
 
-        override fun transformedToOriginal(offset: Int): Int {
-            return 0
-        }
+        return TransformedText(AnnotatedString(placeholder), offsetTranslator)
     }
-
-    return TransformedText(AnnotatedString(placeholder), numberOffsetTranslator)
 }

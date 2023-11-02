@@ -25,82 +25,82 @@ import com.sprintsync.R
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TwoIconTopAppBar(title: String, backgroundColor: Color = Color(0xFFFFFFFF)) {
-    TopAppBar(
-        colors = TopAppBarDefaults.mediumTopAppBarColors(
-            containerColor = backgroundColor
-        ),
-        title = {
-            Text(
-                text = title, style = TextStyle(
-                    fontSize = 24.sp,
-                    fontWeight = FontWeight(400),
-                    color = Color(0xFF21005D)
-                )
-            )
-        },
-        navigationIcon = {
-            IconButton(onClick = { /*TODO*/ }) {
-                Image(
-                    painter = painterResource(id = R.drawable.back_icon),
-                    contentDescription = ""
-                )
-            }
-        },
-        actions = {
-            IconButton(onClick = { /*TODO*/ }) {
-                Image(
-                    painter = painterResource(id = R.drawable.three_dot),
-                    contentDescription = ""
-                )
-            }
-        }
-    )
+	TopAppBar(
+		colors = TopAppBarDefaults.mediumTopAppBarColors(
+			containerColor = backgroundColor
+		),
+		title = {
+			Text(
+				text = title, style = TextStyle(
+					fontSize = 24.sp,
+					fontWeight = FontWeight(400),
+					color = Color(0xFF21005D)
+				)
+			)
+		},
+		navigationIcon = {
+			IconButton(onClick = { /*TODO*/ }) {
+				Image(
+					painter = painterResource(id = R.drawable.back_icon),
+					contentDescription = ""
+				)
+			}
+		},
+		actions = {
+			IconButton(onClick = { /*TODO*/ }) {
+				Image(
+					painter = painterResource(id = R.drawable.three_dot),
+					contentDescription = ""
+				)
+			}
+		}
+	)
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeTopAppBar(title: String, backgroundColor: Color = Color(0xFFFFFFFF)) {
-    TopAppBar(
-        colors = TopAppBarDefaults.mediumTopAppBarColors(
-            containerColor = backgroundColor
-        ),
-        title = {
-            Text(
-                text = title, style = TextStyle(
-                    fontSize = 24.sp,
-                    fontWeight = FontWeight(400),
-                    color = Color(0xFF21005D)
-                )
-            )
-        },
-        navigationIcon = {
-            IconButton(onClick = { /*TODO*/ }) {
-                Image(
-                    painter = painterResource(id = R.drawable.avataricon),
-                    contentDescription = ""
-                )
-            }
-        },
-        actions = {
-            Surface(
-                modifier = Modifier
-                    .width(40.dp)
-                    .height(40.dp)
-                    .border(
-                        width = 1.dp,
-                        color = Color(0x99CDCDCD),
-                        shape = RoundedCornerShape(size = 100.dp)
-                    ),
-                color = Color.Transparent
-            )
-            {
-                IconButton(onClick = { /*TODO*/ }) {
-                    Image(
-                        painter = painterResource(id = R.drawable.notification),
-                        contentDescription = ""
-                    )
-                }
-            }
-        }
-    )
+	TopAppBar(
+		colors = TopAppBarDefaults.mediumTopAppBarColors(
+			containerColor = backgroundColor
+		),
+		title = {
+			Text(
+				text = title, style = TextStyle(
+					fontSize = 24.sp,
+					fontWeight = FontWeight(400),
+					color = Color(0xFF21005D)
+				)
+			)
+		},
+		navigationIcon = {
+			IconButton(onClick = { /*TODO*/ }) {
+				Image(
+					painter = painterResource(id = R.drawable.avataricon),
+					contentDescription = ""
+				)
+			}
+		},
+		actions = {
+			Surface(
+				modifier = Modifier
+					.width(40.dp)
+					.height(40.dp)
+					.border(
+						width = 1.dp,
+						color = Color(0x99CDCDCD),
+						shape = RoundedCornerShape(size = 100.dp)
+					),
+				color = Color.Transparent
+			)
+			{
+				IconButton(onClick = { /*TODO*/ }) {
+					Image(
+						painter = painterResource(id = R.drawable.notification),
+						contentDescription = ""
+					)
+				}
+			}
+		}
+	)
 }
