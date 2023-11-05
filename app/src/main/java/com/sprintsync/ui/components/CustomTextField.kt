@@ -90,6 +90,7 @@ fun ExpandableTextField(
     label: String = "Label",
     placeholder: String = "Placeholder",
     leadingIcon: @Composable (() -> Unit)? = null,
+    trailingIcon: @Composable (() -> Unit)? = null,
     shape: Shape = OutlinedTextFieldDefaults.shape,
     colors: TextFieldColors = OutlinedTextFieldDefaults.colors(
         focusedBorderColor = Purple40,
@@ -123,6 +124,8 @@ fun ExpandableTextField(
                                 tint = Color(0xFF381E72)
                             )
                         }
+                    } else {
+                        trailingIcon?.invoke()
                     }
                 },
                 label = { Text(label) },

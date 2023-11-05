@@ -22,6 +22,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
@@ -71,6 +72,7 @@ fun TaskComposer() {
 						)
 						.fillMaxWidth(),
 					horizontalArrangement = Arrangement.spacedBy(16.dp),
+					verticalAlignment = Alignment.CenterVertically
 				) {
 					Icon(
 						painter = painterResource(id = R.drawable.camera),
@@ -90,7 +92,8 @@ fun TaskComposer() {
 							bottom = 16.dp
 						)
 						.fillMaxWidth(),
-					horizontalArrangement = Arrangement.spacedBy(16.dp)
+					horizontalArrangement = Arrangement.spacedBy(16.dp),
+					verticalAlignment = Alignment.CenterVertically
 				) {
 					Icon(
 						painter = painterResource(id = R.drawable.videocam),
@@ -110,7 +113,8 @@ fun TaskComposer() {
 							bottom = 16.dp
 						)
 						.fillMaxWidth(),
-					horizontalArrangement = Arrangement.spacedBy(16.dp)
+					horizontalArrangement = Arrangement.spacedBy(16.dp),
+					verticalAlignment = Alignment.CenterVertically
 				) {
 					Icon(
 						modifier = Modifier

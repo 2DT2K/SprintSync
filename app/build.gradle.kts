@@ -110,6 +110,9 @@ dependencies {
 
 	implementation("com.github.TuleSimon:xMaterialccp:1.22")
 
+	//wheelpicker
+	implementation ("com.github.commandiron:WheelPickerCompose:1.1.11")
+
 //	testing dependencies
 	testImplementation("junit:junit:4.13.2")
 	androidTestImplementation("androidx.test.ext:junit:1.1.5")
