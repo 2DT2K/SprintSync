@@ -30,82 +30,89 @@ import com.sprintsync.ui.theme.SprintSyncTheme
 
 @Composable
 fun SignUpView(
-	modifier: Modifier = Modifier,
-	signUpWithPassword: (String, String) -> Unit = { _, _ -> },
-	signIn: () -> Unit = {},
+    modifier: Modifier = Modifier,
+    signUpWithPassword: (String, String) -> Unit = { _, _ -> },
+    signIn: () -> Unit = {},
 ) {
-	var email by remember { mutableStateOf("") }
-	var password by remember { mutableStateOf("") }
-	var confirmPassword by remember { mutableStateOf("") }
+    var email by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
+    var confirmPassword by remember { mutableStateOf("") }
 
-	Surface {
-		// TODO: remove padding when we have main scaffold
-		Column(
-			modifier = Modifier
-				.fillMaxSize()
-				.padding(start = 24.dp, end = 24.dp)
-		) {
-			Box(
-				modifier = Modifier
-					.fillMaxWidth()
-					.weight(0.6f),
-				contentAlignment = Alignment.Center
-			) {
-				Image(
-					modifier = modifier.requiredSize(240.dp),
-					painter = painterResource(id = R.drawable.logo),
-					contentDescription = "LOGO"
-				)
-			}
-			Box(
-				modifier = Modifier
-					.fillMaxWidth()
-					.weight(0.3f)
-			) {
-				Title(
-					title = "Create an account ",
-					subtitle = "Join us today !"
-				)
-			}
+    Surface {
+        // TODO: remove padding when we have main scaffold
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(start = 24.dp, end = 24.dp)
+        ) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(0.6f),
+                contentAlignment = Alignment.Center
+            ) {
+                Image(
+                    modifier = modifier.requiredSize(240.dp),
+                    painter = painterResource(id = R.drawable.logo),
+                    contentDescription = "LOGO"
+                )
+            }
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(0.3f)
+            ) {
+                Title(
+                    title = "Create an account ",
+                    subtitle = "Join us today !"
+                )
+            }
 
-			Column(
-				modifier = Modifier.wrapContentHeight(),
-				verticalArrangement = Arrangement.spacedBy(20.dp)
-			) {
-				EmailField(onValueChange = { email = it })
+            Column(
+                modifier = Modifier.wrapContentHeight(),
+                verticalArrangement = Arrangement.spacedBy(20.dp)
+            ) {
+                EmailField(
+                    onValueChange = { email = it },
+                    errorText = "Email is not valid"
+                )
 
-				PasswordField(onValueChange = { password = it })
+                PasswordField(
+                    onValueChange = { password = it },
+                    errorText = "Password is too short"
+                )
 
-				PasswordField(
-					isNormal = false,
-					onValueChange = { confirmPassword = it }
-				)
-			}
+                PasswordField(
+                    isNormal = false,
+                    onValueChange = { confirmPassword = it },
+                    errorText = "Password is not match"
+                )
+            }
 
-			Column(
-				modifier = Modifier
-					.fillMaxWidth()
-					.weight(0.75f),
-				horizontalAlignment = Alignment.CenterHorizontally
-			) {
-				Spacer(modifier = Modifier.weight(0.5f))
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(0.75f),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Spacer(modifier = Modifier.weight(0.5f))
 
-				Surface(modifier = Modifier.weight(1f)) {
-					SignUpButtonGroup(
-						signUpWithPassword = { signUpWithPassword(email, password) },
-						signIn = signIn
-					)
-				}
-			}
-		}
-	}
+                Surface(modifier = Modifier.weight(1f)) {
+                    SignUpButtonGroup(
+                        signUpWithPassword = { signUpWithPassword(email, password) },
+                        signIn = signIn
+                    )
+                }
+            }
+        }
+    }
 }
 
 
 @Preview(showBackground = true)
 @Composable
 private fun SignUpPreview() {
-	SprintSyncTheme {
-		SignUpView()
-	}
+    SprintSyncTheme {
+        SignUpView()
+    }
 }

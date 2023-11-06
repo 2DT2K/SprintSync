@@ -33,90 +33,99 @@ import com.sprintsync.ui.theme.SprintSyncTheme
 
 @Composable
 fun SignInView(
-	modifier: Modifier = Modifier,
-	signInWithPassword: (String, String) -> Unit = { _, _ -> },
-	signInWithGoogle: () -> Unit = {},
-	resetPassword: () -> Unit = {},
-	signUp: () -> Unit = {}
+    modifier: Modifier = Modifier,
+    signInWithPassword: (String, String) -> Unit = { _, _ -> },
+    signInWithGoogle: () -> Unit = {},
+    resetPassword: () -> Unit = {},
+    signUp: () -> Unit = {}
 ) {
-	var email by remember { mutableStateOf("") }
-	var password by remember { mutableStateOf("") }
+    var email by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
 
-	Surface {
-		// TODO: remove padding when we have main scaffold
-		Column(
-			modifier = Modifier
-				.fillMaxSize()
-				.padding(start = 24.dp, end = 24.dp)
-		) {
-			Box(
-				modifier = Modifier
-					.fillMaxWidth()
-					.defaultMinSize()
-					.weight(0.7f),
-				contentAlignment = Alignment.TopCenter
-			) {
-				Image(
-					modifier = modifier.requiredSize(240.dp),
-					painter = painterResource(id = R.drawable.logo),
-					contentDescription = null
-				)
-			}
+    Surface {
+        // TODO: remove padding when we have main scaffold
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(start = 24.dp, end = 24.dp)
+        ) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .defaultMinSize()
+                    .weight(0.7f),
+                contentAlignment = Alignment.TopCenter
+            ) {
+                Image(
+                    modifier = modifier.requiredSize(240.dp),
+                    painter = painterResource(id = R.drawable.logo),
+                    contentDescription = null
+                )
+            }
 
-			Box(
-				modifier = Modifier
-					.fillMaxWidth()
-					.weight(0.3f)
-			) {
-				Title(
-					title = "Hi, Welcome Back! ",
-					subtitle = "Hello again, we missed you <3"
-				)
-			}
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(0.3f)
+            ) {
+                Title(
+                    title = "Hi, Welcome Back! ",
+                    subtitle = "Hello again, we missed you <3"
+                )
+            }
 
-			Column(
-				modifier = Modifier.wrapContentHeight(),
-				verticalArrangement = Arrangement.spacedBy(20.dp)
-			) {
-				EmailField(onValueChange = { email = it })
+            Column(
+                modifier = Modifier.wrapContentHeight(),
+                verticalArrangement = Arrangement.spacedBy(20.dp)
+            ) {
+                EmailField(
+                    onValueChange = { email = it },
+                    errorText = "Email is incorrect"
+//                    Có nhiều loại lỗi nên sẽ phải tùy trường hợp để đặt errorText là gì
+//                    Có thể gọi isError để hiển thị lỗi và tắt hiểu thị lỗi khi người dùng bắt
+//                    đầu nhập lại
+                )
 
-				PasswordField(onValueChange = { password = it })
+                PasswordField(
+                    onValueChange = { password = it },
+                    errorText = "Password is incorrect"
+                )
 
-				Box(
-					modifier = Modifier.fillMaxWidth(),
-					contentAlignment = Alignment.BottomEnd
-				) {
-					PromptRow(
-						modifier = Modifier.height(20.dp),
-						normalText = "Forgot Password?",
-						highlightedText = "Reset",
-						highlightColor = Red80,
-						onClick = resetPassword
-					)
-				}
-			}
+                Box(
+                    modifier = Modifier.fillMaxWidth(),
+                    contentAlignment = Alignment.BottomEnd
+                ) {
+                    PromptRow(
+                        modifier = Modifier.height(20.dp),
+                        normalText = "Forgot Password?",
+                        highlightedText = "Reset",
+                        highlightColor = Red80,
+                        onClick = resetPassword
+                    )
+                }
+            }
 
-			Column(
-				modifier = Modifier
-					.fillMaxWidth()
-					.weight(0.9f),
-				verticalArrangement = Arrangement.Bottom,
-				horizontalAlignment = Alignment.CenterHorizontally
-			) {
-				SignInButtonGroup(
-					signInWithPassword = { signInWithPassword(email, password) },
-					signInWithGoogle = signInWithGoogle,
-					signUp = signUp
-				)
-			}
-		}
-	}
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(0.9f),
+                verticalArrangement = Arrangement.Bottom,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                SignInButtonGroup(
+                    signInWithPassword = { signInWithPassword(email, password) },
+                    signInWithGoogle = signInWithGoogle,
+                    signUp = signUp
+                )
+            }
+        }
+    }
 }
 
 @Preview(showBackground = true)
 @Composable
 private fun SignInPreview() {
-	SprintSyncTheme {
-		SignInView()
-	}
+    SprintSyncTheme {
+        SignInView()
+    }
 }
