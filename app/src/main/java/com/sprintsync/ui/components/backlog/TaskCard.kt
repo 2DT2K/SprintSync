@@ -70,9 +70,9 @@ fun TaskCard(task: BacklogViewModel.Task) {
 		verticalAlignment = Alignment.CenterVertically,
 		horizontalArrangement = Arrangement.spacedBy(16.dp)
 	) {
-		Icon(
+		Image(
 			modifier = Modifier.size(28.dp),
-			painter = painterResource(R.drawable.production),
+			painter = painterResource(icon),
 			contentDescription = null,
 		)
 		Column(verticalArrangement = Arrangement.SpaceBetween) {

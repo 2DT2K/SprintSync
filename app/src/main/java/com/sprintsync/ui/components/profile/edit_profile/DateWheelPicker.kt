@@ -4,6 +4,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -44,8 +45,9 @@ fun DateWheelPicker(onValueChange: (String) -> Unit) {
     var birthDate by remember { mutableStateOf(LocalDate.now()) }
     var selectedDate by remember { mutableStateOf(birthDate) }
 
-    Box {
+    Box(modifier = Modifier.fillMaxWidth()) {
         OutlinedTextField(
+            modifier = Modifier.fillMaxWidth(),
             value = birthDate.format(
                 DateTimeFormatter.ofPattern("dd/MM/yyyy")
             ),

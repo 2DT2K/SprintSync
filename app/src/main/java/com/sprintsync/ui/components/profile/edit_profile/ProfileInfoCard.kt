@@ -1,9 +1,11 @@
 package com.sprintsync.ui.components.profile.edit_profile
 
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
@@ -22,6 +24,7 @@ fun ProfileInfoCard(
         fontWeight = FontWeight.Bold
     )
     content?.invoke() ?: OutlinedTextField(
+        modifier = Modifier.fillMaxWidth(),
         value = value,
         onValueChange = { onValueChange(it) },
         shape = RoundedCornerShape(16),

@@ -1,5 +1,9 @@
 package com.sprintsync.ui.components.profile.edit_profile
 
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.requiredSizeIn
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -17,13 +21,18 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.toLowerCase
 import androidx.compose.ui.unit.dp
 import com.sprintsync.R
+import com.sprintsync.ui.components.CustomModalBottomSheet
 import com.sprintsync.ui.components.CustomText
+import com.sprintsync.ui.components.SearchBar
 import com.sprintsync.ui.theme.Grey40
 import com.sprintsync.ui.theme.Purple40
 import com.sprintsync.ui.views.profile.edit_profile.countryList
+import java.util.Locale
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -31,15 +40,11 @@ import com.sprintsync.ui.views.profile.edit_profile.countryList
 fun CountryDropDownMenu(onValueChange: (String) -> Unit) {
     var expanded by remember { mutableStateOf(false) }
     var selectedCountry by remember { mutableStateOf(countryList[0]) }
+    var searchTerm by remember { mutableStateOf("") }
 
-    ExposedDropdownMenuBox(
-        expanded = expanded,
-        onExpandedChange = {
-            expanded = !expanded
-        }
-    ) {
+    Box(modifier = Modifier.fillMaxWidth()) {
         OutlinedTextField(
-            modifier = Modifier.menuAnchor(),
+            modifier = Modifier.fillMaxWidth(),
             value = selectedCountry,
             onValueChange = {},
             shape = RoundedCornerShape(16),
@@ -61,19 +66,27 @@ fun CountryDropDownMenu(onValueChange: (String) -> Unit) {
             }
         )
 
-        ExposedDropdownMenu(
-            expanded = expanded,
-            onDismissRequest = { expanded = false }
-        ) {
-            LazyColumn(
-                modifier = Modifier
-                    .size(
-                        width = 320.dp,
-                        height = 560.dp
-                    )
-            ) {
+        Box(
+            modifier = Modifier
+                .matchParentSize()
+                .alpha(0f)
+                .clickable { expanded = !expanded },
+        )
+    }
+
+    CustomModalBottomSheet(
+        modifier = Modifier.fillMaxHeight(),
+        isSheetShown = expanded,
+        changeVisibility = { expanded = it },
+        sheetContent = {
+            SearchBar(
+                placeHolder = "Please enter your country",
+                onValueChange = { searchTerm = it }
+            )
+
+            LazyColumn {
                 items(countryList) { country ->
-                    DropdownMenuItem(
+                    if (country.lowercase(Locale.ROOT).contains(searchTerm)) DropdownMenuItem(
                         modifier = Modifier.requiredSizeIn(maxHeight = 200.dp),
                         text = { CustomText(text = country) },
                         onClick = {
@@ -85,5 +98,6 @@ fun CountryDropDownMenu(onValueChange: (String) -> Unit) {
                 }
             }
         }
-    }
+    )
 }
+

@@ -1,6 +1,9 @@
 package com.sprintsync.ui.components.profile.edit_profile
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -9,10 +12,12 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -29,6 +34,7 @@ import androidx.compose.ui.unit.dp
 import com.sprintsync.R
 import com.sprintsync.ui.components.CustomModalBottomSheet
 import com.sprintsync.ui.components.CustomText
+import com.sprintsync.ui.theme.Grey120
 import com.sprintsync.ui.theme.Purple20
 import com.sprintsync.ui.theme.Purple40
 
@@ -56,7 +62,19 @@ fun EditProfileAvatarGroup() {
             )
 
             Icon(
-                modifier = Modifier.align(Alignment.BottomEnd),
+                modifier = Modifier
+                    .align(Alignment.BottomEnd)
+                    .offset(
+                        (-14).dp,
+                        (-14).dp
+                    )
+                    .padding(0.dp)
+                    .size(36.dp)
+                    .background(
+                        color = Grey120,
+                        shape = RoundedCornerShape(100)
+                    )
+                    .padding(4.dp),
                 painter = painterResource(id = R.drawable.camera),
                 contentDescription = "camera",
                 tint = Color(0xCF242760)
@@ -87,7 +105,6 @@ fun EditProfileAvatarGroup() {
                     modifier = Modifier.size(40.dp),
                     painter = painterResource(id = R.drawable.account_circle),
                     contentDescription = "See Profile Picture",
-                    tint = Purple40
                 )
 
                 CustomText(text = "See Profile Picture")
@@ -109,7 +126,6 @@ fun EditProfileAvatarGroup() {
                     modifier = Modifier.size(40.dp),
                     painter = painterResource(id = R.drawable.image),
                     contentDescription = "Choose profile picture",
-                    tint = Purple40
                 )
 
                 CustomText(text = "Choose profile picture")
