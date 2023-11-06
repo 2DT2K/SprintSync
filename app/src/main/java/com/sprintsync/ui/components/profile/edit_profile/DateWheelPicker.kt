@@ -60,8 +60,7 @@ fun DateWheelPicker(onValueChange: (String) -> Unit) {
                     modifier = Modifier
                         .size(28.dp),
                     painter = painterResource(
-                        id = if (isOpen) R.drawable.arrow_down_2
-                        else R.drawable.arrow_up
+                        id = R.drawable.calendar
                     ),
                     contentDescription = null
                 )
