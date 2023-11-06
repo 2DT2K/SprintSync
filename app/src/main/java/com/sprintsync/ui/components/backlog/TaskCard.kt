@@ -1,6 +1,7 @@
 package com.sprintsync.ui.components.backlog
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -11,6 +12,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -68,10 +70,10 @@ fun TaskCard(task: BacklogViewModel.Task) {
 		verticalAlignment = Alignment.CenterVertically,
 		horizontalArrangement = Arrangement.spacedBy(16.dp)
 	) {
-		Image(
-			modifier = Modifier.size(32.dp),
-			painter = painterResource(id = icon),
-			contentDescription = "task status icon"
+		Icon(
+			modifier = Modifier.size(28.dp),
+			painter = painterResource(R.drawable.production),
+			contentDescription = null,
 		)
 		Column(verticalArrangement = Arrangement.SpaceBetween) {
 			CustomText(

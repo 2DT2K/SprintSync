@@ -115,8 +115,10 @@ fun IsDoneSprintView(doneSprints: List<BacklogViewModel.Sprint>) {
         }
 
         AnimatedVisibility(visible = isOpen) {
-            doneSprints.forEach() { sprint ->
-                SprintCard(sprint = sprint)
+            Column {
+                doneSprints.forEach() { sprint ->
+                    SprintCard(sprint = sprint)
+                }
             }
         }
     }

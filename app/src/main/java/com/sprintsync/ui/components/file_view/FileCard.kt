@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -57,12 +58,13 @@ fun FileCard(
 				horizontalAlignment = Alignment.Start,
 			) {
 				CustomText(text = file.name)
-				Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+				Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
 					Box(modifier = Modifier.width(48.dp)) {
 						CustomText(
 							text = file.user,
 							overflow = TextOverflow.Ellipsis,
 							color = Grey60,
+							maxLines = 1,
 							fontWeight = FontWeight(500)
 						)
 					}
@@ -76,7 +78,6 @@ fun FileCard(
 		}
 	}
 }
-
 
 @Preview(showBackground = true)
 @Composable
