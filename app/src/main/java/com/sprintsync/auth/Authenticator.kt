@@ -16,10 +16,10 @@ import java.util.concurrent.CancellationException
 class Authenticator(context: Context) {
 	// <--- Firebase Auth --->
 	private val auth = Firebase.auth
+	val isSignedIn
+		get() = auth.currentUser != null
 	val signedInUser
-		get() = auth.currentUser?.run {
-			UserData(uid, displayName, email, isEmailVerified, photoUrl)
-		}
+		get() = auth.currentUser?.run { UserData(uid, displayName, email) }
 
 	//	<--- One Tap sign-in for Google Auth --->
 	private val oneTapClient = Identity.getSignInClient(context)
@@ -47,7 +47,7 @@ class Authenticator(context: Context) {
 			)
 		}
 		catch (e: Exception) {
-			Log.e("Password Auth", "Failed to sign up", e)
+			Log.e("Auth", "Failed to sign up", e)
 			if (e is CancellationException) throw e
 			AuthState(errorMessage = e.message)
 		}
@@ -63,7 +63,7 @@ class Authenticator(context: Context) {
 			)
 		}
 		catch (e: Exception) {
-			Log.e("Password Auth", "Failed to sign in", e)
+			Log.e("Auth", "Failed to sign in", e)
 			if (e is CancellationException) throw e
 			AuthState(errorMessage = e.message)
 		}
@@ -76,7 +76,7 @@ class Authenticator(context: Context) {
 				.await()
 		}
 		catch (e: Exception) {
-			Log.e("Password Auth", "Failed to reset password", e)
+			Log.e("Auth", "Failed to reset password", e)
 			if (e is CancellationException) throw e
 		}
 	}
@@ -89,7 +89,7 @@ class Authenticator(context: Context) {
 				.await()
 		}
 		catch (e: Exception) {
-			Log.e("Google Auth", "Failed to get intent sender", e)
+			Log.e("Auth", "Failed to get intent sender", e)
 			if (e is CancellationException) throw e
 			null
 		}?.pendingIntent?.intentSender
@@ -107,7 +107,7 @@ class Authenticator(context: Context) {
 			)
 		}
 		catch (e: Exception) {
-			Log.e("Google Auth", "Failed to sign in with intent", e)
+			Log.e("Auth", "Failed to sign in with intent", e)
 			if (e is CancellationException) throw e
 			AuthState(errorMessage = e.message)
 		}
@@ -122,7 +122,7 @@ class Authenticator(context: Context) {
 				?.await()
 		}
 		catch (e: Exception) {
-			Log.e("Email Auth", "Failed to verify email", e)
+			Log.e("Auth", "Failed to verify email", e)
 			if (e is CancellationException) throw e
 		}
 	}

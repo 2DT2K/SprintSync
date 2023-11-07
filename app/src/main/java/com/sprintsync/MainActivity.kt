@@ -23,6 +23,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.sprintsync.auth.AuthState
 import com.sprintsync.auth.AuthViewModel
 import com.sprintsync.auth.Authenticator
 import com.sprintsync.ui.components.BottomNavigation
@@ -46,8 +47,8 @@ fun MainContent() {
 
 	val authenticator = Authenticator(context = LocalContext.current)
 
-	val viewModel = viewModel<AuthViewModel>()
-	val state by viewModel.state.collectAsStateWithLifecycle()
+	val authVM = viewModel<AuthViewModel>()
+	val authState by authVM.state.collectAsStateWithLifecycle()
 
 	val navController = rememberNavController()
 	val (currentRoute, setCurrentRoute) = remember {
@@ -68,8 +69,12 @@ fun MainContent() {
 		Surface(modifier = Modifier.padding(paddingValues)) {
 			NavHost(navController = navController, startDestination = "sign_in") {
 				composable("sign_in") {
-					LaunchedEffect(state.signedIn) {
-						if (state.signedIn) navController.navigate("home")
+					LaunchedEffect(Unit) {
+						authVM.update(AuthState(authenticator.isSignedIn))
+					}
+
+					LaunchedEffect(authState.signedIn) {
+						if (authState.signedIn) navController.navigate("home")
 					}
 
 					val launcher = rememberLauncherForActivityResult(
@@ -79,7 +84,7 @@ fun MainContent() {
 							scope.launch {
 								authenticator
 									.signInWithIntent(result.data ?: return@launch)
-									.let { viewModel.update(it) }
+									.let { authVM.update(it) }
 							}
 						}
 					}
@@ -89,7 +94,7 @@ fun MainContent() {
 							scope.launch {
 								authenticator
 									.signIn(email, password)
-									.let { viewModel.update(it) }
+									.let { authVM.update(it) }
 							}
 						},
 						signInWithGoogle = {
@@ -115,8 +120,7 @@ fun MainContent() {
 							scope.launch {
 								authenticator
 									.signUp(email, password)
-									.let { viewModel.update(it) }
-								navController.popBackStack()
+									.let { authVM.update(it) }
 							}
 						},
 						signIn = { navController.popBackStack() }
