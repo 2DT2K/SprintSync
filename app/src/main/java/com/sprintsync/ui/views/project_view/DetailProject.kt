@@ -122,7 +122,9 @@ fun DetailProject() {
             items(gridItems) {
                 CustomButton(
                     surfaceModifier = Modifier.height(80.dp),
-                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFE8E1EC)),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color(0xFFE8E1EC)
+                    ),
                     onClick = {}
                 ) {
                     Column(
@@ -145,7 +147,7 @@ fun DetailProject() {
 @Preview(showBackground = true)
 @Composable
 fun DetailProjectPreview() {
-	SprintSyncTheme {
-		DetailProject()
-	}
+    SprintSyncTheme {
+        DetailProject()
+    }
 }

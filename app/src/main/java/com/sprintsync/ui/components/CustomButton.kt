@@ -23,7 +23,7 @@ fun CustomButton(
 	surfaceModifier: Modifier = Modifier,
 	onClick: () -> Unit = {},
 	isFilled: Boolean = true,
-	text: String = "BUTTON",
+	text: String = "",
 	fontSize: TextUnit = TextUnit.Unspecified,
 	shape: Shape = RoundedCornerShape(16),
 	colors: ButtonColors = ButtonDefaults.buttonColors(containerColor = Purple40),
