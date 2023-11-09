@@ -25,6 +25,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.sprintsync.auth.AuthViewModel
 import com.sprintsync.auth.Authenticator
+import com.sprintsync.ui.animation.EnterAnimation
 import com.sprintsync.ui.components.BottomNavigation
 import com.sprintsync.ui.views.HomePage
 import com.sprintsync.ui.views.auth.PasswordResetView
@@ -66,7 +67,7 @@ fun MainContent() {
 		}
 	) { paddingValues ->
 		Surface(modifier = Modifier.padding(paddingValues)) {
-			NavHost(navController = navController, startDestination = "sign_in") {
+			NavHost(navController = navController, startDestination = "home") {
 				composable("sign_in") {
 					LaunchedEffect(state.signedIn) {
 						if (state.signedIn) navController.navigate("home")
@@ -83,7 +84,6 @@ fun MainContent() {
 							}
 						}
 					}
-
 					SignInView(
 						signInWithPassword = { email, password ->
 							scope.launch {
