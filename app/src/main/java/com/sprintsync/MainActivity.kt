@@ -1,12 +1,8 @@
 package com.sprintsync
 
-import android.app.Activity.RESULT_OK
 import android.os.Bundle
 import androidx.activity.ComponentActivity
-import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
-import androidx.activity.result.IntentSenderRequest
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
@@ -32,7 +28,6 @@ import com.sprintsync.ui.views.auth.PasswordResetView
 import com.sprintsync.ui.views.auth.SignInView
 import com.sprintsync.ui.views.auth.SignUpView
 import com.sprintsync.ui.views.project_view.DetailProject
-import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
 	override fun onCreate(savedInstanceState: Bundle?) {
@@ -67,61 +62,28 @@ fun MainContent() {
 		}
 	) { paddingValues ->
 		Surface(modifier = Modifier.padding(paddingValues)) {
-			NavHost(navController = navController, startDestination = "sign_in") {
-				composable("sign_in") {
+			NavHost(navController = navController, startDestination = "splash") {
+				composable("splash") {
 					LaunchedEffect(Unit) {
-						authVM.update(AuthState(authenticator.isSignedIn))
+						authVM.update(AuthState(Authenticator.isSignedIn))
 					}
-
+				}
+				composable("sign_in") {
 					LaunchedEffect(authState.signedIn) {
 						if (authState.signedIn) navController.navigate("home")
 					}
 
-					val launcher = rememberLauncherForActivityResult(
-						contract = ActivityResultContracts.StartIntentSenderForResult()
-					) { result ->
-						if (result.resultCode == RESULT_OK) {
-							scope.launch {
-								authenticator
-									.signInWithIntent(result.data ?: return@launch)
-									.let { authVM.update(it) }
-							}
-						}
-					}
+
 
 					SignInView(
-						signInWithPassword = { email, password ->
-							scope.launch {
-								authenticator
-									.signIn(email, password)
-									.let { authVM.update(it) }
-							}
-						},
-						signInWithGoogle = {
-							scope.launch {
-								authenticator
-									.getSignInIntentSender()
-									.let {
-										launcher.launch(
-											IntentSenderRequest
-												.Builder(it ?: return@launch)
-												.build()
-										)
-									}
-							}
-						},
-						resetPassword = { navController.navigate("password_reset") },
-						signUp = { navController.navigate("sign_up") }
+						context = LocalContext.current,
+						navController = navController,
 					)
 				}
 				composable("sign_up") {
 					SignUpView(
 						signUpWithPassword = { email, password ->
-							scope.launch {
-								authenticator
-									.signUp(email, password)
-									.let { authVM.update(it) }
-							}
+							authVM.signUpWithPassword(scope, authenticator, email, password)
 						},
 						signIn = { navController.popBackStack() }
 					)
@@ -129,10 +91,8 @@ fun MainContent() {
 				composable("password_reset") {
 					PasswordResetView(
 						resetPassword = { email ->
-							scope.launch {
-								authenticator.resetPassword(email)
-								navController.popBackStack()
-							}
+							authVM.resetPassword(scope, authenticator, email)
+							navController.popBackStack()
 						}
 					)
 				}
