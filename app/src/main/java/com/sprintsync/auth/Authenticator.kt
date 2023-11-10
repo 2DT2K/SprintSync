@@ -14,12 +14,18 @@ import kotlinx.coroutines.tasks.await
 import java.util.concurrent.CancellationException
 
 class Authenticator(context: Context) {
-	// <--- Firebase Auth --->
-	private val auth = Firebase.auth
-	val signedInUser
-		get() = auth.currentUser?.run {
-			UserData(uid, displayName, email, isEmailVerified, photoUrl)
-		}
+	companion object {
+		// <--- Firebase Auth --->
+		private val auth = Firebase.auth
+
+		val isSignedIn
+			get() = auth.currentUser != null
+
+		val signedInUser
+			get() = auth.currentUser?.run {
+				UserData(uid, displayName, email, isEmailVerified, photoUrl)
+			}
+	}
 
 	//	<--- One Tap sign-in for Google Auth --->
 	private val oneTapClient = Identity.getSignInClient(context)
