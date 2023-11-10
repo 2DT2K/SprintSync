@@ -11,7 +11,7 @@ data class Sprint(
 	val startDate: String,
 	val endDate: String,
 	val sprintNumber: Int,
-	val task: List<String>,
-	val project: String,
+	val task: List<ObjectId>? = null,
+	val project: ObjectId,
 	val isDone: Boolean
 )

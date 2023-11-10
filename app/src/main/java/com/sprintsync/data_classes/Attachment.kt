@@ -10,7 +10,7 @@ data class Attachment(
 	val content: ByteArray,
 	val fileType: String,
 	val fileSize: Long,
-	val project: String
+	val project: ObjectId
 ) {
 	// Need to override equals and hashCode method to compare ByteArray
 	override fun equals(other: Any?): Boolean {
