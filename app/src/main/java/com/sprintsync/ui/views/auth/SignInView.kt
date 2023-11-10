@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -27,6 +28,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.sprintsync.R
@@ -43,14 +45,19 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun SignInView(
-	modifier: Modifier = Modifier,
 	context: Context? = null,
 	navController: NavController? = null
 ) {
 	val scope = rememberCoroutineScope()
 
 	val authenticator = context?.let { Authenticator(it) }
+
 	val authVM = viewModel<AuthViewModel>()
+	val authState by authVM.state.collectAsStateWithLifecycle()
+
+	LaunchedEffect(authState.signedIn) {
+		if (authState.signedIn) navController?.navigate("home")
+	}
 
 	val launcher = rememberLauncherForActivityResult(
 		contract = ActivityResultContracts.StartIntentSenderForResult()
@@ -71,18 +78,18 @@ fun SignInView(
 		// TODO: remove padding when we have main scaffold
 		Column(
 			modifier = Modifier
-                .fillMaxSize()
-                .padding(start = 24.dp, end = 24.dp)
+				.fillMaxSize()
+				.padding(start = 24.dp, end = 24.dp)
 		) {
 			Box(
 				modifier = Modifier
-                    .fillMaxWidth()
-                    .defaultMinSize()
-                    .weight(0.7f),
+					.fillMaxWidth()
+					.defaultMinSize()
+					.weight(0.7f),
 				contentAlignment = Alignment.TopCenter
 			) {
 				Image(
-					modifier = modifier.requiredSize(240.dp),
+					modifier = Modifier.requiredSize(240.dp),
 					painter = painterResource(id = R.drawable.logo),
 					contentDescription = null
 				)
@@ -90,8 +97,8 @@ fun SignInView(
 
 			Box(
 				modifier = Modifier
-                    .fillMaxWidth()
-                    .weight(0.3f)
+					.fillMaxWidth()
+					.weight(0.3f)
 			) {
 				Title(
 					title = "Hi, Welcome Back! ",
@@ -132,8 +139,8 @@ fun SignInView(
 
 			Column(
 				modifier = Modifier
-                    .fillMaxWidth()
-                    .weight(0.9f),
+					.fillMaxWidth()
+					.weight(0.9f),
 				verticalArrangement = Arrangement.Bottom,
 				horizontalAlignment = Alignment.CenterHorizontally
 			) {

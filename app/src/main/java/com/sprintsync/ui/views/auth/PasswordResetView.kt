@@ -1,5 +1,6 @@
 package com.sprintsync.ui.views.auth
 
+import android.content.Context
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -25,6 +26,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -35,7 +37,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import com.sprintsync.R
+import com.sprintsync.auth.AuthViewModel
+import com.sprintsync.auth.Authenticator
 import com.sprintsync.ui.components.CustomText
 import com.sprintsync.ui.components.auth.innerShadow
 import com.sprintsync.ui.theme.Purple20
@@ -43,7 +49,16 @@ import com.sprintsync.ui.theme.Purple40
 import com.sprintsync.ui.theme.SprintSyncTheme
 
 @Composable
-fun PasswordResetView(resetPassword: (String) -> Unit = {}) {
+fun PasswordResetView(
+	context: Context? = null,
+	navController: NavController? = null
+) {
+	val scope = rememberCoroutineScope()
+
+	val authenticator = context?.let { Authenticator(it) }
+
+	val authVM = viewModel<AuthViewModel>()
+
 	var email by remember { mutableStateOf("") }
 
 	Surface {
@@ -85,8 +100,8 @@ fun PasswordResetView(resetPassword: (String) -> Unit = {}) {
 					Box {
 						CustomText(
 							text = "Don’t worry ! It happens." +
-									" Please enter your email address, we wil send " +
-									"your the link to reset your password.",
+								" Please enter your email address, we wil send " +
+								"your the link to reset your password.",
 							fontSize = 14.sp,
 							color = Color(0xFF5B5858)
 						)
@@ -143,7 +158,12 @@ fun PasswordResetView(resetPassword: (String) -> Unit = {}) {
 						.height(48.dp),
 					shape = RoundedCornerShape(40),
 					colors = ButtonDefaults.buttonColors(containerColor = Purple40),
-					onClick = { resetPassword(email) }
+					onClick = {
+						authenticator?.let {
+							authVM.resetPassword(scope, it, email)
+						}
+						navController?.popBackStack()
+					}
 				) {
 					Text(
 						text = "Submit",
