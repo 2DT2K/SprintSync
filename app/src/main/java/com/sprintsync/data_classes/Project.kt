@@ -1,15 +1,16 @@
 package com.sprintsync.data_classes
 
 import com.fasterxml.jackson.annotation.JsonProperty
+import org.bson.types.ObjectId
 
 data class Project(
-	@JsonProperty("_id")
-	val id: String,
+//	@JsonProperty("_id")
+	val id: ObjectId? = null,
 	val name: String,
-	val manager: Member,
+	val manager: String,
 	val statuses: List<String>,
 	val labels: List<String>? = null,
-	val teams: List<Team>? = null,
-	val sprints: List<Sprint>? = null,
-	val members: List<Member>? = null,
+	val teams: List<String>? = null,
+	val sprints: List<String>? = null,
+	val members: List<String>? = null,
 )
