@@ -10,9 +10,11 @@ import okhttp3.Response
  * */
 class RetrofitInterceptor : Interceptor {
 	override fun intercept(chain: Interceptor.Chain): Response {
-		val request = chain.request()
-		val uid: String? = Authenticator.signedInUser?.uid
-		request.headers.newBuilder().add("Firebase-UID", uid ?: "")
+		val uid: String = Authenticator.signedInUser?.uid ?: ""
+		println("Firebase-UID: $uid")
+		val request = chain.request().newBuilder()
+			.addHeader("Firebase-UID", uid)
+			.build()
 		return chain.proceed(request)
 	}
 }

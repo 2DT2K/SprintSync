@@ -12,12 +12,12 @@ class RetrofitSingleton private constructor() {
 	private val okHttpClient = okhttp3.OkHttpClient
 		.Builder()
 		.addInterceptor(RetrofitInterceptor())
-		.addNetworkInterceptor(RetrofitInterceptor())
+//		.addNetworkInterceptor(RetrofitInterceptor())
 		.build()
 
 	private val retrofit: Retrofit = Retrofit
 		.Builder()
-		.baseUrl("https://c152-117-6-51-93.ngrok-free.app/")
+		.baseUrl("https://5992-117-6-51-93.ngrok-free.app/")
 		.client(okHttpClient)
 		.addConverterFactory(GsonConverterFactory.create())
 		.build()
