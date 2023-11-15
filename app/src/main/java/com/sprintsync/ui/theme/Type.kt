@@ -15,57 +15,75 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import com.sprintsync.R
 
-// Set of Material typography styles to start with
-val Typography = Typography(
-	bodyLarge = TextStyle(
-		fontFamily = FontFamily.Default,
-		fontWeight = FontWeight.Normal,
-		fontSize = 16.sp,
-		lineHeight = 24.sp,
-		letterSpacing = 0.5.sp
-	),
-)
-
 val provider = GoogleFont.Provider(
-	providerAuthority = "com.google.android.gms.fonts",
-	providerPackage = "com.google.android.gms",
-	certificates = R.array.com_google_android_gms_fonts_certs
+    providerAuthority = "com.google.android.gms.fonts",
+    providerPackage = "com.google.android.gms",
+    certificates = R.array.com_google_android_gms_fonts_certs
 )
 val poppins = GoogleFont("Poppins")
 val openSans = GoogleFont("Open Sans")
 
 val fontPoppins = FontFamily(
-	Font(googleFont = poppins, fontProvider = provider)
+    Font(googleFont = poppins, fontProvider = provider)
 )
 val fontOpenSans = FontFamily(
-	Font(googleFont = openSans, fontProvider = provider)
+    Font(googleFont = openSans, fontProvider = provider)
 )
 
-@Preview
-@Composable
-fun TestText() {
-	Column {
-		Text(
-			text = "lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-			style = TextStyle(
-				fontFamily = fontPoppins,
-				fontWeight = FontWeight.Normal,
-				fontSize = 16.sp,
-				lineHeight = 24.sp,
-				letterSpacing = 0.5.sp,
-				textAlign = TextAlign.Center
-			)
-		)
-		Text(
-			text = "lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-			style = TextStyle(
-				fontFamily = fontOpenSans,
-				fontWeight = FontWeight.Normal,
-				fontSize = 16.sp,
-				lineHeight = 24.sp,
-				letterSpacing = 0.5.sp,
-				textAlign = TextAlign.Center
-			)
-		)
-	}
-}
+// Set of Material typography styles to start with
+val Typography = Typography(
+    bodyLarge = TextStyle(
+        fontFamily = fontPoppins,
+        fontWeight = FontWeight.Normal,
+        fontSize = 16.sp,
+        lineHeight = 19.2.sp,
+    ),
+    bodyMedium = TextStyle(
+        fontFamily = fontOpenSans,
+        fontWeight = FontWeight.Normal,
+        fontSize = 14.sp,
+        lineHeight = 16.8.sp,
+    ),
+    bodySmall = TextStyle(
+        fontFamily = fontOpenSans,
+        fontWeight = FontWeight.Normal,
+        fontSize = 12.sp,
+        lineHeight = 14.4.sp,
+    ),
+    titleLarge = TextStyle(
+        fontFamily = fontPoppins,
+        fontWeight = FontWeight.Bold,
+        fontSize = 24.sp,
+        lineHeight = 28.8.sp,
+    ),
+    titleMedium = TextStyle(
+        fontFamily = fontPoppins,
+        fontWeight = FontWeight.SemiBold,
+        fontSize = 20.sp,
+        lineHeight = 24.sp,
+    ),
+    titleSmall = TextStyle(
+        fontFamily = fontOpenSans,
+        fontWeight = FontWeight.Bold,
+        fontSize = 16.sp,
+        lineHeight = 19.2.sp,
+    ),
+    labelLarge = TextStyle(
+        fontFamily = fontOpenSans,
+        fontWeight = FontWeight.SemiBold,
+        fontSize = 16.sp,
+        lineHeight = 24.sp,
+    ),
+    labelMedium = TextStyle(
+        fontFamily = fontOpenSans,
+        fontWeight = FontWeight.SemiBold,
+        fontSize = 14.sp,
+        lineHeight = 19.2.sp,
+    ),
+    labelSmall = TextStyle(
+        fontFamily = fontOpenSans,
+        fontWeight = FontWeight.SemiBold,
+        fontSize = 12.sp,
+        lineHeight = 16.8.sp,
+    ),
+)

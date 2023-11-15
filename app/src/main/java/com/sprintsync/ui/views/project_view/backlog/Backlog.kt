@@ -16,6 +16,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -28,7 +29,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.sprintsync.R
-import com.sprintsync.ui.components.CustomText
 import com.sprintsync.ui.components.backlog.SprintCard
 import com.sprintsync.ui.theme.Grey40
 import com.sprintsync.ui.theme.SprintSyncTheme
@@ -97,7 +97,7 @@ fun IsDoneSprintView(doneSprints: List<BacklogViewModel.Sprint>) {
 
 			Spacer(modifier = Modifier.width(8.dp))
 			Column {
-				CustomText(
+				Text(
 					text = "IsDone Sprint",
 				)
 			}

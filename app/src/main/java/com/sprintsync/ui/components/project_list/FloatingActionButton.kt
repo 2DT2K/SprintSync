@@ -40,7 +40,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.sprintsync.R
-import com.sprintsync.ui.components.CustomText
 import com.sprintsync.ui.components.ExpandableTextField
 import com.sprintsync.ui.theme.SprintSyncTheme
 
@@ -94,7 +93,7 @@ fun CustomFloatingActionButton() {
                 }
             ) {
                 // Sheet content
-                CustomText(
+                Text(
                     text = "Project name",
                     modifier = Modifier.padding(start = 24.dp),
                     fontWeight = FontWeight(600)

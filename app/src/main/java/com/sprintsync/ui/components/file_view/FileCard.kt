@@ -19,7 +19,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.sprintsync.R
-import com.sprintsync.ui.components.CustomText
+import com.sprintsync.ui.components.Text
 import com.sprintsync.ui.theme.Grey60
 import com.sprintsync.ui.theme.Purple20
 import com.sprintsync.ui.theme.Purple40
@@ -58,17 +58,17 @@ fun FileCard(
 				verticalArrangement = Arrangement.spacedBy(4.dp, Alignment.CenterVertically),
 				horizontalAlignment = Alignment.Start,
 			) {
-				CustomText(text = file.name)
+				Text(text = file.name)
 				Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
 					Box(modifier = Modifier.width(48.dp)) {
-						CustomText(
+						Text(
 							text = file.user,
 							overflow = TextOverflow.Ellipsis,
 							color = Grey60,
 							fontWeight = FontWeight(500)
 						)
 					}
-					CustomText(
+					Text(
 						text = file.size,
 						color = Purple20,
 						fontWeight = FontWeight(500)
