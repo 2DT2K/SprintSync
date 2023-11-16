@@ -52,15 +52,16 @@ fun BottomNavigation(navController: NavController? = null) {
 					Image(
 						painter = painterResource(
 							id = when (screen) {
-								Screen.Home     -> R.drawable.home
-								Screen.Project  -> R.drawable.folder_share
-								Screen.Calendar -> R.drawable.calendar_month
-								Screen.Profile  -> R.drawable.profile
+								Screens.Home     -> R.drawable.home
+								Screens.Project  -> R.drawable.folder_share
+								Screens.Calendar -> R.drawable.calendar_month
+								Screens.Profile  -> R.drawable.profile
+								else             -> R.drawable.nice_avatar
 							}
 						), contentDescription = null
 					)
 				},
-				alwaysShowLabel = true
+				alwaysShowLabel = currentDestination?.hierarchy?.any { it.route == screen.route } == true
 			)
 		}
 	}

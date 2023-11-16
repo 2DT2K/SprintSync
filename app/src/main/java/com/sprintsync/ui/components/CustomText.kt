@@ -17,7 +17,7 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun CustomText(
+fun Text(
 	text: String,
 	modifier: Modifier = Modifier,
 	color: Color = Color.Black,

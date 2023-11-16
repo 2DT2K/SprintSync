@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -20,7 +19,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.sprintsync.R
-import com.sprintsync.ui.components.CustomText
+import com.sprintsync.ui.components.Text
 import com.sprintsync.ui.theme.Grey60
 import com.sprintsync.ui.theme.Purple20
 import com.sprintsync.ui.theme.Purple40
@@ -33,12 +32,14 @@ import com.sprintsync.ui.views.project_view.file_view.FileView
 fun FileCard(
 	file: Attachment
 ) {
-    // TODO: add more file type to icon
-    val icon: Int = when (file.fileType) {
-        "pdf" -> R.drawable.pdf
-        "xlsx" -> R.drawable.pdf
-        else -> R.drawable.picture
-    }
+	// TODO: add more file type to icon
+	val icon: Int = when (file.fileType) {
+		"pdf"  -> R.drawable.pdf
+		"xlsx" -> R.drawable.pdf
+		else   -> {
+			R.drawable.picture
+		}
+	}
 
 	Surface {
 		Row(
@@ -57,18 +58,17 @@ fun FileCard(
 				verticalArrangement = Arrangement.spacedBy(4.dp, Alignment.CenterVertically),
 				horizontalAlignment = Alignment.Start,
 			) {
-				CustomText(text = file.name)
-				Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
+				Text(text = file.name)
+				Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
 					Box(modifier = Modifier.width(48.dp)) {
-						CustomText(
+						Text(
 							text = file.user,
 							overflow = TextOverflow.Ellipsis,
 							color = Grey60,
-							maxLines = 1,
 							fontWeight = FontWeight(500)
 						)
 					}
-					CustomText(
+					Text(
 						text = file.size,
 						color = Purple20,
 						fontWeight = FontWeight(500)
@@ -78,6 +78,7 @@ fun FileCard(
 		}
 	}
 }
+
 
 @Preview(showBackground = true)
 @Composable

@@ -32,7 +32,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.sprintsync.R
 import com.sprintsync.ui.components.CustomModalBottomSheet
-import com.sprintsync.ui.components.CustomText
+import com.sprintsync.ui.components.Text
 import com.sprintsync.ui.theme.Purple20
 import com.sprintsync.ui.theme.Purple40
 
@@ -54,7 +54,7 @@ fun TaskComposer() {
 			Column(
 				modifier = Modifier.padding(start = 10.dp),
 			) {
-				CustomText(
+				Text(
 					text = "Create issue with attachment",
 					color = Purple20,
 					fontWeight = FontWeight.Bold
@@ -80,7 +80,7 @@ fun TaskComposer() {
 						tint = Purple40
 					)
 
-					CustomText(text = "Take photo")
+					Text(text = "Take photo")
 				}
 
 				Row(
@@ -101,7 +101,7 @@ fun TaskComposer() {
 						tint = Purple40
 					)
 
-					CustomText(text = "Record video")
+					Text(text = "Record video")
 				}
 
 				Row(
@@ -126,7 +126,7 @@ fun TaskComposer() {
 						tint = Purple40
 					)
 
-					CustomText(text = "Choose file")
+					Text(text = "Choose file")
 				}
 			}
 		}
@@ -147,7 +147,7 @@ fun PreviewTest() {
 				contentDescription = "take photo"
 			)
 
-			CustomText(text = "Take photo")
+			Text(text = "Take photo")
 		}
 
 		Row(
@@ -158,7 +158,7 @@ fun PreviewTest() {
 				contentDescription = "Record video"
 			)
 
-			CustomText(text = "Record video")
+			Text(text = "Record video")
 		}
 
 		Row(
@@ -173,7 +173,7 @@ fun PreviewTest() {
 				contentDescription = "Choose file"
 			)
 
-			CustomText(text = "Choose file")
+			Text(text = "Choose file")
 		}
 
 		Spacer(

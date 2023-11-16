@@ -27,7 +27,7 @@ import androidx.compose.ui.zIndex
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
 import com.sprintsync.R
-import com.sprintsync.ui.components.CustomText
+import com.sprintsync.ui.components.Text
 import com.sprintsync.ui.components.StoryPoint
 import com.sprintsync.ui.components.TaskProcess
 import com.sprintsync.ui.theme.Green80
@@ -76,7 +76,7 @@ fun TaskCard(task: BacklogViewModel.Task) {
 			contentDescription = null,
 		)
 		Column(verticalArrangement = Arrangement.SpaceBetween) {
-			CustomText(
+			Text(
 				text = task.title,
 				color = Purple20,
 				fontWeight = FontWeight(400),
@@ -87,7 +87,7 @@ fun TaskCard(task: BacklogViewModel.Task) {
 				verticalAlignment = Alignment.CenterVertically,
 				horizontalArrangement = Arrangement.spacedBy(8.dp),
 			) {
-				CustomText(
+				Text(
 					modifier = Modifier.padding(0.dp),
 					text = task.name,
 					color = Grey60,

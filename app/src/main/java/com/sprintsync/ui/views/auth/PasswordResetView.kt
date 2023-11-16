@@ -79,7 +79,7 @@ fun PasswordResetView(navController: NavController? = null) {
 				horizontalAlignment = Alignment.CenterHorizontally
 			) {
 				Column(modifier = Modifier.fillMaxWidth()) {
-					CustomText(
+					Text(
 						text = "Forgot password?",
 						fontSize = 25.sp,
 						fontWeight = FontWeight.Bold,
@@ -87,7 +87,7 @@ fun PasswordResetView(navController: NavController? = null) {
 					)
 
 					Box {
-						CustomText(
+						Text(
 							text = "Don’t worry ! It happens." +
 								" Please enter your email address, we wil send " +
 								"your the link to reset your password.",

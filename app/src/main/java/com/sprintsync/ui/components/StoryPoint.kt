@@ -39,7 +39,7 @@ fun StoryPoint(point: Int, color: Color = Grey80) {
             .padding(start = 8.dp, end = 8.dp, top = 4.dp, bottom = 4.dp),
         contentAlignment = Alignment.Center
     ) {
-        CustomText(
+        Text(
             text = point.toString(),
             fontSize = 10.sp,
             fontWeight = FontWeight(400),

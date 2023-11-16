@@ -8,14 +8,16 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.ripple.rememberRipple
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.sprintsync.ui.components.CustomText
 import com.sprintsync.ui.theme.Grey40
+import com.sprintsync.ui.theme.spacing
 
 @Composable
 fun PromptRow(
@@ -27,17 +29,17 @@ fun PromptRow(
 ) {
 	Row(
 		modifier = modifier,
-		verticalAlignment = Alignment.CenterVertically,
 		horizontalArrangement = Arrangement.Center
 	) {
-		CustomText(
+		Text(
 			text = normalText,
-			color = Grey40
+			style = MaterialTheme.typography.bodyLarge,
+			color = MaterialTheme.colorScheme.onSurfaceVariant,
 		)
 
-		Spacer(modifier = Modifier.width(5.dp))
+		Spacer(modifier = Modifier.width(MaterialTheme.spacing.small))
 
-		CustomText(
+		Text(
 			modifier = Modifier.clickable(
 				interactionSource = MutableInteractionSource(),
 				indication = rememberRipple(
@@ -47,8 +49,8 @@ fun PromptRow(
 				onClick = onClick
 			),
 			text = highlightedText,
+			style = MaterialTheme.typography.titleSmall,
 			color = highlightColor,
-			fontWeight = FontWeight.Bold
 		)
 	}
 }
