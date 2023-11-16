@@ -1,89 +1,68 @@
 package com.sprintsync.auth
 
+import android.content.Intent
 import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.IntentSenderRequest
 import androidx.lifecycle.ViewModel
-import kotlinx.coroutines.CoroutineScope
+import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class AuthViewModel : ViewModel() {
-	private val _state = MutableStateFlow(AuthState())
+data class AuthState(
+	val signedIn: Boolean = false,
+	val errorCode: String? = null,
+	val errorMessage: String? = null,
+)
+
+@HiltViewModel
+class AuthViewModel @Inject constructor(
+	private val authenticator: Authenticator
+) : ViewModel() {
+	private val scope = viewModelScope
+	private val _state = MutableStateFlow(AuthState(Authenticator.isSignedIn))
 	val state = _state.asStateFlow()
 
-	fun update(newState: AuthState) = _state.update { newState }
+	private fun update(newState: AuthState) = _state.update { newState }
 
-	private fun reset() = _state.update { AuthState() }
+	fun signUp(email: String, password: String) {
+		scope.launch { update(authenticator.signUp(email, password)) }
+	}
 
-	fun signUpWithPassword(
-		scope: CoroutineScope,
-		authenticator: Authenticator,
-		email: String,
-		password: String
-	) {
+	fun signIn(email: String, password: String) {
+		scope.launch { update(authenticator.signIn(email, password)) }
+	}
+
+	fun signIn(launcher: ManagedActivityResultLauncher<IntentSenderRequest, ActivityResult>) {
 		scope.launch {
-			authenticator
-				.signUp(email, password)
-				.let { update(it) }
+			launcher.launch(
+				IntentSenderRequest
+					.Builder(authenticator.getSignInIntentSender() ?: return@launch)
+					.build()
+			)
 		}
 	}
 
-	fun signInWithPassword(
-		scope: CoroutineScope,
-		authenticator: Authenticator,
-		email: String,
-		password: String
-	) {
-		scope.launch {
-			authenticator
-				.signIn(email, password)
-				.let { update(it) }
-		}
+	fun signIn(intent: Intent?) {
+		scope.launch { update(authenticator.signInWithIntent(intent ?: return@launch)) }
 	}
 
-	fun resetPassword(
-		scope: CoroutineScope,
-		authenticator: Authenticator,
-		email: String
-	) {
+	fun resetPassword(email: String) {
 		scope.launch { authenticator.resetPassword(email) }
 	}
 
-	fun signInWithGoogle(
-		scope: CoroutineScope,
-		authenticator: Authenticator,
-		launcher: ManagedActivityResultLauncher<IntentSenderRequest, ActivityResult>
-	) {
-		scope.launch {
-			authenticator
-				.getSignInIntentSender()
-				.let {
-					launcher.launch(
-						IntentSenderRequest
-							.Builder(it ?: return@launch)
-							.build()
-					)
-				}
-		}
-	}
-
-	fun verifyEmail(
-		scope: CoroutineScope,
-		authenticator: Authenticator
-	) {
+	fun verifyEmail() {
 		scope.launch { authenticator.verifyEmail() }
 	}
 
-	fun signOut(
-		scope: CoroutineScope,
-		authenticator: Authenticator
-	) {
+	fun signOut() {
 		scope.launch {
 			authenticator.signOut()
-			reset()
+			update(AuthState())
 		}
 	}
 }

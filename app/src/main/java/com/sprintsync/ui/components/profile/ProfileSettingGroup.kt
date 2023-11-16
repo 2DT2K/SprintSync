@@ -25,49 +25,49 @@ import com.sprintsync.ui.views.profile.Setting
 
 @Composable
 fun ProfileSettingGroup(title: String, settings: List<Setting>) {
-    Surface {
-        Column(
-            modifier = Modifier.fillMaxWidth(),
-            verticalArrangement = Arrangement.spacedBy(12.dp)
-        ) {
-            CustomText(
-                text = title,
-                fontSize = 16.sp,
-                lineHeight = 16.sp,
-                fontWeight = FontWeight.Bold
-            )
+	Surface {
+		Column(
+			modifier = Modifier.fillMaxWidth(),
+			verticalArrangement = Arrangement.spacedBy(12.dp)
+		) {
+			CustomText(
+				text = title,
+				fontSize = 16.sp,
+				lineHeight = 16.sp,
+				fontWeight = FontWeight.Bold
+			)
 
-            Column(
-                modifier = Modifier
+			Column(
+				modifier = Modifier
                     .fillMaxWidth()
                     .background(
                         color = Grey120,
                         shape = RoundedCornerShape(size = 8.dp)
                     )
                     .padding(vertical = 8.dp, horizontal = 12.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                settings.forEach() { setting ->
-                    Row(
-                        horizontalArrangement = Arrangement.spacedBy(40.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Icon(
-                            modifier = Modifier.size(32.dp),
-                            painter = painterResource(id = setting.icon),
-                            contentDescription = setting.settingName,
-                            tint = Purple20
-                        )
-                        CustomText(
-                            text = setting.settingName,
-                            fontSize = 16.sp,
-                            lineHeight = 16.sp,
-                            fontWeight = FontWeight(500),
-                            color = Purple20
-                        )
-                    }
-                }
-            }
-        }
-    }
+				verticalArrangement = Arrangement.spacedBy(8.dp)
+			) {
+				settings.forEach { setting ->
+					Row(
+						horizontalArrangement = Arrangement.spacedBy(40.dp),
+						verticalAlignment = Alignment.CenterVertically
+					) {
+						Icon(
+							modifier = Modifier.size(32.dp),
+							painter = painterResource(id = setting.icon),
+							contentDescription = setting.settingName,
+							tint = Purple20
+						)
+						CustomText(
+							text = setting.settingName,
+							fontSize = 16.sp,
+							lineHeight = 16.sp,
+							fontWeight = FontWeight(500),
+							color = Purple20
+						)
+					}
+				}
+			}
+		}
+	}
 }

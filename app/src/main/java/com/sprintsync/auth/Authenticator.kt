@@ -20,7 +20,7 @@ class Authenticator(context: Context) {
 		val isSignedIn
 			get() = auth.currentUser != null
 		val signedInUser
-			get() = auth.currentUser?.run { UserData(uid, displayName, email) }
+			get() = auth.currentUser?.run { UserData(uid, displayName, email, isEmailVerified) }
 	}
 
 	//	<--- One Tap sign-in for Google Auth --->
@@ -42,13 +42,14 @@ class Authenticator(context: Context) {
 	suspend fun signUp(email: String, password: String): AuthState {
 		return try {
 			AuthState(
-				signedIn = auth
+				auth
 					.createUserWithEmailAndPassword(email, password)
 					.await()
 					.user != null
 			)
 		}
 		catch (e: Exception) {
+//		    TODO "Handle exceptions"
 			Log.e("Auth", "Failed to sign up", e)
 			if (e is CancellationException) throw e
 			AuthState(errorMessage = e.message)
@@ -58,13 +59,14 @@ class Authenticator(context: Context) {
 	suspend fun signIn(email: String, password: String): AuthState {
 		return try {
 			AuthState(
-				signedIn = auth
+				auth
 					.signInWithEmailAndPassword(email, password)
 					.await()
 					.user != null
 			)
 		}
 		catch (e: Exception) {
+//		    TODO "Handle exceptions"
 			Log.e("Auth", "Failed to sign in", e)
 			if (e is CancellationException) throw e
 			AuthState(errorMessage = e.message)
@@ -78,6 +80,7 @@ class Authenticator(context: Context) {
 				.await()
 		}
 		catch (e: Exception) {
+//		    TODO "Handle exceptions"
 			Log.e("Auth", "Failed to reset password", e)
 			if (e is CancellationException) throw e
 		}
@@ -91,6 +94,7 @@ class Authenticator(context: Context) {
 				.await()
 		}
 		catch (e: Exception) {
+//		    TODO "Handle exceptions"
 			Log.e("Auth", "Failed to get intent sender", e)
 			if (e is CancellationException) throw e
 			null
@@ -109,6 +113,7 @@ class Authenticator(context: Context) {
 			)
 		}
 		catch (e: Exception) {
+//		    TODO "Handle exceptions"
 			Log.e("Auth", "Failed to sign in with intent", e)
 			if (e is CancellationException) throw e
 			AuthState(errorMessage = e.message)
@@ -124,6 +129,7 @@ class Authenticator(context: Context) {
 				?.await()
 		}
 		catch (e: Exception) {
+//		    TODO "Handle exceptions"
 			Log.e("Auth", "Failed to verify email", e)
 			if (e is CancellationException) throw e
 		}
@@ -132,12 +138,13 @@ class Authenticator(context: Context) {
 	//	<--- Sign out --->
 	suspend fun signOut() {
 		try {
+			auth.signOut()
 			oneTapClient
 				.signOut()
 				.await()
-			auth.signOut()
 		}
 		catch (e: Exception) {
+//		    TODO "Handle exceptions"
 			Log.e("Auth", "Failed to sign out", e)
 			if (e is CancellationException) throw e
 		}

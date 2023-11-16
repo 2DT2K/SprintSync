@@ -1,6 +1,5 @@
 package com.sprintsync.ui.views.auth
 
-import android.content.Context
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -26,7 +25,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -37,11 +35,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.sprintsync.R
 import com.sprintsync.auth.AuthViewModel
-import com.sprintsync.auth.Authenticator
 import com.sprintsync.ui.components.CustomText
 import com.sprintsync.ui.components.auth.innerShadow
 import com.sprintsync.ui.theme.Purple20
@@ -49,20 +46,12 @@ import com.sprintsync.ui.theme.Purple40
 import com.sprintsync.ui.theme.SprintSyncTheme
 
 @Composable
-fun PasswordResetView(
-	context: Context? = null,
-	navController: NavController? = null
-) {
-	val scope = rememberCoroutineScope()
-
-	val authenticator = context?.let { Authenticator(it) }
-
-	val authVM = viewModel<AuthViewModel>()
+fun PasswordResetView(navController: NavController? = null) {
+	val authVM = hiltViewModel<AuthViewModel>()
 
 	var email by remember { mutableStateOf("") }
 
 	Surface {
-		// TODO: remove padding when we have main scaffold
 		Column(
 			modifier = Modifier
 				.fillMaxSize()
@@ -158,12 +147,7 @@ fun PasswordResetView(
 						.height(48.dp),
 					shape = RoundedCornerShape(40),
 					colors = ButtonDefaults.buttonColors(containerColor = Purple40),
-					onClick = {
-						authenticator?.let {
-							authVM.resetPassword(scope, it, email)
-						}
-						navController?.popBackStack()
-					}
+					onClick = { authVM.resetPassword(email) }
 				) {
 					Text(
 						text = "Submit",
@@ -178,7 +162,5 @@ fun PasswordResetView(
 @Preview(showBackground = true)
 @Composable
 fun PasswordResetPreview() {
-	SprintSyncTheme {
-		PasswordResetView()
-	}
+	SprintSyncTheme { PasswordResetView() }
 }

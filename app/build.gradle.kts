@@ -2,6 +2,8 @@ plugins {
 	id("com.android.application")
 	id("org.jetbrains.kotlin.android")
 	id("com.google.gms.google-services")
+	kotlin("kapt")
+	id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -59,7 +61,7 @@ dependencies {
 	implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
 	implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2")
 	implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.2")
-	implementation("androidx.navigation:navigation-compose:2.7.4")
+	implementation("androidx.navigation:navigation-compose:2.7.5")
 	implementation("org.mongodb:bson:4.9.1")
 
 	implementation(platform("androidx.compose:compose-bom:2023.10.01"))
@@ -78,22 +80,11 @@ dependencies {
 	implementation("com.squareup.okhttp3:logging-interceptor")
 
 	//	VICO Chart
-	dependencies {
-		// For Jetpack Compose.
-		implementation("com.patrykandpatrick.vico:compose:1.12.0")
-
-		// For `compose`. Creates a `ChartStyle` based on an M2 Material Theme.
-		implementation("com.patrykandpatrick.vico:compose-m2:1.12.0")
-
-		// For `compose`. Creates a `ChartStyle` based on an M3 Material Theme.
-		implementation("com.patrykandpatrick.vico:compose-m3:1.12.0")
-
-		// Houses the core logic for charts and other elements. Included in all other modules.
-		implementation("com.patrykandpatrick.vico:core:1.12.0")
-
-		// For the view system.
-		implementation("com.patrykandpatrick.vico:views:1.12.0")
-	}
+	implementation("com.patrykandpatrick.vico:compose:1.12.0")
+	implementation("com.patrykandpatrick.vico:compose-m2:1.12.0")
+	implementation("com.patrykandpatrick.vico:compose-m3:1.12.0")
+	implementation("com.patrykandpatrick.vico:core:1.12.0")
+	implementation("com.patrykandpatrick.vico:views:1.12.0")
 
 	// Firebase
 	implementation(platform("com.google.firebase:firebase-bom:32.4.0"))
@@ -107,12 +98,18 @@ dependencies {
 	implementation("io.github.boguszpawlowski.composecalendar:kotlinx-datetime:1.1.1")
 	implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.1")
 
+	// Dagger - Hilt
+	implementation("com.google.dagger:hilt-android:2.48.1")
+	kapt("com.google.dagger:hilt-android-compiler:2.48.1")
+	implementation("androidx.hilt:hilt-navigation-compose:1.1.0")
+
+	// WheelPicker
+	implementation("com.github.commandiron:WheelPickerCompose:1.1.11")
+
 	implementation("com.fasterxml.jackson.core:jackson-databind:2.15.2")
 
 	implementation("com.github.TuleSimon:xMaterialccp:1.22")
 
-	//wheelpicker
-	implementation ("com.github.commandiron:WheelPickerCompose:1.1.11")
 
 //	testing dependencies
 	testImplementation("junit:junit:4.13.2")
@@ -122,7 +119,12 @@ dependencies {
 	androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 	androidTestImplementation(platform("androidx.compose:compose-bom:2023.10.01"))
 
+
 //	debugging dependencies
 	debugImplementation("androidx.compose.ui:ui-tooling")
 	debugImplementation("androidx.compose.ui:ui-test-manifest")
+}
+
+kapt {
+	correctErrorTypes = true
 }

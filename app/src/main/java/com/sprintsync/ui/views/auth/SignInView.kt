@@ -1,7 +1,6 @@
 package com.sprintsync.ui.views.auth
 
-import android.app.Activity
-import android.content.Context
+import android.app.Activity.RESULT_OK
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
@@ -21,19 +20,17 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.sprintsync.R
 import com.sprintsync.auth.AuthViewModel
-import com.sprintsync.auth.Authenticator
 import com.sprintsync.ui.components.auth.EmailField
 import com.sprintsync.ui.components.auth.PasswordField
 import com.sprintsync.ui.components.auth.PromptRow
@@ -41,41 +38,30 @@ import com.sprintsync.ui.components.auth.SignInButtonGroup
 import com.sprintsync.ui.components.auth.Title
 import com.sprintsync.ui.theme.Red80
 import com.sprintsync.ui.theme.SprintSyncTheme
-import kotlinx.coroutines.launch
 
 @Composable
-fun SignInView(
-	context: Context? = null,
-	navController: NavController? = null
-) {
-	val scope = rememberCoroutineScope()
-
-	val authenticator = context?.let { Authenticator(it) }
-
-	val authVM = viewModel<AuthViewModel>()
+fun SignInView(navController: NavController? = null) {
+	val authVM = hiltViewModel<AuthViewModel>()
 	val authState by authVM.state.collectAsStateWithLifecycle()
-
-	LaunchedEffect(authState.signedIn) {
-		if (authState.signedIn) navController?.navigate("home")
-	}
-
-	val launcher = rememberLauncherForActivityResult(
-		contract = ActivityResultContracts.StartIntentSenderForResult()
-	) { result ->
-		if (result.resultCode == Activity.RESULT_OK) {
-			scope.launch {
-				authenticator
-					?.signInWithIntent(result.data ?: return@launch)
-					?.let { authVM.update(it) }
-			}
-		}
-	}
 
 	var email by remember { mutableStateOf("") }
 	var password by remember { mutableStateOf("") }
 
+	var emailError by remember { mutableStateOf("") }
+	var passwordError by remember { mutableStateOf("") }
+
+	val launcher = rememberLauncherForActivityResult(
+		ActivityResultContracts.StartIntentSenderForResult()
+	) {
+		if (it.resultCode == RESULT_OK) authVM.signIn(it.data)
+	}
+
+	LaunchedEffect(authState) {
+		if (authState.signedIn) navController?.navigate("home")
+//		TODO: Add error handling
+	}
+
 	Surface {
-		// TODO: remove padding when we have main scaffold
 		Column(
 			modifier = Modifier
 				.fillMaxSize()
@@ -112,15 +98,14 @@ fun SignInView(
 			) {
 				EmailField(
 					onValueChange = { email = it },
-					errorText = "Email is incorrect"
-//                    Có nhiều loại lỗi nên sẽ phải tùy trường hợp để đặt errorText là gì
-//                    Có thể gọi isError để hiển thị lỗi và tắt hiểu thị lỗi khi người dùng bắt
-//                    đầu nhập lại
+					errorText = emailError,
+					isError = emailError.isNotEmpty()
 				)
 
 				PasswordField(
 					onValueChange = { password = it },
-					errorText = "Password is incorrect"
+					errorText = passwordError,
+					isError = passwordError.isNotEmpty()
 				)
 
 				Box(
@@ -132,7 +117,7 @@ fun SignInView(
 						normalText = "Forgot Password?",
 						highlightedText = "Reset",
 						highlightColor = Red80,
-						onClick = { navController?.navigate("password_reset") }
+						onClick = { navController?.navigate("password-reset") }
 					)
 				}
 			}
@@ -145,17 +130,9 @@ fun SignInView(
 				horizontalAlignment = Alignment.CenterHorizontally
 			) {
 				SignInButtonGroup(
-					signInWithPassword = {
-						authenticator?.let {
-							authVM.signInWithPassword(scope, it, email, password)
-						}
-					},
-					signInWithGoogle = {
-						authenticator?.let {
-							authVM.signInWithGoogle(scope, it, launcher)
-						}
-					},
-					signUp = { navController?.navigate("sign_up") }
+					signInWithPassword = { authVM.signIn(email, password) },
+					signInWithGoogle = { authVM.signIn(launcher) },
+					signUp = { navController?.navigate("sign-up") }
 				)
 			}
 		}
@@ -165,7 +142,5 @@ fun SignInView(
 @Preview(showBackground = true)
 @Composable
 private fun SignInPreview() {
-	SprintSyncTheme {
-		SignInView()
-	}
+	SprintSyncTheme { SignInView() }
 }

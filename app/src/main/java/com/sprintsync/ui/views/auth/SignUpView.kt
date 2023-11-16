@@ -1,6 +1,5 @@
 package com.sprintsync.ui.views.auth
 
-import android.content.Context
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -17,19 +16,17 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.sprintsync.R
 import com.sprintsync.auth.AuthViewModel
-import com.sprintsync.auth.Authenticator
 import com.sprintsync.ui.components.auth.EmailField
 import com.sprintsync.ui.components.auth.PasswordField
 import com.sprintsync.ui.components.auth.SignUpButtonGroup
@@ -37,27 +34,24 @@ import com.sprintsync.ui.components.auth.Title
 import com.sprintsync.ui.theme.SprintSyncTheme
 
 @Composable
-fun SignUpView(
-	context: Context? = null,
-	navController: NavController? = null
-) {
-	val scope = rememberCoroutineScope()
-
-	val authenticator = context?.let { Authenticator(it) }
-
-	val authVM = viewModel<AuthViewModel>()
+fun SignUpView(navController: NavController? = null) {
+	val authVM = hiltViewModel<AuthViewModel>()
 	val authState by authVM.state.collectAsStateWithLifecycle()
-
-	LaunchedEffect(authState.signedIn) {
-		if (authState.signedIn) navController?.navigate("splash")
-	}
 
 	var email by remember { mutableStateOf("") }
 	var password by remember { mutableStateOf("") }
 	var confirmPassword by remember { mutableStateOf("") }
 
+	var emailError by remember { mutableStateOf("") }
+	var passwordError by remember { mutableStateOf("") }
+	var confirmPasswordError by remember { mutableStateOf("") }
+
+	LaunchedEffect(authState) {
+		if (authState.signedIn) navController?.navigate("home")
+//		TODO: Add error handling
+	}
+
 	Surface {
-		// TODO: remove padding when we have main scaffold
 		Column(
 			modifier = Modifier
 				.fillMaxSize()
@@ -92,18 +86,20 @@ fun SignUpView(
 			) {
 				EmailField(
 					onValueChange = { email = it },
-					errorText = "Email is not valid"
+					errorText = emailError,
+					isError = emailError.isNotEmpty()
 				)
 
 				PasswordField(
 					onValueChange = { password = it },
-					errorText = "Password is too short"
+					errorText = passwordError
 				)
 
 				PasswordField(
 					isNormal = false,
 					onValueChange = { confirmPassword = it },
-					errorText = "Password is not match"
+					errorText = confirmPasswordError,
+					isError = confirmPasswordError.isNotEmpty()
 				)
 			}
 
@@ -117,11 +113,7 @@ fun SignUpView(
 
 				Surface(modifier = Modifier.weight(1f)) {
 					SignUpButtonGroup(
-						signUpWithPassword = {
-							authenticator?.let {
-								authVM.signUpWithPassword(scope, it, email, password)
-							}
-						},
+						signUp = { authVM.signUp(email, password) },
 						signIn = { navController?.popBackStack() }
 					)
 				}
@@ -134,7 +126,5 @@ fun SignUpView(
 @Preview(showBackground = true)
 @Composable
 private fun SignUpPreview() {
-	SprintSyncTheme {
-		SignUpView()
-	}
+	SprintSyncTheme { SignUpView() }
 }

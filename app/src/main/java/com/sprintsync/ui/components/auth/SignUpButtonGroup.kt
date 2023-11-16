@@ -15,7 +15,7 @@ import com.sprintsync.ui.theme.Purple40
 
 @Composable
 fun SignUpButtonGroup(
-	signUpWithPassword: () -> Unit = {},
+	signUp: () -> Unit = {},
 	signIn: () -> Unit = {}
 ) {
 	Column(
@@ -27,7 +27,7 @@ fun SignUpButtonGroup(
 			modifier = Modifier
 				.fillMaxWidth()
 				.height(48.dp),
-			onClick = signUpWithPassword,
+			onClick = signUp,
 			text = "Sign Up",
 			fontSize = 18.sp,
 			shape = RoundedCornerShape(24)
