@@ -30,7 +30,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.sprintsync.R
-import com.sprintsync.ui.components.CustomText
 import com.sprintsync.ui.components.StoryPoint
 import com.sprintsync.ui.theme.Cyan80
 import com.sprintsync.ui.theme.Green80
@@ -70,12 +69,12 @@ fun SprintCard(sprint: BacklogViewModel.Sprint, isActive: Boolean = false) {
 			Spacer(modifier = Modifier.width(8.dp))
 
 			Column {
-				CustomText(
+				Text(
 					text = sprint.sprintName,
 					fontWeight = FontWeight.Bold,
 					color = Purple20
 				)
-				CustomText(
+				Text(
 					text = "Problems: ${sprint.task.size}",
 					color = Grey60,
 					fontWeight = FontWeight(500)
@@ -147,7 +146,7 @@ fun SprintCard(sprint: BacklogViewModel.Sprint, isActive: Boolean = false) {
 
 						Spacer(modifier = Modifier.width(8.dp))
 
-						CustomText(text = "Create")
+						Text(text = "Create")
 
 						Spacer(modifier = Modifier.weight(1f))
 

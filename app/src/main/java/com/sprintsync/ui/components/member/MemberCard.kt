@@ -23,7 +23,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.sprintsync.R
-import com.sprintsync.ui.components.CustomText
+import com.sprintsync.ui.components.Text
 import com.sprintsync.ui.theme.Grey60
 import com.sprintsync.ui.views.project_view.member.RoleColor
 
@@ -66,8 +66,8 @@ fun MemberCard(
 					verticalArrangement = Arrangement.spacedBy(4.dp, Alignment.CenterVertically),
 					horizontalAlignment = Alignment.Start,
 				) {
-					CustomText(text = memberName)
-					CustomText(
+					Text(text = memberName)
+					Text(
 						text = teamName,
 						fontWeight = FontWeight(500),
 						color = Grey60,
@@ -83,7 +83,7 @@ fun MemberCard(
 					.background(roleColor),
 				contentAlignment = Alignment.Center
 			) {
-				CustomText(
+				Text(
 					modifier = Modifier.padding(8.dp),
 					text = role.replace("_", " "),
 					textAlign = TextAlign.Center,

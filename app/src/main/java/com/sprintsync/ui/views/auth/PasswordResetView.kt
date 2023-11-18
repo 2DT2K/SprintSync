@@ -36,7 +36,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sprintsync.R
-import com.sprintsync.ui.components.CustomText
 import com.sprintsync.ui.components.auth.innerShadow
 import com.sprintsync.ui.theme.Purple20
 import com.sprintsync.ui.theme.Purple40
@@ -75,7 +74,7 @@ fun PasswordResetView(resetPassword: (String) -> Unit = {}) {
 				horizontalAlignment = Alignment.CenterHorizontally
 			) {
 				Column(modifier = Modifier.fillMaxWidth()) {
-					CustomText(
+					Text(
 						text = "Forgot password?",
 						fontSize = 25.sp,
 						fontWeight = FontWeight.Bold,
@@ -83,7 +82,7 @@ fun PasswordResetView(resetPassword: (String) -> Unit = {}) {
 					)
 
 					Box {
-						CustomText(
+						Text(
 							text = "Don’t worry ! It happens." +
 									" Please enter your email address, we wil send " +
 									"your the link to reset your password.",

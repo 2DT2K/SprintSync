@@ -28,10 +28,6 @@ fun BottomNavigation(navController: NavController? = null) {
 		Screens.Calendar,
 		Screens.Profile
 	)
-	var selectedItem: Number by remember {
-		mutableStateOf(0)
-	}
-	val items = listOf<String>("Home", "Project", "Calendar", "Profile")
 	NavigationBar {
 		val navBackStackEntry = navController?.currentBackStackEntryAsState()
 		val currentDestination = navBackStackEntry?.value?.destination
@@ -62,11 +58,12 @@ fun BottomNavigation(navController: NavController? = null) {
 								Screens.Project  -> R.drawable.folder_share
 								Screens.Calendar -> R.drawable.calendar_month
 								Screens.Profile  -> R.drawable.profile
+								else             -> R.drawable.nice_avatar
 							}
 						), contentDescription = null
 					)
 				},
-				alwaysShowLabel = true
+				alwaysShowLabel = currentDestination?.hierarchy?.any { it.route == screen.route } == true
 			)
 		}
 	}

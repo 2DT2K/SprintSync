@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -21,7 +22,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sprintsync.R
 import com.sprintsync.ui.components.CustomButton
-import com.sprintsync.ui.components.CustomText
 import com.sprintsync.ui.theme.Purple40
 
 @Composable
@@ -56,7 +56,7 @@ fun SignInButtonGroup(
 					.background(Purple40)
 			)
 
-			CustomText(
+			Text(
 				modifier = Modifier.weight(1f),
 				text = "Or With",
 				style = TextStyle(

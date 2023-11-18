@@ -1,6 +1,5 @@
 package com.sprintsync.ui.views.project_view.backlog
 
-import android.annotation.SuppressLint
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.clickable
@@ -15,9 +14,9 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.Surface
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -27,33 +26,26 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.sprintsync.R
-import com.sprintsync.ui.components.CustomText
-import com.sprintsync.ui.components.backlog.SprintCard
 import com.sprintsync.ui.theme.Grey40
-import com.sprintsync.ui.theme.Purple20
-import com.sprintsync.ui.theme.SprintSyncTheme
 import com.sprintsync.ui.view_models.BacklogViewModel
 
 @Composable
 fun Backlog(backlogViewModel: BacklogViewModel) {
     val backlogUiState by backlogViewModel.uiState.collectAsState()
 
-    Surface {
-        Column(
-            modifier = Modifier
-                .animateContentSize()
-                .fillMaxSize()
-                .verticalScroll(rememberScrollState())
-        ) {
-            CurrentSprintView(backlogUiState.activeSprint)
-            Divider()
-            IsDoneSprintView(backlogUiState.doneSprints)
-        }
-    }
+	Column(
+		modifier = Modifier
+            .animateContentSize()
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
+	) {
+		CurrentSprintView(backlogUiState.activeSprint)
+		Divider()
+		IsDoneSprintView(backlogUiState.doneSprints)
+	}
 }
 
 @Composable
@@ -96,14 +88,12 @@ fun IsDoneSprintView(doneSprints: List<BacklogViewModel.Sprint>) {
                 contentDescription = null
             )
 
-            Spacer(modifier = Modifier.width(8.dp))
-            Column {
-                CustomText(
-                    text = "IsDone Sprint",
-                    fontWeight = FontWeight.Bold,
-                    color = Purple20
-                )
-            }
+			Spacer(modifier = Modifier.width(8.dp))
+			Column {
+				Text(
+					text = "IsDone Sprint",
+				)
+			}
 
             Spacer(modifier = Modifier.weight(1.0f))
 

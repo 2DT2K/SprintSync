@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -28,8 +29,8 @@ import com.sprintsync.ui.components.auth.PasswordField
 import com.sprintsync.ui.components.auth.PromptRow
 import com.sprintsync.ui.components.auth.SignInButtonGroup
 import com.sprintsync.ui.components.auth.Title
-import com.sprintsync.ui.theme.Red80
 import com.sprintsync.ui.theme.SprintSyncTheme
+import com.sprintsync.ui.theme.spacing
 
 @Composable
 fun SignInView(
@@ -75,7 +76,7 @@ fun SignInView(
 			}
 
 			Column(
-				modifier = Modifier.wrapContentHeight(),
+				modifier = Modifier.fillMaxWidth(),
 				verticalArrangement = Arrangement.spacedBy(20.dp)
 			) {
 				EmailField(onValueChange = { email = it })
@@ -87,10 +88,10 @@ fun SignInView(
 					contentAlignment = Alignment.BottomEnd
 				) {
 					PromptRow(
-						modifier = Modifier.height(20.dp),
+						modifier = Modifier,
 						normalText = "Forgot Password?",
 						highlightedText = "Reset",
-						highlightColor = Red80,
+						highlightColor = MaterialTheme.colorScheme.error,
 						onClick = resetPassword
 					)
 				}
@@ -99,7 +100,7 @@ fun SignInView(
 			Column(
 				modifier = Modifier
 					.fillMaxWidth()
-					.weight(0.9f),
+					.weight(0.8f),
 				verticalArrangement = Arrangement.Bottom,
 				horizontalAlignment = Alignment.CenterHorizontally
 			) {
