@@ -25,6 +25,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -137,9 +138,10 @@ fun SprintCard(sprint: BacklogViewModel.Sprint, isActive: Boolean = false) {
 							.height(64.dp),
 						verticalAlignment = Alignment.CenterVertically
 					) {
-						Image(
+						Icon(
 							painter = painterResource(id = R.drawable.add),
-							contentDescription = "create task icon"
+							contentDescription = "create task icon",
+							tint = Color.Black
 						)
 
 						Spacer(modifier = Modifier.width(8.dp))

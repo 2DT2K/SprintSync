@@ -16,29 +16,30 @@ import androidx.compose.ui.unit.dp
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CustomModalBottomSheet(
-	isSheetShown: Boolean,
-	changeVisibility: (Boolean) -> Unit,
-	sheetContent: @Composable() (ColumnScope.() -> Unit),
+    modifier: Modifier = Modifier,
+    isSheetShown: Boolean,
+    changeVisibility: (Boolean) -> Unit,
+    sheetContent: @Composable() (ColumnScope.() -> Unit),
 ) {
-	val sheetState = rememberModalBottomSheetState()
-	val scope = rememberCoroutineScope()
+    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+    val scope = rememberCoroutineScope()
 
-	Log.d("fdsa", "works")
-	if (isSheetShown) {
-		ModalBottomSheet(
-			onDismissRequest = {
-				changeVisibility(false)
-			},
-			sheetState = sheetState,
-			windowInsets = WindowInsets(0),
-		) {
+    if (isSheetShown) {
+        ModalBottomSheet(
+            modifier = modifier,
+            onDismissRequest = {
+                changeVisibility(false)
+            },
+            sheetState = sheetState,
+            windowInsets = WindowInsets(0),
+        ) {
 
-			sheetContent()
+            sheetContent()
 
-			Spacer(
-				Modifier
-					.windowInsetsBottomHeight(WindowInsets(bottom = 64.dp))
-			)
-		}
-	}
+            Spacer(
+                Modifier
+                    .windowInsetsBottomHeight(WindowInsets(bottom = 64.dp))
+            )
+        }
+    }
 }
