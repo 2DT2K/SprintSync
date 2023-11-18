@@ -4,12 +4,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
-import com.sprintsync.ui.components.CustomText
 import com.sprintsync.ui.theme.Purple40
 
 @Composable
@@ -19,7 +19,7 @@ fun ProfileInfoCard(
     content: @Composable() (() -> Unit)? = null,
     onValueChange: (String) -> Unit = {}
 ) {
-    CustomText(
+    Text(
         text = title,
         fontWeight = FontWeight.Bold
     )

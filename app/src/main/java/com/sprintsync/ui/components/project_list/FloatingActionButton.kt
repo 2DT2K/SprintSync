@@ -82,7 +82,7 @@ fun CustomFloatingActionButton(
                 }
             }
         ) {
-            CustomText(
+            Text(
                 text = "Project name",
                 modifier = Modifier.padding(start = 24.dp),
                 fontWeight = FontWeight(600)
@@ -105,7 +105,7 @@ fun CustomFloatingActionButton(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            CustomText(
+            Text(
                 text = "Add a description",
                 modifier = Modifier.padding(start = 24.dp),
                 fontWeight = FontWeight(600)

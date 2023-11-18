@@ -11,10 +11,10 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -23,13 +23,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.toLowerCase
 import androidx.compose.ui.unit.dp
 import com.sprintsync.R
 import com.sprintsync.ui.components.CustomModalBottomSheet
-import com.sprintsync.ui.components.CustomText
 import com.sprintsync.ui.components.SearchBar
-import com.sprintsync.ui.theme.Grey40
 import com.sprintsync.ui.theme.Purple40
 import com.sprintsync.ui.views.profile.edit_profile.countryList
 import java.util.Locale
@@ -88,7 +85,7 @@ fun CountryDropDownMenu(onValueChange: (String) -> Unit) {
                 items(countryList) { country ->
                     if (country.lowercase(Locale.ROOT).contains(searchTerm)) DropdownMenuItem(
                         modifier = Modifier.requiredSizeIn(maxHeight = 200.dp),
-                        text = { CustomText(text = country) },
+                        text = { Text(text = country) },
                         onClick = {
                             onValueChange(selectedCountry)
                             selectedCountry = country

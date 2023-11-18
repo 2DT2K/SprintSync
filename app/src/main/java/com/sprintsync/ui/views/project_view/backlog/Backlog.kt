@@ -29,7 +29,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.sprintsync.R
+import com.sprintsync.ui.components.backlog.SprintCard
 import com.sprintsync.ui.theme.Grey40
+import com.sprintsync.ui.theme.SprintSyncTheme
 import com.sprintsync.ui.view_models.BacklogViewModel
 
 @Composable

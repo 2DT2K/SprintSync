@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material3.Divider
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -17,12 +18,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.sprintsync.ui.theme.SprintSyncTheme
 import com.sprintsync.R
-import com.sprintsync.ui.components.CustomText
 import com.sprintsync.ui.components.profile.ProfileSettingGroup
 import com.sprintsync.ui.theme.Grey40
 import com.sprintsync.ui.theme.Purple20
+import com.sprintsync.ui.theme.SprintSyncTheme
 
 data class Setting(val icon: Int, val settingName: String)
 
@@ -64,7 +64,7 @@ fun ProfileScreen() {
                 verticalArrangement = Arrangement.Center
             ) {
                 Box(modifier = Modifier) {
-                    CustomText(
+                    Text(
                         text = "Nguyễn Hải Đan",
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Bold,
@@ -73,7 +73,7 @@ fun ProfileScreen() {
                 }
 
                 Box(modifier = Modifier) {
-                    CustomText(
+                    Text(
                         text = "haidan10112003@gmail.com",
                         fontSize = 14.sp,
                         fontWeight = FontWeight(500),

@@ -4,7 +4,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -15,6 +14,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -33,7 +33,6 @@ import androidx.compose.ui.window.Dialog
 import com.commandiron.wheel_picker_compose.WheelDatePicker
 import com.sprintsync.R
 import com.sprintsync.ui.components.CustomButton
-import com.sprintsync.ui.components.CustomText
 import com.sprintsync.ui.theme.Purple40
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -91,7 +90,7 @@ fun DateWheelPicker(onValueChange: (String) -> Unit) {
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
-                    CustomText(
+                    Text(
                         text = "Select Your Birth Date",
                         fontSize = 24.sp,
                         fontWeight = FontWeight(500)

@@ -76,7 +76,6 @@ dependencies {
 	implementation("androidx.compose.ui:ui-graphics")
 	implementation("androidx.compose.ui:ui-tooling-preview")
 	implementation("androidx.compose.ui:ui-util")
-	// Font
 	implementation("androidx.compose.ui:ui-text-google-fonts")
 
 	// Retrofit
