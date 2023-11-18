@@ -10,10 +10,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredSize
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
@@ -38,7 +36,6 @@ import com.sprintsync.ui.components.auth.PromptRow
 import com.sprintsync.ui.components.auth.SignInButtonGroup
 import com.sprintsync.ui.components.auth.Title
 import com.sprintsync.ui.theme.SprintSyncTheme
-import com.sprintsync.ui.theme.spacing
 
 @Composable
 fun SignInView(navController: NavController? = null) {
@@ -118,7 +115,7 @@ fun SignInView(navController: NavController? = null) {
 						normalText = "Forgot Password?",
 						highlightedText = "Reset",
 						highlightColor = MaterialTheme.colorScheme.error,
-						onClick = { navController?.navigate("password-reset") }
+						onClick = { navController?.navigate("password_reset") }
 					)
 				}
 			}
@@ -133,7 +130,7 @@ fun SignInView(navController: NavController? = null) {
 				SignInButtonGroup(
 					signInWithPassword = { authVM.signIn(email, password) },
 					signInWithGoogle = { authVM.signIn(launcher) },
-					signUp = { navController?.navigate("sign-up") }
+					signUp = { navController?.navigate("sign_up") }
 				)
 			}
 		}

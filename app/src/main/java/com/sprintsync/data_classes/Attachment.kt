@@ -1,6 +1,5 @@
 package com.sprintsync.data_classes
 
-import com.fasterxml.jackson.annotation.JsonProperty
 import org.bson.types.ObjectId
 
 data class Attachment(

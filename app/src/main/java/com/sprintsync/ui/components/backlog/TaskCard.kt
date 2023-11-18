@@ -1,7 +1,6 @@
 package com.sprintsync.ui.components.backlog
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -27,9 +26,9 @@ import androidx.compose.ui.zIndex
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
 import com.sprintsync.R
-import com.sprintsync.ui.components.Text
 import com.sprintsync.ui.components.StoryPoint
 import com.sprintsync.ui.components.TaskProcess
+import com.sprintsync.ui.components.Text
 import com.sprintsync.ui.theme.Green80
 import com.sprintsync.ui.theme.Grey60
 import com.sprintsync.ui.theme.Purple20

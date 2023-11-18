@@ -60,25 +60,28 @@ fun ReportChart() {
 //
 //        modelProducer.setEntries(datasetForModel)
 //    }
-    val chartEntryModel = entryModelOf(entriesOf(4f, 12f, 8f, 16f), entriesOf(12f, 16f, 4f, 12f))
+	val chartEntryModel = entryModelOf(entriesOf(4f, 12f, 8f, 16f), entriesOf(12f, 16f, 4f, 12f))
 //    val chartEntryModelProducer = ChartEntryModelProducer(getRandomEntries(), getRandomEntries())
 
-    var sprintName by remember {
-        mutableStateOf("Sprint 2")
-    }
-    Column(
-        verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterVertically),
-        horizontalAlignment = Alignment.Start, modifier = Modifier.fillMaxWidth()
-    ) {
-        ChartTitle(
-            sprintName = sprintName,
-            onSprintNameChange = {
-                sprintName = it
-            }
-        )
-        MainChart(chartEntryModel = chartEntryModel)
-        ChartInfor(remaining = 10, completed = 20, remainingColor = Color(0xFF04BFDA), completedColor = Color(0xFF04BFDA))
-    }
+	var sprintName by remember {
+		mutableStateOf("Sprint 2")
+	}
+	Column(
+		verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterVertically),
+		horizontalAlignment = Alignment.Start, modifier = Modifier.fillMaxWidth()
+	) {
+		ChartTitle(
+			sprintName = sprintName,
+			onSprintNameChange = {
+				sprintName = it
+			}
+		)
+		MainChart(chartEntryModel = chartEntryModel)
+		ChartInfor(
+			remaining = 10, completed = 20, remainingColor = Color(0xFF04BFDA),
+			completedColor = Color(0xFF04BFDA)
+		)
+	}
 }
 
 @Preview(showBackground = true)

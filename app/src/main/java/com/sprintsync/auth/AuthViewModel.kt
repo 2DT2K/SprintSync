@@ -6,6 +6,9 @@ import androidx.activity.result.ActivityResult
 import androidx.activity.result.IntentSenderRequest
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.sprintsync.api.AuthAPI
+import com.sprintsync.api.RetrofitSingleton
+import com.sprintsync.dtos.MemberDto
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -24,13 +27,19 @@ class AuthViewModel @Inject constructor(
 	private val authenticator: Authenticator
 ) : ViewModel() {
 	private val scope = viewModelScope
+
 	private val _state = MutableStateFlow(AuthState(Authenticator.isSignedIn))
 	val state = _state.asStateFlow()
 
-	private fun update(newState: AuthState) = _state.update { newState }
+	private val authApiService = RetrofitSingleton
+		.getInstance()
+		.createService(AuthAPI::class.java)
 
 	fun signUp(email: String, password: String) {
-		scope.launch { update(authenticator.signUp(email, password)) }
+		scope.launch {
+			update(authenticator.signUp(email, password))
+			Authenticator.signedInUser?.let { authApiService.signUp(MemberDto(it)) }
+		}
 	}
 
 	fun signIn(email: String, password: String) {
@@ -48,7 +57,9 @@ class AuthViewModel @Inject constructor(
 	}
 
 	fun signIn(intent: Intent?) {
-		scope.launch { update(authenticator.signInWithIntent(intent ?: return@launch)) }
+		scope.launch {
+			update(authenticator.signInWithIntent(intent ?: return@launch))
+		}
 	}
 
 	fun resetPassword(email: String) {
@@ -65,4 +76,6 @@ class AuthViewModel @Inject constructor(
 			update(AuthState())
 		}
 	}
+
+	private fun update(newState: AuthState) = _state.update { newState }
 }

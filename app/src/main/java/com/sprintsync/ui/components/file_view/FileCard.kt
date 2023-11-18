@@ -22,7 +22,6 @@ import com.sprintsync.R
 import com.sprintsync.ui.components.Text
 import com.sprintsync.ui.theme.Grey60
 import com.sprintsync.ui.theme.Purple20
-import com.sprintsync.ui.theme.Purple40
 import com.sprintsync.ui.theme.SprintSyncTheme
 import com.sprintsync.ui.views.project_view.file_view.Attachment
 import com.sprintsync.ui.views.project_view.file_view.FileView
@@ -44,8 +43,8 @@ fun FileCard(
 	Surface {
 		Row(
 			modifier = Modifier
-                .padding(top = 8.dp, bottom = 8.dp)
-                .fillMaxWidth(),
+				.padding(top = 8.dp, bottom = 8.dp)
+				.fillMaxWidth(),
 			horizontalArrangement = Arrangement.spacedBy(8.dp),
 			verticalAlignment = Alignment.CenterVertically
 		) {

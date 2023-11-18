@@ -11,16 +11,16 @@ import com.sprintsync.ui.components.Calendar
 
 @Composable
 fun CalendarView() {
-    Column(
-        verticalArrangement = Arrangement.spacedBy(10.dp, Alignment.Top),
-        horizontalAlignment = Alignment.Start,
-    ) {
-        Calendar()
-    }
+	Column(
+		verticalArrangement = Arrangement.spacedBy(10.dp, Alignment.Top),
+		horizontalAlignment = Alignment.Start,
+	) {
+		Calendar()
+	}
 }
 
 @Preview(showBackground = true)
 @Composable
 fun CalendarViewPreview() {
-    CalendarView()
+	CalendarView()
 }

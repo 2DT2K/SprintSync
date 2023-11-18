@@ -11,7 +11,9 @@ import kotlinx.coroutines.launch
 
 class MemberViewModel : ViewModel() {
 	//    THIS IS EXAMPLE CODE TO SHOW HOW TO USE RETROFIT
-	private val apiService = RetrofitSingleton.getInstance().createService(MemberAPI::class.java)
+	private val apiService = RetrofitSingleton
+		.getInstance()
+		.createService(MemberAPI::class.java)
 
 	private val _state = MutableStateFlow(emptyList<Member>())
 
@@ -32,7 +34,8 @@ class MemberViewModel : ViewModel() {
 		viewModelScope.launch {
 			try {
 				_state.value = apiService.getMembers()
-			} catch (e: Exception) {
+			}
+			catch (e: Exception) {
 				e.printStackTrace()
 			}
 		}

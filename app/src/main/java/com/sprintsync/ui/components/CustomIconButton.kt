@@ -12,7 +12,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
@@ -26,13 +25,13 @@ import com.sprintsync.R
 fun CustomIconButton(iconID: Int, content: String, backgroundColor: Long, modifier: Modifier) {
 	Row(
 		modifier = modifier
-            .padding(0.dp)
-            .height(115.dp)
-            .background(
-                color = Color(backgroundColor),
-                shape = RoundedCornerShape(size = 20.dp)
-            )
-            .padding(start = 16.dp, end = 16.dp),
+			.padding(0.dp)
+			.height(115.dp)
+			.background(
+				color = Color(backgroundColor),
+				shape = RoundedCornerShape(size = 20.dp)
+			)
+			.padding(start = 16.dp, end = 16.dp),
 		verticalAlignment = Alignment.CenterVertically,
 		horizontalArrangement = Arrangement.spacedBy(
 			10.dp,
@@ -48,8 +47,8 @@ fun CustomIconButton(iconID: Int, content: String, backgroundColor: Long, modifi
 		) {
 			Image(
 				modifier = Modifier
-                    .align(Alignment.Center)
-                    .padding(10.dp),
+					.align(Alignment.Center)
+					.padding(10.dp),
 				painter = painterResource(id = iconID),
 				contentDescription = ""
 			)
@@ -73,13 +72,13 @@ fun CustomIconButtonPreview() {
 		content = "Timeline",
 		backgroundColor = 0xFFFF829E,
 		modifier = Modifier
-            .padding(0.dp)
-            .height(115.dp)
-            .background(
-                color = Color(0xFFFF829E),
-                shape = RoundedCornerShape(size = 20.dp)
-            )
-            .padding(start = 16.dp, end = 16.dp)
+			.padding(0.dp)
+			.height(115.dp)
+			.background(
+				color = Color(0xFFFF829E),
+				shape = RoundedCornerShape(size = 20.dp)
+			)
+			.padding(start = 16.dp, end = 16.dp)
 	)
 }
 

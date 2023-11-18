@@ -40,9 +40,9 @@ fun Backlog(backlogViewModel: BacklogViewModel) {
 
 	Column(
 		modifier = Modifier
-            .animateContentSize()
-            .fillMaxSize()
-            .verticalScroll(rememberScrollState())
+			.animateContentSize()
+			.fillMaxSize()
+			.verticalScroll(rememberScrollState())
 	) {
 		CurrentSprintView(backlogUiState.activeSprint)
 		Divider()
@@ -65,32 +65,32 @@ fun IsDoneSprintView(doneSprints: List<BacklogViewModel.Sprint>) {
 
 	Column(
 		modifier = Modifier
-            .animateContentSize()
-            .wrapContentHeight(),
+			.animateContentSize()
+			.wrapContentHeight(),
 	) {
 		Row(
 			modifier = Modifier
-                .fillMaxWidth()
-                .clickable {
-                    isOpen = !isOpen
-                }
-                .padding(top = 8.dp, bottom = 8.dp)
-                .height(40.dp),
+				.fillMaxWidth()
+				.clickable {
+					isOpen = !isOpen
+				}
+				.padding(top = 8.dp, bottom = 8.dp)
+				.height(40.dp),
 			verticalAlignment = Alignment.CenterVertically
 		) {
 			if (isOpen) Icon(
 				painter = painterResource(id = R.drawable.arrow_down_2),
 				modifier = Modifier
-                    .width(28.dp)
-                    .height(28.dp),
+					.width(28.dp)
+					.height(28.dp),
 				tint = Grey40,
 				contentDescription = null
 			)
 			else Icon(
 				painter = painterResource(id = R.drawable.arrow_up),
 				modifier = Modifier
-                    .width(28.dp)
-                    .height(28.dp),
+					.width(28.dp)
+					.height(28.dp),
 				tint = Grey40,
 				contentDescription = null
 			)
