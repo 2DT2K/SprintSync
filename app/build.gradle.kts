@@ -112,6 +112,8 @@ dependencies {
 
 	implementation("com.github.TuleSimon:xMaterialccp:1.22")
 
+	//wheelpicker
+	implementation ("com.github.commandiron:WheelPickerCompose:1.1.11")
 
 //	testing dependencies
 	testImplementation("junit:junit:4.13.2")
@@ -120,7 +122,6 @@ dependencies {
 	androidTestImplementation("androidx.navigation:navigation-testing:2.7.5")
 	androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 	androidTestImplementation(platform("androidx.compose:compose-bom:2023.10.01"))
-
 
 //	debugging dependencies
 	debugImplementation("androidx.compose.ui:ui-tooling")
