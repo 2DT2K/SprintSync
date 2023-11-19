@@ -4,12 +4,9 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ColumnScopeInstance.weight
-import androidx.compose.foundation.layout.RowScopeInstance.weight
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.layout.wrapContentHeight
@@ -31,7 +28,6 @@ import com.sprintsync.ui.components.auth.PasswordField
 import com.sprintsync.ui.components.auth.PromptRow
 import com.sprintsync.ui.components.auth.SignInButtonGroup
 import com.sprintsync.ui.components.auth.Title
-import com.sprintsync.ui.theme.Red80
 import com.sprintsync.ui.theme.SprintSyncTheme
 
 @Composable
@@ -94,24 +90,22 @@ fun SignInView(
                     errorText = "Password is incorrect"
                 )
             }
-				Box(
-					modifier = Modifier.fillMaxWidth(),
-					contentAlignment = Alignment.BottomEnd
-				) {
-					PromptRow(
-						modifier = Modifier,
-						normalText = "Forgot Password?",
-						highlightedText = "Reset",
-						highlightColor = MaterialTheme.colorScheme.error,
-						onClick = resetPassword
-					)
-				}
-			}
-
+            Box(
+                modifier = Modifier.fillMaxWidth(),
+                contentAlignment = Alignment.BottomEnd
+            ) {
+                PromptRow(
+                    modifier = Modifier,
+                    normalText = "Forgot Password?",
+                    highlightedText = "Reset",
+                    highlightColor = MaterialTheme.colorScheme.error,
+                    onClick = resetPassword
+                )
+            }
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .weight(0.9f),
+                    .weight(0.8f),
                 verticalArrangement = Arrangement.Bottom,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
