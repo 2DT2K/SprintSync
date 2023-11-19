@@ -7,8 +7,7 @@ data class MemberDto(
 	val uid: String,
 	val name: String,
 	val email: String,
-	val dob: String? = null,
-	val usingGoogle: Boolean = false
+	val dob: String? = null
 ) {
 	constructor(data: UserData) : this(
 		uid = data.uid,

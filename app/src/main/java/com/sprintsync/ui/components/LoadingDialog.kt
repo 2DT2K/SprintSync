@@ -23,47 +23,42 @@ import com.sprintsync.ui.theme.SprintSyncTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LoadingDialog(
-    AlertText: String,
-) {
-    AlertDialog(
-        onDismissRequest = {
-        },
-        properties = DialogProperties(
-            usePlatformDefaultWidth = false // disable the default size so that we can customize it
-        )
-    ) {
-        Column(
-            modifier = Modifier
+fun LoadingDialog(alertText: String) {
+	AlertDialog(
+		onDismissRequest = { },
+		properties = DialogProperties(
+			usePlatformDefaultWidth = false // disable the default size so that we can customize it
+		)
+	) {
+		Column(
+			modifier = Modifier
                 .padding(start = 32.dp, end = 32.dp) // margin
                 .background(color = Color.White, shape = RoundedCornerShape(16.dp))
                 .padding(top = 32.dp, bottom = 32.dp), // inner padding
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Indicator(
-                size = 32.dp,
-                sweepAngle = 45f,
-                color = MaterialTheme.colorScheme.primary,
-                strokeWidth = 4.dp
-            )
+			verticalArrangement = Arrangement.Center,
+			horizontalAlignment = Alignment.CenterHorizontally
+		) {
+			Indicator(
+				size = 32.dp,
+				sweepAngle = 45f,
+				color = MaterialTheme.colorScheme.primary,
+				strokeWidth = 4.dp
+			)
 
-            Spacer(modifier = Modifier.height(32.dp))
+			Spacer(modifier = Modifier.height(32.dp))
 
-            Text(
-                text = AlertText,
-                style = MaterialTheme.typography.bodyMedium,
-            )
-        }
-    }
+			Text(
+				text = alertText,
+				style = MaterialTheme.typography.bodyMedium,
+			)
+		}
+	}
 }
 
 @Preview
 @Composable
 fun LoadingDialogPreview() {
-    SprintSyncTheme {
-        LoadingDialog(
-            AlertText = "Please wait...",
-        )
-    }
+	SprintSyncTheme {
+		LoadingDialog("Please wait...")
+	}
 }

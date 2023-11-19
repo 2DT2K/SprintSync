@@ -54,9 +54,7 @@ class AuthViewModel @Inject constructor(
 		scope.launch {
 			update(authenticator.signInWithIntent(intent ?: return@launch))
 //			TODO: perfect this later (add if needed, update mongo when override)
-			Authenticator.signedInUser?.let {
-				authApiService.signUp(MemberDto(it).copy(usingGoogle = true))
-			}
+			Authenticator.signedInUser?.let { authApiService.signUp(MemberDto(it)) }
 		}
 	}
 
