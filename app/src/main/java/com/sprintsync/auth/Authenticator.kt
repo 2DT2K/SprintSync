@@ -18,7 +18,7 @@ class Authenticator(context: Context) {
 	// <--- Firebase Auth --->
 	companion object {
 		private val auth = Firebase.auth
-		val isSignedIn
+		val signedIn
 			get() = auth.currentUser != null
 		val signedInUser
 			get() = auth.currentUser?.run { UserData(uid, displayName!!, email!!, isEmailVerified) }
@@ -160,3 +160,10 @@ class Authenticator(context: Context) {
 		}
 	}
 }
+
+data class UserData(
+	val uid: String,
+	val name: String,
+	val email: String,
+	val verified: Boolean
+)

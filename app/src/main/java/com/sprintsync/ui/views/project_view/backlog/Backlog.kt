@@ -36,7 +36,7 @@ import com.sprintsync.ui.view_models.BacklogViewModel
 
 @Composable
 fun Backlog(backlogViewModel: BacklogViewModel) {
-    val backlogUiState by backlogViewModel.uiState.collectAsState()
+	val backlogUiState by backlogViewModel.uiState.collectAsState()
 
 	Column(
 		modifier = Modifier
@@ -52,43 +52,43 @@ fun Backlog(backlogViewModel: BacklogViewModel) {
 
 @Composable
 fun CurrentSprintView(currentSprint: List<BacklogViewModel.Sprint>) {
-    currentSprint.forEach() { sprint ->
-        SprintCard(sprint = sprint, isActive = true)
-    }
+	currentSprint.forEach() { sprint ->
+		SprintCard(sprint = sprint, isActive = true)
+	}
 }
 
 @Composable
 fun IsDoneSprintView(doneSprints: List<BacklogViewModel.Sprint>) {
-    var isOpen by remember {
-        mutableStateOf(false)
-    }
+	var isOpen by remember {
+		mutableStateOf(false)
+	}
 
-    Column(
-        modifier = Modifier
+	Column(
+		modifier = Modifier
             .animateContentSize()
             .wrapContentHeight(),
-    ) {
-        Row(
-            modifier = Modifier
+	) {
+		Row(
+			modifier = Modifier
                 .fillMaxWidth()
                 .clickable {
                     isOpen = !isOpen
                 }
                 .padding(top = 8.dp, bottom = 8.dp)
                 .height(40.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Icon(
-                painter = painterResource(
-                    id = if (isOpen) R.drawable.arrow_down_2
-                    else R.drawable.arrow_up
-                ),
-                modifier = Modifier
+			verticalAlignment = Alignment.CenterVertically
+		) {
+			Icon(
+				painter = painterResource(
+					id = if (isOpen) R.drawable.arrow_down_2
+					else R.drawable.arrow_up
+				),
+				modifier = Modifier
                     .width(28.dp)
                     .height(28.dp),
-                tint = Grey40,
-                contentDescription = null
-            )
+				tint = Grey40,
+				contentDescription = null
+			)
 
 			Spacer(modifier = Modifier.width(8.dp))
 			Column {
@@ -97,31 +97,31 @@ fun IsDoneSprintView(doneSprints: List<BacklogViewModel.Sprint>) {
 				)
 			}
 
-            Spacer(modifier = Modifier.weight(1.0f))
+			Spacer(modifier = Modifier.weight(1.0f))
 
-            Icon(
-                painter = painterResource(R.drawable.more),
-                contentDescription = null,
-                modifier = Modifier.clickable(onClick = {})
-            )
-        }
+			Icon(
+				painter = painterResource(R.drawable.more),
+				contentDescription = null,
+				modifier = Modifier.clickable(onClick = {})
+			)
+		}
 
-        AnimatedVisibility(visible = isOpen) {
-            Column {
-                doneSprints.forEach() { sprint ->
-                    SprintCard(sprint = sprint)
-                }
-            }
-        }
-    }
+		AnimatedVisibility(visible = isOpen) {
+			Column {
+				doneSprints.forEach() { sprint ->
+					SprintCard(sprint = sprint)
+				}
+			}
+		}
+	}
 }
 
 @Preview(showBackground = true)
 @Composable
 fun BacklogPreview() {
-    val backlogViewModel = BacklogViewModel("")
-    SprintSyncTheme {
-        Backlog(backlogViewModel)
-    }
+	val backlogViewModel = BacklogViewModel("")
+	SprintSyncTheme {
+		Backlog(backlogViewModel)
+	}
 }
 

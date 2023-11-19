@@ -20,64 +20,64 @@ import com.sprintsync.ui.theme.SprintSyncTheme
 
 @Composable
 fun EditProfile() {
-    val userInfo = listOf("Name", "Email", "Password")
-    var userName by remember { mutableStateOf("") }
-    var userEmail by remember { mutableStateOf("") }
-    var userPassword by remember { mutableStateOf("") }
-    var userDateOfBirth by remember { mutableStateOf("") }
-    var userCountry by remember { mutableStateOf("") }
+	val userInfo = listOf("Name", "Email", "Password")
+	var userName by remember { mutableStateOf("") }
+	var userEmail by remember { mutableStateOf("") }
+	var userPassword by remember { mutableStateOf("") }
+	var userDateOfBirth by remember { mutableStateOf("") }
+	var userCountry by remember { mutableStateOf("") }
 
 
-    Column(
-        modifier = Modifier.verticalScroll(rememberScrollState()),
-        verticalArrangement = Arrangement.spacedBy(12.dp)
-    ) {
-        EditProfileAvatarGroup()
+	Column(
+		modifier = Modifier.verticalScroll(rememberScrollState()),
+		verticalArrangement = Arrangement.spacedBy(12.dp)
+	) {
+		EditProfileAvatarGroup()
 
-        ProfileInfoCard(
-            title = "Name",
-            value = userName,
-            onValueChange = { userName = it }
-        )
+		ProfileInfoCard(
+			title = "Name",
+			value = userName,
+			onValueChange = { userName = it }
+		)
 
-        ProfileInfoCard(
-            title = "Email",
-            value = userEmail,
-            onValueChange = { userEmail = it }
-        )
+		ProfileInfoCard(
+			title = "Email",
+			value = userEmail,
+			onValueChange = { userEmail = it }
+		)
 
-        ProfileInfoCard(
-            title = "Password",
-            value = userPassword,
-            onValueChange = { userPassword = it }
-        )
+		ProfileInfoCard(
+			title = "Password",
+			value = userPassword,
+			onValueChange = { userPassword = it }
+		)
 
-        ProfileInfoCard(
-            title = "Date of Birth",
-            value = userPassword,
-            content = {
-                DateWheelPicker {
-                    userDateOfBirth = it
-                }
-            },
-        )
+		ProfileInfoCard(
+			title = "Date of Birth",
+			value = userPassword,
+			content = {
+				DateWheelPicker {
+					userDateOfBirth = it
+				}
+			},
+		)
 
-        ProfileInfoCard(
-            title = "Country/Region",
-            value = userPassword,
-            content = {
-                CountryDropDownMenu {
-                    userCountry = it
-                }
-            },
-        )
-    }
+		ProfileInfoCard(
+			title = "Country/Region",
+			value = userPassword,
+			content = {
+				CountryDropDownMenu {
+					userCountry = it
+				}
+			},
+		)
+	}
 }
 
 @Preview(showBackground = true)
 @Composable
 fun PreviewEditProfile() {
-    SprintSyncTheme {
-        EditProfile()
-    }
+	SprintSyncTheme {
+		EditProfile()
+	}
 }

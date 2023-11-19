@@ -1,6 +1,5 @@
 package com.sprintsync.ui.components
 
-import android.util.Log
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
@@ -16,30 +15,30 @@ import androidx.compose.ui.unit.dp
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CustomModalBottomSheet(
-    modifier: Modifier = Modifier,
-    isSheetShown: Boolean,
-    changeVisibility: (Boolean) -> Unit,
-    sheetContent: @Composable() (ColumnScope.() -> Unit),
+	modifier: Modifier = Modifier,
+	isSheetShown: Boolean,
+	changeVisibility: (Boolean) -> Unit,
+	sheetContent: @Composable() (ColumnScope.() -> Unit),
 ) {
-    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
-    val scope = rememberCoroutineScope()
+	val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+	val scope = rememberCoroutineScope()
 
-    if (isSheetShown) {
-        ModalBottomSheet(
-            modifier = modifier,
-            onDismissRequest = {
-                changeVisibility(false)
-            },
-            sheetState = sheetState,
-            windowInsets = WindowInsets(0),
-        ) {
+	if (isSheetShown) {
+		ModalBottomSheet(
+			modifier = modifier,
+			onDismissRequest = {
+				changeVisibility(false)
+			},
+			sheetState = sheetState,
+			windowInsets = WindowInsets(0),
+		) {
 
-            sheetContent()
+			sheetContent()
 
-            Spacer(
-                Modifier
-                    .windowInsetsBottomHeight(WindowInsets(bottom = 64.dp))
-            )
-        }
-    }
+			Spacer(
+				Modifier
+					.windowInsetsBottomHeight(WindowInsets(bottom = 64.dp))
+			)
+		}
+	}
 }

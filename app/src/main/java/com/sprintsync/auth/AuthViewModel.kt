@@ -16,19 +16,13 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-data class AuthState(
-	val signedIn: Boolean = false,
-	val errorCode: String? = null,
-	val errorMessage: String? = null,
-)
-
 @HiltViewModel
 class AuthViewModel @Inject constructor(
 	private val authenticator: Authenticator
 ) : ViewModel() {
 	private val scope = viewModelScope
 
-	private val _state = MutableStateFlow(AuthState(Authenticator.isSignedIn))
+	private val _state = MutableStateFlow(AuthState(Authenticator.signedIn))
 	val state = _state.asStateFlow()
 
 	private val authApiService = RetrofitSingleton
@@ -59,6 +53,10 @@ class AuthViewModel @Inject constructor(
 	fun signIn(intent: Intent?) {
 		scope.launch {
 			update(authenticator.signInWithIntent(intent ?: return@launch))
+//			TODO: perfect this later (add if needed, update mongo when override)
+			Authenticator.signedInUser?.let {
+				authApiService.signUp(MemberDto(it).copy(usingGoogle = true))
+			}
 		}
 	}
 
@@ -79,3 +77,9 @@ class AuthViewModel @Inject constructor(
 
 	private fun update(newState: AuthState) = _state.update { newState }
 }
+
+data class AuthState(
+	val signedIn: Boolean = false,
+	val errorCode: String? = null,
+	val errorMessage: String? = null,
+)

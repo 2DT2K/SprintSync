@@ -33,96 +33,96 @@ import com.sprintsync.ui.theme.Grey120
 
 @Composable
 fun EditProfileAvatarGroup() {
-    var showBottomSheet by remember { mutableStateOf(false) }
+	var showBottomSheet by remember { mutableStateOf(false) }
 
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .wrapContentHeight(),
-        contentAlignment = Alignment.Center
-    ) {
-        Box(
-            modifier = Modifier
-                .wrapContentHeight()
-        ) {
-            Image(
-                modifier = Modifier
-                    .clickable { showBottomSheet = true }
-                    .width(200.dp)
-                    .height(200.dp),
-                painter = painterResource(id = R.drawable.nice_avatar),
-                contentDescription = "edit profile avatar"
-            )
+	Box(
+		modifier = Modifier
+			.fillMaxWidth()
+			.wrapContentHeight(),
+		contentAlignment = Alignment.Center
+	) {
+		Box(
+			modifier = Modifier
+				.wrapContentHeight()
+		) {
+			Image(
+				modifier = Modifier
+					.clickable { showBottomSheet = true }
+					.width(200.dp)
+					.height(200.dp),
+				painter = painterResource(id = R.drawable.nice_avatar),
+				contentDescription = "edit profile avatar"
+			)
 
-            Icon(
-                modifier = Modifier
-                    .align(Alignment.BottomEnd)
-                    .offset(
-                        (-14).dp,
-                        (-14).dp
-                    )
-                    .padding(0.dp)
-                    .size(36.dp)
-                    .background(
-                        color = Grey120,
-                        shape = RoundedCornerShape(100)
-                    )
-                    .padding(4.dp),
-                painter = painterResource(id = R.drawable.camera),
-                contentDescription = "camera",
-                tint = Color(0xCF242760)
-            )
-        }
-    }
+			Icon(
+				modifier = Modifier
+					.align(Alignment.BottomEnd)
+					.offset(
+						(-14).dp,
+						(-14).dp
+					)
+					.padding(0.dp)
+					.size(36.dp)
+					.background(
+						color = Grey120,
+						shape = RoundedCornerShape(100)
+					)
+					.padding(4.dp),
+				painter = painterResource(id = R.drawable.camera),
+				contentDescription = "camera",
+				tint = Color(0xCF242760)
+			)
+		}
+	}
 
-    CustomModalBottomSheet(
-        isSheetShown = showBottomSheet,
-        changeVisibility = { showBottomSheet = it }) {
-        Column(
-            modifier = Modifier.padding(start = 10.dp),
-        ) {
+	CustomModalBottomSheet(
+		isSheetShown = showBottomSheet,
+		changeVisibility = { showBottomSheet = it }) {
+		Column(
+			modifier = Modifier.padding(start = 10.dp),
+		) {
 
-            Row(
-                modifier = Modifier
-                    .clickable { }
-                    .padding(
-                        start = 8.dp,
-                        top = 16.dp,
-                        bottom = 16.dp
-                    )
-                    .fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(16.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Icon(
-                    modifier = Modifier.size(40.dp),
-                    painter = painterResource(id = R.drawable.account_circle),
-                    contentDescription = "See Profile Picture",
-                )
+			Row(
+				modifier = Modifier
+					.clickable { }
+					.padding(
+						start = 8.dp,
+						top = 16.dp,
+						bottom = 16.dp
+					)
+					.fillMaxWidth(),
+				horizontalArrangement = Arrangement.spacedBy(16.dp),
+				verticalAlignment = Alignment.CenterVertically
+			) {
+				Icon(
+					modifier = Modifier.size(40.dp),
+					painter = painterResource(id = R.drawable.account_circle),
+					contentDescription = "See Profile Picture",
+				)
 
-                Text(text = "See Profile Picture")
-            }
+				Text(text = "See Profile Picture")
+			}
 
-            Row(
-                modifier = Modifier
-                    .clickable { }
-                    .padding(
-                        start = 8.dp,
-                        top = 16.dp,
-                        bottom = 16.dp
-                    )
-                    .fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(16.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Icon(
-                    modifier = Modifier.size(40.dp),
-                    painter = painterResource(id = R.drawable.image),
-                    contentDescription = "Choose profile picture",
-                )
+			Row(
+				modifier = Modifier
+					.clickable { }
+					.padding(
+						start = 8.dp,
+						top = 16.dp,
+						bottom = 16.dp
+					)
+					.fillMaxWidth(),
+				horizontalArrangement = Arrangement.spacedBy(16.dp),
+				verticalAlignment = Alignment.CenterVertically
+			) {
+				Icon(
+					modifier = Modifier.size(40.dp),
+					painter = painterResource(id = R.drawable.image),
+					contentDescription = "Choose profile picture",
+				)
 
-                Text(text = "Choose profile picture")
-            }
-        }
-    }
+				Text(text = "Choose profile picture")
+			}
+		}
+	}
 }

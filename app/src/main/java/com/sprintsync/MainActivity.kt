@@ -35,6 +35,7 @@ import com.sprintsync.ui.views.HomePage
 import com.sprintsync.ui.views.auth.PasswordResetView
 import com.sprintsync.ui.views.auth.SignInView
 import com.sprintsync.ui.views.auth.SignUpView
+import com.sprintsync.ui.views.profile.ProfileScreen
 import com.sprintsync.ui.views.project_view.DetailProject
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -72,7 +73,7 @@ fun MainContent() {
 			) {
 				composable("splash") {
 					LaunchedEffect(Unit) {
-						navController.navigate(if (Authenticator.isSignedIn) "home" else "sign_in")
+						navController.navigate(if (Authenticator.signedIn) "home" else "sign_in")
 					}
 
 					Box(
@@ -137,7 +138,7 @@ fun MainContent() {
 					},
 				) { DetailProject() }
 				composable("calendar") { TODO("Have not implement calendar view") }
-				composable("profile") { TODO("Have not implement profile view") }
+				composable("profile") { ProfileScreen(navController) }
 			}
 		}
 	}

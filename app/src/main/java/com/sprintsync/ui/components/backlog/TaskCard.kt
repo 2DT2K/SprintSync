@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -29,7 +28,6 @@ import androidx.core.graphics.drawable.toBitmap
 import com.sprintsync.R
 import com.sprintsync.ui.components.StoryPoint
 import com.sprintsync.ui.components.TaskProcess
-import com.sprintsync.ui.components.Text
 import com.sprintsync.ui.theme.Green80
 import com.sprintsync.ui.theme.Grey60
 import com.sprintsync.ui.theme.Purple20

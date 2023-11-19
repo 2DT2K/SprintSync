@@ -47,141 +47,141 @@ import com.sprintsync.ui.theme.SprintSyncTheme
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CustomFloatingActionButton(
-    showBottomSheet: Boolean,
-    changeSheetState: (Boolean) -> Unit
+	showBottomSheet: Boolean,
+	changeSheetState: (Boolean) -> Unit
 ) {
-    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
-    val scope = rememberCoroutineScope()
+	val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+	val scope = rememberCoroutineScope()
 
-    if (showBottomSheet) {
-        ModalBottomSheet(
-            modifier = Modifier.fillMaxHeight(),
-            onDismissRequest = {
-                changeSheetState(false)
-            },
-            sheetState = sheetState,
-            windowInsets = WindowInsets(0),
-            dragHandle = {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 24.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Center
-                ) {
-                    Box(
-                        modifier = Modifier
-                            .padding(0.dp)
-                            .width(32.dp)
-                            .height(4.dp)
-                            .background(
-                                color = Color(0xFF79747E),
-                                shape = RoundedCornerShape(size = 100.dp)
-                            )
-                    )
-                }
-            }
-        ) {
-            Text(
-                text = "Project name",
-                modifier = Modifier.padding(start = 24.dp),
-                fontWeight = FontWeight(600)
-            )
-            ExpandableTextField(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start = 24.dp, end = 24.dp),
-                value = "",
-                label = "",
-                placeholder = "Please enter project name",
-                onValueChange = {
+	if (showBottomSheet) {
+		ModalBottomSheet(
+			modifier = Modifier.fillMaxHeight(),
+			onDismissRequest = {
+				changeSheetState(false)
+			},
+			sheetState = sheetState,
+			windowInsets = WindowInsets(0),
+			dragHandle = {
+				Row(
+					modifier = Modifier
+						.fillMaxWidth()
+						.padding(vertical = 24.dp),
+					verticalAlignment = Alignment.CenterVertically,
+					horizontalArrangement = Arrangement.Center
+				) {
+					Box(
+						modifier = Modifier
+							.padding(0.dp)
+							.width(32.dp)
+							.height(4.dp)
+							.background(
+								color = Color(0xFF79747E),
+								shape = RoundedCornerShape(size = 100.dp)
+							)
+					)
+				}
+			}
+		) {
+			Text(
+				text = "Project name",
+				modifier = Modifier.padding(start = 24.dp),
+				fontWeight = FontWeight(600)
+			)
+			ExpandableTextField(
+				modifier = Modifier
+					.fillMaxWidth()
+					.padding(start = 24.dp, end = 24.dp),
+				value = "",
+				label = "",
+				placeholder = "Please enter project name",
+				onValueChange = {
 
-                },
+				},
 //                colors = OutlinedTextFieldDefaults.colors(
 //                    focusedBorderColor = Color.Transparent,
 //                    unfocusedBorderColor = Color.Transparent,
 //                )
-            )
+			)
 
-            Spacer(modifier = Modifier.height(16.dp))
+			Spacer(modifier = Modifier.height(16.dp))
 
-            Text(
-                text = "Add a description",
-                modifier = Modifier.padding(start = 24.dp),
-                fontWeight = FontWeight(600)
-            )
+			Text(
+				text = "Add a description",
+				modifier = Modifier.padding(start = 24.dp),
+				fontWeight = FontWeight(600)
+			)
 
-            ExpandableTextField(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start = 24.dp, end = 24.dp),
-                value = "",
-                label = "",
-                placeholder = "Please enter description",
-                onValueChange = {
+			ExpandableTextField(
+				modifier = Modifier
+					.fillMaxWidth()
+					.padding(start = 24.dp, end = 24.dp),
+				value = "",
+				label = "",
+				placeholder = "Please enter description",
+				onValueChange = {
 
-                },
+				},
 //                colors = OutlinedTextFieldDefaults.colors(
 //                    focusedBorderColor = Color.Transparent,
 //                    unfocusedBorderColor = Color.Transparent,
 //                )
-            )
+			)
 
-            Spacer(modifier = Modifier.height(24.dp))
+			Spacer(modifier = Modifier.height(24.dp))
 
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(end = 8.dp)
-            ) {
-                IconButton(
-                    modifier = Modifier
-                        .align(Alignment.CenterEnd)
-                        .background(
-                            color = Grey80,
-                            shape = RoundedCornerShape(100)
-                        ),
-                    onClick = { /*TODO*/ }) {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(start = 4.dp)
-                            .size(48.dp),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Icon(
-                            modifier = Modifier
-                                .padding(0.dp)
-                                .size(32.dp),
-                            painter = painterResource(id = R.drawable.send),
-                            contentDescription = "create project",
-                            tint = Grey40
-                        )
-                    }
-                }
-            }
+			Box(
+				modifier = Modifier
+					.fillMaxWidth()
+					.padding(end = 8.dp)
+			) {
+				IconButton(
+					modifier = Modifier
+						.align(Alignment.CenterEnd)
+						.background(
+							color = Grey80,
+							shape = RoundedCornerShape(100)
+						),
+					onClick = { /*TODO*/ }) {
+					Box(
+						modifier = Modifier
+							.fillMaxSize()
+							.padding(start = 4.dp)
+							.size(48.dp),
+						contentAlignment = Alignment.Center
+					) {
+						Icon(
+							modifier = Modifier
+								.padding(0.dp)
+								.size(32.dp),
+							painter = painterResource(id = R.drawable.send),
+							contentDescription = "create project",
+							tint = Grey40
+						)
+					}
+				}
+			}
 
 
-            Spacer(
-                Modifier
-                    .background(Color.Transparent)
-                    .fillMaxWidth()
-                    .windowInsetsPadding(
-                        WindowInsets.systemBars.only(WindowInsetsSides.Bottom)
-                    )
-            )
-        }
-    }
+			Spacer(
+				Modifier
+					.background(Color.Transparent)
+					.fillMaxWidth()
+					.windowInsetsPadding(
+						WindowInsets.systemBars.only(WindowInsetsSides.Bottom)
+					)
+			)
+		}
+	}
 }
 
 @Preview
 @Composable
 fun PreviewFloatingActionButton() {
-    var isOpen by remember { mutableStateOf(true) }
-    SprintSyncTheme {
-        Button(onClick = { isOpen = true }) {
-            Text(text = "click")
-        }
-        CustomFloatingActionButton(isOpen) { state -> isOpen = state }
-    }
+	var isOpen by remember { mutableStateOf(true) }
+	SprintSyncTheme {
+		Button(onClick = { isOpen = true }) {
+			Text(text = "click")
+		}
+		CustomFloatingActionButton(isOpen) { state -> isOpen = state }
+	}
 }

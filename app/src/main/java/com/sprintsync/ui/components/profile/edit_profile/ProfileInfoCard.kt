@@ -14,25 +14,26 @@ import com.sprintsync.ui.theme.Purple40
 
 @Composable
 fun ProfileInfoCard(
-    title: String,
-    value: String,
-    content: @Composable() (() -> Unit)? = null,
-    onValueChange: (String) -> Unit = {}
+	title: String,
+	value: String,
+	content: @Composable() (() -> Unit)? = null,
+	onValueChange: (String) -> Unit = {}
 ) {
-    Text(
-        text = title,
-        fontWeight = FontWeight.Bold
-    )
-    content?.invoke() ?: OutlinedTextField(
-        modifier = Modifier.fillMaxWidth(),
-        value = value,
-        onValueChange = { onValueChange(it) },
-        shape = RoundedCornerShape(16),
-        colors = OutlinedTextFieldDefaults.colors(
-            focusedBorderColor = Purple40,
-            unfocusedBorderColor = Purple40
-        ),
-        visualTransformation = if (title == "Password")
-            PasswordVisualTransformation() else VisualTransformation.None
-    )
+	Text(
+		text = title,
+		fontWeight = FontWeight.Bold
+	)
+	content?.invoke() ?: OutlinedTextField(
+		modifier = Modifier.fillMaxWidth(),
+		value = value,
+		onValueChange = { onValueChange(it) },
+		shape = RoundedCornerShape(16),
+		colors = OutlinedTextFieldDefaults.colors(
+			focusedBorderColor = Purple40,
+			unfocusedBorderColor = Purple40
+		),
+		visualTransformation = if (title == "Password")
+			PasswordVisualTransformation()
+		else VisualTransformation.None
+	)
 }

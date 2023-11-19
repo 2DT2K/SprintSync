@@ -1,6 +1,7 @@
 package com.sprintsync.ui.components.profile
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -25,49 +26,50 @@ import com.sprintsync.ui.views.profile.Setting
 
 @Composable
 fun ProfileSettingGroup(title: String, settings: List<Setting>) {
-    Surface {
-        Column(
-            modifier = Modifier.fillMaxWidth(),
-            verticalArrangement = Arrangement.spacedBy(12.dp)
-        ) {
-            Text(
-                text = title,
-                fontSize = 16.sp,
-                lineHeight = 16.sp,
-                fontWeight = FontWeight.Bold
-            )
+	Surface {
+		Column(
+			modifier = Modifier.fillMaxWidth(),
+			verticalArrangement = Arrangement.spacedBy(12.dp)
+		) {
+			Text(
+				text = title,
+				fontSize = 16.sp,
+				lineHeight = 16.sp,
+				fontWeight = FontWeight.Bold
+			)
 
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(
-                        color = Grey120,
-                        shape = RoundedCornerShape(size = 8.dp)
-                    )
-                    .padding(vertical = 8.dp, horizontal = 12.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                settings.forEach() { setting ->
-                    Row(
-                        horizontalArrangement = Arrangement.spacedBy(40.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Icon(
-                            modifier = Modifier.size(32.dp),
-                            painter = painterResource(id = setting.icon),
-                            contentDescription = setting.settingName,
-                            tint = Purple20
-                        )
-                        Text(
-                            text = setting.settingName,
-                            fontSize = 16.sp,
-                            lineHeight = 16.sp,
-                            fontWeight = FontWeight(500),
-                            color = Purple20
-                        )
-                    }
-                }
-            }
-        }
-    }
+			Column(
+				modifier = Modifier
+					.fillMaxWidth()
+					.background(
+						color = Grey120,
+						shape = RoundedCornerShape(size = 8.dp)
+					)
+					.padding(vertical = 8.dp, horizontal = 12.dp),
+				verticalArrangement = Arrangement.spacedBy(8.dp)
+			) {
+				settings.forEach { setting ->
+					Row(
+						modifier = Modifier.clickable { setting.onClick() },
+						horizontalArrangement = Arrangement.spacedBy(40.dp),
+						verticalAlignment = Alignment.CenterVertically
+					) {
+						Icon(
+							modifier = Modifier.size(32.dp),
+							painter = painterResource(id = setting.icon),
+							contentDescription = setting.settingName,
+							tint = Purple20
+						)
+						Text(
+							text = setting.settingName,
+							fontSize = 16.sp,
+							lineHeight = 16.sp,
+							fontWeight = FontWeight(500),
+							color = Purple20
+						)
+					}
+				}
+			}
+		}
+	}
 }

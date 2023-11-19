@@ -35,66 +35,69 @@ import java.util.Locale
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CountryDropDownMenu(onValueChange: (String) -> Unit) {
-    var expanded by remember { mutableStateOf(false) }
-    var selectedCountry by remember { mutableStateOf(countryList[0]) }
-    var searchTerm by remember { mutableStateOf("") }
+	var expanded by remember { mutableStateOf(false) }
+	var selectedCountry by remember { mutableStateOf(countryList[0]) }
+	var searchTerm by remember { mutableStateOf("") }
 
-    Box(modifier = Modifier.fillMaxWidth()) {
-        OutlinedTextField(
-            modifier = Modifier.fillMaxWidth(),
-            value = selectedCountry,
-            onValueChange = {},
-            shape = RoundedCornerShape(16),
-            colors = OutlinedTextFieldDefaults.colors(
-                focusedBorderColor = Purple40,
-                unfocusedBorderColor = Purple40
-            ),
-            readOnly = true,
-            trailingIcon = {
-                Icon(
-                    modifier = Modifier
-                        .size(28.dp),
-                    painter = painterResource(
-                        id = if (expanded) R.drawable.arrow_down_2
-                        else R.drawable.arrow_up
-                    ),
-                    contentDescription = null
-                )
-            }
-        )
+	Box(modifier = Modifier.fillMaxWidth()) {
+		OutlinedTextField(
+			modifier = Modifier.fillMaxWidth(),
+			value = selectedCountry,
+			onValueChange = {},
+			shape = RoundedCornerShape(16),
+			colors = OutlinedTextFieldDefaults.colors(
+				focusedBorderColor = Purple40,
+				unfocusedBorderColor = Purple40
+			),
+			readOnly = true,
+			trailingIcon = {
+				Icon(
+					modifier = Modifier
+						.size(28.dp),
+					painter = painterResource(
+						id = if (expanded) R.drawable.arrow_down_2
+						else R.drawable.arrow_up
+					),
+					contentDescription = null
+				)
+			}
+		)
 
-        Box(
-            modifier = Modifier
-                .matchParentSize()
-                .alpha(0f)
-                .clickable { expanded = !expanded },
-        )
-    }
+		Box(
+			modifier = Modifier
+				.matchParentSize()
+				.alpha(0f)
+				.clickable { expanded = !expanded },
+		)
+	}
 
-    CustomModalBottomSheet(
-        modifier = Modifier.fillMaxHeight(),
-        isSheetShown = expanded,
-        changeVisibility = { expanded = it },
-        sheetContent = {
-            SearchBar(
-                placeHolder = "Please enter your country",
-                onValueChange = { searchTerm = it }
-            )
+	CustomModalBottomSheet(
+		modifier = Modifier.fillMaxHeight(),
+		isSheetShown = expanded,
+		changeVisibility = { expanded = it },
+		sheetContent = {
+			SearchBar(
+				placeHolder = "Please enter your country",
+				onValueChange = { searchTerm = it }
+			)
 
-            LazyColumn {
-                items(countryList) { country ->
-                    if (country.lowercase(Locale.ROOT).contains(searchTerm)) DropdownMenuItem(
-                        modifier = Modifier.requiredSizeIn(maxHeight = 200.dp),
-                        text = { Text(text = country) },
-                        onClick = {
-                            onValueChange(selectedCountry)
-                            selectedCountry = country
-                            expanded = false
-                        },
-                    )
-                }
-            }
-        }
-    )
+			LazyColumn {
+				items(countryList) { country ->
+					if (country
+							.lowercase(Locale.ROOT)
+							.contains(searchTerm)
+					) DropdownMenuItem(
+						modifier = Modifier.requiredSizeIn(maxHeight = 200.dp),
+						text = { Text(text = country) },
+						onClick = {
+							onValueChange(selectedCountry)
+							selectedCountry = country
+							expanded = false
+						},
+					)
+				}
+			}
+		}
+	)
 }
 
