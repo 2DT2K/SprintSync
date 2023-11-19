@@ -12,6 +12,8 @@ import com.sprintsync.ui.components.ExpandableTextField
 fun PasswordField(
 	isNormal: Boolean = true,
 	onValueChange: ((String) -> Unit)? = null,
+	errorText: String,
+	isError: Boolean = false,
 ) {
 	ExpandableTextField(
 		isPassword = true,
@@ -24,6 +26,8 @@ fun PasswordField(
 				painter = painterResource(id = if (isNormal) R.drawable.key else R.drawable.lock),
 				contentDescription = null,
 			)
-		}
+		},
+		isError = isError,
+		errorText = errorText
 	)
 }

@@ -94,7 +94,8 @@ fun ExpandableTextField(
     shape: Shape = OutlinedTextFieldDefaults.shape,
     colors: TextFieldColors = OutlinedTextFieldDefaults.colors(
         focusedBorderColor = Purple40,
-        unfocusedBorderColor = Purple40
+        unfocusedBorderColor = Purple40,
+        errorLeadingIconColor = MaterialTheme.colorScheme.error,
     ),
     isError: Boolean = false,
     errorText: String = "Something is wrong...",
@@ -149,7 +150,6 @@ fun ExpandableTextField(
                 readOnly = readOnly
             )
         }
-
         if (isError)
             Text(
                 modifier = Modifier,

@@ -32,6 +32,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.sprintsync.auth.AuthState
 import com.sprintsync.auth.AuthViewModel
 import com.sprintsync.auth.Authenticator
 import com.sprintsync.ui.components.BottomNavigation
@@ -57,8 +58,8 @@ fun MainContent() {
 
     val authenticator = Authenticator(context = LocalContext.current)
 
-    val viewModel = viewModel<AuthViewModel>()
-    val state by viewModel.state.collectAsStateWithLifecycle()
+	val authVM = viewModel<AuthViewModel>()
+	val authState by authVM.state.collectAsStateWithLifecycle()
 
     val navController = rememberNavController()
     val (currentRoute, setCurrentRoute) = remember {
@@ -69,149 +70,140 @@ fun MainContent() {
         setCurrentRoute(destination.route)
     }
 
-    Scaffold(
-        bottomBar = {
-            if (currentRoute !in listOf("sign_in", "sign_up", "password_reset")) {
-                BottomNavigation(navController = navController)
-            }
-        }
-    ) { paddingValues ->
-        Surface(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues)
-        ) {
-            NavHost(
-                navController = navController,
-                startDestination = "home",
-                enterTransition = {
-                    EnterTransition.None
-                },
-                exitTransition = {
-                    ExitTransition.None
-                }
-            ) {
-                composable("sign_in") {
-                    LaunchedEffect(state.signedIn) {
-                        if (state.signedIn) navController.navigate("home")
-                    }
+	Scaffold(
+		bottomBar = {
+			if (currentRoute !in listOf("sign_in", "sign_up", "password_reset")) {
+				BottomNavigation(navController = navController)
+			}
+		}
+	) { paddingValues ->
+		Surface(modifier = Modifier.padding(paddingValues)) {
+			NavHost(navController = navController, startDestination = "sign_in") {
+				composable("sign_in") {
+					LaunchedEffect(Unit) {
+						authVM.update(AuthState(authenticator.isSignedIn))
+					}
 
-                    val launcher = rememberLauncherForActivityResult(
-                        contract = ActivityResultContracts.StartIntentSenderForResult()
-                    ) { result ->
-                        if (result.resultCode == RESULT_OK) {
-                            scope.launch {
-                                authenticator
-                                    .signInWithIntent(result.data ?: return@launch)
-                                    .let { viewModel.update(it) }
-                            }
-                        }
-                    }
-                    SignInView(
-                        signInWithPassword = { email, password ->
-                            scope.launch {
-                                authenticator
-                                    .signIn(email, password)
-                                    .let { viewModel.update(it) }
-                            }
-                        },
-                        signInWithGoogle = {
-                            scope.launch {
-                                authenticator
-                                    .getSignInIntentSender()
-                                    .let {
-                                        launcher.launch(
-                                            IntentSenderRequest
-                                                .Builder(it ?: return@launch)
-                                                .build()
-                                        )
-                                    }
-                            }
-                        },
-                        resetPassword = { navController.navigate("password_reset") },
-                        signUp = { navController.navigate("sign_up") }
-                    )
-                }
-                composable("sign_up") {
-                    SignUpView(
-                        signUpWithPassword = { email, password ->
-                            scope.launch {
-                                authenticator
-                                    .signUp(email, password)
-                                    .let { viewModel.update(it) }
-                                navController.popBackStack()
-                            }
-                        },
-                        signIn = { navController.popBackStack() }
-                    )
-                }
-                composable("password_reset") {
-                    PasswordResetView(
-                        resetPassword = { email ->
-                            scope.launch {
-                                authenticator.resetPassword(email)
-                                navController.popBackStack()
-                            }
-                        }
-                    )
-                }
-                composable(
-                    "home",
-                    enterTransition = {
-                        when (initialState.destination.route) {
-                            "project" -> slideInHorizontally(
-                                initialOffsetX = { -it },
-                                animationSpec = tween(200)
-                            )
+					LaunchedEffect(authState.signedIn) {
+						if (authState.signedIn) navController.navigate("home")
+					}
 
-                            else      -> null
-                        }
-                    },
-                    exitTransition = {
-                        when (targetState.destination.route) {
-                            "project" -> slideOutHorizontally(
-                                targetOffsetX = { -it },
-                                animationSpec = tween(200)
-                            )
+					val launcher = rememberLauncherForActivityResult(
+						contract = ActivityResultContracts.StartIntentSenderForResult()
+					) { result ->
+						if (result.resultCode == RESULT_OK) {
+							scope.launch {
+								authenticator
+									.signInWithIntent(result.data ?: return@launch)
+									.let { authVM.update(it) }
+							}
+						}
+					}
 
-                            else      -> null
-                        }
-                    },
-                ) {
+					SignInView(
+						signInWithPassword = { email, password ->
+							scope.launch {
+								authenticator
+									.signIn(email, password)
+									.let { authVM.update(it) }
+							}
+						},
+						signInWithGoogle = {
+							scope.launch {
+								authenticator
+									.getSignInIntentSender()
+									.let {
+										launcher.launch(
+											IntentSenderRequest
+												.Builder(it ?: return@launch)
+												.build()
+										)
+									}
+							}
+						},
+						resetPassword = { navController.navigate("password_reset") },
+						signUp = { navController.navigate("sign_up") }
+					)
+				}
+				composable("sign_up") {
+					SignUpView(
+						signUpWithPassword = { email, password ->
+							scope.launch {
+								authenticator
+									.signUp(email, password)
+									.let { authVM.update(it) }
+							}
+						},
+						signIn = { navController.popBackStack() }
+					)
+				}
+				composable("password_reset") {
+					PasswordResetView(
+						resetPassword = { email ->
+							scope.launch {
+								authenticator.resetPassword(email)
+								navController.popBackStack()
+							}
+						}
+					)
+				}
+				composable(
+					"home",
+					enterTransition = {
+						when (initialState.destination.route) {
+							"project" -> slideInHorizontally(
+								initialOffsetX = { -it },
+								animationSpec = tween(200)
+							)
+
+							else      -> null
+						}
+					},
+					exitTransition = {
+						when (targetState.destination.route) {
+							"project" -> slideOutHorizontally(
+								targetOffsetX = { -it },
+								animationSpec = tween(200)
+							)
+
+							else      -> null
+						}
+					},
+				) {
 //                    EnterAnimation {
-                    HomePage()
+					HomePage()
 //                    }
-                }
-                composable(
-                    "project",
-                    enterTransition = {
-                        when (initialState.destination.route) {
-                            "home" -> slideInHorizontally(
-                                initialOffsetX = { it },
-                                animationSpec = tween(200)
-                            )
+				}
+				composable(
+					"project",
+					enterTransition = {
+						when (initialState.destination.route) {
+							"home" -> slideInHorizontally(
+								initialOffsetX = { it },
+								animationSpec = tween(200)
+							)
 
-                            else   -> null
-                        }
-                    },
-                    exitTransition = {
-                        when (targetState.destination.route) {
-                            "home" -> slideOutHorizontally(
-                                targetOffsetX = { it },
-                                animationSpec = tween(200)
-                            )
+							else   -> null
+						}
+					},
+					exitTransition = {
+						when (targetState.destination.route) {
+							"home" -> slideOutHorizontally(
+								targetOffsetX = { it },
+								animationSpec = tween(200)
+							)
 
-                            else   -> null
-                        }
-                    },
-                ) {
+							else   -> null
+						}
+					},
+				) {
 //                    EnterAnimation {
-                    DetailProject()
+					DetailProject()
 //                    }
-                }
-                composable("calendar") { TODO("Have not implement calendar view") }
-                composable("profile") { TODO("Have not implement profile view") }
-            }
-        }
-    }
+				}
+				composable("calendar") { TODO("Have not implement calendar view") }
+				composable("profile") { TODO("Have not implement profile view") }
+			}
+		}
+	}
 }

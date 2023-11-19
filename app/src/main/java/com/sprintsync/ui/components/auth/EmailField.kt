@@ -9,7 +9,11 @@ import com.sprintsync.R
 import com.sprintsync.ui.components.ExpandableTextField
 
 @Composable
-fun EmailField(onValueChange: ((String) -> Unit)? = null) {
+fun EmailField(
+	onValueChange: ((String) -> Unit)? = null,
+	errorText: String,
+	isError: Boolean = false,
+) {
 	ExpandableTextField(
 		modifier = Modifier.fillMaxWidth(),
 		onValueChange = onValueChange,
@@ -20,6 +24,8 @@ fun EmailField(onValueChange: ((String) -> Unit)? = null) {
 				painter = painterResource(id = R.drawable.email),
 				contentDescription = null,
 			)
-		}
+		},
+		isError = isError,
+		errorText = errorText
 	)
 }

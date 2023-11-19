@@ -4,6 +4,8 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScopeInstance.weight
+import androidx.compose.foundation.layout.RowScopeInstance.weight
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -29,60 +31,69 @@ import com.sprintsync.ui.components.auth.PasswordField
 import com.sprintsync.ui.components.auth.PromptRow
 import com.sprintsync.ui.components.auth.SignInButtonGroup
 import com.sprintsync.ui.components.auth.Title
+import com.sprintsync.ui.theme.Red80
 import com.sprintsync.ui.theme.SprintSyncTheme
-import com.sprintsync.ui.theme.spacing
 
 @Composable
 fun SignInView(
-	modifier: Modifier = Modifier,
-	signInWithPassword: (String, String) -> Unit = { _, _ -> },
-	signInWithGoogle: () -> Unit = {},
-	resetPassword: () -> Unit = {},
-	signUp: () -> Unit = {}
+    modifier: Modifier = Modifier,
+    signInWithPassword: (String, String) -> Unit = { _, _ -> },
+    signInWithGoogle: () -> Unit = {},
+    resetPassword: () -> Unit = {},
+    signUp: () -> Unit = {}
 ) {
-	var email by remember { mutableStateOf("") }
-	var password by remember { mutableStateOf("") }
+    var email by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
 
-	Surface {
-		// TODO: remove padding when we have main scaffold
-		Column(
-			modifier = Modifier
-				.fillMaxSize()
-				.padding(start = 24.dp, end = 24.dp)
-		) {
-			Box(
-				modifier = Modifier
-					.fillMaxWidth()
-					.defaultMinSize()
-					.weight(0.7f),
-				contentAlignment = Alignment.TopCenter
-			) {
-				Image(
-					modifier = modifier.requiredSize(240.dp),
-					painter = painterResource(id = R.drawable.logo),
-					contentDescription = null
-				)
-			}
+    Surface {
+        // TODO: remove padding when we have main scaffold
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(start = 24.dp, end = 24.dp)
+        ) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .defaultMinSize()
+                    .weight(0.7f),
+                contentAlignment = Alignment.TopCenter
+            ) {
+                Image(
+                    modifier = modifier.requiredSize(240.dp),
+                    painter = painterResource(id = R.drawable.logo),
+                    contentDescription = null
+                )
+            }
 
-			Box(
-				modifier = Modifier
-					.fillMaxWidth()
-					.weight(0.3f)
-			) {
-				Title(
-					title = "Hi, Welcome Back! ",
-					subtitle = "Hello again, we missed you <3"
-				)
-			}
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(0.3f)
+            ) {
+                Title(
+                    title = "Hi, Welcome Back! ",
+                    subtitle = "Hello again, we missed you <3"
+                )
+            }
 
-			Column(
-				modifier = Modifier.fillMaxWidth(),
-				verticalArrangement = Arrangement.spacedBy(20.dp)
-			) {
-				EmailField(onValueChange = { email = it })
+            Column(
+                modifier = Modifier.wrapContentHeight(),
+                verticalArrangement = Arrangement.spacedBy(20.dp)
+            ) {
+                EmailField(
+                    onValueChange = { email = it },
+                    errorText = "Email is incorrect"
+//                    Có nhiều loại lỗi nên sẽ phải tùy trường hợp để đặt errorText là gì
+//                    Có thể gọi isError để hiển thị lỗi và tắt hiểu thị lỗi khi người dùng bắt
+//                    đầu nhập lại
+                )
 
-				PasswordField(onValueChange = { password = it })
-
+                PasswordField(
+                    onValueChange = { password = it },
+                    errorText = "Password is incorrect"
+                )
+            }
 				Box(
 					modifier = Modifier.fillMaxWidth(),
 					contentAlignment = Alignment.BottomEnd
@@ -97,27 +108,27 @@ fun SignInView(
 				}
 			}
 
-			Column(
-				modifier = Modifier
-					.fillMaxWidth()
-					.weight(0.8f),
-				verticalArrangement = Arrangement.Bottom,
-				horizontalAlignment = Alignment.CenterHorizontally
-			) {
-				SignInButtonGroup(
-					signInWithPassword = { signInWithPassword(email, password) },
-					signInWithGoogle = signInWithGoogle,
-					signUp = signUp
-				)
-			}
-		}
-	}
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(0.9f),
+                verticalArrangement = Arrangement.Bottom,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                SignInButtonGroup(
+                    signInWithPassword = { signInWithPassword(email, password) },
+                    signInWithGoogle = signInWithGoogle,
+                    signUp = signUp
+                )
+            }
+        }
+    }
 }
 
 @Preview(showBackground = true)
 @Composable
 private fun SignInPreview() {
-	SprintSyncTheme {
-		SignInView()
-	}
+    SprintSyncTheme {
+        SignInView()
+    }
 }
