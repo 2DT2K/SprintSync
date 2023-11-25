@@ -1,3 +1,5 @@
+@file:Suppress("UNUSED_EXPRESSION")
+
 package com.sprintsync.ui.views.project_view
 
 import androidx.compose.foundation.Image
@@ -18,6 +20,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
@@ -37,117 +40,158 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.sprintsync.R
 import com.sprintsync.ui.components.CustomButton
 import com.sprintsync.ui.theme.SprintSyncTheme
+import com.sprintsync.ui.theme.spacing
+import com.sprintsync.ui.view_models.BacklogViewModel
+import com.sprintsync.ui.views.BoardView
+import com.sprintsync.ui.views.ReportView
+import com.sprintsync.ui.views.TaskView
+import com.sprintsync.ui.views.project_view.backlog.Backlog
+import com.sprintsync.ui.views.project_view.file_view.FileView
+import com.sprintsync.ui.views.project_view.member.Member
 
 data class GridItem(val id: Int, val text: String)
 
 @Composable
 fun DetailProject() {
-	var text by remember {
-		mutableStateOf("")
-	}
-	val gridItems = listOf(
-		GridItem(R.drawable.dashboard, "Board"),
-		GridItem(R.drawable.backlog, "BackLog"),
-		GridItem(R.drawable.timelapse, "Timeline"),
-		GridItem(R.drawable.tasks, "Tasks"),
-		GridItem(R.drawable.files, "Files"),
-		GridItem(R.drawable.people, "People"),
-		GridItem(R.drawable.report, "Report"),
-	)
+    val navController = rememberNavController()
 
-	Column(
-		modifier = Modifier
-			.padding(start = 24.dp, end = 24.dp, top = 24.dp)
-			.fillMaxSize(),
-		verticalArrangement = Arrangement.spacedBy(32.dp)
-	) {
-		Row(
-			verticalAlignment = Alignment.CenterVertically,
-			horizontalArrangement = Arrangement.spacedBy(24.dp)
-		) {
-			Box(
-				modifier = Modifier
-					.size(40.dp)
-					.border(
-						width = 2.dp,
-						color = Color(0xFF444444),
-						shape = RoundedCornerShape(size = 7.dp)
-					), contentAlignment = Alignment.Center
-			)
-			{
-				Image(
-					modifier = Modifier
-						.size(24.dp)
-						.clip(CircleShape),
-					painter = painterResource(id = R.drawable.email),
-					contentDescription = "project avatar",
-					contentScale = ContentScale.Crop,
-				)
-			}
-			Text(
-				text = "SprintSync",
-				style = TextStyle(
-					fontSize = 32.sp,
-					fontWeight = FontWeight(500),
-					color = Color(0xFF1D192B),
-				)
-			)
-		}
-		TextField(
-			value = text,
-			onValueChange = { text = it },
-			modifier = Modifier.fillMaxWidth(),
-			placeholder = { Text(text = "Search in this project") },
-			leadingIcon = {
-				Icon(painterResource(id = R.drawable.search), contentDescription = "search bar")
-			},
-			colors = TextFieldDefaults.colors(
-				focusedContainerColor = Color(0xFFD6D2D8),
-				unfocusedContainerColor = Color(0xFFD6D2D8),
-				disabledTextColor = Color.Transparent,
-				focusedIndicatorColor = Color.Transparent,
-				unfocusedIndicatorColor = Color.Transparent,
-				disabledIndicatorColor = Color.Transparent
-			),
-			shape = RoundedCornerShape(size = 24.dp)
-		)
-		LazyVerticalGrid(
-			columns = GridCells.Fixed(3),
-			verticalArrangement = Arrangement.spacedBy(16.dp),
-			horizontalArrangement = Arrangement.spacedBy(16.dp)
-		) {
-			items(gridItems) {
-				CustomButton(
-					surfaceModifier = Modifier.height(80.dp),
-					colors = ButtonDefaults.buttonColors(
-						containerColor = Color(0xFFE8E1EC)
-					),
-					onClick = {}
-				) {
-					Column(
-						modifier = Modifier.fillMaxSize(),
-						verticalArrangement = Arrangement.Center
-					) {
-						Icon(
-							painter = painterResource(id = it.id),
-							contentDescription = it.text,
-							tint = Color.Black
-						)
-						Text(text = it.text, color = Color.Black)
-					}
-				}
-			}
-		}
-	}
+    val gridItems = listOf(
+        GridItem(R.drawable.dashboard, "Board"),
+        GridItem(R.drawable.backlog, "BackLog"),
+        GridItem(R.drawable.timelapse, "Timeline"),
+        GridItem(R.drawable.tasks, "Tasks"),
+        GridItem(R.drawable.files, "Files"),
+        GridItem(R.drawable.people, "People"),
+        GridItem(R.drawable.team, "Team"),
+        GridItem(R.drawable.report, "Report"),
+    )
+
+    val backlogViewModel = BacklogViewModel("")
+
+    NavHost(navController = navController, startDestination = "Project") {
+        composable("Project") { ProjectView(gridItems, navController) }
+        composable("Board") { BoardView() }
+        composable("Backlog") { Backlog(backlogViewModel) }
+        composable("Files") { FileView() }
+        composable("People") { Member() }
+        composable("Report") { ReportView() }
+        composable("Timeline") {
+            //TODO: CAN NOT DO THIS
+        }
+        composable("tasks") {
+            //TODO: KHOI IS COOKING
+        }
+        composable("team") {
+            //TODO: IS DOING
+        }
+    }
+}
+
+@Composable
+fun ProjectView(gridItems: List<GridItem>, navController: NavController? = null) {
+    var text by remember {
+        mutableStateOf("")
+    }
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize(),
+        verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.extraLarge)
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.medium),
+        ) {
+            Box(
+                modifier = Modifier
+                    .size(40.dp)
+                    .border(
+                        width = 1.5.dp,
+                        color = MaterialTheme.colorScheme.outlineVariant,
+                        shape = RoundedCornerShape(size = 8.dp)
+                    ), contentAlignment = Alignment.Center
+            )
+            {
+                Image(
+                    modifier = Modifier
+                        .size(24.dp)
+                        .clip(CircleShape),
+                    painter = painterResource(id = R.drawable.nice_avatar),
+                    contentDescription = "project avatar",
+                    contentScale = ContentScale.Crop,
+                )
+            }
+            Text(
+                text = "SprintSync",
+                style = MaterialTheme.typography.headlineMedium,
+                color = MaterialTheme.colorScheme.onSurface,
+            )
+        }
+        TextField(
+            value = text,
+            onValueChange = { text = it },
+            modifier = Modifier.fillMaxWidth(),
+            placeholder = { Text(text = "Search in this project") },
+            leadingIcon = {
+                Icon(painterResource(id = R.drawable.search), contentDescription = "search bar")
+            },
+            colors = TextFieldDefaults.colors(
+                focusedContainerColor = MaterialTheme.colorScheme.secondary,
+                unfocusedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
+                disabledTextColor = Color.Transparent,
+                focusedIndicatorColor = Color.Transparent,
+                unfocusedIndicatorColor = Color.Transparent,
+                disabledIndicatorColor = Color.Transparent
+            ),
+            shape = RoundedCornerShape(size = 20.dp)
+        )
+        LazyVerticalGrid(
+            columns = GridCells.Fixed(3),
+            verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.default),
+            horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.default)
+        ) {
+            items(gridItems) {
+                CustomButton(
+                    surfaceModifier = Modifier.height(80.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                    ),
+                    onClick = {
+                        navController?.navigate(it.text)
+                    }
+                ) {
+                    Column(
+                        modifier = Modifier.fillMaxSize(),
+                        verticalArrangement = Arrangement.Center
+                    ) {
+                        Icon(
+                            painter = painterResource(id = it.id),
+                            contentDescription = it.text,
+                            tint = MaterialTheme.colorScheme.onSecondaryContainer
+                        )
+                        Text(
+                            text = it.text,
+                            color = MaterialTheme.colorScheme.onSecondaryContainer,
+                            style = MaterialTheme.typography.bodyMedium,
+                        )
+                    }
+                }
+            }
+        }
+    }
 }
 
 @Preview(showBackground = true)
 @Composable
 fun DetailProjectPreview() {
-	SprintSyncTheme {
-		DetailProject()
-	}
+    SprintSyncTheme {
+        DetailProject()
+    }
 }

@@ -27,6 +27,7 @@ private val LightColorScheme = lightColorScheme(
 	onPrimary = Color.White,
 	primaryContainer = Purple60,
 	onPrimaryContainer = TaskType,
+	inversePrimary = Grey20,
 	secondary = Blue90,
 	onSecondary = Purple50,
 	secondaryContainer = Grey100,

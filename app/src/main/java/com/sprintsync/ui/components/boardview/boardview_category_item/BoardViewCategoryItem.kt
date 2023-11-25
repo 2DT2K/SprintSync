@@ -13,22 +13,24 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SuggestionChip
+import androidx.compose.material3.SuggestionChipDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.toUpperCase
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sprintsync.R
 import com.sprintsync.ui.components.TaskPoint
-import com.sprintsync.ui.components.TaskTag
+import com.sprintsync.ui.theme.spacing
 
 
 class IBoardviewCategoryItem(
@@ -45,13 +47,13 @@ fun BoardViewCategoryItem(boardviewItemDetails: IBoardviewCategoryItem) {
 	Column(
 		modifier = Modifier
 			.background(
-				color = Color(0xFFFFFFFF),
-				shape = RoundedCornerShape(10.dp)
+				color = MaterialTheme.colorScheme.surface,
+				shape = RoundedCornerShape(8.dp)
 			)
 			.fillMaxWidth()
 	) {
 		boardviewItemDetails.taskImage?.let {
-			androidx.compose.foundation.Image(
+			Image(
 				bitmap = it.asImageBitmap(),
 				contentDescription = "",
 				modifier = Modifier.fillMaxWidth()
@@ -60,30 +62,37 @@ fun BoardViewCategoryItem(boardviewItemDetails: IBoardviewCategoryItem) {
 		Column(
 			modifier = Modifier
 				.fillMaxWidth()
-//                .background(
-//                    color = Color(0xFFFFFFFF),
-//                    shape = RoundedCornerShape(size = 10.dp)
-//                )
-				.padding(start = 10.dp, top = 10.dp, end = 10.dp, bottom = 10.dp),
-
-			verticalArrangement = Arrangement.spacedBy(5.dp, Alignment.Top),
+				.padding(MaterialTheme.spacing.default),
+			verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.default, Alignment.Top),
 			horizontalAlignment = Alignment.Start
 		) {
 			Text(
-				text = boardviewItemDetails.taskName, style = TextStyle(
-					fontSize = 14.sp,
-					lineHeight = 16.sp,
-					fontWeight = FontWeight(400),
-					color = Color(0xFF21005D),
-					letterSpacing = 0.5.sp
-				)
+				text = boardviewItemDetails.taskName,
+				style = MaterialTheme.typography.labelMedium,
+				color = MaterialTheme.colorScheme.onSurface,
+				letterSpacing = 0.5.sp
 			)
 			Row(
 				horizontalArrangement = Arrangement.spacedBy(10.dp, Alignment.Start),
 				verticalAlignment = Alignment.Top,
-				modifier = Modifier.height(32.dp)
+				modifier = Modifier.height(28.dp)
 			) {
-				boardviewItemDetails.taskTag.forEach { TaskTag(tagName = it) }
+				boardviewItemDetails.taskTag.forEach {
+//					TaskTag(tagName = it)
+					SuggestionChip(
+						onClick = { /*TODO*/ },
+						label = { Text(
+							it,
+							style = MaterialTheme.typography.labelMedium,
+						) },
+						border = null,
+						shape = RoundedCornerShape(size = 4.dp),
+						colors = SuggestionChipDefaults.suggestionChipColors(
+							containerColor = MaterialTheme.colorScheme.secondaryContainer,
+							labelColor = MaterialTheme.colorScheme.onSecondary,
+						),
+					)
+				}
 			}
 			Row(
 				horizontalArrangement = Arrangement.SpaceBetween,
@@ -92,10 +101,10 @@ fun BoardViewCategoryItem(boardviewItemDetails: IBoardviewCategoryItem) {
 			) {
 				Row(
 					horizontalArrangement = Arrangement.spacedBy(
-						0.dp,
+						MaterialTheme.spacing.small,
 						Alignment.CenterHorizontally
-					), verticalAlignment = Alignment.CenterVertically,
-					modifier = Modifier.padding(3.dp, bottom = 3.dp)
+					),
+					verticalAlignment = Alignment.CenterVertically
 				) {
 					Image(
 						painter = painterResource(id = R.drawable.check_box),
@@ -105,29 +114,29 @@ fun BoardViewCategoryItem(boardviewItemDetails: IBoardviewCategoryItem) {
 							.height(24.dp)
 					)
 					Text(
-						text = boardviewItemDetails.taskNavigatation, style = TextStyle(
-							fontSize = 12.sp,
-							lineHeight = 20.sp,
-							fontWeight = FontWeight(500),
-							color = Color(0xD95E4E79),
-							textAlign = TextAlign.Center,
-							letterSpacing = 0.1.sp,
-						)
+						text = boardviewItemDetails.taskNavigatation.toUpperCase(Locale.current),
+						style = MaterialTheme.typography.labelMedium,
+						color = MaterialTheme.colorScheme.primary,
+						textAlign = TextAlign.Center,
+						letterSpacing = 0.5.sp,
 					)
 				}
 				Row(
 					horizontalArrangement = Arrangement.spacedBy(
-						5.dp,
+						MaterialTheme.spacing.small,
 						Alignment.CenterHorizontally
 					),
 					verticalAlignment = Alignment.CenterVertically
 				) {
 					TaskPoint(
-						boardviewItemDetails.taskPoint, Modifier
+						boardviewItemDetails.taskPoint,
+						Modifier
+							.height(24.dp)
 							.background(
-								color = Color(0xFFDCCFE3),
-								shape = RoundedCornerShape(size = 10.dp)
+								color = MaterialTheme.colorScheme.secondaryContainer,
+								shape = RoundedCornerShape(size = 8.dp)
 							)
+							.padding(MaterialTheme.spacing.small)
 					)
 					Box {
 //                        if (boardviewItemDetails?.taskAssignList != null) {
@@ -146,7 +155,7 @@ fun BoardViewCategoryItem(boardviewItemDetails: IBoardviewCategoryItem) {
 							painter = painterResource(id = R.drawable.profile),
 							contentDescription = ""
 						)
-
+//
 					}
 				}
 

@@ -167,7 +167,7 @@ fun MoreInformation(
 				verticalAlignment = Alignment.CenterVertically,
 				modifier = Modifier
 					.padding(top = 0.dp, bottom = 0.dp)
-					.height(31.dp)
+					.height(30.dp)
 			) {
 				taskTag.forEach {
 					SuggestionChip(
