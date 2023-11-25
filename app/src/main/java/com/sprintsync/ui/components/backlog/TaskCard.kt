@@ -30,8 +30,11 @@ import com.sprintsync.ui.components.StoryPoint
 import com.sprintsync.ui.components.TaskProcess
 import com.sprintsync.ui.theme.Green80
 import com.sprintsync.ui.theme.Grey60
+import com.sprintsync.ui.theme.InProgressStatus
+import com.sprintsync.ui.theme.ProductivityStatus
 import com.sprintsync.ui.theme.Purple20
 import com.sprintsync.ui.theme.Purple80
+import com.sprintsync.ui.theme.ToDoStatus
 import com.sprintsync.ui.theme.Yellow80
 import com.sprintsync.ui.view_models.BacklogViewModel
 
@@ -43,19 +46,19 @@ fun TaskCard(task: BacklogViewModel.Task) {
 	when (task.status) {
 		1 -> {
 			status = "To Do"
-			backgroundColor = Yellow80
+			backgroundColor = ToDoStatus
 			icon = R.drawable.in_progress
 		}
 
 		2 -> {
 			status = "In Progress"
-			backgroundColor = Green80
+			backgroundColor = InProgressStatus
 			icon = R.drawable.production
 		}
 
 		3 -> {
 			status = "Productivity"
-			backgroundColor = Purple80
+			backgroundColor = ProductivityStatus
 			icon = R.drawable.production
 		}
 	}

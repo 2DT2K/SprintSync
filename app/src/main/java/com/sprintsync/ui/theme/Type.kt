@@ -24,6 +24,7 @@ val fontPoppins = FontFamily(
     Font(googleFont = poppins, fontProvider = provider, weight = FontWeight.Bold),
     Font(googleFont = poppins, fontProvider = provider, weight = FontWeight.ExtraBold),
 )
+
 val fontOpenSans = FontFamily(
     Font(googleFont = openSans, fontProvider = provider, weight = FontWeight.Light),
     Font(googleFont = openSans, fontProvider = provider, weight = FontWeight.Normal),

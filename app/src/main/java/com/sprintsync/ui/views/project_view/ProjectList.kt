@@ -25,22 +25,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
-import com.sprintsync.R
-import com.sprintsync.data_classes.Project
 import com.sprintsync.ui.components.SearchBar
-import com.sprintsync.ui.components.project_list.ProjectCard
+import com.sprintsync.ui.components.projectlist.ProjectCard
 import com.sprintsync.ui.theme.SprintSyncTheme
 import com.sprintsync.ui.theme.spacing
 import com.sprintsync.ui.view_models.ProjectViewViewModel
-import com.sprintsync.ui.views.BoardView
-import com.sprintsync.ui.views.ReportView
-import com.sprintsync.ui.views.project_view.backlog.Backlog
-import com.sprintsync.ui.views.project_view.file_view.FileView
-import com.sprintsync.ui.views.project_view.member.Member
 
 @Composable
 fun ProjectList(projectViewViewModel: ProjectViewViewModel, navController: NavController? = null) {

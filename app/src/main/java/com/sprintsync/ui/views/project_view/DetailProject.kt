@@ -1,5 +1,3 @@
-@file:Suppress("UNUSED_EXPRESSION")
-
 package com.sprintsync.ui.views.project_view
 
 import androidx.compose.foundation.Image
@@ -40,23 +38,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
 import com.sprintsync.R
 import com.sprintsync.ui.components.CustomButton
-import com.sprintsync.ui.components.SearchBar
-import com.sprintsync.ui.components.project_list.ProjectAvatar
 import com.sprintsync.ui.theme.SprintSyncTheme
-import com.sprintsync.ui.theme.spacing
-import com.sprintsync.ui.view_models.BacklogViewModel
-import com.sprintsync.ui.views.BoardView
-import com.sprintsync.ui.views.ReportView
-import com.sprintsync.ui.views.TaskView
-import com.sprintsync.ui.views.project_view.backlog.Backlog
-import com.sprintsync.ui.views.project_view.file_view.FileView
-import com.sprintsync.ui.views.project_view.member.Member
 
 data class GridItem(val id: Int, val text: String)
 

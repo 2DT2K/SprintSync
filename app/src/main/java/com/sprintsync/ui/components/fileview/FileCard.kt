@@ -1,4 +1,4 @@
-package com.sprintsync.ui.components.file_view
+package com.sprintsync.ui.components.fileview
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box

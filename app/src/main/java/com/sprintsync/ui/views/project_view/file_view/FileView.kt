@@ -13,7 +13,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.sprintsync.ui.components.SearchBar
-import com.sprintsync.ui.components.file_view.FileCard
+import com.sprintsync.ui.components.fileview.FileCard
 import com.sprintsync.ui.theme.SprintSyncTheme
 
 data class Attachment(
