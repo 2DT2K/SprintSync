@@ -18,10 +18,19 @@ val poppins = GoogleFont("Poppins")
 val openSans = GoogleFont("Open Sans")
 
 val fontPoppins = FontFamily(
-	Font(googleFont = poppins, fontProvider = provider)
+	Font(googleFont = poppins, fontProvider = provider, weight = FontWeight.Light),
+	Font(googleFont = poppins, fontProvider = provider, weight = FontWeight.Normal),
+	Font(googleFont = poppins, fontProvider = provider, weight = FontWeight.SemiBold),
+	Font(googleFont = poppins, fontProvider = provider, weight = FontWeight.Bold),
+	Font(googleFont = poppins, fontProvider = provider, weight = FontWeight.ExtraBold),
 )
+
 val fontOpenSans = FontFamily(
-	Font(googleFont = openSans, fontProvider = provider)
+	Font(googleFont = openSans, fontProvider = provider, weight = FontWeight.Light),
+	Font(googleFont = openSans, fontProvider = provider, weight = FontWeight.Normal),
+	Font(googleFont = openSans, fontProvider = provider, weight = FontWeight.SemiBold),
+	Font(googleFont = openSans, fontProvider = provider, weight = FontWeight.Bold),
+	Font(googleFont = openSans, fontProvider = provider, weight = FontWeight.ExtraBold),
 )
 
 // Set of Material typography styles to start with
