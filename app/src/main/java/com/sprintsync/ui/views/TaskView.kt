@@ -6,13 +6,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import com.sprintsync.ui.components.BottomNavigation
 import com.sprintsync.ui.components.HorizontalDivider
 import com.sprintsync.ui.components.TwoIconTopAppBar
@@ -24,6 +24,7 @@ import com.sprintsync.ui.components.taskview.TaskAttachment
 import com.sprintsync.ui.components.taskview.TaskComments
 import com.sprintsync.ui.components.taskview.TaskDescription
 import com.sprintsync.ui.components.taskview.TaskviewTitle
+import com.sprintsync.ui.theme.spacing
 
 
 data class Task(
@@ -52,11 +53,11 @@ fun TaskView(task: Task) {
 		Column(
 			modifier = Modifier
 				.padding(innerPadding)
-				.padding(16.dp)
+				.padding(MaterialTheme.spacing.medium)
 				.verticalScroll(
 					rememberScrollState()
 				),
-			verticalArrangement = Arrangement.spacedBy(12.dp, Alignment.Top),
+			verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.smallMedium, Alignment.Top),
 			horizontalAlignment = Alignment.Start,
 		) {
 			TaskviewTitle(taskNavigation = task.taskNavigation, taskAssignList = mutableListOf())
@@ -80,7 +81,7 @@ fun TaskView(task: Task) {
 
 var subTask1 = SubTask(
 	status = "In progress",
-	taskName = "Study MonggoDB",
+	taskName = "Study MonggoA",
 	taskNavigation = "SCRUMMER-1",
 	assignees = mutableListOf(),
 )

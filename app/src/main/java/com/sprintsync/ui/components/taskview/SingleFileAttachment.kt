@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -26,98 +27,110 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sprintsync.R
+import com.sprintsync.ui.theme.spacing
 
 @Composable
 fun SingleFileAttachment(fileName: String, fileType: String, fileSize: Double) {
 
-	Row(
-		horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally),
-		verticalAlignment = Alignment.CenterVertically,
-		modifier = Modifier
-			.border(
-				width = 1.dp, color = Color(0xFFCAC4D0), shape = RoundedCornerShape(size = 8.dp)
-			)
-			.padding(start = 8.dp, top = 5.dp, end = 12.dp, bottom = 5.dp)
-	) {
-		IconButton(onClick = { /*TODO*/ }) {
-			when (fileType) {
-				"pdf" -> Image(
-					painter = painterResource(id = R.drawable.pdf_icon),
-					contentDescription = "",
-					contentScale = ContentScale.None,
-					modifier = Modifier
-						.padding(1.dp)
-						.width(32.dp)
-						.height(32.dp)
-				)
+    Row(
+        horizontalArrangement = Arrangement.spacedBy(
+            MaterialTheme.spacing.default,
+            Alignment.CenterHorizontally
+        ),
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier
+            .border(
+                width = 1.dp,
+                color = MaterialTheme.colorScheme.outline,
+                shape = RoundedCornerShape(size = MaterialTheme.spacing.default)
+            )
+            .padding(
+                start = MaterialTheme.spacing.default,
+                MaterialTheme.spacing.small,
+                end = MaterialTheme.spacing.smallMedium,
+                bottom = MaterialTheme.spacing.small
+            )
+    ) {
+        IconButton(onClick = { /*TODO*/ }) {
+            when (fileType) {
+                "pdf" -> Image(
+                    painter = painterResource(id = R.drawable.pdf_icon),
+                    contentDescription = "",
+                    contentScale = ContentScale.None,
+                    modifier = Modifier
+                        .width(MaterialTheme.spacing.extraLarge)
+                        .height(MaterialTheme.spacing.extraLarge)
+                )
 
-				"png" -> Image(
-					painter = painterResource(id = R.drawable.png_icon),
-					contentDescription = "",
-					contentScale = ContentScale.None,
-					modifier = Modifier
-						.padding(1.dp)
-						.width(32.dp)
-						.height(32.dp)
-				)
-			}
-		}
-		Column(
-			verticalArrangement = Arrangement.spacedBy(4.dp, Alignment.CenterVertically),
-			horizontalAlignment = Alignment.Start,
-		) {
-			Row(horizontalArrangement = Arrangement.Center) {
-				Text(
-					text = fileName, modifier = Modifier.widthIn(max = 45.dp), style = TextStyle(
-						fontSize = 10.sp,
-						lineHeight = 16.sp,
-						fontWeight = FontWeight(500),
-						color = Color(0xFF000000),
-					), maxLines = 1, overflow = TextOverflow.Ellipsis
-				)
-				Text(
-					text = ".$fileType",
-					style = TextStyle(
-						fontSize = 10.sp,
-						lineHeight = 16.sp,
-						fontWeight = FontWeight(500),
-						color = Color(0xFF000000),
-					),
-				)
-			}
+                "png" -> Image(
+                    painter = painterResource(id = R.drawable.png_icon),
+                    contentDescription = "",
+                    contentScale = ContentScale.None,
+                    modifier = Modifier
+                        .width(MaterialTheme.spacing.extraLarge)
+                        .height(MaterialTheme.spacing.extraLarge)
+                )
+            }
+        }
+        Column(
+            verticalArrangement = Arrangement.spacedBy(
+                MaterialTheme.spacing.small,
+                Alignment.CenterVertically
+            ),
+            horizontalAlignment = Alignment.Start,
+        ) {
+            Row(horizontalArrangement = Arrangement.Center) {
+                Text(
+                    text = fileName,
+                    modifier = Modifier.widthIn(max = 45.dp),
+                    style = MaterialTheme.typography.bodySmall,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+                Text(
+                    text = ".$fileType",
+                    style = MaterialTheme.typography.bodySmall,
+                )
+            }
 
-			Text(
-				text = fileSize.toString() + "MB", style = TextStyle(
-					fontSize = 8.sp,
-					lineHeight = 8.sp,
-					fontWeight = FontWeight(400),
-					color = Color(0xFF7B7B7B),
-				)
-			)
-		}
-		Row(
-			horizontalArrangement = Arrangement.spacedBy(10.dp, Alignment.CenterHorizontally),
-			verticalAlignment = Alignment.CenterVertically,
-			modifier = Modifier
-				.width(20.dp)
-				.height(20.dp)
-				.background(color = Color(0xFFE8DEF8), shape = RoundedCornerShape(size = 8.dp))
-				.padding(4.dp)
-		) {
-			IconButton(onClick = { /*TODO*/ }) {
-				Image(
-					painter = painterResource(id = R.drawable.cancel_icon),
-					contentDescription = ""
-				)
-			}
-		}
+            Text(
+                text = fileSize.toString() + "MB", style = TextStyle(
+                    fontSize = 8.sp,
+                    lineHeight = 8.sp,
+                    fontWeight = FontWeight(400),
+                    color = Color(0xFF7B7B7B),
+                )
+            )
+        }
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(
+                MaterialTheme.spacing.largeDefault,
+                Alignment.CenterHorizontally
+            ),
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier
+                .width(MaterialTheme.spacing.mediumLarge)
+                .height(MaterialTheme.spacing.mediumLarge)
+                .background(
+                    color = MaterialTheme.colorScheme.secondaryContainer,
+                    shape = RoundedCornerShape(size = MaterialTheme.spacing.default)
+                )
+                .padding(MaterialTheme.spacing.small)
+        ) {
+            IconButton(onClick = { /*TODO*/ }) {
+                Image(
+                    painter = painterResource(id = R.drawable.cancel_icon),
+                    contentDescription = ""
+                )
+            }
+        }
 
-	}
+    }
 }
 
 
 @Preview(showBackground = true)
 @Composable
 fun SingleFileAttachmentPreview() {
-	SingleFileAttachment(fileName = "Test", fileType = "pdf", fileSize = 6.8)
+    SingleFileAttachment(fileName = "Test", fileType = "pdf", fileSize = 6.8)
 }
