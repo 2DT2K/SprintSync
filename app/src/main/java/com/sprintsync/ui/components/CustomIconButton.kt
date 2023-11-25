@@ -60,7 +60,7 @@ fun CustomIconButton(iconID: Int, content: String, backgroundColor: Long, modifi
 		}
 		Text(
 			text = content,
-			style = MaterialTheme.typography.displaySmall,
+			style = MaterialTheme.typography.titleMedium,
 			color = MaterialTheme.colorScheme.onPrimary,
 			maxLines = 1
 		)

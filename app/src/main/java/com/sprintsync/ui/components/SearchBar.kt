@@ -1,8 +1,12 @@
 package com.sprintsync.ui.components
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material3.OutlinedTextFieldDefaults
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -10,35 +14,33 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
 import com.sprintsync.R
 
 @Composable
 fun SearchBar(placeHolder: String, onValueChange: ((String) -> Unit)? = null) {
-	var searchTerm by remember { mutableStateOf("") }
+    var searchTerm by remember { mutableStateOf("") }
 
-	ExpandableTextField(
-		modifier = Modifier.fillMaxWidth(),
-		value = searchTerm,
-		label = "",
-		placeholder = placeHolder,
-		onValueChange = {
-			searchTerm = it
-			if (onValueChange != null) {
-				onValueChange(searchTerm)
-			}
-		},
-		leadingIcon = {
-			Image(
-				painter = painterResource(id = R.drawable.search),
-				contentDescription = null,
-				contentScale = ContentScale.Fit
-			)
-		},
-		colors = OutlinedTextFieldDefaults.colors(
-			focusedBorderColor = Color.Transparent,
-			unfocusedBorderColor = Color.Transparent,
-		)
-	)
+    TextField(
+        value = searchTerm,
+        onValueChange = {
+            searchTerm = it
+            onValueChange?.invoke(it)
+        },
+        modifier = Modifier.fillMaxWidth(),
+        placeholder = { Text(text = placeHolder, style = MaterialTheme.typography.labelLarge) },
+        leadingIcon = {
+            Icon(painterResource(id = R.drawable.search), contentDescription = "search bar")
+        },
+        colors = TextFieldDefaults.colors(
+            focusedContainerColor = MaterialTheme.colorScheme.secondary,
+            unfocusedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
+            disabledTextColor = Color.Transparent,
+            focusedIndicatorColor = Color.Transparent,
+            unfocusedIndicatorColor = Color.Transparent,
+            disabledIndicatorColor = Color.Transparent
+        ),
+        shape = RoundedCornerShape(size = 24.dp)
+    )
 }

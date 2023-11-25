@@ -46,6 +46,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.sprintsync.R
 import com.sprintsync.ui.components.CustomButton
+import com.sprintsync.ui.components.SearchBar
+import com.sprintsync.ui.components.project_list.ProjectAvatar
 import com.sprintsync.ui.theme.SprintSyncTheme
 import com.sprintsync.ui.theme.spacing
 import com.sprintsync.ui.view_models.BacklogViewModel
@@ -59,43 +61,19 @@ import com.sprintsync.ui.views.project_view.member.Member
 data class GridItem(val id: Int, val text: String)
 
 @Composable
-fun DetailProject() {
-    val navController = rememberNavController()
+fun DetailProject(navController: NavController? = null) {
 
     val gridItems = listOf(
-        GridItem(R.drawable.dashboard, "Board"),
-        GridItem(R.drawable.backlog, "BackLog"),
-        GridItem(R.drawable.timelapse, "Timeline"),
-        GridItem(R.drawable.tasks, "Tasks"),
-        GridItem(R.drawable.files, "Files"),
-        GridItem(R.drawable.people, "People"),
-        GridItem(R.drawable.team, "Team"),
-        GridItem(R.drawable.report, "Report"),
+        GridItem(R.drawable.dashboard, "board"),
+        GridItem(R.drawable.backlog, "backLog"),
+        GridItem(R.drawable.timelapse, "timeline"),
+        GridItem(R.drawable.tasks, "tasks"),
+        GridItem(R.drawable.files, "files"),
+        GridItem(R.drawable.people, "people"),
+        GridItem(R.drawable.team, "team"),
+        GridItem(R.drawable.report, "report"),
     )
 
-    val backlogViewModel = BacklogViewModel("")
-
-    NavHost(navController = navController, startDestination = "Project") {
-        composable("Project") { ProjectView(gridItems, navController) }
-        composable("Board") { BoardView() }
-        composable("Backlog") { Backlog(backlogViewModel) }
-        composable("Files") { FileView() }
-        composable("People") { Member() }
-        composable("Report") { ReportView() }
-        composable("Timeline") {
-            //TODO: CAN NOT DO THIS
-        }
-        composable("tasks") {
-            //TODO: KHOI IS COOKING
-        }
-        composable("team") {
-            //TODO: IS DOING
-        }
-    }
-}
-
-@Composable
-fun ProjectView(gridItems: List<GridItem>, navController: NavController? = null) {
     var text by remember {
         mutableStateOf("")
     }
@@ -109,49 +87,14 @@ fun ProjectView(gridItems: List<GridItem>, navController: NavController? = null)
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.medium),
         ) {
-            Box(
-                modifier = Modifier
-                    .size(40.dp)
-                    .border(
-                        width = 1.5.dp,
-                        color = MaterialTheme.colorScheme.outlineVariant,
-                        shape = RoundedCornerShape(size = 8.dp)
-                    ), contentAlignment = Alignment.Center
-            )
-            {
-                Image(
-                    modifier = Modifier
-                        .size(24.dp)
-                        .clip(CircleShape),
-                    painter = painterResource(id = R.drawable.nice_avatar),
-                    contentDescription = "project avatar",
-                    contentScale = ContentScale.Crop,
-                )
-            }
+            ProjectAvatar()
             Text(
                 text = "SprintSync",
                 style = MaterialTheme.typography.headlineMedium,
                 color = MaterialTheme.colorScheme.onSurface,
             )
         }
-        TextField(
-            value = text,
-            onValueChange = { text = it },
-            modifier = Modifier.fillMaxWidth(),
-            placeholder = { Text(text = "Search in this project") },
-            leadingIcon = {
-                Icon(painterResource(id = R.drawable.search), contentDescription = "search bar")
-            },
-            colors = TextFieldDefaults.colors(
-                focusedContainerColor = MaterialTheme.colorScheme.secondary,
-                unfocusedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
-                disabledTextColor = Color.Transparent,
-                focusedIndicatorColor = Color.Transparent,
-                unfocusedIndicatorColor = Color.Transparent,
-                disabledIndicatorColor = Color.Transparent
-            ),
-            shape = RoundedCornerShape(size = 20.dp)
-        )
+        SearchBar(placeHolder = "Search in this project", onValueChange = { text = it })
         LazyVerticalGrid(
             columns = GridCells.Fixed(3),
             verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.default),
