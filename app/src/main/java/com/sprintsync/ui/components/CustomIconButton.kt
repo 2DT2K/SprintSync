@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -20,21 +21,25 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sprintsync.R
+import com.sprintsync.ui.theme.spacing
 
 @Composable
 fun CustomIconButton(iconID: Int, content: String, backgroundColor: Long, modifier: Modifier) {
 	Row(
 		modifier = modifier
 			.padding(0.dp)
-			.height(115.dp)
+			.height(80.dp)
 			.background(
 				color = Color(backgroundColor),
-				shape = RoundedCornerShape(size = 20.dp)
+				shape = RoundedCornerShape(size = 24.dp)
 			)
-			.padding(start = 16.dp, end = 16.dp),
+			.padding(
+				start = MaterialTheme.spacing.medium,
+				end = MaterialTheme.spacing.medium
+			),
 		verticalAlignment = Alignment.CenterVertically,
 		horizontalArrangement = Arrangement.spacedBy(
-			10.dp,
+			MaterialTheme.spacing.default,
 			Alignment.Start
 		),
 	) {
@@ -42,23 +47,21 @@ fun CustomIconButton(iconID: Int, content: String, backgroundColor: Long, modifi
 			modifier = Modifier
 				.background(
 					color = Color(0x4FF3FFFE),
-					shape = RoundedCornerShape(size = 10.dp)
+					shape = RoundedCornerShape(size = 12.dp)
 				)
 		) {
 			Image(
 				modifier = Modifier
 					.align(Alignment.Center)
-					.padding(10.dp),
+					.padding(MaterialTheme.spacing.default),
 				painter = painterResource(id = iconID),
 				contentDescription = ""
 			)
 		}
 		Text(
-			text = content, style = TextStyle(
-				fontSize = 20.sp,
-				fontWeight = FontWeight(500),
-				color = Color(0xFFFFFFFF)
-			),
+			text = content,
+			style = MaterialTheme.typography.displaySmall,
+			color = MaterialTheme.colorScheme.onPrimary,
 			maxLines = 1
 		)
 	}

@@ -1,6 +1,7 @@
 package com.sprintsync.ui.theme
 
 import androidx.compose.material3.Typography
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -54,7 +55,7 @@ val Typography = Typography(
 	),
 	titleLarge = TextStyle(
 		fontFamily = fontPoppins,
-		fontWeight = FontWeight.Bold,
+		fontWeight = FontWeight.SemiBold,
 		fontSize = 24.sp,
 		lineHeight = 28.8.sp,
 	),
@@ -87,5 +88,23 @@ val Typography = Typography(
 		fontWeight = FontWeight.SemiBold,
 		fontSize = 12.sp,
 		lineHeight = 16.8.sp,
+	),
+	displayLarge = TextStyle(
+		fontFamily = fontPoppins,
+		fontWeight = FontWeight.Normal,
+		fontSize = 32.sp,
+		lineHeight = 38.4.sp,
+	),
+	displayMedium = TextStyle(
+		fontFamily = fontPoppins,
+		fontWeight = FontWeight.Normal,
+		fontSize = 24.sp,
+		lineHeight = 28.8.sp,
+	),
+	displaySmall = TextStyle(
+		fontFamily = fontOpenSans,
+		fontWeight = FontWeight.SemiBold,
+		fontSize = 20.sp,
+		lineHeight = 20.sp,
 	),
 )

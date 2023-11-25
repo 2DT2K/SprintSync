@@ -44,7 +44,7 @@ fun Indicator(
 
     // Draw
     val stroke = with(LocalDensity.current) {
-        Stroke(width = strokeWidth.toPx(), cap = StrokeCap.Square)
+        Stroke(width = strokeWidth.toPx(), cap = StrokeCap.Round)
     }
 
     Canvas(
