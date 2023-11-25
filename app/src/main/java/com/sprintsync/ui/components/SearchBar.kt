@@ -2,6 +2,7 @@ package com.sprintsync.ui.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.offset
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -12,33 +13,35 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
 import com.sprintsync.R
 
 @Composable
 fun SearchBar(placeHolder: String, onValueChange: ((String) -> Unit)? = null) {
-	var searchTerm by remember { mutableStateOf("") }
+    var searchTerm by remember { mutableStateOf("") }
 
-	ExpandableTextField(
-		modifier = Modifier.fillMaxWidth(),
-		value = searchTerm,
-		label = "",
-		placeholder = placeHolder,
-		onValueChange = {
-			searchTerm = it
-			if (onValueChange != null) {
-				onValueChange(searchTerm)
-			}
-		},
-		leadingIcon = {
-			Image(
-				painter = painterResource(id = R.drawable.search),
-				contentDescription = null,
-				contentScale = ContentScale.Fit
-			)
-		},
-		colors = OutlinedTextFieldDefaults.colors(
-			focusedBorderColor = Color.Transparent,
-			unfocusedBorderColor = Color.Transparent,
-		)
-	)
+    ExpandableTextField(
+        modifier = Modifier.fillMaxWidth(),
+        value = searchTerm,
+        label = "",
+        placeholder = placeHolder,
+        onValueChange = {
+            searchTerm = it
+            if (onValueChange != null) {
+                onValueChange(searchTerm)
+            }
+        },
+        leadingIcon = {
+            Image(
+                modifier = Modifier.offset(x = (-15).dp),
+                painter = painterResource(id = R.drawable.search),
+                contentDescription = null,
+                contentScale = ContentScale.Fit
+            )
+        },
+        colors = OutlinedTextFieldDefaults.colors(
+            focusedBorderColor = Color.Transparent,
+            unfocusedBorderColor = Color.Transparent,
+        )
+    )
 }
