@@ -31,6 +31,8 @@ private val LightColorScheme = lightColorScheme(
 	onSecondary = Purple50,
 	secondaryContainer = Grey100,
 	onSecondaryContainer = Grey10,
+	tertiary = Orange90,
+	onTertiary = Orange20,
 	background = PurpleBlue100,
 	onBackground = Purple20,
 	surface = Color.White,
@@ -51,15 +53,16 @@ fun SprintSyncTheme(
 	dynamicColor: Boolean = true,
 	content: @Composable () -> Unit
 ) {
-	val colorScheme = when {
-		dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
-			val context = LocalContext.current
-			if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
-		}
-
-		darkTheme                                                      -> DarkColorScheme
-		else                                                           -> LightColorScheme
-	}
+//	val colorScheme = when {
+//		dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
+//			val context = LocalContext.current
+//			if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
+//		}
+//
+//		darkTheme                                                      -> DarkColorScheme
+//		else                                                           -> LightColorScheme
+//	}
+	val colorScheme = LightColorScheme
 	val view = LocalView.current
 	if (!view.isInEditMode) {
 		SideEffect {

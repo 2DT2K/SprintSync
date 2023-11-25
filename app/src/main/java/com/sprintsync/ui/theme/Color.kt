@@ -48,6 +48,9 @@ val Red10 = Color(0xFFBB0606)
 val Red20 = Color(0xFFC31313)
 val Red60 = Color(0xFFFFC7C7)
 
+val Orange20 = Color(0xFFF86537)
+val Orange90 = Color(0xFFF7E0E0)
+
 // Task Types
 val TaskType = Color(0xFF974CF5)
 val BugType = Color(0xFFF54C56)

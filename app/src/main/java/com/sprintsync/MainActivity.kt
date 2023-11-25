@@ -24,6 +24,9 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.sprintsync.auth.Authenticator
 import com.sprintsync.ui.components.BottomNavigation
+import com.sprintsync.ui.components.Calendar
+import com.sprintsync.ui.theme.SprintSyncTheme
+import com.sprintsync.ui.views.CalendarView
 import com.sprintsync.ui.views.HomePage
 import com.sprintsync.ui.views.auth.PasswordResetView
 import com.sprintsync.ui.views.auth.SignInView
@@ -34,88 +37,166 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-	override fun onCreate(savedInstanceState: Bundle?) {
-		super.onCreate(savedInstanceState)
-		val splashScreen = installSplashScreen()
-		setContent { MainContent() }
-	}
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val splashScreen = installSplashScreen()
+        setContent {
+            SprintSyncTheme {
+                MainContent()
+            }
+        }
+    }
 }
 
 @Composable
 fun MainContent() {
-	val navController = rememberNavController()
+    val navController = rememberNavController()
 
-	var showBottomBar by remember { mutableStateOf(false) }
-	navController.addOnDestinationChangedListener { _, dest, _ ->
-		showBottomBar = dest.route !in listOf("splash", "sign_in", "sign_up", "password_reset")
-	}
+    var showBottomBar by remember { mutableStateOf(false) }
+    navController.addOnDestinationChangedListener { _, dest, _ ->
+        showBottomBar = dest.route !in listOf("splash", "sign_in", "sign_up", "password_reset")
+    }
 
-	Scaffold(
-		bottomBar = { if (showBottomBar) BottomNavigation(navController) }
-	) { paddingValues ->
-		Surface(
-			modifier = Modifier
-				.fillMaxSize()
-				.padding(paddingValues)
-		) {
-			NavHost(
-				navController = navController,
-				startDestination = if (Authenticator.signedIn) "home" else "sign_in",
-				enterTransition = { EnterTransition.None },
-				exitTransition = { ExitTransition.None }
-			) {
-				composable("sign_in") { SignInView(navController) }
-				composable("sign_up") { SignUpView(navController) }
-				composable("password_reset") { PasswordResetView(navController) }
-				composable(
-					"home",
-					enterTransition = {
-						when (initialState.destination.route) {
-							"project" -> slideInHorizontally(
+    Scaffold(
+        bottomBar = { if (showBottomBar) BottomNavigation(navController) }
+    ) { paddingValues ->
+        Surface(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues)
+        ) {
+            NavHost(
+                navController = navController,
+                startDestination = if (Authenticator.signedIn) "home" else "sign_in",
+                enterTransition = { EnterTransition.None },
+                exitTransition = { ExitTransition.None }
+            ) {
+                composable("sign_in") { SignInView(navController) }
+                composable("sign_up") { SignUpView(navController) }
+                composable("password_reset") { PasswordResetView(navController) }
+                composable(
+                    "home",
+                    enterTransition = {
+                        when (initialState.destination.route) {
+                            "project" -> slideInHorizontally(
+                                initialOffsetX = { -it },
+                                animationSpec = tween(200)
+                            )
+							"calendar" -> slideInHorizontally(
+								initialOffsetX = { -it },
+								animationSpec = tween(200)
+							)
+							"profile" -> slideInHorizontally(
 								initialOffsetX = { -it },
 								animationSpec = tween(200)
 							)
 
-							else      -> null
-						}
-					},
-					exitTransition = {
-						when (targetState.destination.route) {
-							"project" -> slideOutHorizontally(
+                            else      -> null
+                        }
+                    },
+                    exitTransition = {
+                        when (targetState.destination.route) {
+                            "project" -> slideOutHorizontally(
+                                targetOffsetX = { -it },
+                                animationSpec = tween(200)
+                            )
+							"calendar" -> slideOutHorizontally(
+								targetOffsetX = { -it },
+								animationSpec = tween(200)
+							)
+							"profile" -> slideOutHorizontally(
 								targetOffsetX = { -it },
 								animationSpec = tween(200)
 							)
 
-							else      -> null
-						}
-					},
-				) { HomePage() }
-				composable(
-					"project",
-					enterTransition = {
-						when (initialState.destination.route) {
-							"home" -> slideInHorizontally(
-								initialOffsetX = { it },
-								animationSpec = tween(200)
-							)
+                            else      -> null
+                        }
+                    },
+                ) { HomePage() }
+                composable(
+                    "project",
+                    enterTransition = {
+                        when (initialState.destination.route) {
+                            "home" -> slideInHorizontally(
+                                initialOffsetX = { it },
+                                animationSpec = tween(200)
+                            )
+                            "calendar" -> slideInHorizontally(
+                                initialOffsetX = { -it },
+                                animationSpec = tween(200)
+                            )
+                            "profile" -> slideInHorizontally(
+                                initialOffsetX = { -it },
+                                animationSpec = tween(200)
+                            )
 
-							else   -> null
-						}
-					},
-					exitTransition = {
-						when (targetState.destination.route) {
-							"home" -> slideOutHorizontally(
-								targetOffsetX = { it },
-								animationSpec = tween(200)
-							)
+                            else   -> null
+                        }
+                    },
+                    exitTransition = {
+                        when (targetState.destination.route) {
+                            "home" -> slideOutHorizontally(
+                                targetOffsetX = { it },
+                                animationSpec = tween(200)
+                            )
+                            "calendar" -> slideOutHorizontally(
+                                targetOffsetX = { -it },
+                                animationSpec = tween(200)
+                            )
+                            "profile" -> slideOutHorizontally(
+                                targetOffsetX = { -it },
+                                animationSpec = tween(200)
+                            )
 
-							else   -> null
-						}
-					},
-				) { DetailProject() }
-				composable("calendar") { TODO("Have not implement calendar view") }
-				composable("profile") { ProfileScreen(navController) }
-			}
-		}
-	}
+                            else   -> null
+                        }
+                    },
+                ) { DetailProject() }
+                composable(
+                    "calendar",
+                    enterTransition = {
+                        when (initialState.destination.route) {
+                            "home"    -> slideInHorizontally(
+                                initialOffsetX = { it },
+                                animationSpec = tween(200)
+                            )
+
+                            "project" -> slideInHorizontally(
+                                initialOffsetX = { it },
+                                animationSpec = tween(200)
+                            )
+
+                            "profile" -> slideInHorizontally(
+                                initialOffsetX = { -it },
+                                animationSpec = tween(200)
+                            )
+
+                            else      -> null
+                        }
+                    },
+                    exitTransition = {
+                        when (targetState.destination.route) {
+                            "home"    -> slideOutHorizontally(
+                                targetOffsetX = { it },
+                                animationSpec = tween(200)
+                            )
+
+                            "project" -> slideOutHorizontally(
+                                targetOffsetX = { it },
+                                animationSpec = tween(200)
+                            )
+
+                            "profile" -> slideOutHorizontally(
+                                targetOffsetX = { -it },
+                                animationSpec = tween(200)
+                            )
+
+                            else      -> null
+                        }
+                    },
+                ) { CalendarView(navController) }
+                composable("profile") { ProfileScreen(navController) }
+            }
+        }
+    }
 }

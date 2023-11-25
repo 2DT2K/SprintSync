@@ -6,11 +6,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.sprintsync.ui.components.Calendar
 
 
 @Composable
-fun CalendarView() {
+fun CalendarView(navController: NavController? = null) {
 	Column(
 		verticalArrangement = Arrangement.spacedBy(10.dp, Alignment.Top),
 		horizontalAlignment = Alignment.Start,

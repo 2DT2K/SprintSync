@@ -13,22 +13,25 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.sprintsync.ui.components.homepage.HomePageIssue
 import com.sprintsync.ui.components.homepage.HomePageViews
+import com.sprintsync.ui.theme.SprintSyncTheme
 
 @Composable
 fun HomePage() {
-	Column(
-		Modifier
-			.padding(16.dp)
-			.verticalScroll(rememberScrollState()),
-		verticalArrangement = Arrangement.spacedBy(20.dp, Alignment.Top),
-		horizontalAlignment = Alignment.CenterHorizontally,
-	) {
-		HomePageViews()
-		HomePageIssue()
+	SprintSyncTheme {
+		Column(
+			Modifier
+				.padding(16.dp)
+				.verticalScroll(rememberScrollState()),
+			verticalArrangement = Arrangement.spacedBy(20.dp, Alignment.Top),
+			horizontalAlignment = Alignment.CenterHorizontally,
+		) {
+			HomePageViews()
+			HomePageIssue()
+		}
 	}
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 fun HomePagePreview() {
 	HomePage()
