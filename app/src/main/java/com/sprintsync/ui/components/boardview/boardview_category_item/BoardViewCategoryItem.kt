@@ -34,111 +34,116 @@ import com.sprintsync.ui.theme.spacing
 
 
 class IBoardviewCategoryItem(
-	var taskName: String,
-	var taskTag: List<String>,
-	var taskNavigatation: String,
-	var taskImage: Bitmap?,
-	var taskPoint: Number,
-	var taskAssignList: List<Bitmap>?,
+    var taskName: String,
+    var taskTag: List<String>,
+    var taskNavigatation: String,
+    var taskImage: Bitmap?,
+    var taskPoint: Number,
+    var taskAssignList: List<Bitmap>?,
 )
 
 @Composable
 fun BoardViewCategoryItem(boardviewItemDetails: IBoardviewCategoryItem) {
-	Column(
-		modifier = Modifier
-			.background(
-				color = MaterialTheme.colorScheme.surface,
-				shape = RoundedCornerShape(8.dp)
-			)
-			.fillMaxWidth()
-	) {
-		boardviewItemDetails.taskImage?.let {
-			Image(
-				bitmap = it.asImageBitmap(),
-				contentDescription = "",
-				modifier = Modifier.fillMaxWidth()
-			)
-		}
-		Column(
-			modifier = Modifier
-				.fillMaxWidth()
-				.padding(MaterialTheme.spacing.default),
-			verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.default, Alignment.Top),
-			horizontalAlignment = Alignment.Start
-		) {
-			Text(
-				text = boardviewItemDetails.taskName,
-				style = MaterialTheme.typography.labelMedium,
-				color = MaterialTheme.colorScheme.onSurface,
-				letterSpacing = 0.5.sp
-			)
-			Row(
-				horizontalArrangement = Arrangement.spacedBy(10.dp, Alignment.Start),
-				verticalAlignment = Alignment.Top,
-				modifier = Modifier.height(28.dp)
-			) {
-				boardviewItemDetails.taskTag.forEach {
+    Column(
+        modifier = Modifier
+            .background(
+                color = MaterialTheme.colorScheme.surface,
+                shape = RoundedCornerShape(8.dp)
+            )
+            .fillMaxWidth()
+    ) {
+        boardviewItemDetails.taskImage?.let {
+            Image(
+                bitmap = it.asImageBitmap(),
+                contentDescription = "",
+                modifier = Modifier.fillMaxWidth()
+            )
+        }
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(MaterialTheme.spacing.default),
+            verticalArrangement = Arrangement.spacedBy(
+                MaterialTheme.spacing.default,
+                Alignment.Top
+            ),
+            horizontalAlignment = Alignment.Start
+        ) {
+            Text(
+                text = boardviewItemDetails.taskName,
+                style = MaterialTheme.typography.labelMedium,
+                color = MaterialTheme.colorScheme.onSurface,
+                letterSpacing = 0.5.sp
+            )
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(10.dp, Alignment.Start),
+                verticalAlignment = Alignment.Top,
+                modifier = Modifier.height(28.dp)
+            ) {
+                boardviewItemDetails.taskTag.forEach {
 //					TaskTag(tagName = it)
-					SuggestionChip(
-						onClick = { /*TODO*/ },
-						label = { Text(
-							it,
-							style = MaterialTheme.typography.labelMedium,
-						) },
-						border = null,
-						shape = RoundedCornerShape(size = 4.dp),
-						colors = SuggestionChipDefaults.suggestionChipColors(
-							containerColor = MaterialTheme.colorScheme.secondaryContainer,
-							labelColor = MaterialTheme.colorScheme.onSecondary,
-						),
-					)
-				}
-			}
-			Row(
-				horizontalArrangement = Arrangement.SpaceBetween,
-				verticalAlignment = Alignment.CenterVertically,
-				modifier = Modifier.fillMaxWidth()
-			) {
-				Row(
-					horizontalArrangement = Arrangement.spacedBy(
-						MaterialTheme.spacing.small,
-						Alignment.CenterHorizontally
-					),
-					verticalAlignment = Alignment.CenterVertically
-				) {
-					Image(
-						painter = painterResource(id = R.drawable.check_box),
-						contentDescription = "",
-						modifier = Modifier
-							.width(24.dp)
-							.height(24.dp)
-					)
-					Text(
-						text = boardviewItemDetails.taskNavigatation.toUpperCase(Locale.current),
-						style = MaterialTheme.typography.labelMedium,
-						color = MaterialTheme.colorScheme.primary,
-						textAlign = TextAlign.Center,
-						letterSpacing = 0.5.sp,
-					)
-				}
-				Row(
-					horizontalArrangement = Arrangement.spacedBy(
-						MaterialTheme.spacing.small,
-						Alignment.CenterHorizontally
-					),
-					verticalAlignment = Alignment.CenterVertically
-				) {
-					TaskPoint(
-						boardviewItemDetails.taskPoint,
-						Modifier
-							.height(24.dp)
-							.background(
-								color = MaterialTheme.colorScheme.secondaryContainer,
-								shape = RoundedCornerShape(size = 8.dp)
-							)
-							.padding(MaterialTheme.spacing.small)
-					)
-					Box {
+                    SuggestionChip(
+                        onClick = { /*TODO*/ },
+                        label = {
+                            Text(
+                                it,
+                                style = MaterialTheme.typography.labelMedium,
+                            )
+                        },
+                        border = null,
+                        shape = RoundedCornerShape(size = 4.dp),
+                        colors = SuggestionChipDefaults.suggestionChipColors(
+                            containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                            labelColor = MaterialTheme.colorScheme.onSecondary,
+                        ),
+                    )
+                }
+            }
+            Row(
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(
+                        MaterialTheme.spacing.small,
+                        Alignment.CenterHorizontally
+                    ),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.check_box),
+                        contentDescription = "",
+                        modifier = Modifier
+                            .width(24.dp)
+                            .height(24.dp)
+                    )
+                    Text(
+                        text = boardviewItemDetails.taskNavigatation.toUpperCase(Locale.current),
+                        style = MaterialTheme.typography.labelMedium,
+                        color = MaterialTheme.colorScheme.primary,
+                        textAlign = TextAlign.Center,
+                        letterSpacing = 0.5.sp,
+                    )
+                }
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(
+                        MaterialTheme.spacing.small,
+                        Alignment.CenterHorizontally
+                    ),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    TaskPoint(
+                        boardviewItemDetails.taskPoint,
+                        Modifier
+                            .height(24.dp)
+                            .background(
+                                color = MaterialTheme.colorScheme.secondaryContainer,
+                                shape = RoundedCornerShape(size = 8.dp)
+                            )
+                            .padding(MaterialTheme.spacing.small)
+                    )
+                    Box {
 //                        if (boardviewItemDetails?.taskAssignList != null) {
 //                            for (image in boardviewItemDetails.taskAssignList!!) {
 //                                Image(
@@ -151,30 +156,28 @@ fun BoardViewCategoryItem(boardviewItemDetails: IBoardviewCategoryItem) {
 //                                )
 //                            }
 //                        }
-						Image(
-							painter = painterResource(id = R.drawable.profile),
-							contentDescription = ""
-						)
-//
-					}
-				}
-
-			}
-		}
-	}
+                        Image(
+                            painter = painterResource(id = R.drawable.profile),
+                            contentDescription = ""
+                        )
+                    }
+                }
+            }
+        }
+    }
 }
 
 var fakeData: IBoardviewCategoryItem = IBoardviewCategoryItem(
-	"Code Homepage",
-	listOf("Homepage", "FE"),
-	"Scrummer123",
-	null,
-	90,
-	null,
+    "Code Homepage",
+    listOf("Homepage", "FE"),
+    "Scrummer123",
+    null,
+    90,
+    null,
 )
 
 @Preview
 @Composable
 fun BoardViewCategoryItemPreview() {
-	BoardViewCategoryItem(fakeData)
+    BoardViewCategoryItem(fakeData)
 }

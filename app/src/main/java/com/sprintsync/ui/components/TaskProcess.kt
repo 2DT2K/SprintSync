@@ -23,7 +23,7 @@ fun TaskProcess(title: String, color: Long) {
 				color = Color(color),
 				shape = RoundedCornerShape(size = 4.dp)
 			)
-			.padding(start = 8.dp, top = 4.dp, bottom = 4.dp, end = 8.dp)
+			.padding(start = 8.dp, top = 3.dp, bottom = 3.dp, end = 8.dp)
 	) {
 		Text(
 			text = title,

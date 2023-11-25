@@ -18,10 +18,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.sprintsync.R
 import com.sprintsync.ui.components.CustomIconButton
+import com.sprintsync.ui.theme.spacing
+import com.sprintsync.ui.theme.Typography
 import com.sprintsync.ui.theme.spacing
 
 @Composable
@@ -29,7 +34,7 @@ fun HomePageViews() {
     Column(
         modifier = Modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(
-            MaterialTheme.spacing.default,
+            MaterialTheme.spacing.smallMedium,
             Alignment.CenterVertically
         ),
         horizontalAlignment = Alignment.CenterHorizontally
@@ -39,76 +44,86 @@ fun HomePageViews() {
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(
-                text = "Views",
-                style = MaterialTheme.typography.titleLarge,
-                color = MaterialTheme.colorScheme.onSurface
-            )
-            Row(
-                modifier = Modifier.background(
-                    color = MaterialTheme.colorScheme.secondary,
-                    shape = RoundedCornerShape(8.dp)
-                )
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                verticalArrangement = Arrangement.spacedBy(
+                    MaterialTheme.spacing.default,
+                    Alignment.CenterVertically
+                ),
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                IconButton(
-                    onClick = { /*TODO*/ },
-                    modifier = Modifier.size(36.dp)
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.three_dot),
-                        contentDescription = ""
+                    Text(
+                        text = "Views",
+                        style = MaterialTheme.typography.titleLarge,
+                        color = MaterialTheme.colorScheme.onSurface
                     )
+                    Row(
+                        modifier = Modifier.background(
+                            color = MaterialTheme.colorScheme.secondary,
+                            shape = RoundedCornerShape(8.dp)
+                        )
+                    ) {
+                        IconButton(
+                            onClick = { /*TODO*/ },
+                            modifier = Modifier.size(36.dp)
+                        ) {
+                            Image(
+                                painter = painterResource(id = R.drawable.three_dot),
+                                contentDescription = ""
+                            )
+                        }
+                    }
                 }
-            }
-
-        }
-        Column(
-            modifier = Modifier.fillMaxWidth(),
-            verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.default)
-        ) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.default)
-            ) {
-                CustomIconButton(
-                    iconID = R.drawable.folder,
-                    content = "Project",
-                    backgroundColor = 0xFFFF71D1,
-                    modifier = Modifier
-                        .weight(1f)
-
-                )
-                CustomIconButton(
-                    iconID = R.drawable.task,
-                    content = "Task",
-                    backgroundColor = 0xFFD47AFE,
-                    modifier = Modifier
-                        .weight(1f)
-
-                )
-            }
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.default)
-            ) {
-                CustomIconButton(
-                    iconID = R.drawable.timelapse,
-                    content = "Timeline",
-                    backgroundColor = 0xFFFF829E,
-                    modifier = Modifier
-                        .weight(1f)
-
-                )
-                CustomIconButton(
-                    iconID = R.drawable.calendar,
-                    content = "Calendar",
-                    backgroundColor = 0xFFFFA874,
-                    modifier = Modifier
-                        .weight(1f)
-
-                )
+                Column(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.default)
+                ) {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.default)
+                    ) {
+                        CustomIconButton(
+                            iconID = R.drawable.folder,
+                            content = "Project",
+                            backgroundColor = 0xFFFF71D1,
+                            modifier = Modifier
+                                .weight(1f)
+                        )
+                        CustomIconButton(
+                            iconID = R.drawable.task,
+                            content = "Task",
+                            backgroundColor = 0xFFD47AFE,
+                            modifier = Modifier
+                                .weight(1f)
+                        )
+                    }
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.default)
+                    ) {
+                        CustomIconButton(
+                            iconID = R.drawable.timelapse,
+                            content = "Timeline",
+                            backgroundColor = 0xFFFF829E,
+                            modifier = Modifier
+                                .weight(1f)
+                        )
+                        CustomIconButton(
+                            iconID = R.drawable.calendar,
+                            content = "Calendar",
+                            backgroundColor = 0xFFFFA874,
+                            modifier = Modifier
+                                .weight(1f)
+                        )
+                    }
+                }
             }
         }
     }
@@ -117,5 +132,5 @@ fun HomePageViews() {
 @Preview(showBackground = true)
 @Composable
 fun MenuViewsPreview() {
-    HomePageViews()
+	HomePageViews()
 }

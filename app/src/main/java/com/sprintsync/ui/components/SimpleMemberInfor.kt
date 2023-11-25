@@ -4,23 +4,21 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.width
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import androidx.compose.ui.tooling.preview.Preview
 import com.sprintsync.R
+import com.sprintsync.ui.theme.spacing
 
 @Composable
 fun SimpleMemberInfor(name: String) {
 	Row(
 		horizontalArrangement = Arrangement.spacedBy(
-			4.dp,
+			MaterialTheme.spacing.small,
 			Alignment.CenterHorizontally
 		),
 		verticalAlignment = Alignment.CenterVertically,
@@ -28,17 +26,17 @@ fun SimpleMemberInfor(name: String) {
 		Image(
 			painter = painterResource(id = R.drawable.avataricon),
 			contentDescription = "",
-			modifier = Modifier.width(24.dp)
+			modifier = Modifier.width(MaterialTheme.spacing.large)
 		)
 		Text(
 			text = name,
-			style = TextStyle(
-				fontSize = 15.sp,
-				lineHeight = 20.sp,
-				fontWeight = FontWeight(400),
-				color = Color(0xD921005D),
-				letterSpacing = 0.1.sp,
-			)
+			style = MaterialTheme.typography.bodyLarge,
+			color = MaterialTheme.colorScheme.onSecondaryContainer
 		)
 	}
+}
+@Preview(showBackground = true)
+@Composable
+fun SimpleMemberInforPreview(){
+	SimpleMemberInfor(name = "Vo Tin Du")
 }

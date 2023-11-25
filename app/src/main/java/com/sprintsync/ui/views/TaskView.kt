@@ -5,6 +5,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -19,6 +21,7 @@ import com.sprintsync.ui.components.taskview.TaskAttachment
 import com.sprintsync.ui.components.taskview.TaskComments
 import com.sprintsync.ui.components.taskview.TaskDescription
 import com.sprintsync.ui.components.taskview.TaskviewTitle
+import com.sprintsync.ui.theme.spacing
 
 
 data class Task(
