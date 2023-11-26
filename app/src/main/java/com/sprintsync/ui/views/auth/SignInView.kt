@@ -35,6 +35,7 @@ import com.sprintsync.ui.components.auth.PasswordField
 import com.sprintsync.ui.components.auth.PromptRow
 import com.sprintsync.ui.components.auth.SignInButtonGroup
 import com.sprintsync.ui.components.auth.Title
+import com.sprintsync.ui.navigation.Screens
 import com.sprintsync.ui.theme.SprintSyncTheme
 
 @Composable
@@ -55,7 +56,7 @@ fun SignInView(navController: NavController? = null) {
 	}
 
 	LaunchedEffect(authState) {
-		if (authState.signedIn) navController?.navigate("home")
+		if (authState.signedIn) navController?.navigate(Screens.Homepage.route)
 //		TODO: Add error handling
 	}
 
@@ -115,7 +116,7 @@ fun SignInView(navController: NavController? = null) {
 						normalText = "Forgot Password?",
 						highlightedText = "Reset",
 						highlightColor = MaterialTheme.colorScheme.error,
-						onClick = { navController?.navigate("password_reset") }
+						onClick = { navController?.navigate(Screens.PasswordReset.route) }
 					)
 				}
 			}
@@ -130,7 +131,7 @@ fun SignInView(navController: NavController? = null) {
 				SignInButtonGroup(
 					signInWithPassword = { authVM.signIn(email, password) },
 					signInWithGoogle = { authVM.signIn(launcher) },
-					signUp = { navController?.navigate("sign_up") }
+					signUp = { navController?.navigate(Screens.Signup.route) }
 				)
 			}
 		}

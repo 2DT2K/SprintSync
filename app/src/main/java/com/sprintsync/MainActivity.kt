@@ -21,10 +21,12 @@ import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
 import com.sprintsync.auth.Authenticator
 import com.sprintsync.ui.components.BottomNavigation
 import com.sprintsync.ui.components.Calendar
+import com.sprintsync.ui.navigation.Screens
 import com.sprintsync.ui.theme.SprintSyncTheme
 import com.sprintsync.ui.view_models.BacklogViewModel
 import com.sprintsync.ui.view_models.ProjectViewViewModel
@@ -35,12 +37,14 @@ import com.sprintsync.ui.views.ReportView
 import com.sprintsync.ui.views.auth.PasswordResetView
 import com.sprintsync.ui.views.auth.SignInView
 import com.sprintsync.ui.views.auth.SignUpView
+import com.sprintsync.ui.views.auth.VerifyAccount
 import com.sprintsync.ui.views.profile.ProfileScreen
 import com.sprintsync.ui.views.project_view.DetailProject
 import com.sprintsync.ui.views.project_view.ProjectList
 import com.sprintsync.ui.views.project_view.backlog.Backlog
 import com.sprintsync.ui.views.project_view.file_view.FileView
 import com.sprintsync.ui.views.project_view.member.Member
+import com.sprintsync.ui.views.project_view.tasklist.TaskListView
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -62,7 +66,8 @@ fun MainContent() {
 
     var showBottomBar by remember { mutableStateOf(false) }
     navController.addOnDestinationChangedListener { _, dest, _ ->
-        showBottomBar = dest.route !in listOf("splash", "sign_in", "sign_up", "password_reset")
+        showBottomBar =
+            dest.route !in listOf("sign_in", "sign_up", "password_reset", "verify_account")
     }
 
     Scaffold(
@@ -75,200 +80,214 @@ fun MainContent() {
         ) {
             NavHost(
                 navController = navController,
-                startDestination = if (Authenticator.signedIn) "home" else "sign_in",
+                startDestination = if (Authenticator.signedIn) Screens.HomeRoute.route else Screens.Signin.route,
                 enterTransition = { EnterTransition.None },
                 exitTransition = { ExitTransition.None }
             ) {
-                composable("sign_in") { SignInView(navController) }
-                composable("sign_up") { SignUpView(navController) }
-                composable("password_reset") { PasswordResetView(navController) }
-                composable(
-                    "home",
-                    enterTransition = {
-                        when (initialState.destination.route) {
-                            "project"  -> slideInHorizontally(
-                                initialOffsetX = { -it },
-                                animationSpec = tween(100)
-                            )
+                composable(Screens.Signin.route) { SignInView(navController) }
+                composable(Screens.Signup.route) { SignUpView(navController) }
+                composable(Screens.PasswordReset.route) { PasswordResetView(navController) }
+                composable(Screens.VerifyAccount.route) { VerifyAccount(navController) }
+                navigation(
+                    startDestination = Screens.Homepage.route,
+                    route = Screens.HomeRoute.route
+                ) {
+                    composable(
+                        Screens.Homepage.route,
+                        enterTransition = {
+                            when (initialState.destination.route) {
+                                Screens.Project.route  -> slideInHorizontally(
+                                    initialOffsetX = { -it },
+                                    animationSpec = tween(100)
+                                )
 
-                            "calendar" -> slideInHorizontally(
-                                initialOffsetX = { -it * 2 },
-                                animationSpec = tween(100)
-                            )
+                                Screens.Calendar.route -> slideInHorizontally(
+                                    initialOffsetX = { -it * 2 },
+                                    animationSpec = tween(100)
+                                )
 
-                            "profile"  -> slideInHorizontally(
-                                initialOffsetX = { -it * 3 },
-                                animationSpec = tween(100)
-                            )
+                                Screens.Profile.route  -> slideInHorizontally(
+                                    initialOffsetX = { -it * 3 },
+                                    animationSpec = tween(100)
+                                )
 
-                            else       -> null
+                                else                   -> null
+                            }
+                        },
+                        exitTransition = {
+                            when (targetState.destination.route) {
+                                Screens.Project.route  -> slideOutHorizontally(
+                                    targetOffsetX = { -it },
+                                    animationSpec = tween(100)
+                                )
+
+                                Screens.Calendar.route -> slideOutHorizontally(
+                                    targetOffsetX = { -it * 2 },
+                                    animationSpec = tween(100)
+                                )
+
+                                Screens.Profile.route  -> slideOutHorizontally(
+                                    targetOffsetX = { -it * 3 },
+                                    animationSpec = tween(100)
+                                )
+
+                                else                   -> null
+                            }
                         }
-                    },
-                    exitTransition = {
-                        when (targetState.destination.route) {
-                            "project"  -> slideOutHorizontally(
-                                targetOffsetX = { -it },
-                                animationSpec = tween(100)
-                            )
+                    ) { HomePage() }
+                    navigation(
+                        startDestination = Screens.Project.route,
+                        route = Screens.ProjectRoute.route
+                    ) {
+                        composable(
+                            Screens.Project.route,
+                            enterTransition = {
+                                when (initialState.destination.route) {
+                                    Screens.Homepage.route -> slideInHorizontally(
+                                        initialOffsetX = { it },
+                                        animationSpec = tween(100)
+                                    )
 
-                            "calendar" -> slideOutHorizontally(
-                                targetOffsetX = { -it * 2 },
-                                animationSpec = tween(100)
-                            )
+                                    Screens.Calendar.route -> slideInHorizontally(
+                                        initialOffsetX = { -it },
+                                        animationSpec = tween(100)
+                                    )
 
-                            "profile"  -> slideOutHorizontally(
-                                targetOffsetX = { -it * 3 },
-                                animationSpec = tween(100)
-                            )
+                                    Screens.Profile.route  -> slideInHorizontally(
+                                        initialOffsetX = { -it * 2 },
+                                        animationSpec = tween(100)
+                                    )
 
-                            else       -> null
+                                    else                   -> null
+                                }
+                            },
+                            exitTransition = {
+                                when (targetState.destination.route) {
+                                    Screens.Homepage.route -> slideOutHorizontally(
+                                        targetOffsetX = { it },
+                                        animationSpec = tween(100)
+                                    )
+
+                                    Screens.Calendar.route -> slideOutHorizontally(
+                                        targetOffsetX = { -it },
+                                        animationSpec = tween(100)
+                                    )
+
+                                    Screens.Profile.route  -> slideOutHorizontally(
+                                        targetOffsetX = { -it * 2 },
+                                        animationSpec = tween(100)
+                                    )
+
+                                    else                   -> null
+                                }
+                            }
+                        ) { ProjectList(ProjectViewViewModel(), navController) }
+                        navigation(
+                            startDestination = Screens.DetailProject.route,
+                            route = Screens.DetailsProjectRoute.route
+                        ) {
+                            composable(Screens.DetailProject.route) { DetailProject(navController) }
+                            composable(Screens.Board.route) { BoardView() }
+                            composable(Screens.Backlog.route) { Backlog(BacklogViewModel("")) }
+                            composable(Screens.Files.route) { FileView() }
+                            composable(Screens.Tasks.route) { TaskListView() }
+                            composable(Screens.People.route) { Member() }
+                            composable(Screens.Reports.route) { ReportView() }
+                            composable(Screens.Timeline.route) {
+                                //TODO: CAN NOT DO THIS
+                            }
+                            composable(Screens.Team.route) {
+                                //TODO: IS DOING
+                            }
                         }
                     }
-                ) { HomePage() }
-                composable(
-                    "project",
-                    enterTransition = {
-                        when (initialState.destination.route) {
-                            "home"     -> slideInHorizontally(
-                                initialOffsetX = { it },
-                                animationSpec = tween(100)
-                            )
+                    composable(
+                        Screens.Calendar.route,
+                        enterTransition = {
+                            when (initialState.destination.route) {
+                                Screens.Homepage.route -> slideInHorizontally(
+                                    initialOffsetX = { it * 2 },
+                                    animationSpec = tween(100)
+                                )
 
-                            "calendar" -> slideInHorizontally(
-                                initialOffsetX = { -it },
-                                animationSpec = tween(100)
-                            )
+                                Screens.Project.route  -> slideInHorizontally(
+                                    initialOffsetX = { it },
+                                    animationSpec = tween(100)
+                                )
 
-                            "profile"  -> slideInHorizontally(
-                                initialOffsetX = { -it * 2 },
-                                animationSpec = tween(100)
-                            )
+                                Screens.Profile.route  -> slideInHorizontally(
+                                    initialOffsetX = { -it },
+                                    animationSpec = tween(100)
+                                )
 
-                            else       -> null
+                                else                   -> null
+                            }
+                        },
+                        exitTransition = {
+                            when (targetState.destination.route) {
+                                Screens.Homepage.route -> slideOutHorizontally(
+                                    targetOffsetX = { it * 2 },
+                                    animationSpec = tween(100)
+                                )
+
+                                Screens.Project.route  -> slideOutHorizontally(
+                                    targetOffsetX = { it },
+                                    animationSpec = tween(100)
+                                )
+
+                                Screens.Profile.route  -> slideOutHorizontally(
+                                    targetOffsetX = { -it },
+                                    animationSpec = tween(100)
+                                )
+
+                                else                   -> null
+                            }
                         }
-                    },
-                    exitTransition = {
-                        when (targetState.destination.route) {
-                            "home"     -> slideOutHorizontally(
-                                targetOffsetX = { it },
-                                animationSpec = tween(100)
-                            )
+                    ) { CalendarView(navController) }
+                    composable(
+                        Screens.Profile.route,
+                        enterTransition = {
+                            when (initialState.destination.route) {
+                                Screens.Homepage.route -> slideInHorizontally(
+                                    initialOffsetX = { it * 3 },
+                                    animationSpec = tween(100)
+                                )
 
-                            "calendar" -> slideOutHorizontally(
-                                targetOffsetX = { -it },
-                                animationSpec = tween(100)
-                            )
+                                Screens.Project.route  -> slideInHorizontally(
+                                    initialOffsetX = { it * 2 },
+                                    animationSpec = tween(100)
+                                )
 
-                            "profile"  -> slideOutHorizontally(
-                                targetOffsetX = { -it * 2 },
-                                animationSpec = tween(100)
-                            )
+                                Screens.Calendar.route -> slideInHorizontally(
+                                    initialOffsetX = { it },
+                                    animationSpec = tween(100)
+                                )
 
-                            else       -> null
+                                else       -> null
+                            }
+                        },
+                        exitTransition = {
+                            when (targetState.destination.route) {
+                                Screens.Homepage.route -> slideOutHorizontally(
+                                    targetOffsetX = { it * 3 },
+                                    animationSpec = tween(100)
+                                )
+
+                                Screens.Project.route  -> slideOutHorizontally(
+                                    targetOffsetX = { it * 3 },
+                                    animationSpec = tween(100)
+                                )
+
+                                Screens.Calendar.route -> slideOutHorizontally(
+                                    targetOffsetX = { it },
+                                    animationSpec = tween(100)
+                                )
+
+                                else       -> null
+                            }
                         }
-                    }
-                ) { ProjectList(ProjectViewViewModel(), navController) }
-                composable("detail_project") { DetailProject(navController) }
-                composable("board") { BoardView() }
-                composable("backlog") { Backlog(BacklogViewModel("")) }
-                composable("files") { FileView() }
-                composable("people") { Member() }
-                composable("report") { ReportView() }
-                composable("timeline") {
-                    //TODO: CAN NOT DO THIS
+                    ) { ProfileScreen(navController) }
                 }
-                composable("tasks") {
-                    //TODO: KHOI IS COOKING
-                }
-                composable("team") {
-                    //TODO: IS DOING
-                }
-                composable(
-                    "calendar",
-                    enterTransition = {
-                        when (initialState.destination.route) {
-                            "home"    -> slideInHorizontally(
-                                initialOffsetX = { it * 2 },
-                                animationSpec = tween(100)
-                            )
-
-                            "project" -> slideInHorizontally(
-                                initialOffsetX = { it },
-                                animationSpec = tween(100)
-                            )
-
-                            "profile" -> slideInHorizontally(
-                                initialOffsetX = { -it },
-                                animationSpec = tween(100)
-                            )
-
-                            else      -> null
-                        }
-                    },
-                    exitTransition = {
-                        when (targetState.destination.route) {
-                            "home"    -> slideOutHorizontally(
-                                targetOffsetX = { it * 2 },
-                                animationSpec = tween(100)
-                            )
-
-                            "project" -> slideOutHorizontally(
-                                targetOffsetX = { it },
-                                animationSpec = tween(100)
-                            )
-
-                            "profile" -> slideOutHorizontally(
-                                targetOffsetX = { -it },
-                                animationSpec = tween(100)
-                            )
-
-                            else      -> null
-                        }
-                    }
-                ) { CalendarView(navController) }
-                composable(
-                    "profile",
-                    enterTransition = {
-                        when (initialState.destination.route) {
-                            "home"     -> slideInHorizontally(
-                                initialOffsetX = { it * 3 },
-                                animationSpec = tween(100)
-                            )
-
-                            "project"  -> slideInHorizontally(
-                                initialOffsetX = { it * 2 },
-                                animationSpec = tween(100)
-                            )
-
-                            "calendar" -> slideInHorizontally(
-                                initialOffsetX = { it },
-                                animationSpec = tween(100)
-                            )
-
-                            else       -> null
-                        }
-                    },
-                    exitTransition = {
-                        when (targetState.destination.route) {
-                            "home"     -> slideOutHorizontally(
-                                targetOffsetX = { it * 3 },
-                                animationSpec = tween(100)
-                            )
-
-                            "project"  -> slideOutHorizontally(
-                                targetOffsetX = { it * 3 },
-                                animationSpec = tween(100)
-                            )
-
-                            "calendar" -> slideOutHorizontally(
-                                targetOffsetX = { it },
-                                animationSpec = tween(100)
-                            )
-
-                            else       -> null
-                        }
-                    }
-                ) { ProfileScreen(navController) }
             }
         }
     }

@@ -31,6 +31,7 @@ import com.sprintsync.ui.components.auth.EmailField
 import com.sprintsync.ui.components.auth.PasswordField
 import com.sprintsync.ui.components.auth.SignUpButtonGroup
 import com.sprintsync.ui.components.auth.Title
+import com.sprintsync.ui.navigation.Screens
 import com.sprintsync.ui.theme.SprintSyncTheme
 
 @Composable
@@ -47,7 +48,7 @@ fun SignUpView(navController: NavController? = null) {
 	var confirmPasswordError by remember { mutableStateOf("") }
 
 	LaunchedEffect(authState) {
-		if (authState.signedIn) navController?.navigate("home")
+		if (authState.signedIn) navController?.navigate(Screens.HomeRoute.route)
 //		TODO: Add error handling
 	}
 

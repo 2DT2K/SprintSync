@@ -27,6 +27,7 @@ import com.sprintsync.R
 import com.sprintsync.auth.AuthViewModel
 import com.sprintsync.auth.Authenticator
 import com.sprintsync.ui.components.profile.ProfileSettingGroup
+import com.sprintsync.ui.navigation.Screens
 import com.sprintsync.ui.theme.Grey40
 import com.sprintsync.ui.theme.Purple20
 import com.sprintsync.ui.theme.SprintSyncTheme
@@ -39,7 +40,7 @@ fun ProfileScreen(navController: NavController? = null) {
 	val authState by authVM.state.collectAsStateWithLifecycle()
 
 	LaunchedEffect(authState) {
-		if (!authState.signedIn) navController?.navigate("sign_in")
+		if (!authState.signedIn) navController?.navigate(Screens.Signin.route)
 	}
 
 	val account = listOf(

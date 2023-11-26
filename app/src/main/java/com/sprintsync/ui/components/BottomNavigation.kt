@@ -14,6 +14,7 @@ import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.sprintsync.R
+import com.sprintsync.ui.navigation.Screens
 
 
 @Composable
@@ -68,10 +69,10 @@ fun BottomNavigation(navController: NavController? = null) {
 }
 
 enum class Screen(val route: String, @StringRes val resourceId: Int) {
-	Home("home", R.string.home),
-	Project("project", R.string.project),
-	Calendar("calendar", R.string.calendar),
-	Profile("profile", R.string.profile)
+	Home(Screens.Homepage.route, R.string.home),
+	Project(Screens.Project.route, R.string.project),
+	Calendar(Screens.Calendar.route, R.string.calendar),
+	Profile(Screens.Profile.route, R.string.profile)
 }
 
 @Preview(showBackground = true)

@@ -38,9 +38,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.sprintsync.R
 import com.sprintsync.ui.components.CustomButton
+import com.sprintsync.ui.components.SearchBar
+import com.sprintsync.ui.components.projectlist.ProjectAvatar
 import com.sprintsync.ui.theme.SprintSyncTheme
+import com.sprintsync.ui.theme.spacing
 
 data class GridItem(val id: Int, val text: String)
 

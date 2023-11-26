@@ -1,4 +1,4 @@
-package com.sprintsync.ui.components.project_list
+package com.sprintsync.ui.components.projectlist
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
