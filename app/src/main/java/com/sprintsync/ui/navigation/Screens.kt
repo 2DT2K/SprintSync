@@ -22,7 +22,7 @@ sealed class Screens (val route: String) {
     data object Tasks : Screens("tasks")
     data object Files : Screens("files")
     data object People : Screens("people")
-    data object Reports : Screens("reports")
+    data object Reports : Screens("report")
     data object Team : Screens("team")
 
     data object Calendar : Screens("calendar")
