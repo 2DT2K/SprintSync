@@ -76,5 +76,5 @@ fun BoardView() {
 @Preview(showBackground = true)
 @Composable
 fun BoardViewPreview() {
-    BoardView()
+	BoardView()
 }

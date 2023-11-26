@@ -173,7 +173,7 @@ fun MoreInformation(
                     .height(MaterialTheme.spacing.extraLarge)
             ) {
                 if (isDialogVisible) {
-                    TagPopUp({ isDialogVisible = false }, tagList = listOf("FE,HomePage"))
+                    TagPopUp({ isDialogVisible = false }, tagList = listOf("FE","HomePage"))
                 }
                 taskTag.forEach {
                     SuggestionChip(

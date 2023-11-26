@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.sp
 import com.sprintsync.R
 import com.sprintsync.ui.components.boardview.boardview_category_item.BoardViewCategoryItem
 import com.sprintsync.ui.components.boardview.boardview_category_item.IBoardviewCategoryItem
+import com.sprintsync.ui.theme.Typography
 import com.sprintsync.ui.theme.spacing
 
 
