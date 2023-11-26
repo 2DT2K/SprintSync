@@ -1,5 +1,7 @@
 package com.sprintsync.ui.components.taskview
 
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -20,6 +22,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -31,9 +34,19 @@ class Attachment(
     val fileType: String,
     val fileSize: Double,
 )
-
 @Composable
 fun TaskAttachment(attachmentList: List<Attachment>) {
+    val context = LocalContext.current
+    val filePickerLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.GetContent(),
+        onResult =
+        {
+            val item = it?.let { it1 -> context.contentResolver.openInputStream(it1) }
+            val bytes = item?.readBytes()
+            println(bytes)
+            bytes?.let { byteArr -> println(String(byteArr)) }
+            item?.close()
+        })
     Column(
         verticalArrangement = Arrangement.spacedBy(5.dp, Alignment.CenterVertically),
         horizontalAlignment = Alignment.Start,
@@ -72,7 +85,6 @@ fun TaskAttachment(attachmentList: List<Attachment>) {
                     )
                 }
             }
-
             Row(
                 modifier = Modifier
                     .border(
@@ -96,7 +108,7 @@ fun TaskAttachment(attachmentList: List<Attachment>) {
 
                 ) {
                 IconButton(
-                    onClick = { /*TODO*/ }
+                    onClick = { filePickerLauncher.launch("*/*") }
                 ) {
                     Image(
                         modifier = Modifier
