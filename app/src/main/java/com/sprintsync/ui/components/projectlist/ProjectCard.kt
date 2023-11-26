@@ -17,9 +17,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.sprintsync.R
+import com.sprintsync.data.view_models.ProjectViewViewModel
 import com.sprintsync.ui.theme.Yellow80
 import com.sprintsync.ui.theme.spacing
-import com.sprintsync.ui.view_models.ProjectViewViewModel
 
 @Composable
 fun ProjectCard(

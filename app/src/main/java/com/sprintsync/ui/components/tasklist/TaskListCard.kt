@@ -25,13 +25,13 @@ import androidx.compose.ui.zIndex
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
 import com.sprintsync.R
+import com.sprintsync.data.view_models.BacklogViewModel
 import com.sprintsync.ui.components.TaskProcess
 import com.sprintsync.ui.components.TaskTag
 import com.sprintsync.ui.theme.InProgressStatus
 import com.sprintsync.ui.theme.ProductivityStatus
 import com.sprintsync.ui.theme.ToDoStatus
 import com.sprintsync.ui.theme.spacing
-import com.sprintsync.ui.view_models.BacklogViewModel
 
 
 @Composable

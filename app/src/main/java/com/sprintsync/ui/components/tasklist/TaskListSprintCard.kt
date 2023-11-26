@@ -26,9 +26,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.sprintsync.R
+import com.sprintsync.data.view_models.BacklogViewModel
 import com.sprintsync.ui.theme.Grey40
 import com.sprintsync.ui.theme.spacing
-import com.sprintsync.ui.view_models.BacklogViewModel
 
 
 @Composable

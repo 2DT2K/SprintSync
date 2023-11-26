@@ -1,6 +1,7 @@
 package com.sprintsync.ui.view_models
 
 import androidx.lifecycle.ViewModel
+import com.sprintsync.data.view_models.BacklogViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow

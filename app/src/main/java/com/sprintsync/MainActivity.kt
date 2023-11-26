@@ -23,15 +23,13 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
-import com.google.api.client.json.gson.GsonFactory
 import com.sprintsync.data.auth.Authenticator
+import com.sprintsync.data.view_models.BacklogViewModel
+import com.sprintsync.data.view_models.ProjectViewViewModel
 import com.sprintsync.ui.components.BottomNavigation
-import com.sprintsync.ui.components.Calendar
 import com.sprintsync.ui.components.TopAppBar
 import com.sprintsync.ui.navigation.Screens
 import com.sprintsync.ui.theme.SprintSyncTheme
-import com.sprintsync.ui.view_models.BacklogViewModel
-import com.sprintsync.ui.view_models.ProjectViewViewModel
 import com.sprintsync.ui.views.BoardView
 import com.sprintsync.ui.views.CalendarView
 import com.sprintsync.ui.views.HomePage
