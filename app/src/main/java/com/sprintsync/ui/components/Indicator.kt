@@ -23,54 +23,54 @@ import com.sprintsync.ui.theme.SprintSyncTheme
 
 @Composable
 fun Indicator(
-    size: Dp = 32.dp, // indicator size
-    sweepAngle: Float = 45f, // angle (length) of indicator arc
-    color: Color = colorScheme.primary, // color of indicator arc line
-    strokeWidth: Dp = ProgressIndicatorDefaults.CircularStrokeWidth // width of circle and arc lines
+	size: Dp = 32.dp, // indicator size
+	sweepAngle: Float = 45f, // angle (length) of indicator arc
+	color: Color = colorScheme.primary, // color of indicator arc line
+	strokeWidth: Dp = ProgressIndicatorDefaults.CircularStrokeWidth // width of circle and arc lines
 ) {
-    // Animation
-    val transition = rememberInfiniteTransition(label = "RoundProgressIndicatorArcAngle")
-    val currentArcStartAngle by transition.animateValue(
-        0,
-        360,
-        Int.VectorConverter,
-        infiniteRepeatable(
-            animation = tween(
-                durationMillis = 1100,
-                easing = LinearEasing
-            )
-        ), label = "RoundProgressIndicatorArcAngle"
-    )
+	// Animation
+	val transition = rememberInfiniteTransition(label = "RoundProgressIndicatorArcAngle")
+	val currentArcStartAngle by transition.animateValue(
+		0,
+		360,
+		Int.VectorConverter,
+		infiniteRepeatable(
+			animation = tween(
+				durationMillis = 1100,
+				easing = LinearEasing
+			)
+		), label = "RoundProgressIndicatorArcAngle"
+	)
 
     // Draw
     val stroke = with(LocalDensity.current) {
         Stroke(width = strokeWidth.toPx(), cap = StrokeCap.Round)
     }
 
-    Canvas(
-        modifier = Modifier
-            .progressSemantics() // (optional) for Accessibility services
-            .size(size)
-            .padding(strokeWidth / 2)
-    ) {
-        // Draw background circle
-        drawCircle(Color(0xFFD9D9D9), style = stroke)
+	Canvas(
+		modifier = Modifier
+			.progressSemantics() // (optional) for Accessibility services
+			.size(size)
+			.padding(strokeWidth / 2)
+	) {
+		// Draw background circle
+		drawCircle(Color(0xFFD9D9D9), style = stroke)
 
-        // Draw arc
-        drawArc(
-            color,
-            startAngle = currentArcStartAngle.toFloat() - 90,
-            sweepAngle = sweepAngle,
-            useCenter = false,
-            style = stroke
-        )
-    }
+		// Draw arc
+		drawArc(
+			color,
+			startAngle = currentArcStartAngle.toFloat() - 90,
+			sweepAngle = sweepAngle,
+			useCenter = false,
+			style = stroke
+		)
+	}
 }
 
 @Preview(showBackground = true)
 @Composable
 fun IndicatorPreview() {
-    SprintSyncTheme {
-        Indicator()
-    }
+	SprintSyncTheme {
+		Indicator()
+	}
 }

@@ -38,7 +38,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.sprintsync.R
-import com.sprintsync.auth.AuthViewModel
+import com.sprintsync.data.view_models.AuthViewModel
 import com.sprintsync.ui.components.auth.innerShadow
 import com.sprintsync.ui.theme.Purple20
 import com.sprintsync.ui.theme.Purple40

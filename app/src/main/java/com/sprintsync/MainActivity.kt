@@ -23,7 +23,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
-import com.sprintsync.auth.Authenticator
+import com.google.api.client.json.gson.GsonFactory
+import com.sprintsync.data.auth.Authenticator
 import com.sprintsync.ui.components.BottomNavigation
 import com.sprintsync.ui.components.Calendar
 import com.sprintsync.ui.components.TopAppBar

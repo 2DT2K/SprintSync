@@ -29,7 +29,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.sprintsync.R
-import com.sprintsync.auth.AuthViewModel
+import com.sprintsync.data.view_models.AuthViewModel
 import com.sprintsync.ui.components.auth.EmailField
 import com.sprintsync.ui.components.auth.PasswordField
 import com.sprintsync.ui.components.auth.PromptRow

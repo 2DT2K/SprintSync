@@ -24,8 +24,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.sprintsync.R
-import com.sprintsync.auth.AuthViewModel
-import com.sprintsync.auth.Authenticator
+import com.sprintsync.data.auth.Authenticator
+import com.sprintsync.data.view_models.AuthViewModel
 import com.sprintsync.ui.components.profile.ProfileSettingGroup
 import com.sprintsync.ui.navigation.Screens
 import com.sprintsync.ui.theme.Grey40

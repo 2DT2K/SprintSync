@@ -29,10 +29,10 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.sprintsync.R
+import com.sprintsync.data.view_models.BacklogViewModel
 import com.sprintsync.ui.components.backlog.SprintCard
 import com.sprintsync.ui.theme.Grey40
 import com.sprintsync.ui.theme.SprintSyncTheme
-import com.sprintsync.ui.view_models.BacklogViewModel
 
 @Composable
 fun Backlog(backlogViewModel: BacklogViewModel) {
@@ -40,9 +40,9 @@ fun Backlog(backlogViewModel: BacklogViewModel) {
 
 	Column(
 		modifier = Modifier
-            .animateContentSize()
-            .fillMaxSize()
-            .verticalScroll(rememberScrollState())
+			.animateContentSize()
+			.fillMaxSize()
+			.verticalScroll(rememberScrollState())
 	) {
 		CurrentSprintView(backlogUiState.activeSprint)
 		Divider()
@@ -65,17 +65,17 @@ fun IsDoneSprintView(doneSprints: List<BacklogViewModel.Sprint>) {
 
 	Column(
 		modifier = Modifier
-            .animateContentSize()
-            .wrapContentHeight(),
+			.animateContentSize()
+			.wrapContentHeight(),
 	) {
 		Row(
 			modifier = Modifier
-                .fillMaxWidth()
-                .clickable {
-                    isOpen = !isOpen
-                }
-                .padding(top = 8.dp, bottom = 8.dp)
-                .height(40.dp),
+				.fillMaxWidth()
+				.clickable {
+					isOpen = !isOpen
+				}
+				.padding(top = 8.dp, bottom = 8.dp)
+				.height(40.dp),
 			verticalAlignment = Alignment.CenterVertically
 		) {
 			Icon(
@@ -84,8 +84,8 @@ fun IsDoneSprintView(doneSprints: List<BacklogViewModel.Sprint>) {
 					else R.drawable.arrow_up
 				),
 				modifier = Modifier
-                    .width(28.dp)
-                    .height(28.dp),
+					.width(28.dp)
+					.height(28.dp),
 				tint = Grey40,
 				contentDescription = null
 			)

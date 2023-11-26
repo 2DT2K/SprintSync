@@ -20,37 +20,38 @@ import com.sprintsync.ui.theme.Grey80
 
 @Composable
 fun CreateIcon(
-    onClick: () -> Unit
+	onClick: () -> Unit
 ) {
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(end = 8.dp)
-    ) {
-        IconButton(
-            modifier = Modifier
-                .align(Alignment.CenterEnd)
-                .background(
-                    color = Grey80,
-                    shape = RoundedCornerShape(100)
-                ),
-            onClick = onClick) {
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(start = 4.dp)
-                    .size(44.dp),
-                contentAlignment = Alignment.Center
-            ) {
-                Icon(
-                    modifier = Modifier
-                        .padding(0.dp)
-                        .size(32.dp),
-                    painter = painterResource(id = R.drawable.send),
-                    contentDescription = "create project",
-                    tint = Grey40
-                )
-            }
-        }
-    }
+	Box(
+		modifier = Modifier
+			.fillMaxWidth()
+			.padding(end = 8.dp)
+	) {
+		IconButton(
+			modifier = Modifier
+				.align(Alignment.CenterEnd)
+				.background(
+					color = Grey80,
+					shape = RoundedCornerShape(100)
+				),
+			onClick = onClick
+		) {
+			Box(
+				modifier = Modifier
+					.fillMaxSize()
+					.padding(start = 4.dp)
+					.size(44.dp),
+				contentAlignment = Alignment.Center
+			) {
+				Icon(
+					modifier = Modifier
+						.padding(0.dp)
+						.size(32.dp),
+					painter = painterResource(id = R.drawable.send),
+					contentDescription = "create project",
+					tint = Grey40
+				)
+			}
+		}
+	}
 }

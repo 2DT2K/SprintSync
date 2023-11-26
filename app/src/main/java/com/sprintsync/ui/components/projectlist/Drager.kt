@@ -17,22 +17,22 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun Drager() {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 16.dp),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.Center
-    ) {
-        Box(
-            modifier = Modifier
-                .padding(0.dp)
-                .width(32.dp)
-                .height(4.dp)
-                .background(
-                    color = Color(0xFF79747E),
-                    shape = RoundedCornerShape(size = 100.dp)
-                )
-        )
-    }
+	Row(
+		modifier = Modifier
+			.fillMaxWidth()
+			.padding(vertical = 16.dp),
+		verticalAlignment = Alignment.CenterVertically,
+		horizontalArrangement = Arrangement.Center
+	) {
+		Box(
+			modifier = Modifier
+				.padding(0.dp)
+				.width(32.dp)
+				.height(4.dp)
+				.background(
+					color = Color(0xFF79747E),
+					shape = RoundedCornerShape(size = 100.dp)
+				)
+		)
+	}
 }

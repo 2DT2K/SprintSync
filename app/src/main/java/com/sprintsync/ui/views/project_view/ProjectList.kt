@@ -16,13 +16,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.sprintsync.data.view_models.ProjectViewViewModel
 import androidx.navigation.NavController
 import com.sprintsync.ui.components.SearchBar
 import com.sprintsync.ui.components.projectlist.ProjectCard
 import com.sprintsync.ui.navigation.Screens
 import com.sprintsync.ui.theme.SprintSyncTheme
 import com.sprintsync.ui.theme.spacing
-import com.sprintsync.ui.view_models.ProjectViewViewModel
 
 @Composable
 fun ProjectList(projectViewViewModel: ProjectViewViewModel, navController: NavController? = null) {

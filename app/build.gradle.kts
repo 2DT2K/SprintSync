@@ -45,25 +45,24 @@ android {
         kotlinCompilerExtensionVersion = "1.5.2"
     }
 
-    packaging {
-        resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
-        }
-    }
+	packaging {
+		resources {
+			excludes += "META-INF/*"
+		}
+	}
 }
 
 dependencies {
 
-    implementation("androidx.core:core-ktx:1.12.0")
-    implementation("androidx.core:core-splashscreen:1.1.0-alpha02")
-    implementation("androidx.activity:activity-compose:1.8.1")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
-    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.6.2")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2")
-    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.2")
-    implementation("androidx.navigation:navigation-compose:2.7.5")
-    implementation("org.mongodb:bson:4.9.1")
+	implementation("androidx.core:core-ktx:1.12.0")
+	implementation("androidx.core:core-splashscreen:1.1.0-alpha02")
+	implementation("androidx.activity:activity-compose:1.8.1")
+	implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
+	implementation("androidx.lifecycle:lifecycle-runtime-compose:2.6.2")
+	implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
+	implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2")
+	implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.2")
+	implementation("androidx.navigation:navigation-compose:2.7.5")
 
     implementation(platform("androidx.compose:compose-bom:2023.10.01"))
     implementation("androidx.compose.material:material")
@@ -95,15 +94,20 @@ dependencies {
     // Google Auth
     implementation("com.google.android.gms:play-services-auth:20.7.0")
 
-    // Calendar
-    implementation("io.github.boguszpawlowski.composecalendar:composecalendar:1.1.1")
-    implementation("io.github.boguszpawlowski.composecalendar:kotlinx-datetime:1.1.1")
-    implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.1")
+	// Custom Calendar
+	implementation("io.github.boguszpawlowski.composecalendar:composecalendar:1.1.1")
+	implementation("io.github.boguszpawlowski.composecalendar:kotlinx-datetime:1.1.1")
+	implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.1")
 
-    // Dagger - Hilt
-    implementation("com.google.dagger:hilt-android:2.48.1")
-    kapt("com.google.dagger:hilt-android-compiler:2.48.1")
-    implementation("androidx.hilt:hilt-navigation-compose:1.1.0")
+	// Google Calendar
+	implementation("com.google.api-client:google-api-client-android:2.0.0")
+	implementation("com.google.oauth-client:google-oauth-client-jetty:1.34.1")
+	implementation("com.google.apis:google-api-services-calendar:v3-rev20220715-2.0.0")
+
+	// Dagger - Hilt
+	implementation("com.google.dagger:hilt-android:2.48.1")
+	kapt("com.google.dagger:hilt-android-compiler:2.48.1")
+	implementation("androidx.hilt:hilt-navigation-compose:1.1.0")
 
     // WheelPicker
     implementation("com.github.commandiron:WheelPickerCompose:1.1.11")
@@ -124,14 +128,8 @@ dependencies {
     androidTestImplementation(platform("androidx.compose:compose-bom:2023.10.01"))
 
 //	debugging dependencies
-    debugImplementation("androidx.compose.ui:ui-tooling")
-    debugImplementation("androidx.compose.ui:ui-test-manifest")
-//
-//// permission handling in compose
-//	implementation("com.google.accompanist:accompanist-permissions:0.24.13-rc")
-//	implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2")
-    implementation("com.pspdfkit:pspdfkit:8.9.1")
-
+	debugImplementation("androidx.compose.ui:ui-tooling")
+	debugImplementation("androidx.compose.ui:ui-test-manifest")
 }
 
 kapt {

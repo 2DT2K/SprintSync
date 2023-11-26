@@ -13,40 +13,40 @@ import com.sprintsync.ui.components.ExpandableTextField
 
 @Composable
 fun CreateProjectContent() {
-    Text(
-        text = "Project name",
-        modifier = Modifier.padding(start = 24.dp),
-        fontWeight = FontWeight(600)
-    )
-    ExpandableTextField(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(start = 24.dp, end = 24.dp),
-        value = "",
-        label = "",
-        placeholder = "Please enter project name",
-        onValueChange = {
+	Text(
+		text = "Project name",
+		modifier = Modifier.padding(start = 24.dp),
+		fontWeight = FontWeight(600)
+	)
+	ExpandableTextField(
+		modifier = Modifier
+			.fillMaxWidth()
+			.padding(start = 24.dp, end = 24.dp),
+		value = "",
+		label = "",
+		placeholder = "Please enter project name",
+		onValueChange = {
 
-        },
-    )
+		},
+	)
 
-    Spacer(modifier = Modifier.height(16.dp))
+	Spacer(modifier = Modifier.height(16.dp))
 
-    Text(
-        text = "Add a description",
-        modifier = Modifier.padding(start = 24.dp),
-        fontWeight = FontWeight(600)
-    )
+	Text(
+		text = "Add a description",
+		modifier = Modifier.padding(start = 24.dp),
+		fontWeight = FontWeight(600)
+	)
 
-    ExpandableTextField(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(start = 24.dp, end = 24.dp),
-        value = "",
-        label = "",
-        placeholder = "Please enter description",
-        onValueChange = {
+	ExpandableTextField(
+		modifier = Modifier
+			.fillMaxWidth()
+			.padding(start = 24.dp, end = 24.dp),
+		value = "",
+		label = "",
+		placeholder = "Please enter description",
+		onValueChange = {
 
-        },
-    )
+		},
+	)
 }
