@@ -17,23 +17,26 @@ import com.sprintsync.ui.components.homepage.HomePageViews
 import com.sprintsync.ui.theme.SprintSyncTheme
 import com.sprintsync.ui.theme.spacing
 
-
 @Composable
 fun HomePage() {
-	Column(
-		Modifier
-			.padding(MaterialTheme.spacing.medium)
-			.verticalScroll(rememberScrollState()),
-		verticalArrangement = Arrangement.spacedBy(20.dp, Alignment.Top),
-		horizontalAlignment = Alignment.CenterHorizontally,
-	) {
-		HomePageViews()
-		HomePageIssue()
-	}
+    SprintSyncTheme {
+        Column(
+            Modifier
+                .verticalScroll(rememberScrollState()),
+            verticalArrangement = Arrangement.spacedBy(
+                MaterialTheme.spacing.large,
+                Alignment.Top
+            ),
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+            HomePageViews()
+            HomePageIssue()
+        }
+    }
 }
 
 @Preview
 @Composable
 fun HomePagePreview() {
-	HomePage()
+    HomePage()
 }

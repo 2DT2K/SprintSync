@@ -27,74 +27,51 @@ import com.sprintsync.ui.components.BottomNavigation
 import com.sprintsync.ui.components.TwoIconTopAppBar
 import com.sprintsync.ui.components.boardview.BoardViewCategory
 import com.sprintsync.ui.components.boardview.fakedata
-import com.sprintsync.ui.theme.Purple100
 import com.sprintsync.ui.theme.spacing
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 fun BoardView() {
     var pageCount = 4
-
     @OptIn(ExperimentalFoundationApi::class)
     val pagerState = rememberPagerState(pageCount = {
         4
     })
-
-    Scaffold(
-        topBar = {
-            TwoIconTopAppBar(title = "BoardView", backgroundColor = Purple100)
-        },
-        bottomBar = {
-            BottomNavigation()
-        }
-    ) { innerPadding ->
-        Box(
-            Modifier
-                .padding(
-                    innerPadding
-                )
-                .fillMaxHeight()
-                .padding(
-                    top = MaterialTheme.spacing.mediumLarge,
-                    start = 0.dp,
-                    end = 0.dp,
-                    bottom = MaterialTheme.spacing.mediumLarge
-                )
+    Box(
+        Modifier
+            .fillMaxHeight()
+    ) {
+        HorizontalPager(
+            state = pagerState,
+            contentPadding = PaddingValues(MaterialTheme.spacing.medium),
         ) {
-            HorizontalPager(
-                state = pagerState,
-                contentPadding = PaddingValues(MaterialTheme.spacing.mediumLarge),
-            ) {
-                Row(
-
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.Center
-                ) {
-                    BoardViewCategory(boardviewCategory = fakedata)
-                }
-
-            }
             Row(
-                Modifier
-                    .fillMaxWidth()
-                    .align(Alignment.BottomCenter),
-                horizontalArrangement = Arrangement.Center,
-                verticalAlignment = Alignment.CenterVertically
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.Center
             ) {
-                repeat(pageCount) { iteration ->
-                    val color =
-                        if (pagerState.currentPage == iteration) Color.DarkGray else Color.LightGray
-                    Box(
-                        modifier = Modifier
-                            .padding(MaterialTheme.spacing.small/2)
-                            .clip(CircleShape)
-                            .background(color)
-                            .size(MaterialTheme.spacing.largeDefault)
-                    )
-                }
+                BoardViewCategory(boardviewCategory = fakedata)
+            }
+
+        }
+        Row(
+            Modifier
+                .fillMaxWidth()
+                .align(Alignment.BottomCenter),
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            repeat(pageCount) { iteration ->
+                val color =
+                    if (pagerState.currentPage == iteration) Color.DarkGray else Color.LightGray
+                Box(
+                    modifier = Modifier
+                        .padding(2.dp)
+                        .clip(CircleShape)
+                        .background(color)
+                        .size(10.dp)
+                )
             }
         }
-
     }
 }
 
@@ -102,5 +79,5 @@ fun BoardView() {
 @Preview(showBackground = true)
 @Composable
 fun BoardViewPreview() {
-    BoardView()
+	BoardView()
 }

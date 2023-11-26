@@ -4,6 +4,8 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -11,11 +13,14 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.TextFieldDefaults.TextFieldDecorationBox
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
@@ -35,6 +40,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -62,7 +68,10 @@ fun TagPopUp(onDismissRequest: () -> Unit, tagList: List<String>) {
         Box(modifier = Modifier
             .background(Color.Black.copy(alpha = 0.5f))
             .fillMaxSize()
-            .clickable { onDismissRequest() }) {
+            .clickable { onDismissRequest() }
+            .padding(top = 120.dp)
+        ) {
+            val interactionSource = remember { MutableInteractionSource() }
             Column(
                 modifier = Modifier
                     .background(
@@ -70,7 +79,14 @@ fun TagPopUp(onDismissRequest: () -> Unit, tagList: List<String>) {
                         shape = RoundedCornerShape(size = 16.dp)
                     )
                     .width(300.dp)
-                    .padding(MaterialTheme.spacing.medium),
+                    .padding(MaterialTheme.spacing.medium)
+                    .align(alignment = Alignment.TopCenter)
+                    .clickable(
+                        interactionSource = interactionSource,
+                        indication = null
+                    ) {
+
+                    },
                 verticalArrangement = Arrangement.spacedBy(
                     MaterialTheme.spacing.medium,
                     Alignment.CenterVertically
@@ -86,49 +102,68 @@ fun TagPopUp(onDismissRequest: () -> Unit, tagList: List<String>) {
                         MaterialTheme.spacing.default,
                         Alignment.CenterVertically
                     ),
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier
+                        .fillMaxWidth()
                 ) {
-                    currentTagList.forEach {
-                        Row(
-                            horizontalArrangement = Arrangement.SpaceBetween,
-                            modifier = Modifier.fillMaxWidth()
-                        ) {
-                            var checkState by remember {
-                                mutableStateOf(true)
-                            }
-                            SuggestionChip(
-                                onClick = { /*TODO*/ },
-                                label = { Text(it) },
-                                border = null,
-                                shape = RoundedCornerShape(size = MaterialTheme.spacing.small),
-                                colors = SuggestionChipDefaults.suggestionChipColors(
-                                    containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                                    labelColor = MaterialTheme.colorScheme.onSecondaryContainer
-                                ),
+                    Column(
+                        verticalArrangement = Arrangement.spacedBy(
+                            MaterialTheme.spacing.default,
+                        ),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .heightIn(max = 170.dp)
+                            .verticalScroll(
+                                rememberScrollState()
                             )
-                            IconButton(onClick = {
-                                finalTagList = if (checkState) {
-                                    finalTagList.minus(it)
-                                } else {
-                                    finalTagList.plus(it)
-                                }
-                                checkState = !checkState
+                            .pointerInput(Unit) {
+                                // Consume the pointer events inside the Row
+                                // to prevent the Box's click handler from being triggered
+//                                this.
 
-                            }) {
-                                if (checkState) {
-                                    Image(
-                                        painter = painterResource(id = R.drawable.check_popup),
-                                        contentDescription = "",
-                                        modifier = Modifier.size(25.dp)
-                                    )
-                                } else {
-                                    Image(
-                                        painter = painterResource(id = R.drawable.add_label),
-                                        contentDescription = "", modifier = Modifier.size(30.dp)
-                                    )
-                                }
                             }
+                    ) {
+                        currentTagList.forEach {
+                            Row(
+                                horizontalArrangement = Arrangement.SpaceBetween,
+                                modifier = Modifier.fillMaxWidth()
+                            ) {
+                                var checkState by remember {
+                                    mutableStateOf(true)
+                                }
+                                SuggestionChip(
+                                    onClick = { /*TODO*/ },
+                                    label = { Text(it) },
+                                    border = null,
+                                    shape = RoundedCornerShape(size = MaterialTheme.spacing.small),
+                                    colors = SuggestionChipDefaults.suggestionChipColors(
+                                        containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                                        labelColor = MaterialTheme.colorScheme.onSecondaryContainer
+                                    ),
+                                )
+                                IconButton(onClick = {
+                                    finalTagList = if (checkState) {
+                                        finalTagList.minus(it)
+                                    } else {
+                                        finalTagList.plus(it)
+                                    }
+                                    checkState = !checkState
 
+                                }) {
+                                    if (checkState) {
+                                        Image(
+                                            painter = painterResource(id = R.drawable.check_popup),
+                                            contentDescription = "",
+                                            modifier = Modifier.size(25.dp)
+                                        )
+                                    } else {
+                                        Image(
+                                            painter = painterResource(id = R.drawable.add_label),
+                                            contentDescription = "", modifier = Modifier.size(30.dp)
+                                        )
+                                    }
+                                }
+
+                            }
                         }
                     }
                     Row(
@@ -149,9 +184,14 @@ fun TagPopUp(onDismissRequest: () -> Unit, tagList: List<String>) {
                                 .height(52.dp)
                         )
                         IconButton(onClick = {
-                            currentTagList = currentTagList.plus(textState)
-                            finalTagList = currentTagList
-                            textState = ""
+                            if (textState.isNotEmpty() && !currentTagList.any {
+                                    it.equals(textState, ignoreCase = true)
+                                }) {
+                                currentTagList = currentTagList.plus(textState)
+                                finalTagList = currentTagList
+                                textState = ""
+                            }
+
                         }) {
                             Image(
                                 painter = painterResource(id = R.drawable.add_label),

@@ -26,6 +26,7 @@ import com.sprintsync.auth.Authenticator
 import com.sprintsync.ui.components.BottomNavigation
 import com.sprintsync.ui.components.Calendar
 import com.sprintsync.ui.theme.SprintSyncTheme
+import com.sprintsync.ui.view_models.ProjectViewViewModel
 import com.sprintsync.ui.views.CalendarView
 import com.sprintsync.ui.views.HomePage
 import com.sprintsync.ui.views.auth.PasswordResetView
@@ -33,6 +34,7 @@ import com.sprintsync.ui.views.auth.SignInView
 import com.sprintsync.ui.views.auth.SignUpView
 import com.sprintsync.ui.views.profile.ProfileScreen
 import com.sprintsync.ui.views.project_view.DetailProject
+import com.sprintsync.ui.views.project_view.ProjectList
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -80,15 +82,15 @@ fun MainContent() {
                         when (initialState.destination.route) {
                             "project" -> slideInHorizontally(
                                 initialOffsetX = { -it },
-                                animationSpec = tween(200)
+                                animationSpec = tween(100)
                             )
 							"calendar" -> slideInHorizontally(
-								initialOffsetX = { -it },
-								animationSpec = tween(200)
+								initialOffsetX = { -it * 2 },
+								animationSpec = tween(100)
 							)
 							"profile" -> slideInHorizontally(
-								initialOffsetX = { -it },
-								animationSpec = tween(200)
+								initialOffsetX = { -it * 3 },
+								animationSpec = tween(100)
 							)
 
                             else      -> null
@@ -98,20 +100,20 @@ fun MainContent() {
                         when (targetState.destination.route) {
                             "project" -> slideOutHorizontally(
                                 targetOffsetX = { -it },
-                                animationSpec = tween(200)
+                                animationSpec = tween(100)
                             )
 							"calendar" -> slideOutHorizontally(
-								targetOffsetX = { -it },
-								animationSpec = tween(200)
+								targetOffsetX = { -it * 2 },
+								animationSpec = tween(100)
 							)
 							"profile" -> slideOutHorizontally(
-								targetOffsetX = { -it },
-								animationSpec = tween(200)
+								targetOffsetX = { -it * 3 },
+								animationSpec = tween(100)
 							)
 
                             else      -> null
                         }
-                    },
+                    }
                 ) { HomePage() }
                 composable(
                     "project",
@@ -119,15 +121,15 @@ fun MainContent() {
                         when (initialState.destination.route) {
                             "home" -> slideInHorizontally(
                                 initialOffsetX = { it },
-                                animationSpec = tween(200)
+                                animationSpec = tween(100)
                             )
                             "calendar" -> slideInHorizontally(
                                 initialOffsetX = { -it },
-                                animationSpec = tween(200)
+                                animationSpec = tween(100)
                             )
                             "profile" -> slideInHorizontally(
-                                initialOffsetX = { -it },
-                                animationSpec = tween(200)
+                                initialOffsetX = { -it * 2 },
+                                animationSpec = tween(100)
                             )
 
                             else   -> null
@@ -137,38 +139,38 @@ fun MainContent() {
                         when (targetState.destination.route) {
                             "home" -> slideOutHorizontally(
                                 targetOffsetX = { it },
-                                animationSpec = tween(200)
+                                animationSpec = tween(100)
                             )
                             "calendar" -> slideOutHorizontally(
                                 targetOffsetX = { -it },
-                                animationSpec = tween(200)
+                                animationSpec = tween(100)
                             )
                             "profile" -> slideOutHorizontally(
-                                targetOffsetX = { -it },
-                                animationSpec = tween(200)
+                                targetOffsetX = { -it * 2 },
+                                animationSpec = tween(100)
                             )
 
                             else   -> null
                         }
-                    },
-                ) { DetailProject() }
+                    }
+                ) { ProjectList(ProjectViewViewModel()) }
                 composable(
                     "calendar",
                     enterTransition = {
                         when (initialState.destination.route) {
                             "home"    -> slideInHorizontally(
-                                initialOffsetX = { it },
-                                animationSpec = tween(200)
+                                initialOffsetX = { it * 2 },
+                                animationSpec = tween(100)
                             )
 
                             "project" -> slideInHorizontally(
                                 initialOffsetX = { it },
-                                animationSpec = tween(200)
+                                animationSpec = tween(100)
                             )
 
                             "profile" -> slideInHorizontally(
                                 initialOffsetX = { -it },
-                                animationSpec = tween(200)
+                                animationSpec = tween(100)
                             )
 
                             else      -> null
@@ -177,25 +179,67 @@ fun MainContent() {
                     exitTransition = {
                         when (targetState.destination.route) {
                             "home"    -> slideOutHorizontally(
-                                targetOffsetX = { it },
-                                animationSpec = tween(200)
+                                targetOffsetX = { it * 2 },
+                                animationSpec = tween(100)
                             )
 
                             "project" -> slideOutHorizontally(
                                 targetOffsetX = { it },
-                                animationSpec = tween(200)
+                                animationSpec = tween(100)
                             )
 
                             "profile" -> slideOutHorizontally(
                                 targetOffsetX = { -it },
-                                animationSpec = tween(200)
+                                animationSpec = tween(100)
+                            )
+
+                            else      -> null
+                        }
+                    }
+                ) { CalendarView(navController) }
+                composable(
+                    "profile",
+                    enterTransition = {
+                        when (initialState.destination.route) {
+                            "home"    -> slideInHorizontally(
+                                initialOffsetX = { it * 3 },
+                                animationSpec = tween(100)
+                            )
+
+                            "project" -> slideInHorizontally(
+                                initialOffsetX = { it * 2 },
+                                animationSpec = tween(100)
+                            )
+
+                            "calendar" -> slideInHorizontally(
+                                initialOffsetX = { it },
+                                animationSpec = tween(100)
                             )
 
                             else      -> null
                         }
                     },
-                ) { CalendarView(navController) }
-                composable("profile") { ProfileScreen(navController) }
+                    exitTransition = {
+                        when (targetState.destination.route) {
+                            "home"    -> slideOutHorizontally(
+                                targetOffsetX = { it * 3 },
+                                animationSpec = tween(100)
+                            )
+
+                            "project" -> slideOutHorizontally(
+                                targetOffsetX = { it * 3 },
+                                animationSpec = tween(100)
+                            )
+
+                            "calendar" -> slideOutHorizontally(
+                                targetOffsetX = { it },
+                                animationSpec = tween(100)
+                            )
+
+                            else      -> null
+                        }
+                    }
+                ) { ProfileScreen(navController) }
             }
         }
     }
