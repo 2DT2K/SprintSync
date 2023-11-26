@@ -22,6 +22,7 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.google.api.client.json.gson.GsonFactory
 import com.sprintsync.data.auth.Authenticator
 import com.sprintsync.ui.components.BottomNavigation
 import com.sprintsync.ui.views.HomePage
@@ -61,6 +62,7 @@ fun MainContent() {
 			NavHost(
 				navController = navController,
 				startDestination = if (Authenticator.signedIn) "home" else "sign_in",
+//				startDestination = "calendar",
 				enterTransition = { EnterTransition.None },
 				exitTransition = { ExitTransition.None }
 			) {
@@ -113,7 +115,20 @@ fun MainContent() {
 						}
 					},
 				) { DetailProject() }
-				composable("calendar") { TODO("Have not implement calendar view") }
+				composable("calendar") {
+					val JSON_FACTORY = GsonFactory.getDefaultInstance()
+					val TOKEN_DIR_PATH = "../token"
+					val SCOPES = listOf("https://www.googleapis.com/auth/calendar.events.owned")
+					val CREDENTIALS_FILE_PATH = "/credentials.json"
+
+					val stream = MainActivity::class.java.classLoader?.getResourceAsStream(CREDENTIALS_FILE_PATH)
+					println(
+						stream
+							?.bufferedReader()
+							?.readLines()
+							?.joinToString("\n")
+					)
+				}
 				composable("profile") { ProfileScreen(navController) }
 			}
 		}

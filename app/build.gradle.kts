@@ -47,7 +47,7 @@ android {
 
 	packaging {
 		resources {
-			excludes += "/META-INF/{AL2.0,LGPL2.1}"
+			excludes += "META-INF/*"
 		}
 	}
 }
@@ -94,10 +94,15 @@ dependencies {
 	// Google Auth
 	implementation("com.google.android.gms:play-services-auth:20.7.0")
 
-	// Calendar
+	// Custom Calendar
 	implementation("io.github.boguszpawlowski.composecalendar:composecalendar:1.1.1")
 	implementation("io.github.boguszpawlowski.composecalendar:kotlinx-datetime:1.1.1")
 	implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.1")
+
+	// Google Calendar
+	implementation("com.google.api-client:google-api-client-android:2.0.0")
+	implementation("com.google.oauth-client:google-oauth-client-jetty:1.34.1")
+	implementation("com.google.apis:google-api-services-calendar:v3-rev20220715-2.0.0")
 
 	// Dagger - Hilt
 	implementation("com.google.dagger:hilt-android:2.48.1")
@@ -110,9 +115,6 @@ dependencies {
 	implementation("com.fasterxml.jackson.core:jackson-databind:2.15.2")
 
 	implementation("com.github.TuleSimon:xMaterialccp:1.22")
-
-	//wheelpicker
-	implementation("com.github.commandiron:WheelPickerCompose:1.1.11")
 
 //	testing dependencies
 	testImplementation("junit:junit:4.13.2")
