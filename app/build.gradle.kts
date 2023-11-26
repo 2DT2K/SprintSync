@@ -63,7 +63,6 @@ dependencies {
 	implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2")
 	implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.2")
 	implementation("androidx.navigation:navigation-compose:2.7.5")
-	implementation("org.mongodb:bson:4.9.1")
 
 	implementation(platform("androidx.compose:compose-bom:2023.10.01"))
 	implementation("androidx.compose.material:material")
@@ -113,7 +112,7 @@ dependencies {
 	implementation("com.github.TuleSimon:xMaterialccp:1.22")
 
 	//wheelpicker
-	implementation ("com.github.commandiron:WheelPickerCompose:1.1.11")
+	implementation("com.github.commandiron:WheelPickerCompose:1.1.11")
 
 //	testing dependencies
 	testImplementation("junit:junit:4.13.2")

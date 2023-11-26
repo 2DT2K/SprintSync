@@ -32,9 +32,9 @@ fun LoadingDialog(alertText: String) {
 	) {
 		Column(
 			modifier = Modifier
-                .padding(start = 32.dp, end = 32.dp) // margin
-                .background(color = Color.White, shape = RoundedCornerShape(16.dp))
-                .padding(top = 32.dp, bottom = 32.dp), // inner padding
+				.padding(start = 32.dp, end = 32.dp) // margin
+				.background(color = Color.White, shape = RoundedCornerShape(16.dp))
+				.padding(top = 32.dp, bottom = 32.dp), // inner padding
 			verticalArrangement = Arrangement.Center,
 			horizontalAlignment = Alignment.CenterHorizontally
 		) {

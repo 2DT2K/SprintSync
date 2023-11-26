@@ -26,6 +26,7 @@ import androidx.compose.ui.zIndex
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
 import com.sprintsync.R
+import com.sprintsync.data.view_models.BacklogViewModel
 import com.sprintsync.ui.components.StoryPoint
 import com.sprintsync.ui.components.TaskProcess
 import com.sprintsync.ui.theme.Green80
@@ -33,7 +34,6 @@ import com.sprintsync.ui.theme.Grey60
 import com.sprintsync.ui.theme.Purple20
 import com.sprintsync.ui.theme.Purple80
 import com.sprintsync.ui.theme.Yellow80
-import com.sprintsync.ui.view_models.BacklogViewModel
 
 @Composable
 fun TaskCard(task: BacklogViewModel.Task) {

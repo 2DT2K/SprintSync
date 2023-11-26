@@ -27,8 +27,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sprintsync.R
+import com.sprintsync.data.view_models.ProjectViewViewModel
 import com.sprintsync.ui.theme.Yellow80
-import com.sprintsync.ui.view_models.ProjectViewViewModel
 
 @Composable
 fun ProjectCard(

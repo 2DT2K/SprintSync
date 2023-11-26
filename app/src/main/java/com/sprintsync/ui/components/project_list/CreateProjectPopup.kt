@@ -30,54 +30,54 @@ import com.sprintsync.ui.theme.SprintSyncTheme
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CreateProjectPopup(
-    showBottomSheet: Boolean,
-    changeSheetState: (Boolean) -> Unit
+	showBottomSheet: Boolean,
+	changeSheetState: (Boolean) -> Unit
 ) {
-    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
-    val scope = rememberCoroutineScope()
+	val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+	val scope = rememberCoroutineScope()
 
-    if (showBottomSheet) {
-        ModalBottomSheet(
-            modifier = Modifier.fillMaxHeight(),
-            onDismissRequest = {
-                changeSheetState(false)
-            },
-            sheetState = sheetState,
-            windowInsets = WindowInsets(0),
-            dragHandle = {
-                Drager()
-            }
-        ) {
-            CreateProjectContent()
+	if (showBottomSheet) {
+		ModalBottomSheet(
+			modifier = Modifier.fillMaxHeight(),
+			onDismissRequest = {
+				changeSheetState(false)
+			},
+			sheetState = sheetState,
+			windowInsets = WindowInsets(0),
+			dragHandle = {
+				Drager()
+			}
+		) {
+			CreateProjectContent()
 
-            Spacer(modifier = Modifier.height(24.dp))
+			Spacer(modifier = Modifier.height(24.dp))
 
-            CreateIcon(
-                onClick = {
-                    TODO("create project")
-                }
-            )
+			CreateIcon(
+				onClick = {
+					TODO("create project")
+				}
+			)
 
-            Spacer(
-                Modifier
-                    .background(Color.Transparent)
-                    .fillMaxWidth()
-                    .windowInsetsPadding(
-                        WindowInsets.systemBars.only(WindowInsetsSides.Bottom)
-                    )
-            )
-        }
-    }
+			Spacer(
+				Modifier
+					.background(Color.Transparent)
+					.fillMaxWidth()
+					.windowInsetsPadding(
+						WindowInsets.systemBars.only(WindowInsetsSides.Bottom)
+					)
+			)
+		}
+	}
 }
 
 @Preview
 @Composable
 fun PreviewCreateProjectPopup() {
-    var isOpen by remember { mutableStateOf(true) }
-    SprintSyncTheme {
-        Button(onClick = { isOpen = true }) {
-            Text(text = "click")
-        }
-        CreateProjectPopup(isOpen) { state -> isOpen = state }
-    }
+	var isOpen by remember { mutableStateOf(true) }
+	SprintSyncTheme {
+		Button(onClick = { isOpen = true }) {
+			Text(text = "click")
+		}
+		CreateProjectPopup(isOpen) { state -> isOpen = state }
+	}
 }

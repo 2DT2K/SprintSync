@@ -29,13 +29,13 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.sprintsync.R
+import com.sprintsync.data.view_models.BacklogViewModel
 import com.sprintsync.ui.components.StoryPoint
 import com.sprintsync.ui.theme.Cyan80
 import com.sprintsync.ui.theme.Green80
 import com.sprintsync.ui.theme.Grey40
 import com.sprintsync.ui.theme.Grey60
 import com.sprintsync.ui.theme.Purple20
-import com.sprintsync.ui.view_models.BacklogViewModel
 
 @Composable
 fun SprintCard(sprint: BacklogViewModel.Sprint, isActive: Boolean = false) {

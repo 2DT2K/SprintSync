@@ -1,12 +1,13 @@
-import androidx.compose.animation.core.*
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.VectorConverter
+import androidx.compose.animation.core.animateValue
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.progressSemantics
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.ProgressIndicatorDefaults
 import androidx.compose.runtime.Composable
@@ -23,54 +24,54 @@ import com.sprintsync.ui.theme.SprintSyncTheme
 
 @Composable
 fun Indicator(
-    size: Dp = 32.dp, // indicator size
-    sweepAngle: Float = 45f, // angle (length) of indicator arc
-    color: Color = colorScheme.primary, // color of indicator arc line
-    strokeWidth: Dp = ProgressIndicatorDefaults.CircularStrokeWidth // width of circle and arc lines
+	size: Dp = 32.dp, // indicator size
+	sweepAngle: Float = 45f, // angle (length) of indicator arc
+	color: Color = colorScheme.primary, // color of indicator arc line
+	strokeWidth: Dp = ProgressIndicatorDefaults.CircularStrokeWidth // width of circle and arc lines
 ) {
-    // Animation
-    val transition = rememberInfiniteTransition(label = "RoundProgressIndicatorArcAngle")
-    val currentArcStartAngle by transition.animateValue(
-        0,
-        360,
-        Int.VectorConverter,
-        infiniteRepeatable(
-            animation = tween(
-                durationMillis = 1100,
-                easing = LinearEasing
-            )
-        ), label = "RoundProgressIndicatorArcAngle"
-    )
+	// Animation
+	val transition = rememberInfiniteTransition(label = "RoundProgressIndicatorArcAngle")
+	val currentArcStartAngle by transition.animateValue(
+		0,
+		360,
+		Int.VectorConverter,
+		infiniteRepeatable(
+			animation = tween(
+				durationMillis = 1100,
+				easing = LinearEasing
+			)
+		), label = "RoundProgressIndicatorArcAngle"
+	)
 
-    // Draw
-    val stroke = with(LocalDensity.current) {
-        Stroke(width = strokeWidth.toPx(), cap = StrokeCap.Square)
-    }
+	// Draw
+	val stroke = with(LocalDensity.current) {
+		Stroke(width = strokeWidth.toPx(), cap = StrokeCap.Square)
+	}
 
-    Canvas(
-        modifier = Modifier
-            .progressSemantics() // (optional) for Accessibility services
-            .size(size)
-            .padding(strokeWidth / 2)
-    ) {
-        // Draw background circle
-        drawCircle(Color(0xFFD9D9D9), style = stroke)
+	Canvas(
+		modifier = Modifier
+			.progressSemantics() // (optional) for Accessibility services
+			.size(size)
+			.padding(strokeWidth / 2)
+	) {
+		// Draw background circle
+		drawCircle(Color(0xFFD9D9D9), style = stroke)
 
-        // Draw arc
-        drawArc(
-            color,
-            startAngle = currentArcStartAngle.toFloat() - 90,
-            sweepAngle = sweepAngle,
-            useCenter = false,
-            style = stroke
-        )
-    }
+		// Draw arc
+		drawArc(
+			color,
+			startAngle = currentArcStartAngle.toFloat() - 90,
+			sweepAngle = sweepAngle,
+			useCenter = false,
+			style = stroke
+		)
+	}
 }
 
 @Preview(showBackground = true)
 @Composable
 fun IndicatorPreview() {
-    SprintSyncTheme {
-        Indicator()
-    }
+	SprintSyncTheme {
+		Indicator()
+	}
 }

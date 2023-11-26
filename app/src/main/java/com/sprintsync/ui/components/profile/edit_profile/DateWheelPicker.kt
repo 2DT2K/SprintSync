@@ -69,9 +69,9 @@ fun DateWheelPicker(onValueChange: (String) -> Unit) {
 		)
 		Box(
 			modifier = Modifier
-                .matchParentSize()
-                .alpha(0f)
-                .clickable { isOpen = !isOpen },
+				.matchParentSize()
+				.alpha(0f)
+				.clickable { isOpen = !isOpen },
 		)
 	}
 
@@ -85,8 +85,8 @@ fun DateWheelPicker(onValueChange: (String) -> Unit) {
 			) {
 				Column(
 					modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 8.dp, horizontal = 16.dp),
+						.fillMaxWidth()
+						.padding(vertical = 8.dp, horizontal = 16.dp),
 					horizontalAlignment = Alignment.CenterHorizontally,
 					verticalArrangement = Arrangement.spacedBy(16.dp)
 				) {
@@ -111,8 +111,8 @@ fun DateWheelPicker(onValueChange: (String) -> Unit) {
 
 					CustomButton(
 						modifier = Modifier
-                            .fillMaxWidth()
-                            .height(48.dp),
+							.fillMaxWidth()
+							.height(48.dp),
 						text = "Confirm Date of Birth",
 						fontSize = 16.sp,
 						onClick = {

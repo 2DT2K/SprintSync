@@ -22,7 +22,7 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.sprintsync.auth.Authenticator
+import com.sprintsync.data.auth.Authenticator
 import com.sprintsync.ui.components.BottomNavigation
 import com.sprintsync.ui.views.HomePage
 import com.sprintsync.ui.views.auth.PasswordResetView
@@ -36,7 +36,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
-		val splashScreen = installSplashScreen()
+		installSplashScreen()
 		setContent { MainContent() }
 	}
 }
@@ -47,7 +47,7 @@ fun MainContent() {
 
 	var showBottomBar by remember { mutableStateOf(false) }
 	navController.addOnDestinationChangedListener { _, dest, _ ->
-		showBottomBar = dest.route !in listOf("splash", "sign_in", "sign_up", "password_reset")
+		showBottomBar = dest.route !in listOf("sign_in", "sign_up", "password_reset")
 	}
 
 	Scaffold(

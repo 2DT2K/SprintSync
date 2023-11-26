@@ -17,10 +17,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.sprintsync.data.view_models.ProjectViewViewModel
 import com.sprintsync.ui.components.SearchBar
 import com.sprintsync.ui.components.project_list.ProjectCard
 import com.sprintsync.ui.theme.SprintSyncTheme
-import com.sprintsync.ui.view_models.ProjectViewViewModel
 
 @Composable
 fun ProjectList(projectViewViewModel: ProjectViewViewModel) {
