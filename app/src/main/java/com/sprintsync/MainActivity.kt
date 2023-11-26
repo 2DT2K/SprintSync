@@ -26,6 +26,7 @@ import androidx.navigation.compose.rememberNavController
 import com.sprintsync.auth.Authenticator
 import com.sprintsync.ui.components.BottomNavigation
 import com.sprintsync.ui.components.Calendar
+import com.sprintsync.ui.components.TopAppBar
 import com.sprintsync.ui.navigation.Screens
 import com.sprintsync.ui.theme.SprintSyncTheme
 import com.sprintsync.ui.view_models.BacklogViewModel
@@ -64,14 +65,18 @@ class MainActivity : ComponentActivity() {
 fun MainContent() {
     val navController = rememberNavController()
 
-    var showBottomBar by remember { mutableStateOf(false) }
+    var showBottomAndTopBar by remember { mutableStateOf(false) }
+    var route by remember { mutableStateOf("") }
+
     navController.addOnDestinationChangedListener { _, dest, _ ->
-        showBottomBar =
+        showBottomAndTopBar =
             dest.route !in listOf("sign_in", "sign_up", "password_reset", "verify_account")
+        route = dest.route?:""
     }
 
     Scaffold(
-        bottomBar = { if (showBottomBar) BottomNavigation(navController) }
+        topBar = { if (showBottomAndTopBar) TopAppBar(route, navController) },
+        bottomBar = { if (showBottomAndTopBar) BottomNavigation(navController) }
     ) { paddingValues ->
         Surface(
             modifier = Modifier
