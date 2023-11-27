@@ -25,18 +25,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.sprintsync.R
+import com.sprintsync.data.dtos.SprintDto
 import com.sprintsync.ui.theme.spacing
 
 @Composable
 fun ChartTitle(
     sprintName: String,
-    onSprintNameChange: (String) -> Unit
+    onSprintNameChange: (SprintDto) -> Unit,
+    sprintList:List<SprintDto>?
 ) {
     var expanded by remember {
         mutableStateOf(false)
-    }
-    var sprintList by remember {
-        mutableStateOf({})
     }
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -78,27 +77,28 @@ fun ChartTitle(
                 onDismissRequest = { expanded = false },
                 modifier = Modifier.clickable { expanded = !expanded }
             ) {
-                listOf("Sprint 1", "Sprint 2", "Sprint 3").forEach { sprint ->
+                sprintList?.forEach { sprint ->
                     TextButton(
                         onClick = {
-                            onSprintNameChange(sprint)
+                            sprint.id?.let { onSprintNameChange(sprint) }
                             expanded = false
                         }
                     ) {
                         Text(
-                            text = sprint,
+                            text = "Sprint ${sprint.sprintNumber}",
                             style = MaterialTheme.typography.labelSmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                         )
                     }
                 }
+
             }
         }
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun ChartTitlePreview() {
-    ChartTitle(sprintName = "LMAO1234", onSprintNameChange = {})
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun ChartTitlePreview() {
+//    ChartTitle(sprintName = "LMAO1234", onSprintNameChange = {})
+//}

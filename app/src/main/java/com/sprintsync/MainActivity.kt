@@ -19,12 +19,15 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
 import com.sprintsync.data.auth.Authenticator
 import com.sprintsync.data.view_models.BacklogViewModel
+import com.sprintsync.data.view_models.ProjectViewModel
 import com.sprintsync.data.view_models.ProjectViewViewModel
 import com.sprintsync.ui.components.BottomNavigation
 import com.sprintsync.ui.components.TopAppBar
@@ -62,6 +65,9 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun MainContent() {
+    val projectVM = hiltViewModel<ProjectViewModel>()
+    val projectState by projectVM.state.collectAsStateWithLifecycle()
+    val chosenProject = projectState.dto
     val navController = rememberNavController()
 
     var showBottomAndTopBar by remember { mutableStateOf(false) }
@@ -196,7 +202,7 @@ fun MainContent() {
                             composable(Screens.Files.route) { FileView() }
                             composable(Screens.Tasks.route) { TaskListView() }
                             composable(Screens.People.route) { Member() }
-                            composable(Screens.Reports.route) { ReportView() }
+                            composable(Screens.Reports.route) { ReportView(chosenProject?.id) }
                             composable(Screens.Timeline.route) {
                                 //TODO: CAN NOT DO THIS
                             }

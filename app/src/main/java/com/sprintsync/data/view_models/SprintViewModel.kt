@@ -15,7 +15,7 @@ import javax.inject.Inject
 class SprintViewModel @Inject constructor(
 	private val service: SprintAPI
 ) : AbstractViewModel<SprintDto>() {
-	private val _report = MutableStateFlow(null as ReportChartDto?)
+	private val _report = MutableStateFlow(ReportChartDto())
 	val report = _report.asStateFlow()
 
 	private fun updateReport(dto: ReportChartDto) = _report.update { dto }
@@ -41,6 +41,18 @@ class SprintViewModel @Inject constructor(
 		}
 	}
 
+	fun getInitialSprintReport(projectId:String){
+		scope.launch {
+			val response = service.getSprintsOfProject(projectId)
+			update(State(dtoList = response.data, error = response.err))
+			val sprints = response.data?: emptyList()
+			val initialSprintsId = sprints.lastOrNull()?.id
+			val sprintReport = initialSprintsId?.let { service.getSprintReport(it) }
+			if (sprintReport != null) {
+				sprintReport.data?.let { updateReport(it) }
+			}
+		}
+	}
 	fun addSprint(dto: SprintDto) {
 		scope.launch {
 			val response = service.addSprint(dto)
