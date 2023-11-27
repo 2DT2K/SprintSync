@@ -26,6 +26,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.sprintsync.R
+import com.sprintsync.data.dtos.response.CommentResDto
 import com.sprintsync.ui.components.Comment
 import com.sprintsync.ui.components.CommentTextField
 import com.sprintsync.ui.theme.spacing
@@ -39,7 +40,7 @@ data class TaskComments(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TaskComments(commentList: List<TaskComments>) {
+fun TaskComments(commentList: List<CommentResDto>?) {
     var comment by remember {
         mutableStateOf("")
     }
@@ -114,10 +115,10 @@ fun TaskComments(commentList: List<TaskComments>) {
             ),
             horizontalAlignment = Alignment.Start,
         ) {
-            commentList.forEach {
+            commentList?.forEach {
                 Comment(
-                    commenter = it.commenter,
-                    commentTime = it.commentTime,
+                    commenter = it.commenter.name,
+                    commentTime = it.createdAt,
                     content = it.content
                 )
             }
@@ -125,21 +126,11 @@ fun TaskComments(commentList: List<TaskComments>) {
     }
 }
 
-var fakeCmt1 = TaskComments(
-    commenter = "Vo Tin Du",
-    content = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce aliquet convallis iaculis. Donec pharetra gravida libero lacinia finibus. Interdum et malesuada fames ac ante ipsum primis in faucibus. ",
-    commentTime = "now",
-)
-var fakeCmt2 = TaskComments(
-    commenter = "Nguyen Hai Dan",
-    content = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce aliquet convallis iaculis. Donec pharetra gravida libero lacinia finibus. Interdum et malesuada fames ac ante ipsum primis in faucibus. ",
-    commentTime = "5 days ago"
-)
 
 
 @Preview(showBackground = true)
 @Composable
 fun TaskCommentsPreview() {
-    TaskComments(commentList = listOf(fakeCmt1, fakeCmt2))
+
 }
 

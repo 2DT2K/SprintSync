@@ -13,7 +13,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.sprintsync.ui.theme.spacing
 
 @Composable
-fun TaskDescription(taskDescription: String) {
+fun TaskDescription(taskDescription: String?) {
     Column(
         verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.small, Alignment.CenterVertically),
         horizontalAlignment = Alignment.Start,
@@ -23,10 +23,12 @@ fun TaskDescription(taskDescription: String) {
             text = "Description", style = MaterialTheme.typography.labelSmall,
             color = MaterialTheme.colorScheme.onPrimaryContainer,
         )
-        Text(
-            text = taskDescription, style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.primary
-        )
+        if (taskDescription != null) {
+            Text(
+                text = taskDescription, style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.primary
+            )
+        }
     }
 }
 

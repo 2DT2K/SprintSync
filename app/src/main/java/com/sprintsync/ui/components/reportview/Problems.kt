@@ -31,15 +31,16 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sprintsync.R
+import com.sprintsync.data.dtos.response.TaskResDto
 import com.sprintsync.ui.components.TaskPoint
 import com.sprintsync.ui.components.TaskProcess
 import com.sprintsync.ui.theme.spacing
-import com.sprintsync.ui.views.Task
-import com.sprintsync.ui.views.fakeData
+
+
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun Problem(title: String, incompleProblems: List<Task>) {
+fun Problem(title: String, incompleProblems: List<TaskResDto>) {
     Column(
         verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.default, Alignment.Top),
         horizontalAlignment = Alignment.Start,
@@ -75,7 +76,7 @@ fun Problem(title: String, incompleProblems: List<Task>) {
                 )
                 incompleProblems.forEach {
                     Text(
-                        text = it.taskNavigation,
+                        text = "SCRUMMER",
                         modifier = Modifier.height(MaterialTheme.spacing.mediumLarge),
                         style = TextStyle(
                             fontSize = 10.sp,

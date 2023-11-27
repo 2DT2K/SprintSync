@@ -16,6 +16,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -33,6 +34,9 @@ fun ChartTitle(
 ) {
     var expanded by remember {
         mutableStateOf(false)
+    }
+    var sprintList by remember {
+        mutableStateOf({})
     }
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,

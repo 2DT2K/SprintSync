@@ -167,17 +167,9 @@ fun BoardViewCategoryItem(boardviewItemDetails: IBoardviewCategoryItem) {
     }
 }
 
-var fakeData: IBoardviewCategoryItem = IBoardviewCategoryItem(
-    "Code Homepage",
-    listOf("Homepage", "FE"),
-    "Scrummer123",
-    null,
-    90,
-    null,
-)
 
-@Preview
-@Composable
-fun BoardViewCategoryItemPreview() {
-    BoardViewCategoryItem(fakeData)
-}
+//@Preview
+//@Composable
+//fun BoardViewCategoryItemPreview() {
+//    BoardViewCategoryItem(fakeData)
+//}

@@ -45,4 +45,5 @@ class SprintViewModel @Inject constructor(
 			update(State(message = response.data, error = response.err))
 		}
 	}
+
 }
