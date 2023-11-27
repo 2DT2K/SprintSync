@@ -6,6 +6,6 @@ data class TeamResDto(
 	val id: String? = null,
 	val name: String,
 	val leader: MemberDto,
-	val members: List<String>,
+	val members: List<MemberDto>,
 	val project: String
 )

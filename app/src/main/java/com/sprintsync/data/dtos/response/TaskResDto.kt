@@ -1,5 +1,5 @@
 package com.sprintsync.data.dtos.response
-
+import com.sprintsync.data.dtos.AttachmentDto
 import com.sprintsync.data.dtos.MemberDto
 import com.sprintsync.data.dtos.TeamDto
 
@@ -12,10 +12,11 @@ data class TaskResDto(
 	val assignor: MemberDto,
 	val assignees: List<MemberDto>,
 	val parentTask: String? = null,
-	val attachments: List<String>? = null,
+	val subTasks: List<TaskResDto>? = null,
+	val attachments: List<AttachmentDto>? = null,
 	val statusIndex: Int,
 	val deadline: String? = null,
 	val point: Int = 0,
-	val comments: List<String>? = null,
+	val comments: List<CommentResDto>? = null,
 	val labels: List<String>? = null
 )
