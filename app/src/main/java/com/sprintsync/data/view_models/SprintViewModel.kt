@@ -2,8 +2,12 @@ package com.sprintsync.data.view_models
 
 import com.sprintsync.data.api.SprintAPI
 import com.sprintsync.data.dtos.SprintDto
+import com.sprintsync.data.dtos.response.ReportChartDto
 import com.sprintsync.data.view_models.state.State
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -11,6 +15,11 @@ import javax.inject.Inject
 class SprintViewModel @Inject constructor(
 	private val service: SprintAPI
 ) : AbstractViewModel<SprintDto>() {
+	private val _report = MutableStateFlow(null as ReportChartDto?)
+	val report = _report.asStateFlow()
+
+	private fun updateReport(dto: ReportChartDto) = _report.update { dto }
+
 	fun getSprint(id: String) {
 		scope.launch {
 			val response = service.getSprint(id)
@@ -22,6 +31,13 @@ class SprintViewModel @Inject constructor(
 		scope.launch {
 			val response = service.getSprintsOfProject(id)
 			update(State(dtoList = response.data, error = response.err))
+		}
+	}
+
+	fun getSprintReport(id: String) {
+		scope.launch {
+			val response = service.getSprintReport(id)
+			response.data?.let { updateReport(it) }
 		}
 	}
 
