@@ -10,14 +10,14 @@ import com.sprintsync.ui.components.Calendar
 
 
 @Composable
-fun CalendarView(navController: NavController? = null) {
+fun CalendarView(navController: NavController? = null, statusList:List<String>?) {
     Column(horizontalAlignment = Alignment.Start) {
-        Calendar()
+        Calendar(statusList)
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun CalendarViewPreview() {
-    CalendarView()
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun CalendarViewPreview() {
+//    CalendarView()
+//}

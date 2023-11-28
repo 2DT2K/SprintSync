@@ -17,24 +17,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sprintsync.R
+import com.sprintsync.data.dtos.response.TaskResDto
 import com.sprintsync.ui.components.boardview.boardview_category_item.BoardViewCategoryItem
-import com.sprintsync.ui.components.boardview.boardview_category_item.IBoardviewCategoryItem
-import com.sprintsync.ui.theme.Typography
 import com.sprintsync.ui.theme.spacing
 
 
-class IBoardViewCategory(
-    var categoryName: String,
-    var numberOfTask: Number,
-    var taskList: List<IBoardviewCategoryItem>?
-)
 
 @Composable
-fun BoardViewCategory(boardviewCategory: IBoardViewCategory) {
+fun BoardViewCategory(categoryName: String?,numberOfTask: Number,taskList: List<TaskResDto>?) {
     Column(
         verticalArrangement = Arrangement.spacedBy(
             MaterialTheme.spacing.default,
@@ -63,14 +56,16 @@ fun BoardViewCategory(boardviewCategory: IBoardViewCategory) {
                 verticalAlignment = Alignment.CenterVertically,
             ) {
 //                Need to add TextStyle into theme/Type
+                if (categoryName != null) {
+                    Text(
+                        text = categoryName,
+                        style = MaterialTheme.typography.labelMedium,
+                        color = MaterialTheme.colorScheme.onBackground,
+                        letterSpacing = 0.5.sp,
+                    )
+                }
                 Text(
-                    text = boardviewCategory.categoryName,
-                    style = MaterialTheme.typography.labelMedium,
-                    color = MaterialTheme.colorScheme.onBackground,
-                    letterSpacing = 0.5.sp,
-                )
-                Text(
-                    text = boardviewCategory.numberOfTask.toString(),
+                    text = numberOfTask.toString(),
                     style = MaterialTheme.typography.labelMedium,
                     color = MaterialTheme.colorScheme.onBackground,
                     letterSpacing = 0.5.sp,
@@ -84,14 +79,14 @@ fun BoardViewCategory(boardviewCategory: IBoardViewCategory) {
                 )
             }
         }
-        boardviewCategory.taskList?.forEach {
+        taskList?.forEach {
             BoardViewCategoryItem(boardviewItemDetails = it)
         }
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun BoardViewCategoryPreview() {
-    BoardViewCategory(fakedata)
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun BoardViewCategoryPreview() {
+//    BoardViewCategory(fakedata)
+//}

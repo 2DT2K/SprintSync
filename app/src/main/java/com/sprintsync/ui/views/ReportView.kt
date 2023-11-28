@@ -11,12 +11,10 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.sprintsync.data.dtos.response.TaskResDto
-import com.sprintsync.data.view_models.ProjectViewModel
 import com.sprintsync.data.view_models.SprintViewModel
 import com.sprintsync.ui.components.reportview.Problem
 import com.sprintsync.ui.components.reportview.ReportChart
@@ -24,15 +22,13 @@ import com.sprintsync.ui.theme.spacing
 
 
 @Composable
-fun ReportView(projectID: String?) {
+fun ReportView(projectID: String?,statusList:List<String>?) {
     val sprintVM = hiltViewModel<SprintViewModel>()
-    val projectVM = hiltViewModel<ProjectViewModel>()
     val reportState by sprintVM.report.collectAsStateWithLifecycle()
     val sprintState by sprintVM.state.collectAsStateWithLifecycle()
-    val projectState by projectVM.state.collectAsStateWithLifecycle()
+
 
     val allTaskInSprint = reportState.listOfTask
-    val statusList = projectState.dto?.statuses
 
     val incompleteProblemsList = mutableListOf<TaskResDto>()
     val completeProblemsList = mutableListOf<TaskResDto>()
@@ -69,7 +65,7 @@ fun ReportView(projectID: String?) {
         Problem(
             title = "Incomplete problem",
             incompleteProblems = incompleteProblemsList,
-            statusList = projectState.dto?.labels
+            statusList = statusList
         )
         Column(
             verticalArrangement = Arrangement.spacedBy(0.dp, Alignment.CenterVertically),
@@ -80,13 +76,13 @@ fun ReportView(projectID: String?) {
         Problem(
             title = "Completed problems",
             incompleteProblems = completeProblemsList,
-            statusList = projectState.dto?.labels
+            statusList = statusList
         )
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun ReportViewPreview() {
-    ReportView("6524172bb9f63b47c37b739e")
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun ReportViewPreview() {
+//    ReportView("6524172bb9f63b47c37b739e")
+//}

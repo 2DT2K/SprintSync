@@ -1,7 +1,6 @@
 package com.sprintsync.ui.components.boardview.boardview_category_item
 
 
-import android.graphics.Bitmap
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -14,37 +13,23 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.SuggestionChip
-import androidx.compose.material3.SuggestionChipDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.toUpperCase
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sprintsync.R
+import com.sprintsync.data.dtos.response.TaskResDto
 import com.sprintsync.ui.components.TaskPoint
 import com.sprintsync.ui.components.TaskTag
 import com.sprintsync.ui.theme.spacing
 
 
-class IBoardviewCategoryItem(
-    var taskName: String,
-    var taskTag: List<String>,
-    var taskNavigatation: String,
-    var taskImage: Bitmap?,
-    var taskPoint: Number,
-    var taskAssignList: List<Bitmap>?,
-)
-
 @Composable
-fun BoardViewCategoryItem(boardviewItemDetails: IBoardviewCategoryItem) {
+fun BoardViewCategoryItem(boardviewItemDetails: TaskResDto) {
     Column(
         modifier = Modifier
             .background(
@@ -53,13 +38,14 @@ fun BoardViewCategoryItem(boardviewItemDetails: IBoardviewCategoryItem) {
             )
             .fillMaxWidth()
     ) {
-        boardviewItemDetails.taskImage?.let {
-            Image(
-                bitmap = it.asImageBitmap(),
-                contentDescription = "",
-                modifier = Modifier.fillMaxWidth()
-            )
-        }
+//        boardviewItemDetails.taskImage?.let {
+        Image(
+            painterResource(id = R.drawable.nice_avatar),
+//                bitmap = it.asImageBitmap(),
+            contentDescription = "",
+            modifier = Modifier.fillMaxWidth()
+        )
+//        }
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -71,18 +57,18 @@ fun BoardViewCategoryItem(boardviewItemDetails: IBoardviewCategoryItem) {
             horizontalAlignment = Alignment.Start
         ) {
             Text(
-                text = boardviewItemDetails.taskName,
+                text = boardviewItemDetails.name,
                 style = MaterialTheme.typography.labelMedium,
                 color = MaterialTheme.colorScheme.onSurface,
                 letterSpacing = 0.5.sp
             )
             Row(
-                horizontalArrangement = Arrangement.spacedBy(10.dp, Alignment.Start),
+                horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.largeDefault, Alignment.Start),
                 verticalAlignment = Alignment.Top,
                 modifier = Modifier.height(28.dp)
             ) {
-                boardviewItemDetails.taskTag.forEach {
-					TaskTag(tagName = it)
+                boardviewItemDetails.labels?.forEach {
+                    TaskTag(tagName = it)
                 }
             }
             Row(
@@ -105,7 +91,7 @@ fun BoardViewCategoryItem(boardviewItemDetails: IBoardviewCategoryItem) {
                             .height(24.dp)
                     )
                     Text(
-                        text = boardviewItemDetails.taskNavigatation.toUpperCase(Locale.current),
+                        text = "SCRUMMER",
                         style = MaterialTheme.typography.labelMedium,
                         color = MaterialTheme.colorScheme.primary,
                         textAlign = TextAlign.Center,
@@ -120,7 +106,7 @@ fun BoardViewCategoryItem(boardviewItemDetails: IBoardviewCategoryItem) {
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     TaskPoint(
-                        boardviewItemDetails.taskPoint,
+                        boardviewItemDetails.point,
                         Modifier
                             .height(24.dp)
                             .background(

@@ -37,8 +37,8 @@ val BugType = Color(0xFFF54C56)
 val StoryType = Color(0xFF4CF590)
 
 // Task Status
-val ToDoStatus = Color(0xFF4CF590)
+val ToDoStatus = Color(0xFF4F8FF5)
 val InProgressStatus = Color(0xFFF7C84F)
 val StuckStatus = Color(0xFFF54C56)
-val DoneStatus = Color(0xFF4F8FF5)
+val DoneStatus = Color(0xFF4CF590)
 val ProductivityStatus = Color(0xFFDF69E2)

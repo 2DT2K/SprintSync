@@ -34,6 +34,12 @@ class SprintViewModel @Inject constructor(
 		}
 	}
 
+	fun getActiveSprintByProject(id:String){
+		scope.launch {
+			val response = service.getActiveSprintByProject(id)
+			update(State(dto = response.data, error = response.err))
+		}
+	}
 	fun getSprintReport(id: String) {
 		scope.launch {
 			val response = service.getSprintReport(id)
