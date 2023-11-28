@@ -43,8 +43,7 @@ fun DetailProject(navController: NavController? = null) {
         GridItem(R.drawable.timelapse, "Timeline"),
         GridItem(R.drawable.tasks, "Tasks"),
         GridItem(R.drawable.files, "Files"),
-        GridItem(R.drawable.people, "People"),
-        GridItem(R.drawable.team, "Team"),
+        GridItem(R.drawable.people, "Members"),
         GridItem(R.drawable.report, "Report"),
     )
 

@@ -29,6 +29,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
 import com.sprintsync.data.auth.Authenticator
+import com.sprintsync.data.view_models.MemberViewModel
 import com.sprintsync.data.view_models.ProjectViewModel
 import com.sprintsync.data.view_models.ProjectViewViewModel
 import com.sprintsync.ui.components.BottomNavigation
@@ -73,7 +74,10 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun MainContent() {
     val projectVM = hiltViewModel<ProjectViewModel>()
+    val memberVM = hiltViewModel<MemberViewModel>()
     val projectState by projectVM.state.collectAsStateWithLifecycle()
+    val memberState by memberVM.state.collectAsStateWithLifecycle()
+    val memberList = memberState.dtoList
     val chosenProject = projectState.dto
 
     val navController = rememberNavController()
@@ -81,6 +85,7 @@ fun MainContent() {
     var showBottomAndTopBar by remember { mutableStateOf(false) }
     var showFAB by remember { mutableStateOf(false) }
     var route by remember { mutableStateOf("") }
+
     navController.addOnDestinationChangedListener { _, dest, _ ->
         showBottomAndTopBar =
             dest.route !in listOf("sign_in", "sign_up", "password_reset", "verify_account")
@@ -198,7 +203,7 @@ fun MainContent() {
                                     tween(500)
                                 )
                             }
-                        ) { BoardView() }
+                        ) { BoardView(chosenProject?.id, chosenProject?.labels) }
                         composable(
                             Screens.Backlog.route,
                             enterTransition = {
@@ -262,7 +267,7 @@ fun MainContent() {
                             TaskView(fakeTask, listOf("To do", "In Progress"))
                         }
                         composable(
-                            Screens.People.route,
+                            Screens.Members.route,
                             enterTransition = {
                                 return@composable fadeIn(tween(500))
                             },
@@ -275,7 +280,7 @@ fun MainContent() {
                                     tween(500)
                                 )
                             }
-                        ) { Member() }
+                        ) { Member(chosenProject?.id) }
                         composable(
                             Screens.Reports.route,
                             enterTransition = {
@@ -290,7 +295,7 @@ fun MainContent() {
                                     tween(500)
                                 )
                             }
-                        ) { ReportView(chosenProject?.id) }
+                        ) { ReportView(chosenProject?.id, chosenProject?.statuses) }
                         composable(
                             Screens.Timeline.route,
                             enterTransition = {
@@ -308,23 +313,6 @@ fun MainContent() {
                         ) {
                             //TODO: CAN NOT DO THIS
                         }
-                        composable(
-                            Screens.Team.route,
-                            enterTransition = {
-                                return@composable fadeIn(tween(500))
-                            },
-                            exitTransition = {
-                                return@composable fadeOut(tween(500))
-                            },
-                            popExitTransition = {
-                                return@composable slideOutOfContainer(
-                                    AnimatedContentTransitionScope.SlideDirection.End,
-                                    tween(500)
-                                )
-                            }
-                        ) {
-                            //TODO: IS DOING
-                        }
                     }
                 }
                 composable(
@@ -338,7 +326,7 @@ fun MainContent() {
                     popEnterTransition = {
                         return@composable scaleIn(tween(500))
                     },
-                ) { CalendarView(navController) }
+                ) { CalendarView(navController,chosenProject?.statuses) }
                 composable(
                     Screens.Profile.route,
                     enterTransition = {

@@ -21,6 +21,12 @@ interface MemberAPI {
 	@GET("members/me")
 	suspend fun getMe(): ApiResponse<MemberDto>
 
+	@GET("members/role/?project={projectId}&member={memberId}")
+	suspend fun getMemberRole(
+		@Path("projectId") projectId: String,
+		@Path("memberId") memberId: String
+	): ApiResponse<String>
+
 	@PATCH("members")
 	suspend fun updateMember(@Body dto: MemberDto): ApiResponse<MemberDto>
 
