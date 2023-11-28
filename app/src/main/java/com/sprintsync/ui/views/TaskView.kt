@@ -4,22 +4,24 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.sprintsync.data.dtos.AttachmentDto
 import com.sprintsync.data.dtos.MemberDto
 import com.sprintsync.data.dtos.TeamDto
 import com.sprintsync.data.dtos.response.CommentResDto
 import com.sprintsync.data.dtos.response.TaskResDto
+import com.sprintsync.data.view_models.TaskViewModel
 import com.sprintsync.ui.components.HorizontalDivider
 import com.sprintsync.ui.components.taskview.ChangeTaskStateButton
 import com.sprintsync.ui.components.taskview.MoreInformation
@@ -32,9 +34,16 @@ import com.sprintsync.ui.theme.spacing
 
 
 @Composable
-fun TaskView(task: TaskResDto, statusList: List<String>) {
+fun TaskView(taskId: String, statusList: List<String>) {
+    val taskVM = hiltViewModel<TaskViewModel>()
+    val taskDetailsState by taskVM.state.collectAsState()
+    val taskDetails = taskDetailsState.dto
+    LaunchedEffect(Unit) {
+        taskVM.getTask(taskId)
+    }
+
     val taskState by remember {
-        mutableStateOf(statusList[task.statusIndex])
+        mutableStateOf(statusList[taskDetails?.statusIndex!!])
     }
     Surface {
         Column(
@@ -48,21 +57,39 @@ fun TaskView(task: TaskResDto, statusList: List<String>) {
             ),
             horizontalAlignment = Alignment.Start,
         ) {
-            TaskviewTitle(taskNavigation = "SCRUMMER", taskAssignor = task.assignor)
-            ChangeTaskStateButton(taskState = taskState)
-            TaskDescription(taskDescription = task.description)
-            HorizontalDivider()
-            SubTask(subTaskList = task.subTasks, statusList = statusList)
-            HorizontalDivider()
-            TaskAttachment(attachmentList = task.attachments)
-            HorizontalDivider()
-            MoreInformation(
-                point = task.point,
-                assigneeList = task.assignees,
-                taskTag = task.labels,
-                reporter = task.assignor,
+            taskDetails?.assignor?.let {
+                TaskviewTitle(
+                    taskNavigation = "SCRUMMER",
+                    taskAssignor = it
+                )
+            }
+            ChangeTaskStateButton(
+                taskState = taskState,
+                updateState = { taskVM.updateTask(it) },
+                statusList = statusList,
+                taskDetails = taskDetails,
             )
-            TaskComments(commentList = task.comments)
+            if (taskDetails != null) {
+                TaskDescription(taskDescription = taskDetails.description)
+            }
+            HorizontalDivider()
+            if (taskDetails != null) {
+                SubTask(subTaskList = taskDetails.subTasks, statusList = statusList)
+            }
+            HorizontalDivider()
+            if (taskDetails != null) {
+                TaskAttachment(attachmentList = taskDetails.attachments)
+            }
+            HorizontalDivider()
+            if (taskDetails != null) {
+                MoreInformation(
+                    updateState = { taskVM.updateTask(it) },
+                    taskDetails = taskDetails,
+                )
+            }
+            if (taskDetails != null) {
+                TaskComments(commentList = taskDetails.comments)
+            }
         }
     }
 }
@@ -157,8 +184,8 @@ var fakeTask: TaskResDto = TaskResDto(
 )
 
 
-@Preview(showBackground = true)
-@Composable
-fun TaskViewPreview() {
-    TaskView(fakeTask, listOf("To do","In Progress"))
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun TaskViewPreview() {
+//    TaskView(fakeTask, listOf("To do", "In Progress"))
+//}

@@ -36,6 +36,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sprintsync.R
 import com.sprintsync.data.dtos.MemberDto
+import com.sprintsync.data.dtos.TaskDto
+import com.sprintsync.data.dtos.response.TaskResDto
 import com.sprintsync.ui.components.SimpleMemberInfor
 import com.sprintsync.ui.components.TagPopUp
 import com.sprintsync.ui.theme.spacing
@@ -43,10 +45,8 @@ import com.sprintsync.ui.theme.spacing
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MoreInformation(
-    point: Number,
-    assigneeList: List<MemberDto>,
-    taskTag: List<String>?,
-    reporter: MemberDto
+    updateState: (TaskDto) -> Unit,
+    taskDetails: TaskResDto,
 ) {
     var isDialogVisible by remember { mutableStateOf(false) }
     Column(
@@ -121,7 +121,8 @@ fun MoreInformation(
                     color = MaterialTheme.colorScheme.onPrimaryContainer,
                 )
                 Text(
-                    text = point.toString(), style = MaterialTheme.typography.labelMedium,
+                    text = taskDetails.point.toString(),
+                    style = MaterialTheme.typography.labelMedium,
                     color = MaterialTheme.colorScheme.onSecondaryContainer,
                 )
             }
@@ -146,7 +147,7 @@ fun MoreInformation(
                 ),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                assigneeList.forEach {
+                taskDetails.assignees.forEach {
                     SimpleMemberInfor(name = it.name)
                 }
             }
@@ -174,76 +175,82 @@ fun MoreInformation(
                     .height(MaterialTheme.spacing.extraLarge)
             ) {
                 if (isDialogVisible) {
-                    TagPopUp({ isDialogVisible = false }, tagList = listOf("FE","HomePage"))
-                }
-                taskTag?.forEach {
-                    SuggestionChip(
-                        onClick = { /*TODO*/ },
-                        label = { Text(it) },
-                        border = null,
-                        shape = RoundedCornerShape(size = MaterialTheme.spacing.small),
-                        colors = SuggestionChipDefaults.suggestionChipColors(
-                            containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                            labelColor = MaterialTheme.colorScheme.onSecondaryContainer
-                        ),
-                    )
-                }
-                Button(
-                    onClick = { isDialogVisible = true },
-                    contentPadding = PaddingValues(
-                        MaterialTheme.spacing.default
-                    ),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = Color.Transparent,
-                        MaterialTheme.colorScheme.onSecondaryContainer
-                    ),
-                    border = BorderStroke(1.dp, Color(0xFF79747E)),
-                    shape = RoundedCornerShape(size = 4.dp),
-                ) {
-                    Text(
-                        text = "Add ",
-                        style = TextStyle(
-                            fontSize = 10.sp,
-                            lineHeight = 12.2.sp,
-                            fontWeight = FontWeight(500),
-                            color = Color(0xFF49454F),
-                            textAlign = TextAlign.Center,
-                            letterSpacing = 0.1.sp,
+                    taskDetails.labels?.let {
+                        TagPopUp(
+                            { isDialogVisible = false },
+                            taskDetails = taskDetails.toDto(),
+                            updateState = updateState
                         )
-                    )
-                    Image(
-                        painter = painterResource(id = R.drawable.normal_add),
-                        contentDescription = "",
-                        modifier = Modifier.height(18.dp)
-                    )
+                    }
+                    taskDetails.labels?.forEach {
+                        SuggestionChip(
+                            onClick = { /*TODO*/ },
+                            label = { Text(it) },
+                            border = null,
+                            shape = RoundedCornerShape(size = MaterialTheme.spacing.small),
+                            colors = SuggestionChipDefaults.suggestionChipColors(
+                                containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                                labelColor = MaterialTheme.colorScheme.onSecondaryContainer
+                            ),
+                        )
+                    }
+                    Button(
+                        onClick = { isDialogVisible = true },
+                        contentPadding = PaddingValues(
+                            MaterialTheme.spacing.default
+                        ),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Color.Transparent,
+                            MaterialTheme.colorScheme.onSecondaryContainer
+                        ),
+                        border = BorderStroke(1.dp, Color(0xFF79747E)),
+                        shape = RoundedCornerShape(size = 4.dp),
+                    ) {
+                        Text(
+                            text = "Add ",
+                            style = TextStyle(
+                                fontSize = 10.sp,
+                                lineHeight = 12.2.sp,
+                                fontWeight = FontWeight(500),
+                                color = Color(0xFF49454F),
+                                textAlign = TextAlign.Center,
+                                letterSpacing = 0.1.sp,
+                            )
+                        )
+                        Image(
+                            painter = painterResource(id = R.drawable.normal_add),
+                            contentDescription = "",
+                            modifier = Modifier.height(18.dp)
+                        )
+                    }
                 }
             }
-        }
-        Column(
-            verticalArrangement = Arrangement.spacedBy(7.dp, Alignment.CenterVertically),
-            horizontalAlignment = Alignment.Start,
-            modifier = Modifier.padding(5.dp)
-        ) {
-            Text(
-                text = "Reporter",
-                style = MaterialTheme.typography.labelSmall,
-                color = MaterialTheme.colorScheme.onPrimaryContainer,
-            )
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(
-                    MaterialTheme.spacing.small,
-                    Alignment.Start
-                ),
-                verticalAlignment = Alignment.CenterVertically,
+            Column(
+                verticalArrangement = Arrangement.spacedBy(7.dp, Alignment.CenterVertically),
+                horizontalAlignment = Alignment.Start,
+                modifier = Modifier.padding(5.dp)
             ) {
-                SimpleMemberInfor(name = reporter.name)
+                Text(
+                    text = "Reporter",
+                    style = MaterialTheme.typography.labelSmall,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer,
+                )
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(
+                        MaterialTheme.spacing.small,
+                        Alignment.Start
+                    ),
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    SimpleMemberInfor(name = taskDetails.assignor.name)
+                }
             }
         }
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun MoreInformationPreview() {
-
-}
+//    @Preview(showBackground = true)
+//    @Composable
+//    fun MoreInformationPreview() {
+//
+//    }

@@ -10,9 +10,9 @@ data class TaskDto(
 	val assignees: List<String>,
 	val parentTask: String? = null,
 	val attachments: List<String>? = null,
-	val statusIndex: Int,
+	var statusIndex: Int,
 	val deadline: String? = null,
 	val point: Int = 0,
 	val comments: List<String>? = null,
-	val labels: List<String>? = null
+	var labels: List<String>? = null
 )
