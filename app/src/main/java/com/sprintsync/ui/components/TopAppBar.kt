@@ -34,14 +34,11 @@ fun TopAppBar(
         "files" -> {
             TwoIconTopAppBar(title = "Files", navigationOnclick = { navController?.popBackStack() })
         }
-        "people" -> {
+        "members" -> {
             TwoIconTopAppBar(title = "Member", navigationOnclick = { navController?.popBackStack() })
         }
         "report" -> {
             TwoIconTopAppBar(title = "Report", navigationOnclick = { navController?.popBackStack() })
-        }
-        "team" -> {
-            TwoIconTopAppBar(title = "Team", navigationOnclick = { navController?.popBackStack() })
         }
         "calendar" -> {
             AvatarTopAppBar(title = "Calendar")

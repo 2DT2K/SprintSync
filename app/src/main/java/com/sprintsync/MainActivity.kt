@@ -30,6 +30,7 @@ import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
 import com.sprintsync.data.auth.Authenticator
 import com.sprintsync.data.view_models.BacklogViewModel
+import com.sprintsync.data.view_models.MemberViewModel
 import com.sprintsync.data.view_models.ProjectViewModel
 import com.sprintsync.data.view_models.ProjectViewViewModel
 import com.sprintsync.ui.components.BottomNavigation
@@ -55,6 +56,7 @@ import com.sprintsync.ui.views.project_view.ProjectList
 import com.sprintsync.ui.views.project_view.backlog.Backlog
 import com.sprintsync.ui.views.project_view.file_view.FileView
 import com.sprintsync.ui.views.project_view.member.Member
+//import com.sprintsync.ui.views.project_view.member.Member
 import com.sprintsync.ui.views.project_view.tasklist.TaskListView
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -74,7 +76,10 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun MainContent() {
     val projectVM = hiltViewModel<ProjectViewModel>()
+    val memberVM = hiltViewModel<MemberViewModel>()
     val projectState by projectVM.state.collectAsStateWithLifecycle()
+    val memberState by memberVM.state.collectAsStateWithLifecycle()
+    val memberList = memberState.dtoList
     val chosenProject = projectState.dto
     val navController = rememberNavController()
 
@@ -86,7 +91,7 @@ fun MainContent() {
         showBottomAndTopBar =
             dest.route !in listOf("sign_in", "sign_up", "password_reset", "verify_account")
         route = dest.route ?: ""
-        showFAB = dest.route in listOf("project_list", "files", "tasks", "people", "team")
+        showFAB = dest.route in listOf("project_list", "files", "tasks", "members")
     }
 
     Scaffold(
@@ -224,7 +229,7 @@ fun MainContent() {
                                     tween(500)
                                 )
                             }
-                        ) { FileView() }
+                        ) { FileView(chosenProject?.id) }
                         composable(
                             Screens.Tasks.route,
                             enterTransition = {
@@ -258,7 +263,7 @@ fun MainContent() {
                             TaskView(fakeTask, listOf("To do","In Progress"))
                         }
                         composable(
-                            Screens.People.route,
+                            Screens.Members.route,
                             enterTransition = {
                                 return@composable fadeIn(tween(500))
                             },
@@ -271,7 +276,7 @@ fun MainContent() {
                                     tween(500)
                                 )
                             }
-                        ) { Member() }
+                        ) { Member(chosenProject?.id) }
                         composable(
                             Screens.Reports.route,
                             enterTransition = {
@@ -303,23 +308,6 @@ fun MainContent() {
                             }
                         ) {
                             //TODO: CAN NOT DO THIS
-                        }
-                        composable(
-                            Screens.Team.route,
-                            enterTransition = {
-                                return@composable fadeIn(tween(500))
-                            },
-                            exitTransition = {
-                                return@composable fadeOut(tween(500))
-                            },
-                            popExitTransition = {
-                                return@composable slideOutOfContainer(
-                                    AnimatedContentTransitionScope.SlideDirection.End,
-                                    tween(500)
-                                )
-                            }
-                        ) {
-                            //TODO: IS DOING
                         }
                     }
                 }

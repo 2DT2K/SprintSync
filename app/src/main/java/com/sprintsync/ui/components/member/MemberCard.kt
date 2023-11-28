@@ -15,30 +15,36 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.sprintsync.R
+import com.sprintsync.data.dtos.MemberDto
+import com.sprintsync.data.view_models.MemberViewModel
 import com.sprintsync.ui.theme.spacing
-import com.sprintsync.ui.views.project_view.member.RoleColor
+
 
 
 @Composable
 fun MemberCard(
-    avatar: String = "",
-    memberName: String,
-    teamName: String,
-    role: String,
+    projectId: String,
+    member: MemberDto,
 ) {
-    var roleColor: Color = Color.Transparent
-    when (role) {
-        "FE_developer" -> roleColor = RoleColor().feDeveloper
-        "BE_developer" -> roleColor = RoleColor().beDeveloper
-        "UI/UX_developer" -> roleColor = RoleColor().uiUxDesigner
+    val memberVM = hiltViewModel<MemberViewModel>()
+    val roleState by memberVM.roleState.collectAsStateWithLifecycle()
+    val role = roleState.dto?.role
+
+    LaunchedEffect(Unit) {
+        member.id?.let { memberVM.getMemberRole(projectId, it) }
     }
 
+    val roleColor: Color = MaterialTheme.colorScheme.secondary
     Surface {
         Row(
             modifier = Modifier
@@ -65,12 +71,12 @@ fun MemberCard(
                     horizontalAlignment = Alignment.Start,
                 ) {
                     Text(
-                        text = memberName,
+                        text = member.name,
                         style = MaterialTheme.typography.labelLarge,
                         color = MaterialTheme.colorScheme.onSurface,
                     )
                     Text(
-                        text = teamName,
+                        text = member.email,
                         style = MaterialTheme.typography.bodyLarge,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
@@ -87,12 +93,14 @@ fun MemberCard(
                         horizontal = MaterialTheme.spacing.medium
                     )
             ) {
-                Text(
-                    text = role.replace("_", " "),
-                    style = MaterialTheme.typography.labelMedium,
-                    maxLines = 1,
-                    color = MaterialTheme.colorScheme.surface,
-                )
+                role?.let {
+                    Text(
+                        text = it,
+                        style = MaterialTheme.typography.labelMedium,
+                        maxLines = 1,
+                        color = MaterialTheme.colorScheme.surface,
+                    )
+                }
             }
         }
     }
