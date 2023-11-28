@@ -99,7 +99,9 @@ fun MainContent() {
             if (showBottomAndTopBar) BottomNavigation(navController)
         },
         floatingActionButton = {
-            if (showFAB) { if (route == "files") AddFileFAB() else AddProjectFAB() }
+            if (showFAB) {
+                if (route == "files") AddFileFAB() else AddProjectFAB()
+            }
         },
         containerColor = MaterialTheme.colorScheme.surface,
     ) { paddingValues ->
@@ -194,7 +196,7 @@ fun MainContent() {
                                     tween(500)
                                 )
                             }
-                        ) { BoardView() }
+                        ) { BoardView(chosenProject?.id, chosenProject?.labels) }
                         composable(
                             Screens.Backlog.route,
                             enterTransition = {
@@ -255,7 +257,7 @@ fun MainContent() {
                                 )
                             }
                         ) {
-                            TaskView(fakeTask, listOf("To do","In Progress"))
+                            TaskView(fakeTask, listOf("To do", "In Progress"))
                         }
                         composable(
                             Screens.People.route,
@@ -286,7 +288,7 @@ fun MainContent() {
                                     tween(500)
                                 )
                             }
-                        ) { ReportView(chosenProject?.id) }
+                        ) { ReportView(chosenProject?.id, chosenProject?.statuses) }
                         composable(
                             Screens.Timeline.route,
                             enterTransition = {
@@ -334,7 +336,7 @@ fun MainContent() {
                     popEnterTransition = {
                         return@composable scaleIn(tween(500))
                     },
-                ) { CalendarView(navController) }
+                ) { CalendarView(navController,chosenProject?.statuses) }
                 composable(
                     Screens.Profile.route,
                     enterTransition = {

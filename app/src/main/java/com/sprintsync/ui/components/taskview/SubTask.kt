@@ -118,9 +118,9 @@ fun SubTask(subTaskList: List<TaskResDto>?, statusList:List<String>) {
                         }
                     }
                     when (statusList[it.statusIndex]) {
-                        "In progress" -> TaskProcess(title = "In progress", color = 0xFFF7C84F)
-                        "Productivity" -> TaskProcess(title = "Productivity", color = 0xFFAA60AB)
-                        "Todo" -> TaskProcess(title = "Todo", color = 0xFF4CF590)
+                        "In progress" -> TaskProcess(title = "In progress", color = 0xFF4CF590)
+                        "Done" -> TaskProcess(title = "Productivity", color = 0xFF00B383)
+                        "To Do" -> TaskProcess(title = "Todo", color = 0xFF4F8FF5)
                     }
                 }
             }

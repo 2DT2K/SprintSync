@@ -1,5 +1,6 @@
 package com.sprintsync.ui.components
 
+import android.annotation.SuppressLint
 import android.content.Context
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.Image
@@ -14,13 +15,14 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -28,16 +30,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.sprintsync.R
-import com.sprintsync.ui.components.calendar.CalendarTask
+import com.sprintsync.data.dtos.response.TaskResDto
+import com.sprintsync.data.view_models.TaskViewModel
 import com.sprintsync.ui.components.calendar.CalendarTaskview
-import com.sprintsync.ui.components.calendar.fakeCalendarTask
 import com.sprintsync.ui.theme.spacing
 import io.github.boguszpawlowski.composecalendar.SelectableCalendar
 import io.github.boguszpawlowski.composecalendar.day.DayState
@@ -49,33 +50,22 @@ import java.time.DayOfWeek
 import java.time.DayOfWeek.MONDAY
 import java.time.LocalDate
 import java.time.LocalDateTime
-import java.time.Month
 import java.time.YearMonth
 import java.time.format.TextStyle.FULL
 import java.util.Locale
 
-var fakeCalendarTask3 = CalendarTask(
-    "Stuck", "1 day remaining", "Play AOE", "Reach 5k mmr",
-    LocalDateTime.of(2023, Month.NOVEMBER, 1, 0, 0)
-)
-var fakeCalendarTask2 = CalendarTask(
-    "Done", "2 day remaining", "Play Genshin", "Reach 5k mmr",
-    LocalDateTime.of(2023, Month.NOVEMBER, 1, 0, 0)
-)
-var fakeCalendarTask4 = CalendarTask(
-    "Stuck", "1 day remaining", "Play AOE", "Reach 5k mmr",
-    LocalDateTime.of(2023, Month.NOVEMBER, 12, 0, 0)
-)
-var fakeCalendarTask5 = CalendarTask(
-    "Done", "2 day remaining", "Play Genshin", "Reach 5k mmr",
-    LocalDateTime.of(2023, Month.NOVEMBER, 15, 0, 0)
-)
-val fakeCalendarList = listOf<CalendarTask>(
-    fakeCalendarTask, fakeCalendarTask2, fakeCalendarTask3, fakeCalendarTask4, fakeCalendarTask5
-)
 
 @Composable
-fun Calendar() {
+fun Calendar(statusList: List<String>?) {
+    val taskViewVM = hiltViewModel<TaskViewModel>()
+    val tasksState by taskViewVM.state.collectAsStateWithLifecycle()
+
+    val allTask = tasksState.dtoList
+    LaunchedEffect(Unit) {
+        taskViewVM.getMyTasks()
+    }
+
+
     val (currentDaySelected, setCurrentDaySelected) = remember {
         mutableStateOf(LocalDateTime.now())
     }
@@ -93,8 +83,9 @@ fun Calendar() {
             dayContent = {
                 DayContent(
                     dayState = it,
-                    currentDaySelected = currentDaySelected,
-                    setCurrentDaySelected = setCurrentDaySelected
+                    setCurrentDaySelected = setCurrentDaySelected,
+                    allTask = allTask,
+                    statusList = statusList,
                 )
             },
             daysOfWeekHeader = { WeekHeader(daysOfWeek = it) },
@@ -111,12 +102,13 @@ fun Calendar() {
             verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.Top),
             horizontalAlignment = Alignment.Start,
         ) {
-            fakeCalendarList.forEach {
-                if (currentDaySelected.month == it.deadline.month
-                    && currentDaySelected.dayOfMonth == it.deadline.dayOfMonth
-                    && currentDaySelected.year == it.deadline.year
+            allTask?.forEach {
+                val dlDate = LocalDateTime.parse(it.deadline)
+                if (currentDaySelected.month == dlDate.month
+                    && currentDaySelected.dayOfMonth == dlDate.dayOfMonth
+                    && currentDaySelected.year == dlDate.year
                 ) {
-                    CalendarTaskview(calendarTask = it)
+                    CalendarTaskview(calendarTask = it, statusList = statusList)
                 }
             }
         }
@@ -125,11 +117,13 @@ fun Calendar() {
 
 }
 
+@SuppressLint("DiscouragedApi")
 @Composable
 private fun DayContent(
     dayState: DayState<DynamicSelectionState>,
-    currentDaySelected: LocalDateTime,
     setCurrentDaySelected: (LocalDateTime) -> Unit,
+    allTask: List<TaskResDto>?,
+    statusList: List<String>?
 ) {
     var paddingValue = 10;
     val context: Context = LocalContext.current
@@ -143,10 +137,13 @@ private fun DayContent(
     if (!isCurrentMonth) {
         color = 0xFF8F9BB3
     }
-    fakeCalendarList.forEach {
-        if (date.month == it.deadline.month
-            && date.dayOfMonth == it.deadline.dayOfMonth
-            && date.year == it.deadline.year
+
+
+    allTask?.forEach {
+        val dlDate = LocalDateTime.parse(it.deadline)
+        if (date.month == dlDate.month
+            && date.dayOfMonth == dlDate.dayOfMonth
+            && date.year == dlDate.year
         ) {
             paddingValue = 4
         }
@@ -183,25 +180,31 @@ private fun DayContent(
                     .fillMaxWidth()
                     .height(6.dp)
             ) {
-                fakeCalendarList.forEach {
-                    if (date.month == it.deadline.month
-                        && date.dayOfMonth == it.deadline.dayOfMonth
-                        && date.year == it.deadline.year
+                val usedStatusList = mutableListOf<String>()
+                allTask?.forEach {
+                    val dlDate = LocalDateTime.parse(it.deadline)
+                    if (date.month == dlDate.month
+                        && date.dayOfMonth == dlDate.dayOfMonth
+                        && date.year == dlDate.year
                     ) {
-                        var dotColor = "blue_dot"
-                        when (it.taskState) {
-                            "Todo"        -> dotColor = "blue_dot"
-                            "In Progress" -> dotColor = "blue_dot"
-                            "Stuck"       -> dotColor = "red_dot"
-                            "Review"      -> dotColor = "blue_dot"
-                            "Done"        -> dotColor = "green_dot"
+                        if (!usedStatusList.contains(statusList?.get(it.statusIndex))) {
+                            statusList?.get(it.statusIndex)?.let { it1 -> usedStatusList.add(it1) }
+                            var dotColor = "blue_dot"
+                            when (statusList?.get(it.statusIndex)) {
+                                "To Do" -> dotColor = "blue_dot"
+                                "In Progress" -> dotColor = "yellow_dot"
+//                            "Stuck" -> dotColor = "red_dot"
+//                            "Review" -> dotColor = "blue_dot"
+                                "Done" -> dotColor = "green_dot"
+                            }
+                            val id = resources.getIdentifier(dotColor, "drawable", packageName)
+                            Image(
+                                modifier = Modifier.size(6.dp),
+                                painter = painterResource(id = id),
+                                contentDescription = ""
+                            )
                         }
-                        val id = resources.getIdentifier(dotColor, "drawable", packageName)
-                        Image(
-                            modifier = Modifier.size(6.dp),
-                            painter = painterResource(id = id),
-                            contentDescription = ""
-                        )
+
                     }
                 }
             }
@@ -293,5 +296,5 @@ private fun MonthHeader(monthState: MonthState) {
 @Preview(showBackground = true)
 @Composable
 fun CalendarPreview() {
-    Calendar()
+    Calendar(listOf("To Do", "In Progress", "Done"))
 }
