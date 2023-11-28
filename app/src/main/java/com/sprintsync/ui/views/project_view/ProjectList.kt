@@ -9,6 +9,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -16,8 +17,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.sprintsync.data.view_models.ProjectViewViewModel
 import androidx.navigation.NavController
+import com.sprintsync.data.dtos.ProjectDto
+import com.sprintsync.data.view_models.ProjectViewModel
 import com.sprintsync.ui.components.SearchBar
 import com.sprintsync.ui.components.projectlist.ProjectCard
 import com.sprintsync.ui.navigation.Screens
@@ -27,28 +32,37 @@ import com.sprintsync.ui.theme.spacing
 @Composable
 fun ProjectList(projectViewViewModel: ProjectViewViewModel, navController: NavController? = null) {
     var searchTerm by remember { mutableStateOf("") }
+    val projectListVM = hiltViewModel<ProjectViewModel>()
+    val projectListState by projectListVM.state.collectAsStateWithLifecycle()
+
+    LaunchedEffect(Unit) {
+        projectListVM.getMyProjects()
+    }
+
     Column(
         modifier = Modifier.verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.medium)
     ) {
         SearchBar(placeHolder = "Find Projects", onValueChange = { searchTerm = it })
         Column(verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.medium)) {
-            StarredProjectList(
-                searchTerm = searchTerm,
-                projects = projectViewViewModel.projectList,
-                onChange = {
-                    projectViewViewModel.updateProjectList(it)
-                },
-                navController = navController
-            )
-            AllProjectList(
-                projects = projectViewViewModel.projectList,
-                searchTerm = searchTerm,
-                onChange = {
-                    projectViewViewModel.updateProjectList(it)
-                },
-                navController = navController
-            )
+            projectListState.dtoList?.let {
+                StarredProjectList(
+                    searchTerm = searchTerm,
+                    projects = it.toList(),
+                    onChange = {
+                        projectViewViewModel.updateProjectList(it)
+                    },
+                    navController = navController
+                )
+                AllProjectList(
+                    projects = projectListState.dtoList,
+                    searchTerm = searchTerm,
+                    onChange = {
+                        projectViewViewModel.updateProjectList(it)
+                    },
+                    navController = navController
+                )
+            }
         }
     }
 }
@@ -57,11 +71,12 @@ fun ProjectList(projectViewViewModel: ProjectViewViewModel, navController: NavCo
 @Composable
 fun StarredProjectList(
     searchTerm: String = "",
-    projects: List<ProjectViewViewModel.ProjectList>,
+    projects: List<ProjectDto>,
     onChange: ((Int) -> Unit)? = null,
     navController: NavController? = null
 ) {
-    val currentStarredList = projects.none { project -> project.isStarred }
+    //TODO: get the star project later
+    val currentStarredList = projects.none { project -> true }
     if (!currentStarredList) Column(
         modifier = Modifier.animateContentSize(),
         verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.medium)
@@ -72,14 +87,15 @@ fun StarredProjectList(
             color = MaterialTheme.colorScheme.onSurface
         )
         projects.forEachIndexed() { index, project ->
-            if (project.projectName.contains(
+            if (project.name.contains(
                     searchTerm,
                     true
-                ) && project.isStarred
+                )
+            //&& project.isStarred
             ) ProjectCard(
                 project = project,
                 index = index,
-                onClick = {navController?.navigate(Screens.DetailProject.route)}
+                onClick = { navController?.navigate(Screens.DetailProject.route) }
             ) {
                 if (onChange != null) {
                     onChange(it)
@@ -93,7 +109,7 @@ fun StarredProjectList(
 fun AllProjectList(
     modifier: Modifier = Modifier,
     searchTerm: String = "",
-    projects: List<ProjectViewViewModel.ProjectList>,
+    projects: List<ProjectDto>?,
     onChange: ((Int) -> Unit)? = null,
     navController: NavController? = null
 ) {
@@ -110,15 +126,16 @@ fun AllProjectList(
             modifier = modifier.wrapContentHeight(),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            projects.forEachIndexed() { index, project ->
-                if (project.projectName.contains(
+            projects?.forEachIndexed() { index, project ->
+                if (project.name.contains(
                         searchTerm,
                         true
-                    ) && !project.isStarred
+                    )
+                //&& !project.isStarred
                 ) ProjectCard(
                     project = project,
                     index = index,
-                    onClick = {navController?.navigate(Screens.DetailProject.route)}
+                    onClick = { navController?.navigate(Screens.DetailProject.route) }
                 ) {
                     if (onChange != null) {
                         onChange(it)
