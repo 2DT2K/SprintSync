@@ -8,10 +8,19 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 
 abstract class AbstractViewModel<T> : ViewModel() {
-	protected val scope = viewModelScope
+    protected val scope = viewModelScope
 
-	private val _state = MutableStateFlow(State<T>())
-	val state = _state.asStateFlow()
+    private val _state = MutableStateFlow(State<T>())
+    val state = _state.asStateFlow()
 
-	protected fun update(newState: State<T>) = _state.update { newState }
+    protected fun update(newState: State<T>) = _state.update { newState }
+    protected fun addToDtoList(item: T) = _state.update {
+        State(
+            dto = _state.value.dto, dtoList = _state.value.dtoList?.plus(
+                item
+            ),
+            message = _state.value.message,
+            error = _state.value.error
+        )
+    }
 }

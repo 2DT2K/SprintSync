@@ -29,7 +29,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
 import com.sprintsync.data.auth.Authenticator
-import com.sprintsync.data.view_models.BacklogViewModel
 import com.sprintsync.data.view_models.MemberViewModel
 import com.sprintsync.data.view_models.ProjectViewModel
 import com.sprintsync.data.view_models.ProjectViewViewModel
@@ -56,7 +55,6 @@ import com.sprintsync.ui.views.project_view.ProjectList
 import com.sprintsync.ui.views.project_view.backlog.Backlog
 import com.sprintsync.ui.views.project_view.file_view.FileView
 import com.sprintsync.ui.views.project_view.member.Member
-//import com.sprintsync.ui.views.project_view.member.Member
 import com.sprintsync.ui.views.project_view.tasklist.TaskListView
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -81,6 +79,7 @@ fun MainContent() {
     val memberState by memberVM.state.collectAsStateWithLifecycle()
     val memberList = memberState.dtoList
     val chosenProject = projectState.dto
+
     val navController = rememberNavController()
 
     var showBottomAndTopBar by remember { mutableStateOf(false) }
@@ -91,7 +90,7 @@ fun MainContent() {
         showBottomAndTopBar =
             dest.route !in listOf("sign_in", "sign_up", "password_reset", "verify_account")
         route = dest.route ?: ""
-        showFAB = dest.route in listOf("project_list", "files", "tasks", "members")
+        showFAB = dest.route in listOf("project_list", "files", "tasks", "people", "team")
     }
 
     Scaffold(
@@ -165,7 +164,9 @@ fun MainContent() {
                         },
                     ) {
                         ProjectList(
-                            ProjectViewViewModel(), navController
+                            navController, projectState.dtoList ?: emptyList(),
+                            getMyProjects = {projectVM.getMyProjects()},
+                            choseProject = {projectVM.choseProject(it)}
                         )
                     }
                     navigation(
@@ -216,7 +217,7 @@ fun MainContent() {
                                     tween(500)
                                 )
                             }
-                        ) { Backlog(BacklogViewModel("")) }
+                        ) { Backlog(projectState.dto?.id) }
                         composable(
                             Screens.Files.route,
                             enterTransition = {
@@ -231,7 +232,7 @@ fun MainContent() {
                                     tween(500)
                                 )
                             }
-                        ) { FileView(chosenProject?.id) }
+                        ) { FileView() }
                         composable(
                             Screens.Tasks.route,
                             enterTransition = {

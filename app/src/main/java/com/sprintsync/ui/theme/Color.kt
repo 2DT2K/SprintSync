@@ -42,3 +42,8 @@ val InProgressStatus = Color(0xFFF7C84F)
 val StuckStatus = Color(0xFFF54C56)
 val DoneStatus = Color(0xFF4CF590)
 val ProductivityStatus = Color(0xFFDF69E2)
+
+//Point status
+val TodoPoint = Color(0xFFF3EDF7)
+val InProgressPoint = Color(0xFF4F8FF5)
+val DonePoint = Color(0xFF4CF590)

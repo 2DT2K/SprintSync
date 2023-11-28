@@ -30,7 +30,7 @@ import androidx.compose.ui.zIndex
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
 import com.sprintsync.R
-import com.sprintsync.data.view_models.BacklogViewModel
+import com.sprintsync.data.dtos.response.TaskResDto
 import com.sprintsync.ui.components.TaskPoint
 import com.sprintsync.ui.components.TaskProcess
 import com.sprintsync.ui.theme.InProgressStatus
@@ -39,13 +39,13 @@ import com.sprintsync.ui.theme.ToDoStatus
 import com.sprintsync.ui.theme.spacing
 
 @Composable
-fun TaskCard(task: BacklogViewModel.Task) {
+fun TaskCard(task: TaskResDto) {
     var status = ""
     var backgroundColor: Color = Color.Transparent
     var icon = 0
     var iconTint: Color = Color.Transparent
     var iconBackgroundColor: Color = Color.Transparent
-    when (task.status) {
+    when (task.statusIndex) {
         1 -> {
             status = "To Do"
             backgroundColor = ToDoStatus
@@ -61,14 +61,15 @@ fun TaskCard(task: BacklogViewModel.Task) {
             backgroundColor = ProductivityStatus
         }
     }
-    when (task.type) {
+    //TODO: add type to task
+    when ("task") {
         "Task" -> {
             icon = R.drawable.check_circle
             iconTint = MaterialTheme.colorScheme.onSecondary
             iconBackgroundColor = MaterialTheme.colorScheme.secondary
         }
 
-        "Bug"  -> {
+        "Bug" -> {
             icon = R.drawable.bug_report
             iconTint = MaterialTheme.colorScheme.onErrorContainer
             iconBackgroundColor = MaterialTheme.colorScheme.errorContainer
@@ -101,7 +102,7 @@ fun TaskCard(task: BacklogViewModel.Task) {
         }
         Column(verticalArrangement = Arrangement.SpaceBetween) {
             Text(
-                text = task.title,
+                text = task.name,
                 style = MaterialTheme.typography.bodyLarge,
                 color = MaterialTheme.colorScheme.onSurface,
             )
@@ -111,8 +112,9 @@ fun TaskCard(task: BacklogViewModel.Task) {
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.default)
             ) {
+                //TODO: scrummer number missing
                 Text(
-                    text = task.name,
+                    text = "Scrummer-${task.name}",
                     style = MaterialTheme.typography.labelLarge,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
@@ -132,24 +134,29 @@ fun TaskCard(task: BacklogViewModel.Task) {
             }
         }
         Spacer(modifier = Modifier.weight(1.0f))
-        ContextCompat
+
+        val avatar = ContextCompat
             .getDrawable(LocalContext.current, R.drawable.nice_avatar)
-            ?.let { it1 ->
-                task.assignees = mutableListOf(it1.toBitmap(), it1.toBitmap())
-            }
+//        ContextCompat
+//            .getDrawable(LocalContext.current, R.drawable.nice_avatar)
+//            ?.let { it1 ->
+//                task.assignees = mutableListOf(it1.toBitmap(), it1.toBitmap())
+//            }
         Row(
             horizontalArrangement = Arrangement.spacedBy((-8).dp, Alignment.End),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            task.assignees.forEachIndexed { index, image ->
-                Image(
-                    bitmap = image.asImageBitmap(),
-                    contentDescription = "",
-                    modifier = Modifier
-                        .zIndex(index.toFloat())
-                        .width(24.dp)
-                        .height(24.dp)
-                )
+            task.assignees.forEachIndexed { index, _ ->
+                avatar?.toBitmap()?.let {
+                    Image(
+                        bitmap = it.asImageBitmap(),
+                        contentDescription = "",
+                        modifier = Modifier
+                            .zIndex(index.toFloat())
+                            .width(24.dp)
+                            .height(24.dp)
+                    )
+                }
             }
         }
     }

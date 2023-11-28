@@ -21,6 +21,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -29,28 +30,41 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.sprintsync.R
-import com.sprintsync.data.view_models.BacklogViewModel
+import com.sprintsync.data.dtos.SprintDto
+import com.sprintsync.data.view_models.TaskViewModel
 import com.sprintsync.ui.components.TaskPoint
+import com.sprintsync.ui.theme.DonePoint
 import com.sprintsync.ui.theme.Grey40
+import com.sprintsync.ui.theme.InProgressPoint
+import com.sprintsync.ui.theme.TodoPoint
 import com.sprintsync.ui.theme.spacing
 
 @Composable
-fun SprintCard(sprint: BacklogViewModel.Sprint, isActive: Boolean = false) {
+fun SprintCard(sprint: SprintDto, isActive: Boolean = false) {
     var isOpen by remember { mutableStateOf(false) }
     var isSprintStatusExpanded by remember { mutableStateOf(false) }
 
+    val taskVM = hiltViewModel<TaskViewModel>()
+    val taskState by taskVM.state.collectAsStateWithLifecycle()
+
+    LaunchedEffect(Unit) {
+        sprint.id?.let { taskVM.getTasksOfSprint(it) }
+    }
+
     Column(
         modifier = Modifier
-			.animateContentSize()
-			.fillMaxWidth()
-			.wrapContentHeight()
+            .animateContentSize()
+            .fillMaxWidth()
+            .wrapContentHeight()
     ) {
         Row(
             modifier = Modifier
-				.fillMaxWidth()
-				.clickable { isOpen = !isOpen }
-				.padding(vertical = MaterialTheme.spacing.default),
+                .fillMaxWidth()
+                .clickable { isOpen = !isOpen }
+                .padding(vertical = MaterialTheme.spacing.default),
             verticalAlignment = Alignment.CenterVertically
         ) {
             val arrowIcon = if (isOpen) R.drawable.arrow_down_2 else R.drawable.arrow_up
@@ -66,12 +80,12 @@ fun SprintCard(sprint: BacklogViewModel.Sprint, isActive: Boolean = false) {
 
             Column {
                 Text(
-                    text = sprint.sprintName,
+                    text = "Sprint ${sprint.sprintNumber}",
                     style = MaterialTheme.typography.titleSmall,
                     color = MaterialTheme.colorScheme.onSurface,
                 )
                 Text(
-                    text = "Problems: ${sprint.task.size}",
+                    text = "Problems: ${taskState.dtoList?.count()}",
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
@@ -79,33 +93,34 @@ fun SprintCard(sprint: BacklogViewModel.Sprint, isActive: Boolean = false) {
 
             Spacer(modifier = Modifier.weight(1.0f))
 
-            TaskPoint(
-				point = 70,
-				modifier = Modifier.background(
-					color = MaterialTheme.colorScheme.secondaryContainer,
-					shape = RoundedCornerShape(size = 16.dp)
-				)
-			)
-            Spacer(modifier = Modifier.width(8.dp))
+            if (taskState.dtoList?.isEmpty() == false) {
+                TaskPoint(
+                    point = taskState.dtoList!!.filter { it.statusIndex == 1 }.sumOf { it.point },
+                    modifier = Modifier.background(
+                        color = TodoPoint,
+                        shape = RoundedCornerShape(size = 16.dp)
+                    )
+                )
+                Spacer(modifier = Modifier.width(8.dp))
 
-			TaskPoint(
-				point = 70,
-				modifier = Modifier.background(
-					color = MaterialTheme.colorScheme.secondaryContainer,
-					shape = RoundedCornerShape(size = 16.dp)
-				)
-			)
-            Spacer(modifier = Modifier.width(8.dp))
+                TaskPoint(
+                    point = taskState.dtoList!!.filter { it.statusIndex == 2 }.sumOf { it.point },
+                    modifier = Modifier.background(
+                        color = InProgressPoint,
+                        shape = RoundedCornerShape(size = 16.dp)
+                    )
+                )
+                Spacer(modifier = Modifier.width(8.dp))
 
-			TaskPoint(
-				point = 70,
-				modifier = Modifier.background(
-					color = MaterialTheme.colorScheme.secondaryContainer,
-					shape = RoundedCornerShape(size = 16.dp)
-				)
-			)
-            Spacer(modifier = Modifier.width(8.dp))
-
+                TaskPoint(
+                    point = taskState.dtoList!!.filter { it.statusIndex == 3 }.sumOf { it.point },
+                    modifier = Modifier.background(
+                        color = DonePoint,
+                        shape = RoundedCornerShape(size = 16.dp)
+                    )
+                )
+                Spacer(modifier = Modifier.width(8.dp))
+            }
             //3dots icon editing status of sprint
             Box(modifier = Modifier) {
                 Icon(
@@ -139,7 +154,7 @@ fun SprintCard(sprint: BacklogViewModel.Sprint, isActive: Boolean = false) {
                     end = MaterialTheme.spacing.default
                 )
             ) {
-                sprint.task.forEach { task ->
+                taskState.dtoList?.forEach { task ->
                     TaskCard(task = task)
                 }
 
@@ -147,9 +162,9 @@ fun SprintCard(sprint: BacklogViewModel.Sprint, isActive: Boolean = false) {
                 if (isActive) {
                     Row(
                         modifier = Modifier
-							.fillMaxWidth()
-							.clickable { }
-							.height(64.dp),
+                            .fillMaxWidth()
+                            .clickable { }
+                            .height(64.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Icon(

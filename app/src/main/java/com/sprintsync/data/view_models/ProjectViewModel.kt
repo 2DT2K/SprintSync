@@ -1,5 +1,6 @@
 package com.sprintsync.data.view_models
 
+import android.util.Log
 import com.sprintsync.data.api.ProjectAPI
 import com.sprintsync.data.dtos.ProjectDto
 import com.sprintsync.data.view_models.state.State
@@ -22,6 +23,13 @@ class ProjectViewModel @Inject constructor(
 		scope.launch {
 			val response = service.getMyProjects()
 			update(State(dtoList = response.data, error = response.err))
+		}
+	}
+
+	fun choseProject(project: ProjectDto) {
+		scope.launch {
+			Log.d("log-bug-api","chosen project$project")
+			update(State(dto = project))
 		}
 	}
 

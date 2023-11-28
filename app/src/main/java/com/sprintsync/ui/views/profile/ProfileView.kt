@@ -37,7 +37,6 @@ import com.sprintsync.ui.theme.spacing
 @Composable
 fun ProfileScreen(navController: NavController? = null) {
 	val user = Authenticator.signedInUser
-
 	val authVM = hiltViewModel<AuthViewModel>()
 	val authState by authVM.state.collectAsStateWithLifecycle()
 

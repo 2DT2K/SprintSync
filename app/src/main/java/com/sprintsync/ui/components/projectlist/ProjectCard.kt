@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.sprintsync.R
+import com.sprintsync.data.dtos.ProjectDto
 import com.sprintsync.data.view_models.ProjectViewViewModel
 import com.sprintsync.ui.theme.Yellow80
 import com.sprintsync.ui.theme.spacing
@@ -25,7 +26,7 @@ import com.sprintsync.ui.theme.spacing
 fun ProjectCard(
     modifier: Modifier = Modifier,
     index: Int = -1,
-    project: ProjectViewViewModel.ProjectList,
+    project: ProjectDto,
     onClick: () -> Unit,
     onChange: ((Int) -> Unit)? = null,
 ) {
@@ -48,12 +49,12 @@ fun ProjectCard(
                     verticalArrangement = Arrangement.spacedBy(0.dp, Alignment.CenterVertically)
                 ) {
                     Text(
-                        text = project.projectKey,
+                        text = project.code,
                         style = MaterialTheme.typography.bodyLarge,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
                     Text(
-                        text = project.projectName,
+                        text = project.name,
                         style = MaterialTheme.typography.titleSmall,
                         color = MaterialTheme.colorScheme.onSurface,
                     )
@@ -65,7 +66,8 @@ fun ProjectCard(
                     onChange(index)
                 }
             }) {
-                if (project.isStarred) Icon(
+                //TODO: add star later
+                if (true) Icon(
                     painter = painterResource(id = R.drawable.selected_star),
                     contentDescription = "starred",
                     tint = Yellow80
