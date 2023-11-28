@@ -47,7 +47,13 @@ fun TopAppBar(
             AvatarTopAppBar(title = "Calendar")
         }
         "profile" -> {
-            AvatarTopAppBar(title = "Profile")
+            AvatarTopAppBar(title = "Profile", turnAvatar = false)
+        }
+        "task" -> {
+            TwoIconTopAppBar(title = "Task", navigationOnclick = { navController?.popBackStack() })
+        }
+        else -> {
+            Log.d("TopAppBar", "Route not found")
         }
     }
 }

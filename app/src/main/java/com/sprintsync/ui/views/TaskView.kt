@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -29,36 +30,36 @@ import com.sprintsync.ui.components.taskview.TaskviewTitle
 
 
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TaskView(task: TaskResDto, statusList: List<String>) {
     val taskState by remember {
         mutableStateOf(statusList[task.statusIndex])
     }
-
-    Column(
-        modifier = Modifier
-            .verticalScroll(
-                rememberScrollState()
-            ),
-        verticalArrangement = Arrangement.spacedBy(12.dp, Alignment.Top),
-        horizontalAlignment = Alignment.Start,
-    ) {
-        TaskviewTitle(taskNavigation = "SCRUMMER", taskAssignor = task.assignor)
-        ChangeTaskStateButton(taskState = taskState)
-        TaskDescription(taskDescription = task.description)
-        HorizontalDivider()
-        SubTask(subTaskList = task.subTasks, statusList = statusList)
-        HorizontalDivider()
-        TaskAttachment(attachmentList = task.attachments)
-        HorizontalDivider()
-        MoreInformation(
-            point = task.point,
-            assigneeList = task.assignees,
-            taskTag = task.labels,
-            reporter = task.assignor,
-        )
-        TaskComments(commentList = task.comments)
+    Surface {
+        Column(
+            modifier = Modifier
+                .verticalScroll(
+                    rememberScrollState()
+                ),
+            verticalArrangement = Arrangement.spacedBy(12.dp, Alignment.Top),
+            horizontalAlignment = Alignment.Start,
+        ) {
+            TaskviewTitle(taskNavigation = "SCRUMMER", taskAssignor = task.assignor)
+            ChangeTaskStateButton(taskState = taskState)
+            TaskDescription(taskDescription = task.description)
+            HorizontalDivider()
+            SubTask(subTaskList = task.subTasks, statusList = statusList)
+            HorizontalDivider()
+            TaskAttachment(attachmentList = task.attachments)
+            HorizontalDivider()
+            MoreInformation(
+                point = task.point,
+                assigneeList = task.assignees,
+                taskTag = task.labels,
+                reporter = task.assignor,
+            )
+            TaskComments(commentList = task.comments)
+        }
     }
 }
 

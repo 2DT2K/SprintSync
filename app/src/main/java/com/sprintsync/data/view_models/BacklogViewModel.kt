@@ -24,7 +24,8 @@ class BacklogViewModel(private val backlogRepository: String) : ViewModel() {
         var assignees: MutableList<Bitmap>,
         val point: Int,
         val status: Int,
-        var label: List<String>
+        var label: List<String>,
+        var type: String
     )
 
     data class Member(val id: Int, val name: String, val email: String, val password: String)
@@ -48,8 +49,11 @@ class BacklogViewModel(private val backlogRepository: String) : ViewModel() {
             Member(2, "Alice Smith", "alice@example.com", "securepass")
         )
 
-        val task1 = Task(1, "Task 1", "play", mutableListOf(), 100, 1, listOf("HomePage","FE"))
-        val task2 = Task(2, "Task 2", "study", mutableListOf(), 100, 2, listOf("FE"))
+        val task1 = Task(
+            1, "Task 1", "play", mutableListOf(), 100, 1, listOf("HomePage", "FE"),
+            "Task"
+        )
+        val task2 = Task(2, "Task 2", "study", mutableListOf(), 100, 2, listOf("FE"), "Bug")
 
         val doneSprints = listOf(
             Sprint(
@@ -176,14 +180,7 @@ class BacklogViewModel(private val backlogRepository: String) : ViewModel() {
                     task2,
                     task1,
                     task2,
-                    task1,
-                    task2,
-                    task1,
-                    task2,
-                    task1,
-                    task2,
-                    task1,
-                    task2
+                    task1
                 ),
                 isDone = true
             ), Sprint(
@@ -198,15 +195,6 @@ class BacklogViewModel(private val backlogRepository: String) : ViewModel() {
                     task1,
                     task2,
                     task1,
-                    task2,
-                    task1,
-                    task2,
-                    task1,
-                    task2,
-                    task1,
-                    task2,
-                    task1,
-                    task2
                 ),
                 isDone = true
             )

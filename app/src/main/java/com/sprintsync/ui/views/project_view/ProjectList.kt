@@ -114,7 +114,7 @@ fun AllProjectList(
                 if (project.projectName.contains(
                         searchTerm,
                         true
-                    ) && !project.isStarred
+                    )
                 ) ProjectCard(
                     project = project,
                     index = index,

@@ -30,6 +30,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sprintsync.R
 import com.sprintsync.ui.components.TaskPoint
+import com.sprintsync.ui.components.TaskTag
 import com.sprintsync.ui.theme.spacing
 
 
@@ -81,22 +82,7 @@ fun BoardViewCategoryItem(boardviewItemDetails: IBoardviewCategoryItem) {
                 modifier = Modifier.height(28.dp)
             ) {
                 boardviewItemDetails.taskTag.forEach {
-//					TaskTag(tagName = it)
-                    SuggestionChip(
-                        onClick = { /*TODO*/ },
-                        label = {
-                            Text(
-                                it,
-                                style = MaterialTheme.typography.labelMedium,
-                            )
-                        },
-                        border = null,
-                        shape = RoundedCornerShape(size = 4.dp),
-                        colors = SuggestionChipDefaults.suggestionChipColors(
-                            containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                            labelColor = MaterialTheme.colorScheme.onSecondary,
-                        ),
-                    )
+					TaskTag(tagName = it)
                 }
             }
             Row(
@@ -139,9 +125,8 @@ fun BoardViewCategoryItem(boardviewItemDetails: IBoardviewCategoryItem) {
                             .height(24.dp)
                             .background(
                                 color = MaterialTheme.colorScheme.secondaryContainer,
-                                shape = RoundedCornerShape(size = 8.dp)
+                                shape = RoundedCornerShape(size = 16.dp)
                             )
-                            .padding(MaterialTheme.spacing.small)
                     )
                     Box {
 //                        if (boardviewItemDetails?.taskAssignList != null) {

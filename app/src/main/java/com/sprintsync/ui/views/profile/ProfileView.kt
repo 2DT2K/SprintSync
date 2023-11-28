@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material3.Divider
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -31,6 +32,7 @@ import com.sprintsync.ui.navigation.Screens
 import com.sprintsync.ui.theme.Grey40
 import com.sprintsync.ui.theme.Purple20
 import com.sprintsync.ui.theme.SprintSyncTheme
+import com.sprintsync.ui.theme.spacing
 
 @Composable
 fun ProfileScreen(navController: NavController? = null) {
@@ -45,7 +47,7 @@ fun ProfileScreen(navController: NavController? = null) {
 
 	val account = listOf(
 		Setting(R.drawable.edit, "Edit profile"),
-		Setting(R.drawable.notification, "Notifications"),
+		Setting(R.drawable.notification_oulined, "Notifications"),
 		Setting(R.drawable.dark_mode, "Turn on dark mode"),
 		Setting(R.drawable.language, "Language")
 	)
@@ -80,24 +82,22 @@ fun ProfileScreen(navController: NavController? = null) {
 				Box(modifier = Modifier) {
 					Text(
 						text = user?.name ?: "",
-						fontSize = 16.sp,
-						fontWeight = FontWeight.Bold,
-						color = Purple20
+						style = MaterialTheme.typography.displaySmall,
+						color = MaterialTheme.colorScheme.onSurface
 					)
 				}
 
 				Box(modifier = Modifier) {
 					Text(
 						text = user?.email ?: "",
-						fontSize = 14.sp,
-						fontWeight = FontWeight(500),
-						color = Grey40
+						style = MaterialTheme.typography.bodyMedium,
+						color = MaterialTheme.colorScheme.onSurfaceVariant
 					)
 				}
 			}
 		}
 
-		Divider(modifier = Modifier.padding(horizontal = 12.dp))
+		Divider(modifier = Modifier.padding(horizontal = MaterialTheme.spacing.smallMedium))
 
 		ProfileSettingGroup(title = "Account", settings = account)
 
