@@ -26,6 +26,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.sprintsync.R
 import com.sprintsync.ui.components.IssueItem
 import com.sprintsync.ui.theme.spacing
@@ -65,7 +66,7 @@ val issueList: List<MenuIssue> = listOf(
 )
 
 @Composable
-fun HomePageIssue() {
+fun HomePageIssue(navController: NavController? = null) {
     val scrollState = rememberScrollState()
     Column(
         verticalArrangement = Arrangement.spacedBy(
@@ -125,7 +126,12 @@ fun HomePageIssue() {
                     IssueItem(
                         issueType = item.issueType,
                         issueDescription = item.issueName,
-                        issueTimeLine = item.issueTime
+                        issueTimeLine = item.issueTime,
+                        onClick = {
+                            when (item.issueType) {
+                                "Task" -> navController?.navigate("task")
+                            }
+                        }
                     )
                     if (issueList.size - 1 >= 1 && item != issueList[issueList.size - 1]) {
                         Divider(modifier = Modifier.fillMaxWidth(0.9f))

@@ -1,11 +1,9 @@
 package com.sprintsync.ui.components
 
 
-import android.graphics.drawable.Icon
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
@@ -32,7 +30,7 @@ import com.sprintsync.R
 @Composable
 fun TwoIconTopAppBar(
     title: String,
-	backgroundColor: Color = Color(0xFFFFFFFF),
+    backgroundColor: Color = Color(0xFFFFFFFF),
     navigationOnclick: () -> Unit
 ) {
     TopAppBar(
@@ -41,18 +39,17 @@ fun TwoIconTopAppBar(
         ),
         title = {
             Text(
-                text = title, style = TextStyle(
-                    fontSize = 24.sp,
-                    fontWeight = FontWeight(400),
-                    color = Color(0xFF21005D)
-                )
+                text = title,
+                style = MaterialTheme.typography.titleLarge,
+                color = MaterialTheme.colorScheme.onSurface
             )
         },
         navigationIcon = {
-            IconButton(onClick = navigationOnclick ) {
-                Image(
+            IconButton(onClick = navigationOnclick) {
+                Icon(
                     painter = painterResource(id = R.drawable.back_icon),
-                    contentDescription = ""
+                    contentDescription = "",
+                    tint = MaterialTheme.colorScheme.onSurface
                 )
             }
         },
@@ -70,9 +67,12 @@ fun TwoIconTopAppBar(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AvatarTopAppBar(title: String, backgroundColor: Color = Color(0xFFFFFFFF)) {
+fun AvatarTopAppBar(
+    title: String,
+    backgroundColor: Color = Color(0xFFFFFFFF),
+    turnAvatar: Boolean = true
+) {
     TopAppBar(
-        modifier = Modifier.wrapContentHeight(),
         colors = TopAppBarDefaults.mediumTopAppBarColors(
             containerColor = backgroundColor
         ),
@@ -84,27 +84,29 @@ fun AvatarTopAppBar(title: String, backgroundColor: Color = Color(0xFFFFFFFF)) {
             )
         },
         navigationIcon = {
-            IconButton(
-                onClick = { /*TODO*/ },
-                Modifier.size(40.dp)
-            ) {
-                Icon(
-                    painter = painterResource(id = R.drawable.avataricon),
-                    contentDescription = "",
-                    tint = MaterialTheme.colorScheme.onSurface
-                )
-            }
+            if (turnAvatar) {
+                IconButton(
+                    onClick = { /*TODO*/ },
+                    Modifier.size(40.dp)
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.avataricon),
+                        contentDescription = "",
+                        tint = MaterialTheme.colorScheme.onSurface
+                    )
+                }
+            } else null
         },
         actions = {
             Surface(
                 modifier = Modifier
-					.width(40.dp)
-					.height(40.dp)
-					.border(
-						width = 1.dp,
-						color = Color(0x99CDCDCD),
-						shape = RoundedCornerShape(size = 20.dp)
-					),
+                    .width(40.dp)
+                    .height(40.dp)
+                    .border(
+                        width = 1.dp,
+                        color = Color(0x99CDCDCD),
+                        shape = RoundedCornerShape(size = 20.dp)
+                    ),
                 color = Color.Transparent
             )
             {

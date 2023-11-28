@@ -27,7 +27,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.sprintsync.R
+import com.sprintsync.data.dtos.AttachmentDto
 import com.sprintsync.ui.theme.spacing
+import com.sprintsync.ui.views.fakeTask
 
 class Attachment(
     val name: String,
@@ -35,7 +37,7 @@ class Attachment(
     val fileSize: Double,
 )
 @Composable
-fun TaskAttachment(attachmentList: List<Attachment>) {
+fun TaskAttachment(attachmentList: List<AttachmentDto>?) {
     val context = LocalContext.current
     val filePickerLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent(),
@@ -46,7 +48,8 @@ fun TaskAttachment(attachmentList: List<Attachment>) {
             println(bytes)
             bytes?.let { byteArr -> println(String(byteArr)) }
             item?.close()
-        })
+        }
+    )
     Column(
         verticalArrangement = Arrangement.spacedBy(5.dp, Alignment.CenterVertically),
         horizontalAlignment = Alignment.Start,
@@ -77,7 +80,7 @@ fun TaskAttachment(attachmentList: List<Attachment>) {
                 ),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                attachmentList.forEach {
+                attachmentList?.forEach {
                     SingleFileAttachment(
                         fileName = it.name,
                         fileType = it.fileType,
@@ -124,12 +127,8 @@ fun TaskAttachment(attachmentList: List<Attachment>) {
     }
 }
 
-var firstAttachment = Attachment("Test", "pdf", 6.8)
-var secondAttachment = Attachment("Anhdepquadithoilmao1234", "png", 0.6)
-var attachmentList = listOf<Attachment>(firstAttachment, secondAttachment)
-
 @Preview(showBackground = true)
 @Composable
 fun TaskAttachmentPreview() {
-    TaskAttachment(attachmentList = attachmentList)
+    TaskAttachment(attachmentList = fakeTask.attachments)
 }

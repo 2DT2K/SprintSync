@@ -30,7 +30,7 @@ import com.sprintsync.R
 import com.sprintsync.ui.theme.spacing
 
 @Composable
-fun SingleFileAttachment(fileName: String, fileType: String, fileSize: Double) {
+fun SingleFileAttachment(fileName: String, fileType: String, fileSize: Long) {
 
     Row(
         horizontalArrangement = Arrangement.spacedBy(
@@ -132,5 +132,5 @@ fun SingleFileAttachment(fileName: String, fileType: String, fileSize: Double) {
 @Preview(showBackground = true)
 @Composable
 fun SingleFileAttachmentPreview() {
-    SingleFileAttachment(fileName = "Test", fileType = "pdf", fileSize = 6.8)
+    SingleFileAttachment(fileName = "Test", fileType = "pdf", fileSize = 6)
 }

@@ -21,10 +21,6 @@ class ProjectViewViewModel : ViewModel() {
 			ProjectList("Student 1", "khoidz1", "khoidz", true),
 			ProjectList("Student 1", "khoidz2", "khoidz", false),
 			ProjectList("Student 1", "khoidz3", "khoidz", false),
-			ProjectList("Student 1", "khoidz4", "khoidz", true),
-			ProjectList("Student 1", "khoidz5", "khoidz", true),
-			ProjectList("Student 1", "khoidz6", "khoidz", true),
-			ProjectList("Student 1", "khoi2dz2", "khoidz", true),
 		)
 		projectList.addAll(list)
 	}

@@ -2,6 +2,7 @@ package com.sprintsync.data.api
 
 import com.sprintsync.data.dtos.SprintDto
 import com.sprintsync.data.dtos.response.ApiResponse
+import com.sprintsync.data.dtos.response.ReportChartDto
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
@@ -15,6 +16,9 @@ interface SprintAPI {
 
 	@GET("sprints/project/{id}")
 	suspend fun getSprintsOfProject(@Path("id") id: String): ApiResponse<List<SprintDto>>
+
+	@GET("sprints/report/{id}")
+	suspend fun getSprintReport(@Path("id") id: String) : ApiResponse<ReportChartDto>
 
 	@POST("sprints")
 	suspend fun addSprint(@Body dto: SprintDto): ApiResponse<SprintDto>

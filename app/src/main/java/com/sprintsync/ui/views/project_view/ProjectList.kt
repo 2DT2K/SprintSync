@@ -1,5 +1,6 @@
 package com.sprintsync.ui.views.project_view
 
+import android.util.Log
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -30,13 +31,15 @@ import com.sprintsync.ui.theme.SprintSyncTheme
 import com.sprintsync.ui.theme.spacing
 
 @Composable
-fun ProjectList(projectViewViewModel: ProjectViewViewModel, navController: NavController? = null) {
+fun ProjectList(
+    navController: NavController? = null,
+    projectList: List<ProjectDto>,
+    getMyProjects: () -> Unit,
+    choseProject: (project: ProjectDto) -> Unit
+) {
     var searchTerm by remember { mutableStateOf("") }
-    val projectListVM = hiltViewModel<ProjectViewModel>()
-    val projectListState by projectListVM.state.collectAsStateWithLifecycle()
-
     LaunchedEffect(Unit) {
-        projectListVM.getMyProjects()
+        getMyProjects()
     }
 
     Column(
@@ -45,22 +48,30 @@ fun ProjectList(projectViewViewModel: ProjectViewViewModel, navController: NavCo
     ) {
         SearchBar(placeHolder = "Find Projects", onValueChange = { searchTerm = it })
         Column(verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.medium)) {
-            projectListState.dtoList?.let {
+            projectList.let { project ->
                 StarredProjectList(
                     searchTerm = searchTerm,
-                    projects = it.toList(),
+                    projects = project.toList(),
                     onChange = {
-                        projectViewViewModel.updateProjectList(it)
+
                     },
-                    navController = navController
+                    onChooseProject = {
+                        Log.d("log-bug", it.toString())
+                        choseProject(it)
+                        navController?.navigate(Screens.DetailProject.route)
+                    }
                 )
                 AllProjectList(
-                    projects = projectListState.dtoList,
+                    projects = projectList,
                     searchTerm = searchTerm,
                     onChange = {
-                        projectViewViewModel.updateProjectList(it)
+
                     },
-                    navController = navController
+                    onChooseProject = {
+                        Log.d("log-bug", it.toString())
+                        choseProject(it)
+                        navController?.navigate(Screens.DetailProject.route)
+                    }
                 )
             }
         }
@@ -73,7 +84,7 @@ fun StarredProjectList(
     searchTerm: String = "",
     projects: List<ProjectDto>,
     onChange: ((Int) -> Unit)? = null,
-    navController: NavController? = null
+    onChooseProject: (project: ProjectDto) -> Unit
 ) {
     //TODO: get the star project later
     val currentStarredList = projects.none { project -> true }
@@ -95,7 +106,7 @@ fun StarredProjectList(
             ) ProjectCard(
                 project = project,
                 index = index,
-                onClick = { navController?.navigate(Screens.DetailProject.route) }
+                onClick = { onChooseProject(project)  }
             ) {
                 if (onChange != null) {
                     onChange(it)
@@ -111,7 +122,7 @@ fun AllProjectList(
     searchTerm: String = "",
     projects: List<ProjectDto>?,
     onChange: ((Int) -> Unit)? = null,
-    navController: NavController? = null
+    onChooseProject: (project: ProjectDto) -> Unit
 ) {
     Column(
         modifier = Modifier.animateContentSize(),
@@ -135,7 +146,7 @@ fun AllProjectList(
                 ) ProjectCard(
                     project = project,
                     index = index,
-                    onClick = { navController?.navigate(Screens.DetailProject.route) }
+                    onClick = { onChooseProject(project) }
                 ) {
                     if (onChange != null) {
                         onChange(it)
@@ -150,7 +161,7 @@ fun AllProjectList(
 @Composable
 private fun ProjectListPreview() {
     SprintSyncTheme {
-        ProjectList(ProjectViewViewModel())
+
     }
 }
 

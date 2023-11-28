@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.IconButton
@@ -15,22 +14,17 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.sprintsync.R
 import com.sprintsync.ui.components.CustomIconButton
-import com.sprintsync.ui.theme.spacing
-import com.sprintsync.ui.theme.Typography
+import com.sprintsync.ui.navigation.Screens
 import com.sprintsync.ui.theme.spacing
 
 @Composable
-fun HomePageViews() {
+fun HomePageViews(navController: NavController? = null) {
     Column(
         modifier = Modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(
@@ -89,9 +83,12 @@ fun HomePageViews() {
                         horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.default)
                     ) {
                         CustomIconButton(
-                            iconID = R.drawable.folder,
+                            iconID = R.drawable.folder_fill,
                             content = "Project",
                             backgroundColor = 0xFFFF71D1,
+                            onClick = {
+                                navController?.navigate(Screens.ProjectRoute.route)
+                            },
                             modifier = Modifier
                                 .weight(1f)
                         )
@@ -99,6 +96,9 @@ fun HomePageViews() {
                             iconID = R.drawable.task,
                             content = "Task",
                             backgroundColor = 0xFFD47AFE,
+                            onClick = {
+                                navController?.navigate(Screens.Tasks.route)
+                            },
                             modifier = Modifier
                                 .weight(1f)
                         )
@@ -112,6 +112,9 @@ fun HomePageViews() {
                             iconID = R.drawable.timelapse,
                             content = "Timeline",
                             backgroundColor = 0xFFFF829E,
+                            onClick = {
+                                navController?.navigate(Screens.Timeline.route)
+                            },
                             modifier = Modifier
                                 .weight(1f)
                         )
@@ -119,6 +122,9 @@ fun HomePageViews() {
                             iconID = R.drawable.calendar,
                             content = "Calendar",
                             backgroundColor = 0xFFFFA874,
+                            onClick = {
+                                navController?.navigate(Screens.Calendar.route)
+                            },
                             modifier = Modifier
                                 .weight(1f)
                         )

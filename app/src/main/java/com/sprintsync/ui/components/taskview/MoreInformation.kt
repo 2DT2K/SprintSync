@@ -35,6 +35,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sprintsync.R
+import com.sprintsync.data.dtos.MemberDto
 import com.sprintsync.ui.components.SimpleMemberInfor
 import com.sprintsync.ui.components.TagPopUp
 import com.sprintsync.ui.theme.spacing
@@ -43,9 +44,9 @@ import com.sprintsync.ui.theme.spacing
 @Composable
 fun MoreInformation(
     point: Number,
-    assigneeList: List<String>,
-    taskTag: List<String>,
-    reporter: String
+    assigneeList: List<MemberDto>,
+    taskTag: List<String>?,
+    reporter: MemberDto
 ) {
     var isDialogVisible by remember { mutableStateOf(false) }
     Column(
@@ -146,7 +147,7 @@ fun MoreInformation(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 assigneeList.forEach {
-                    SimpleMemberInfor(name = it)
+                    SimpleMemberInfor(name = it.name)
                 }
             }
         }
@@ -175,7 +176,7 @@ fun MoreInformation(
                 if (isDialogVisible) {
                     TagPopUp({ isDialogVisible = false }, tagList = listOf("FE","HomePage"))
                 }
-                taskTag.forEach {
+                taskTag?.forEach {
                     SuggestionChip(
                         onClick = { /*TODO*/ },
                         label = { Text(it) },
@@ -235,7 +236,7 @@ fun MoreInformation(
                 ),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                SimpleMemberInfor(name = reporter)
+                SimpleMemberInfor(name = reporter.name)
             }
         }
     }
@@ -244,10 +245,5 @@ fun MoreInformation(
 @Preview(showBackground = true)
 @Composable
 fun MoreInformationPreview() {
-    MoreInformation(
-        70,
-        listOf("Nguyen Hai Dan", "Tran Chien Thang"),
-        listOf("Homepage", "FE"),
-        "Vo Tin Du"
-    )
+
 }

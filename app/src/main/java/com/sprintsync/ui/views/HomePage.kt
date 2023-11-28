@@ -10,13 +10,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavController
 import com.sprintsync.ui.components.homepage.HomePageIssue
 import com.sprintsync.ui.components.homepage.HomePageViews
 import com.sprintsync.ui.theme.SprintSyncTheme
 import com.sprintsync.ui.theme.spacing
 
 @Composable
-fun HomePage() {
+fun HomePage(navController: NavController? = null) {
     SprintSyncTheme {
         Column(
             Modifier
@@ -27,8 +28,8 @@ fun HomePage() {
             ),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            HomePageViews()
-            HomePageIssue()
+            HomePageViews(navController)
+            HomePageIssue(navController)
         }
     }
 }
