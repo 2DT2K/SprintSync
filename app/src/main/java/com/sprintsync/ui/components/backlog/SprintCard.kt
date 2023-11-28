@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -160,23 +159,7 @@ fun SprintCard(sprint: SprintDto, isActive: Boolean = false) {
 
                 // row for creating task
                 if (isActive) {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .clickable { }
-                            .height(64.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.add),
-                            contentDescription = "create task icon",
-                            tint = MaterialTheme.colorScheme.onSurface,
-                        )
-
-                        Spacer(modifier = Modifier.width(8.dp))
-
-                        Text(text = "Create")
-                    }
+                    TaskDialog(sprint,{taskVM.addTask()})
                 }
             }
         }

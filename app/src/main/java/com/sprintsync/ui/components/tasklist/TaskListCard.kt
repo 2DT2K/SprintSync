@@ -40,6 +40,10 @@ fun TaskListCard(task: TaskResDto, onClick: () -> Unit = { }) {
     var status = ""
     var backgroundColor: Color = Color.Transparent
     var typeColor: Color = Color.Transparent
+
+    val avatar = ContextCompat
+        .getDrawable(LocalContext.current, R.drawable.nice_avatar)
+
     when (task.statusIndex) {
         1 -> {
             status = "To Do"
@@ -56,12 +60,12 @@ fun TaskListCard(task: TaskResDto, onClick: () -> Unit = { }) {
             backgroundColor = ProductivityStatus
         }
     }
-    when (task.type) {
+    when ("Task") {
         "Task" -> {
             typeColor = MaterialTheme.colorScheme.onPrimaryContainer
         }
 
-        "Bug"  -> {
+        "Bug" -> {
             typeColor = BugType
         }
     }
@@ -95,7 +99,7 @@ fun TaskListCard(task: TaskResDto, onClick: () -> Unit = { }) {
                             MaterialTheme.spacing.default
                         )
                     ) {
-                        task.label.forEach() {
+                        task.labels?.forEach() {
                             TaskTag(tagName = it)
                         }
                     }
@@ -110,11 +114,11 @@ fun TaskListCard(task: TaskResDto, onClick: () -> Unit = { }) {
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Box {
-                    ContextCompat
-                        .getDrawable(LocalContext.current, R.drawable.nice_avatar)
-                        ?.let { it1 ->
-                            task.assignees = mutableListOf(it1.toBitmap(), it1.toBitmap())
-                        }
+//        ContextCompat
+//            .getDrawable(LocalContext.current, R.drawable.nice_avatar)
+//            ?.let { it1 ->
+//                task.assignees = mutableListOf(it1.toBitmap(), it1.toBitmap())
+//            }
                     Row(
                         horizontalArrangement = Arrangement.spacedBy(
                             (-14).dp,
@@ -122,14 +126,16 @@ fun TaskListCard(task: TaskResDto, onClick: () -> Unit = { }) {
                         ),
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
-                        task.assignees.forEachIndexed { index, image ->
-                            Image(
-                                bitmap = image.asImageBitmap(),
-                                contentDescription = "",
-                                modifier = Modifier
-                                    .zIndex(index.toFloat())
-                                    .size(32.dp)
-                            )
+                        task.assignees.forEachIndexed { index, _ ->
+                            avatar?.toBitmap()?.let {
+                                Image(
+                                    bitmap = it.asImageBitmap(),
+                                    contentDescription = "",
+                                    modifier = Modifier
+                                        .zIndex(index.toFloat())
+                                        .size(32.dp)
+                                )
+                            }
                         }
                     }
                 }

@@ -50,7 +50,8 @@ class TaskViewModel @Inject constructor(
 	fun addTask(task: TaskDto) {
 		scope.launch {
 			val response = service.addTask(task)
-			update(State(dto = response.data, error = response.err))
+			update(State(dto = response.data, dtoList = state.value.dtoList, error = response.err))
+			response.data?.let { addToDtoList(it) }
 		}
 	}
 
