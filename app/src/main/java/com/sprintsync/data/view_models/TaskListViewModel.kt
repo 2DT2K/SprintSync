@@ -23,7 +23,8 @@ class TaskListViewModel : ViewModel() {
                         mutableListOf(),
                         100,
                         1,
-                        listOf("HomePage", "FE")
+                        listOf("HomePage", "FE"),
+                        "Task"
                     ),
                     BacklogViewModel.Task(
                         1,
@@ -32,7 +33,8 @@ class TaskListViewModel : ViewModel() {
                         mutableListOf(),
                         100,
                         2,
-                        listOf("HomePage", "FE")
+                        listOf("HomePage", "FE"),
+                        "Bug"
                     ),
                     BacklogViewModel.Task(
                         1,
@@ -41,7 +43,8 @@ class TaskListViewModel : ViewModel() {
                         mutableListOf(),
                         100,
                         3,
-                        listOf("HomePage", "FE")
+                        listOf("HomePage", "FE"),
+                        "Task"
                     ),
                     BacklogViewModel.Task(
                         1,
@@ -50,53 +53,8 @@ class TaskListViewModel : ViewModel() {
                         mutableListOf(),
                         100,
                         1,
-                        listOf("HomePage", "FE")
-                    )
-                ),
-                true
-            ),
-            BacklogViewModel.Sprint(
-                1,
-                "thisfsdfafads",
-                1,
-                "",
-                "",
-                listOf(
-                    BacklogViewModel.Task(
-                        1,
-                        "Task 1",
-                        "play",
-                        mutableListOf(),
-                        100,
-                        1,
-                        listOf("HomePage", "FE")
-                    ),
-                    BacklogViewModel.Task(
-                        1,
-                        "Task 1",
-                        "play",
-                        mutableListOf(),
-                        100,
-                        1,
-                        listOf("HomePage", "FE")
-                    ),
-                    BacklogViewModel.Task(
-                        1,
-                        "Task 1",
-                        "play",
-                        mutableListOf(),
-                        100,
-                        1,
-                        listOf("HomePage", "FE")
-                    ),
-                    BacklogViewModel.Task(
-                        1,
-                        "Task 1",
-                        "play",
-                        mutableListOf(),
-                        100,
-                        1,
-                        listOf("HomePage", "FE")
+                        listOf("HomePage", "FE"),
+                        "Bug"
                     )
                 ),
                 true

@@ -1,6 +1,5 @@
 package com.sprintsync.ui.components.backlog
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -17,177 +16,158 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.sprintsync.R
 import com.sprintsync.ui.components.CustomModalBottomSheet
-import com.sprintsync.ui.theme.Purple20
-import com.sprintsync.ui.theme.Purple40
+import com.sprintsync.ui.theme.spacing
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TaskComposer() {
-	var showBottomSheet by remember { mutableStateOf(false) }
+fun TaskComposer(showBottomSheet: Boolean, changeVisibility: (Boolean) -> Unit) {
 
-	Box(modifier = Modifier) {
-		Image(
-			modifier = Modifier.clickable { showBottomSheet = true },
-			painter = painterResource(id = R.drawable.attach_file_icon),
-			contentDescription = "attach file icon"
-		)
+    Box(modifier = Modifier) {
+        CustomModalBottomSheet(
+            isSheetShown = showBottomSheet,
+            changeVisibility = { changeVisibility(it) }) {
+            Column(
+                modifier = Modifier.padding(start = MaterialTheme.spacing.medium),
+            ) {
+                Text(
+                    text = "Create issue with attachment",
+                    style = MaterialTheme.typography.titleMedium,
+                    color = MaterialTheme.colorScheme.onSurface,
+                )
+                Spacer(modifier = Modifier.height(8.dp))
 
-		CustomModalBottomSheet(
-			isSheetShown = showBottomSheet,
-			changeVisibility = { showBottomSheet = it }) {
-			Column(
-				modifier = Modifier.padding(start = 10.dp),
-			) {
-				Text(
-					text = "Create issue with attachment",
-					color = Purple20,
-					fontWeight = FontWeight.Bold
-				)
+                Row(
+                    modifier = Modifier
+                        .clickable { }
+                        .padding(
+                            MaterialTheme.spacing.default,
+                        )
+                        .fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(16.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.camera),
+                        contentDescription = "take photo",
+                        tint = MaterialTheme.colorScheme.primary
+                    )
 
-				Spacer(modifier = Modifier.height(8.dp))
+                    Text(text = "Take photo")
+                }
 
-				Row(
-					modifier = Modifier
-						.clickable { }
-						.padding(
-							start = 8.dp,
-							top = 16.dp,
-							bottom = 16.dp
-						)
-						.fillMaxWidth(),
-					horizontalArrangement = Arrangement.spacedBy(16.dp),
-					verticalAlignment = Alignment.CenterVertically
-				) {
-					Icon(
-						painter = painterResource(id = R.drawable.camera),
-						contentDescription = "take photo",
-						tint = Purple40
-					)
+                Row(
+                    modifier = Modifier
+                        .clickable { }
+                        .padding(
+                            MaterialTheme.spacing.default,
+                        )
+                        .fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(16.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.videocam),
+                        contentDescription = "Record video",
+                        tint = MaterialTheme.colorScheme.primary
+                    )
 
-					Text(text = "Take photo")
-				}
+                    Text(text = "Record video")
+                }
 
-				Row(
-					modifier = Modifier
-						.clickable { }
-						.padding(
-							start = 8.dp,
-							top = 16.dp,
-							bottom = 16.dp
-						)
-						.fillMaxWidth(),
-					horizontalArrangement = Arrangement.spacedBy(16.dp),
-					verticalAlignment = Alignment.CenterVertically
-				) {
-					Icon(
-						painter = painterResource(id = R.drawable.videocam),
-						contentDescription = "Record video",
-						tint = Purple40
-					)
+                Row(
+                    modifier = Modifier
+                        .clickable { }
+                        .padding(
+                            MaterialTheme.spacing.default,
+                        )
+                        .fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(16.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(
+                        modifier = Modifier
+                            .padding(0.dp)
+                            .width(24.dp)
+                            .scale(1.5f),
+                        painter = painterResource(id = R.drawable.attach_file_icon),
+                        contentDescription = "Choose file",
+                        tint = MaterialTheme.colorScheme.primary
+                    )
 
-					Text(text = "Record video")
-				}
-
-				Row(
-					modifier = Modifier
-						.clickable { }
-						.padding(
-							start = 8.dp,
-							top = 16.dp,
-							bottom = 16.dp
-						)
-						.fillMaxWidth(),
-					horizontalArrangement = Arrangement.spacedBy(16.dp),
-					verticalAlignment = Alignment.CenterVertically
-				) {
-					Icon(
-						modifier = Modifier
-							.padding(0.dp)
-							.width(24.dp)
-							.scale(1.5f),
-						painter = painterResource(id = R.drawable.attach_file_icon),
-						contentDescription = "Choose file",
-						tint = Purple40
-					)
-
-					Text(text = "Choose file")
-				}
-			}
-		}
-	}
+                    Text(text = "Choose file")
+                }
+            }
+        }
+    }
 }
 
 @Preview
 @Composable
 fun PreviewTest() {
-	Column(
-		verticalArrangement = Arrangement.spacedBy(16.dp)
-	) {
-		Row(
-			horizontalArrangement = Arrangement.spacedBy(16.dp)
-		) {
-			Icon(
-				painter = painterResource(id = R.drawable.camera),
-				contentDescription = "take photo"
-			)
+    Column(
+        verticalArrangement = Arrangement.spacedBy(16.dp)
+    ) {
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            Icon(
+                painter = painterResource(id = R.drawable.camera),
+                contentDescription = "take photo"
+            )
 
-			Text(text = "Take photo")
-		}
+            Text(text = "Take photo")
+        }
 
-		Row(
-			horizontalArrangement = Arrangement.spacedBy(16.dp)
-		) {
-			Icon(
-				painter = painterResource(id = R.drawable.videocam),
-				contentDescription = "Record video"
-			)
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            Icon(
+                painter = painterResource(id = R.drawable.videocam),
+                contentDescription = "Record video"
+            )
 
-			Text(text = "Record video")
-		}
+            Text(text = "Record video")
+        }
 
-		Row(
-			horizontalArrangement = Arrangement.spacedBy(16.dp)
-		) {
-			Icon(
-				modifier = Modifier
-					.padding(0.dp)
-					.width(24.dp)
-					.scale(1.5f),
-				painter = painterResource(id = R.drawable.attach_file_icon),
-				contentDescription = "Choose file"
-			)
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            Icon(
+                modifier = Modifier
+                    .padding(0.dp)
+                    .width(24.dp)
+                    .scale(1.5f),
+                painter = painterResource(id = R.drawable.attach_file_icon),
+                contentDescription = "Choose file"
+            )
 
-			Text(text = "Choose file")
-		}
+            Text(text = "Choose file")
+        }
 
-		Spacer(
-			Modifier
-				.background(Color.Transparent)
-				.fillMaxWidth()
-				.windowInsetsPadding(WindowInsets.navigationBars)
-		)
+        Spacer(
+            Modifier
+                .background(Color.Transparent)
+                .fillMaxWidth()
+                .windowInsetsPadding(WindowInsets.navigationBars)
+        )
 
-		Spacer(
-			Modifier
-				.background(Color.Transparent)
-				.fillMaxWidth()
-				.windowInsetsPadding(WindowInsets.navigationBars)
-		)
-	}
+        Spacer(
+            Modifier
+                .background(Color.Transparent)
+                .fillMaxWidth()
+                .windowInsetsPadding(WindowInsets.navigationBars)
+        )
+    }
 }

@@ -25,6 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.sprintsync.R
 import com.sprintsync.data.view_models.BacklogViewModel
 import com.sprintsync.ui.theme.Grey40
@@ -32,8 +33,8 @@ import com.sprintsync.ui.theme.spacing
 
 
 @Composable
-fun TaskListSprintCard(sprint: BacklogViewModel.Sprint) {
-    var isOpen by remember { mutableStateOf(false) }
+fun TaskListSprintCard(sprint: BacklogViewModel.Sprint, navController: NavController? = null) {
+    var isOpen by remember { mutableStateOf(true) }
 
     Column(
         modifier = Modifier
@@ -45,14 +46,13 @@ fun TaskListSprintCard(sprint: BacklogViewModel.Sprint) {
             modifier = Modifier
                 .fillMaxWidth()
                 .clickable { isOpen = !isOpen }
-                .padding(vertical = 8.dp)
-                .height(24.dp),
+                .padding(vertical = MaterialTheme.spacing.default),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = sprint.sprintName,
+                text = "Sprint ${sprint.sprintName}",
+                style = MaterialTheme.typography.titleSmall,
                 color = MaterialTheme.colorScheme.onBackground,
-                fontWeight = FontWeight.Bold
             )
 
             Spacer(modifier = Modifier.weight(1.0f))
@@ -62,20 +62,21 @@ fun TaskListSprintCard(sprint: BacklogViewModel.Sprint) {
                 modifier = Modifier
                     .size(28.dp),
                 painter = painterResource(id = arrowIcon),
-                tint = Grey40,
+                tint = MaterialTheme.colorScheme.onBackground,
                 contentDescription = null
             )
         }
 
         AnimatedVisibility(visible = isOpen) {
             Column(
-                modifier = Modifier.padding(end = 8.dp),
                 verticalArrangement = Arrangement.spacedBy(
                     MaterialTheme.spacing.default
                 )
             ) {
                 sprint.task.forEach {
-                    TaskListCard(it)
+                    TaskListCard(it) {
+                        navController?.navigate("task")
+                    }
                 }
             }
         }

@@ -48,7 +48,7 @@ fun SignUpView(navController: NavController? = null) {
 	var confirmPasswordError by remember { mutableStateOf("") }
 
 	LaunchedEffect(authState) {
-		if (authState.signedIn) navController?.navigate(Screens.HomeRoute.route)
+		if (authState.signedIn) navController?.navigate(Screens.Homepage.route)
 //		TODO: Add error handling
 	}
 

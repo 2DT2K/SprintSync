@@ -46,7 +46,8 @@ fun TaskAttachment(attachmentList: List<Attachment>) {
             println(bytes)
             bytes?.let { byteArr -> println(String(byteArr)) }
             item?.close()
-        })
+        }
+    )
     Column(
         verticalArrangement = Arrangement.spacedBy(5.dp, Alignment.CenterVertically),
         horizontalAlignment = Alignment.Start,

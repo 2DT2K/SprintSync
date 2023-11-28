@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -21,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sprintsync.ui.theme.Grey120
 import com.sprintsync.ui.theme.Purple20
+import com.sprintsync.ui.theme.spacing
 import com.sprintsync.ui.views.profile.Setting
 
 
@@ -29,43 +31,39 @@ fun ProfileSettingGroup(title: String, settings: List<Setting>) {
 	Surface {
 		Column(
 			modifier = Modifier.fillMaxWidth(),
-			verticalArrangement = Arrangement.spacedBy(12.dp)
+			verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.default)
 		) {
 			Text(
 				text = title,
-				fontSize = 16.sp,
-				lineHeight = 16.sp,
-				fontWeight = FontWeight.Bold
+				style = MaterialTheme.typography.titleMedium,
+				color = MaterialTheme.colorScheme.onSurface
 			)
 
 			Column(
 				modifier = Modifier
 					.fillMaxWidth()
 					.background(
-						color = Grey120,
-						shape = RoundedCornerShape(size = 8.dp)
+						color = MaterialTheme.colorScheme.secondaryContainer,
+						shape = RoundedCornerShape(size = 16.dp)
 					)
-					.padding(vertical = 8.dp, horizontal = 12.dp),
-				verticalArrangement = Arrangement.spacedBy(8.dp)
+					.padding(MaterialTheme.spacing.smallMedium),
+				verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.default)
 			) {
 				settings.forEach { setting ->
 					Row(
 						modifier = Modifier.clickable { setting.onClick() },
-						horizontalArrangement = Arrangement.spacedBy(40.dp),
+						horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.large),
 						verticalAlignment = Alignment.CenterVertically
 					) {
 						Icon(
 							modifier = Modifier.size(32.dp),
 							painter = painterResource(id = setting.icon),
 							contentDescription = setting.settingName,
-							tint = Purple20
+							tint = MaterialTheme.colorScheme.onSecondaryContainer
 						)
 						Text(
 							text = setting.settingName,
-							fontSize = 16.sp,
-							lineHeight = 16.sp,
-							fontWeight = FontWeight(500),
-							color = Purple20
+							style = MaterialTheme.typography.bodyLarge,
 						)
 					}
 				}
