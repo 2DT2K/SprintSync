@@ -48,13 +48,6 @@ fun Backlog(projectID: String?) {
     val sprintVM = hiltViewModel<SprintViewModel>()
     val sprintState by sprintVM.state.collectAsStateWithLifecycle()
 
-    val khoidz = SprintDto(
-        startDate = LocalDateTime.now().toString(),
-        endDate = LocalDateTime.of(2025, 2, 26, 0, 0).toString(),
-        sprintNumber = 2,
-        project = projectID ?: ""
-    )
-
     LaunchedEffect(Unit) {
         if (projectID != null) {
             sprintVM.getSprintsOfProject(projectID)

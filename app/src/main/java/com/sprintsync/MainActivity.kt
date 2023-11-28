@@ -98,7 +98,9 @@ fun MainContent() {
             if (showBottomAndTopBar) BottomNavigation(navController)
         },
         floatingActionButton = {
-            if (showFAB) { if (route == "files") AddFileFAB() else AddProjectFAB() }
+            if (showFAB) {
+                if (route == "files") AddFileFAB() else AddProjectFAB()
+            }
         },
         containerColor = MaterialTheme.colorScheme.surface,
     ) { paddingValues ->
@@ -157,9 +159,10 @@ fun MainContent() {
                         },
                     ) {
                         ProjectList(
-                            navController, projectState.dtoList ?: emptyList(),
-                            getMyProjects = {projectVM.getMyProjects()},
-                            choseProject = {projectVM.choseProject(it)}
+                            navController,
+                            projectState.dtoList ?: emptyList(),
+                            getMyProjects = { projectVM.getMyProjects() },
+                            choseProject = { projectVM.choseProject(it) }
                         )
                     }
                     navigation(
@@ -240,7 +243,7 @@ fun MainContent() {
                                     tween(500)
                                 )
                             }
-                        ) { TaskListView(navController) }
+                        ) { TaskListView(chosenProject?.id, navController) }
                         composable(
                             Screens.Task.route,
                             enterTransition = {
@@ -256,7 +259,7 @@ fun MainContent() {
                                 )
                             }
                         ) {
-                            TaskView(fakeTask, listOf("To do","In Progress"))
+                            TaskView(fakeTask, listOf("To do", "In Progress"))
                         }
                         composable(
                             Screens.People.route,

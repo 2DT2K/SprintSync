@@ -24,9 +24,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
-import androidx.navigation.NavController
 import com.sprintsync.R
-import com.sprintsync.data.view_models.BacklogViewModel
+import com.sprintsync.data.dtos.response.TaskResDto
 import com.sprintsync.ui.components.TaskProcess
 import com.sprintsync.ui.components.TaskTag
 import com.sprintsync.ui.theme.BugType
@@ -37,11 +36,11 @@ import com.sprintsync.ui.theme.spacing
 
 
 @Composable
-fun TaskListCard(task: BacklogViewModel.Task, onClick: () -> Unit = { }) {
+fun TaskListCard(task: TaskResDto, onClick: () -> Unit = { }) {
     var status = ""
     var backgroundColor: Color = Color.Transparent
     var typeColor: Color = Color.Transparent
-    when (task.status) {
+    when (task.statusIndex) {
         1 -> {
             status = "To Do"
             backgroundColor = ToDoStatus
