@@ -29,7 +29,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
 import com.sprintsync.data.auth.Authenticator
-import com.sprintsync.data.view_models.BacklogViewModel
 import com.sprintsync.data.view_models.ProjectViewModel
 import com.sprintsync.data.view_models.ProjectViewViewModel
 import com.sprintsync.ui.components.BottomNavigation
@@ -76,12 +75,12 @@ fun MainContent() {
     val projectVM = hiltViewModel<ProjectViewModel>()
     val projectState by projectVM.state.collectAsStateWithLifecycle()
     val chosenProject = projectState.dto
+
     val navController = rememberNavController()
 
     var showBottomAndTopBar by remember { mutableStateOf(false) }
     var showFAB by remember { mutableStateOf(false) }
     var route by remember { mutableStateOf("") }
-
     navController.addOnDestinationChangedListener { _, dest, _ ->
         showBottomAndTopBar =
             dest.route !in listOf("sign_in", "sign_up", "password_reset", "verify_account")
@@ -158,7 +157,9 @@ fun MainContent() {
                         },
                     ) {
                         ProjectList(
-                            ProjectViewViewModel(), navController
+                            navController, projectState.dtoList ?: emptyList(),
+                            getMyProjects = {projectVM.getMyProjects()},
+                            choseProject = {projectVM.choseProject(it)}
                         )
                     }
                     navigation(
@@ -209,7 +210,7 @@ fun MainContent() {
                                     tween(500)
                                 )
                             }
-                        ) { Backlog(BacklogViewModel("")) }
+                        ) { Backlog(projectState.dto?.id) }
                         composable(
                             Screens.Files.route,
                             enterTransition = {

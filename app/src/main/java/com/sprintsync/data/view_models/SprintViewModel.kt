@@ -1,5 +1,6 @@
 package com.sprintsync.data.view_models
 
+import android.util.Log
 import com.sprintsync.data.api.SprintAPI
 import com.sprintsync.data.dtos.SprintDto
 import com.sprintsync.data.dtos.response.ReportChartDto
@@ -13,65 +14,67 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SprintViewModel @Inject constructor(
-	private val service: SprintAPI
+    private val service: SprintAPI
 ) : AbstractViewModel<SprintDto>() {
-	private val _report = MutableStateFlow(ReportChartDto())
-	val report = _report.asStateFlow()
+    private val _report = MutableStateFlow(ReportChartDto())
+    val report = _report.asStateFlow()
 
-	private fun updateReport(dto: ReportChartDto) = _report.update { dto }
+    private fun updateReport(dto: ReportChartDto) = _report.update { dto }
 
-	fun getSprint(id: String) {
-		scope.launch {
-			val response = service.getSprint(id)
-			update(State(dto = response.data, error = response.err))
-		}
-	}
+    fun getSprint(id: String) {
+        scope.launch {
+            val response = service.getSprint(id)
+            update(State(dto = response.data, error = response.err))
+        }
+    }
 
-	fun getSprintsOfProject(id: String) {
-		scope.launch {
-			val response = service.getSprintsOfProject(id)
-			update(State(dtoList = response.data, error = response.err))
-		}
-	}
+    fun getSprintsOfProject(id: String) {
+        scope.launch {
+            val response = service.getSprintsOfProject(id)
+            update(State(dtoList = response.data, error = response.err))
+        }
+    }
 
-	fun getSprintReport(id: String) {
-		scope.launch {
-			val response = service.getSprintReport(id)
-			response.data?.let { updateReport(it) }
-		}
-	}
+    fun getSprintReport(id: String) {
+        scope.launch {
+            val response = service.getSprintReport(id)
+            response.data?.let { updateReport(it) }
+        }
+    }
 
-	fun getInitialSprintReport(projectId:String){
-		scope.launch {
-			val response = service.getSprintsOfProject(projectId)
-			update(State(dtoList = response.data, error = response.err))
-			val sprints = response.data?: emptyList()
-			val initialSprintsId = sprints.lastOrNull()?.id
-			val sprintReport = initialSprintsId?.let { service.getSprintReport(it) }
-			if (sprintReport != null) {
-				sprintReport.data?.let { updateReport(it) }
-			}
-		}
-	}
-	fun addSprint(dto: SprintDto) {
-		scope.launch {
-			val response = service.addSprint(dto)
-			update(State(dto = response.data, error = response.err))
-		}
-	}
+    fun getInitialSprintReport(projectId: String) {
+        scope.launch {
+            val response = service.getSprintsOfProject(projectId)
+            update(State(dtoList = response.data, error = response.err))
+            val sprints = response.data ?: emptyList()
+            val initialSprintsId = sprints.lastOrNull()?.id
+            val sprintReport = initialSprintsId?.let { service.getSprintReport(it) }
+            if (sprintReport != null) {
+                sprintReport.data?.let { updateReport(it) }
+            }
+        }
+    }
 
-	fun updateSprint(dto: SprintDto) {
-		scope.launch {
-			val response = service.updateSprint(dto)
-			update(State(dto = response.data, error = response.err))
-		}
-	}
+    fun addSprint(dto: SprintDto) {
+        scope.launch {
+            val response = service.addSprint(dto)
+            update(State(dto = response.data, dtoList = state.value.dtoList, error = response.err))
+            response.data?.let { addToDtoList(it) }
+        }
+    }
 
-	fun deleteSprint(id: String) {
-		scope.launch {
-			val response = service.deleteSprint(id)
-			update(State(message = response.data, error = response.err))
-		}
-	}
+    fun updateSprint(dto: SprintDto) {
+        scope.launch {
+            val response = service.updateSprint(dto)
+            update(State(dto = response.data, error = response.err))
+        }
+    }
+
+    fun deleteSprint(id: String) {
+        scope.launch {
+            val response = service.deleteSprint(id)
+            update(State(message = response.data, error = response.err))
+        }
+    }
 
 }
