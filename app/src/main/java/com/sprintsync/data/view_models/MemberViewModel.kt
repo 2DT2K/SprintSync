@@ -55,6 +55,13 @@ class MemberViewModel @Inject constructor(
 		}
 	}
 
+	fun addDevice(token: String) {
+		scope.launch {
+			val response = service.addDevice(token)
+			update(State(message = response.data, error = response.err))
+		}
+	}
+
 	fun updateMember(dto: MemberDto) {
 		scope.launch {
 			val response = service.updateMember(dto)
