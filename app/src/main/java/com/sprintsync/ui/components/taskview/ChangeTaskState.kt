@@ -94,5 +94,5 @@ fun ChangeTaskStateButton(
 @Preview(showBackground = true)
 @Composable
 fun ChangeStatePreview() {
-    ChangeTaskStateButton(taskState = "IN PROGRESS")
+//    ChangeTaskStateButton(taskState = "IN PROGRESS")
 }

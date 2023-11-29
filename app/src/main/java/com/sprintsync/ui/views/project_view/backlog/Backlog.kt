@@ -38,6 +38,7 @@ import com.sprintsync.data.view_models.BacklogViewModel
 import com.sprintsync.data.view_models.SprintViewModel
 import com.sprintsync.data.view_models.TaskViewModel
 import com.sprintsync.ui.components.backlog.SprintCard
+import com.sprintsync.ui.components.backlog.SprintDialog
 import com.sprintsync.ui.theme.Grey40
 import com.sprintsync.ui.theme.SprintSyncTheme
 import java.time.LocalDate
@@ -60,6 +61,9 @@ fun Backlog(projectID: String?) {
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
     ) {
+        if (projectID != null) {
+            SprintDialog(projectID = projectID, onAddSprint = { sprintVM.addSprint(it) })
+        }
         //TODO: wait for active sprint api
         CurrentSprintView(sprintState.dtoList)
         IsDoneSprintView(sprintState.dtoList)

@@ -37,6 +37,7 @@ import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -50,24 +51,18 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.sprintsync.R
 import com.sprintsync.data.dtos.SprintDto
 import com.sprintsync.data.dtos.TaskDto
-import com.sprintsync.ui.components.profile.edit_profile.DateWheelPicker
-import com.sprintsync.ui.components.profile.edit_profile.ProfileInfoCard
-import com.sprintsync.ui.theme.Grey80
-import com.sprintsync.ui.theme.Purple40
+import com.sprintsync.data.view_models.MemberViewModel
+import com.sprintsync.data.view_models.TeamViewModel
 import com.sprintsync.ui.theme.spacing
-import kotlinx.coroutines.launch
-import kotlinx.datetime.toLocalDateTime
-import java.time.Instant
-import java.time.LocalDate
-import java.time.LocalDateTime
-import java.time.ZoneId
-import java.time.format.DateTimeFormatter
 
 @Composable
 fun TaskDialog(sprint: SprintDto, onAddTask: (TaskDto) -> Unit) {
@@ -130,49 +125,165 @@ fun TaskDialog(sprint: SprintDto, onAddTask: (TaskDto) -> Unit) {
                         color = MaterialTheme.colorScheme.onSurface
                     )
 
-                    TaskInputGroup(
+                    InputGroup(
                         title = "Name",
                         value = taskName,
                         onValueChange = { taskName = it })
 
-                    TaskInputGroup(
+                    InputGroup(
                         title = "Description",
                         value = taskDescription,
                         onValueChange = { taskDescription = it })
 
-                    TaskInputGroup(
+                    InputGroup(
                         title = "Deadline",
                         value = taskDeadline,
                         content = { DatePickerDialog { taskDeadline = it } })
 
 
-                    TaskInputGroup(
+                    InputGroup(
+                        type = "number",
                         title = "Point",
-                        value = if (taskPoint != -1) taskPoint.toString() else "",
-                        onValueChange = {
-                            taskPoint = it.toIntOrNull() ?: -1
-                        })
+                        value = if (taskPoint != -1) taskPoint.toString() else ""
+                    ) {
+                        taskPoint = it.toIntOrNull() ?: -1
+                    }
 
                     Button(
                         onClick = {
+                            //TODO: team,assignor,asignees,parent,attachments ko goi dc do ko co assignor
                             val task = sprint.id?.let {
-//                                TaskDto(
-//                                    name = taskName,
-//                                    description = taskDescription,
-//                                    sprint = it,
-//                                    team = team.id ?: "",
-//                                    assignor = assignor.id ?: "",
-//                                    assignees = assignees.map { it.id ?: "" },
-//                                    parentTask = parentTask,
-//                                    attachments = attachments?.map { it.id ?: "" },
-//                                    statusIndex = statusIndex,
-//                                    deadline = deadline,
-//                                    point = point,
-//                                    comments = comments?.map { it.id ?: "" },
-//                                    labels = labels,
-//                                )
+                                TaskDto(
+                                    name = taskName,
+                                    description = taskDescription,
+                                    sprint = sprint.id,
+                                    team = "",
+                                    assignor = "it1.uid",
+                                    assignees = listOf(""),
+                                    parentTask = "",
+                                    attachments = listOf(""),
+                                    statusIndex = 0,
+                                    deadline = taskDeadline,
+                                    point = taskPoint,
+                                    comments = listOf(""),
+                                    labels = listOf(""),
+                                )
                             }
+                            task?.let { onAddTask(it) }
                             isTaskDialogOpen = !isTaskDialogOpen
+                        },
+                        modifier = Modifier
+                            .border(
+                                0.dp,
+                                Color.Transparent,
+                                RoundedCornerShape(3.dp)
+                            )
+                            .align(Alignment.CenterHorizontally)
+                    ) {
+                        Text(
+                            "Done",
+                            style = MaterialTheme.typography.titleSmall,
+                            color = MaterialTheme.colorScheme.onPrimary
+                        )
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun SprintDialog(projectID: String, onAddSprint: (SprintDto) -> Unit) {
+    var isSprintDialogOpen by remember { mutableStateOf(false) }
+    var sprintNumber by remember { mutableIntStateOf(-1) }
+    var sprintStartDate by remember { mutableStateOf("") }
+    var sprintEndDate by remember { mutableStateOf("") }
+
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable {
+                isSprintDialogOpen = !isSprintDialogOpen
+            }
+            .height(64.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Icon(
+            painter = painterResource(id = R.drawable.add),
+            contentDescription = "create task icon",
+            tint = MaterialTheme.colorScheme.onSurface,
+        )
+
+        Spacer(modifier = Modifier.width(8.dp))
+
+        Text(text = "Create")
+    }
+
+    if (isSprintDialogOpen) {
+        Dialog(
+            onDismissRequest = {
+                isSprintDialogOpen = !isSprintDialogOpen
+            },
+            properties = DialogProperties(
+                usePlatformDefaultWidth = false
+            )
+        ) {
+            Card(
+                modifier = Modifier.verticalScroll(rememberScrollState()),
+                shape = RoundedCornerShape(16.dp),
+                colors = CardDefaults.cardColors(
+                    containerColor = MaterialTheme.colorScheme.secondaryContainer
+                ),
+                elevation = CardDefaults.cardElevation(10.dp),
+            ) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(
+                            vertical = MaterialTheme.spacing.default,
+                            horizontal = MaterialTheme.spacing.medium
+                        ),
+                    verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.default)
+                ) {
+                    Text(
+                        modifier = Modifier.align(Alignment.CenterHorizontally),
+                        text = "Add Task",
+                        style = MaterialTheme.typography.titleLarge,
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
+
+                    InputGroup(
+                        type = "number",
+                        title = "Name",
+                        initialValue = "Sprint:",
+                        value = if (sprintNumber != -1) "    $sprintNumber" else "    ",
+                        onValueChange = {
+                            sprintNumber = it.replace(" ", "").toIntOrNull() ?: -1
+                        })
+
+                    InputGroup(
+                        title = "Start Date",
+                        value = sprintStartDate,
+                        content = { DatePickerDialog { sprintStartDate = it } })
+
+
+                    InputGroup(
+                        title = "End Date",
+                        value = sprintEndDate,
+                        content = { DatePickerDialog { sprintEndDate = it } })
+
+                    Button(
+                        onClick = {
+                            //TODO: team,assignor,asignees,parent,attachments ko goi dc do ko co assignor
+                            val sprint = SprintDto(
+                                id = null,
+                                startDate = sprintStartDate,
+                                endDate = sprintEndDate,
+                                sprintNumber = sprintNumber,
+                                project = projectID
+                            )
+                            onAddSprint(sprint)
+                            isSprintDialogOpen = !isSprintDialogOpen
                         },
                         modifier = Modifier
                             .border(

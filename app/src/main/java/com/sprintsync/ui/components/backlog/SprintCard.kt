@@ -32,7 +32,9 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.sprintsync.R
+import com.sprintsync.data.dtos.MemberDto
 import com.sprintsync.data.dtos.SprintDto
+import com.sprintsync.data.view_models.MemberViewModel
 import com.sprintsync.data.view_models.TaskViewModel
 import com.sprintsync.ui.components.TaskPoint
 import com.sprintsync.ui.theme.DonePoint
@@ -159,7 +161,7 @@ fun SprintCard(sprint: SprintDto, isActive: Boolean = false) {
 
                 // row for creating task
                 if (isActive) {
-                    TaskDialog(sprint,{taskVM.addTask()})
+                    TaskDialog(sprint) { taskVM.addTask(it) }
                 }
             }
         }
