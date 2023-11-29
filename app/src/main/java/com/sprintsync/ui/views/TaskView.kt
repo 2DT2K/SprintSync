@@ -103,8 +103,3 @@ fun TaskView(taskId: String, statusList: List<String>) {
 }
 
 
-//@Preview(showBackground = true)
-//@Composable
-//fun TaskViewPreview() {
-//    TaskView(fakeTask, listOf("To do", "In Progress"))
-//}

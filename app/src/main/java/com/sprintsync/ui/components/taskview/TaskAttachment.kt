@@ -29,7 +29,6 @@ import androidx.compose.ui.unit.dp
 import com.sprintsync.R
 import com.sprintsync.data.dtos.AttachmentDto
 import com.sprintsync.ui.theme.spacing
-import com.sprintsync.ui.views.fakeTask
 
 class Attachment(
     val name: String,
@@ -127,8 +126,8 @@ fun TaskAttachment(attachmentList: List<AttachmentDto>?) {
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun TaskAttachmentPreview() {
-    TaskAttachment(attachmentList = fakeTask.attachments)
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun TaskAttachmentPreview() {
+//    TaskAttachment(attachmentList = fakeTask.attachments)
+//}
