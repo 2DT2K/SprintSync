@@ -1,15 +1,7 @@
 package com.sprintsync.ui.components
 
 import android.util.Log
-import androidx.compose.material.IconButton
-import androidx.compose.material3.DropdownMenu
-import androidx.compose.material3.DropdownMenuItem
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.navigation.NavController
 
 @Composable
@@ -18,49 +10,73 @@ fun TopAppBar(
     navController: NavController? = null
 ) {
     when (route) {
-        "homepage" -> {
+        "homepage"       -> {
             AvatarTopAppBar(title = "Home")
         }
-        "project_list" -> {
+
+        "project_list"   -> {
             AvatarTopAppBar(title = "Project")
         }
+
         "detail_project" -> {
-            TwoIconTopAppBar(title = "Project", navigationOnclick = { navController?.popBackStack() })
+            TwoIconTopAppBar(
+                title = "Project",
+                navigationOnclick = { navController?.popBackStack() })
         }
-        "board" -> {
+
+        "board"          -> {
             TwoIconTopAppBar(title = "Board", navigationOnclick = { navController?.popBackStack() })
         }
-        "backlog" -> {
+
+        "backlog"        -> {
             TwoIconTopAppBar(
                 title = "Backlog",
                 navigationOnclick = { navController?.popBackStack() }
             )
         }
-        "timeline" -> {
-            TwoIconTopAppBar(title = "Timeline", navigationOnclick = { navController?.popBackStack() })
+
+        "timeline"       -> {
+            TwoIconTopAppBar(
+                title = "Timeline",
+                navigationOnclick = { navController?.popBackStack() })
         }
-        "tasks" -> {
+
+        "tasks"          -> {
             TwoIconTopAppBar(title = "Tasks", navigationOnclick = { navController?.popBackStack() })
         }
-        "files" -> {
+
+        "files"          -> {
             TwoIconTopAppBar(title = "Files", navigationOnclick = { navController?.popBackStack() })
         }
-        "members" -> {
-            TwoIconTopAppBar(title = "Member", navigationOnclick = { navController?.popBackStack() })
+
+        "members"        -> {
+            TwoIconTopAppBar(
+                title = "Member",
+                navigationOnclick = { navController?.popBackStack() })
         }
-        "report" -> {
-            TwoIconTopAppBar(title = "Report", navigationOnclick = { navController?.popBackStack() })
+
+        "report"         -> {
+            TwoIconTopAppBar(
+                title = "Report",
+                navigationOnclick = { navController?.popBackStack() })
         }
-        "calendar" -> {
+
+        "calendar"       -> {
             AvatarTopAppBar(title = "Calendar")
         }
-        "profile" -> {
+
+        "profile"        -> {
             AvatarTopAppBar(title = "Profile", turnAvatar = false)
         }
-        "task" -> {
-            TwoIconTopAppBar(title = "Task", navigationOnclick = { navController?.popBackStack() })
+
+        "task/{taskId}"  -> {
+            TwoIconTopAppBar(
+                title = "Task $",
+                navigationOnclick = { navController?.popBackStack()
+            })
         }
-        else -> {
+
+        else             -> {
             Log.d("TopAppBar", "Route not found")
         }
     }

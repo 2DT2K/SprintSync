@@ -33,7 +33,7 @@ import com.sprintsync.data.view_models.TaskViewModel
 import com.sprintsync.ui.components.boardview.BoardViewCategory
 import com.sprintsync.ui.theme.spacing
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun BoardView(projectID: String?, statusList: List<String>?) {
     val taskViewVM = hiltViewModel<TaskViewModel>()
@@ -78,7 +78,8 @@ fun BoardView(projectID: String?, statusList: List<String>?) {
             }
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.Center
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.Bottom
             ) {
                 BoardViewCategory(
                     categoryName = statusList?.get(it),

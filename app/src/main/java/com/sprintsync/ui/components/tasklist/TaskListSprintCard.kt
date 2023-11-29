@@ -86,7 +86,7 @@ fun TaskListSprintCard(
             ) {
                 tasksOfThisSprint.forEach {
                     TaskListCard(it) {
-                        navController?.navigate("task")
+                        navController?.navigate("task/${it.id}")
                     }
                 }
                 TaskDialog(sprint) { task ->

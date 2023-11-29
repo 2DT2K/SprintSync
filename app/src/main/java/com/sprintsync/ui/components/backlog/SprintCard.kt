@@ -154,7 +154,7 @@ fun SprintCard(
                 )
             ) {
                 tasksOfThisSprint.forEach { task ->
-                    TaskCard(task = task)
+                    TaskCard(task = task, navController = navController)
                 }
 
                 // row for creating task

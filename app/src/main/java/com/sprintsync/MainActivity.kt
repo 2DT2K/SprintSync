@@ -31,8 +31,6 @@ import androidx.navigation.compose.rememberNavController
 import com.sprintsync.data.auth.Authenticator
 import com.sprintsync.data.view_models.MemberViewModel
 import com.sprintsync.data.view_models.ProjectViewModel
-import com.sprintsync.data.view_models.ProjectViewViewModel
-import com.sprintsync.data.view_models.TaskViewModel
 import com.sprintsync.ui.components.BottomNavigation
 import com.sprintsync.ui.components.TopAppBar
 import com.sprintsync.ui.components.fileview.AddFileFAB
@@ -143,7 +141,11 @@ fun MainContent() {
                     popExitTransition = {
                         return@composable fadeOut(tween(500))
                     },
-                ) { HomePage(navController) }
+                ) { HomePage(
+                    navController,
+                    projectState.dtoList ?: emptyList(),
+                    getMyProjects = { projectVM.getMyProjects() }
+                ) }
                 navigation(
                     startDestination = Screens.Project.route,
                     route = Screens.ProjectRoute.route,
@@ -217,7 +219,7 @@ fun MainContent() {
                                     tween(500)
                                 )
                             }
-                        ) { Backlog(projectState.dto?.id) }
+                        ) { Backlog(projectState.dto?.id, navController) }
                         composable(
                             Screens.Files.route,
                             enterTransition = {

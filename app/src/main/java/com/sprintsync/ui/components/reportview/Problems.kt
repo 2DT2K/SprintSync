@@ -212,9 +212,9 @@ fun Problem(title: String, incompleteProblems: List<TaskResDto>,statusList:List<
                                 incompleteProblems.forEach { it3 ->
                                     var color = 0L
                                     when (statusList?.get(it3.statusIndex)) {
-                                        "In Progress" -> color = 0xFFF7C84F
-                                        "Review" -> color = 0xFF4FF7E3
-                                        "Todo" -> color = 0xFF4FF774
+                                        "In Progress" -> color = 0xFF4CF590
+                                        "Done" -> color = 0xFF00B383
+                                        "To Do" -> color = 0xFF4F8FF5
                                     }
                                     statusList?.get(it3.statusIndex)
                                         ?.let { it1 -> TaskProcess(title = it1, color = color) }
@@ -241,7 +241,6 @@ fun Problem(title: String, incompleteProblems: List<TaskResDto>,statusList:List<
                                         verticalAlignment = Alignment.CenterVertically,
                                     ) {
                                         it4.assignees.forEach {
-
                                             Image(
                                                 painter = painterResource(
                                                     id = R.drawable.nice_avatar

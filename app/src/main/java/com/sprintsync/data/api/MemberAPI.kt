@@ -23,8 +23,8 @@ interface MemberAPI {
 
 	@GET("members/role/{id}/project/{projectId}")
 	suspend fun getMemberRole(
-		@Path("id") projectId: String,
-		@Path("memberId") memberId: String
+		@Path("id") memberId: String,
+		@Path("projectId") projectId: String
 	): ApiResponse<String>
 
 	@PATCH("members")

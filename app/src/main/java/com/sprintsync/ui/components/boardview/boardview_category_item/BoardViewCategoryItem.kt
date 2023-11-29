@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
@@ -39,12 +40,12 @@ fun BoardViewCategoryItem(boardviewItemDetails: TaskResDto) {
             .fillMaxWidth()
     ) {
 //        boardviewItemDetails.taskImage?.let {
-        Image(
-            painterResource(id = R.drawable.nice_avatar),
-//                bitmap = it.asImageBitmap(),
-            contentDescription = "",
-            modifier = Modifier.fillMaxWidth()
-        )
+//        Image(
+//            painterResource(id = R.drawable.nice_avatar),
+////                bitmap = it.asImageBitmap(),
+//            contentDescription = "",
+//            modifier = Modifier.fillMaxWidth()
+//        )
 //        }
         Column(
             modifier = Modifier
@@ -128,7 +129,8 @@ fun BoardViewCategoryItem(boardviewItemDetails: TaskResDto) {
 //                            }
 //                        }
                         Image(
-                            painter = painterResource(id = R.drawable.profile),
+                            modifier = Modifier.size(25.dp),
+                            painter = painterResource(id = R.drawable.avataricon),
                             contentDescription = ""
                         )
                     }

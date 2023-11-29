@@ -40,8 +40,8 @@ fun TaskListView(projectID: String?, navController: NavController? = null) {
             SearchBar(placeHolder = "Search a task")
             Spacer(modifier = Modifier.height(MaterialTheme.spacing.medium))
             sprintState.dtoList?.forEach() {
-                taskState.dtoList?.let { it1 ->
-                    TaskListSprintCard(it, navController, it1) { task ->
+                taskState.dtoList?.let { jt ->
+                    TaskListSprintCard(it, navController, jt) { task ->
                         taskVM.addTask(
                             task
                         )

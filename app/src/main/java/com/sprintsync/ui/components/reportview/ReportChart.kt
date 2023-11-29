@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -54,6 +55,11 @@ fun ReportChart(
             } else "No Sprint"
         )
     }
+    LaunchedEffect(sprintList) {
+        if (sprintList != null) {
+            sprintName = "Sprint ${sprintList.lastOrNull()?.sprintNumber}"
+        }
+    }
 
     Column(
         verticalArrangement = Arrangement.spacedBy(
@@ -71,10 +77,16 @@ fun ReportChart(
             sprintList = sprintList
         )
         MainChart(chartEntryModel = chartEntryModel)
-        ChartInfor(
-            remaining = 10, completed = 20, remainingColor = Color(0xFF04BFDA),
-            completedColor = Color(0xFF04BFDA)
-        )
+        listOfIncompleteTask.lastOrNull()?.y?.let {
+            listOfCompleteTask.lastOrNull()?.y?.let { it1 ->
+                ChartInfor(
+                    remaining = it.toInt(),
+                    completed = it1.toInt(),
+                    remainingColor = Color.Cyan,
+                    completedColor = Color.Green,
+                )
+            }
+        }
     }
 }
 

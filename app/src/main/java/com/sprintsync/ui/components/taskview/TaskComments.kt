@@ -3,6 +3,7 @@ package com.sprintsync.ui.components.taskview
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -31,17 +32,12 @@ import com.sprintsync.data.dtos.response.CommentResDto
 import com.sprintsync.ui.components.Comment
 import com.sprintsync.ui.components.CommentTextField
 import com.sprintsync.ui.theme.spacing
+import java.time.LocalDateTime
 
-
-data class TaskComments(
-    val commenter: String,
-    val content: String,
-    val commentTime: String,
-)
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TaskComments(commentList: List<CommentResDto>?) {
+fun TaskComments(commentList: List<CommentResDto>?, addComment: (CommentDto) -> Unit) {
     var comment by remember {
         mutableStateOf("")
     }
@@ -68,6 +64,9 @@ fun TaskComments(commentList: List<CommentResDto>?) {
             ),
             verticalAlignment = Alignment.CenterVertically,
         ) {
+            val currentComment by remember {
+                mutableStateOf(CommentDto(null, null, "", "", emptyList()))
+            }
             Image(
                 painter = painterResource(id = R.drawable.avataricon),
                 contentDescription = "",
@@ -80,6 +79,7 @@ fun TaskComments(commentList: List<CommentResDto>?) {
                 value = comment,
                 onValueChange = {
                     comment = it
+                    currentComment.content = it
                 },
                 modifier = Modifier.weight(1f)
             )
@@ -99,6 +99,16 @@ fun TaskComments(commentList: List<CommentResDto>?) {
                         shape = RoundedCornerShape(size = MaterialTheme.spacing.default)
                     )
                     .padding(MaterialTheme.spacing.small)
+                    .clickable {
+                        if (currentComment.content != "") {
+                            currentComment.createdAt = LocalDateTime
+                                .now()
+                                .toString()
+                            addComment(currentComment)
+                            currentComment.content = ""
+                            comment = ""
+                        }
+                    }
 
             ) {
                 Image(
@@ -126,7 +136,6 @@ fun TaskComments(commentList: List<CommentResDto>?) {
         }
     }
 }
-
 
 
 @Preview(showBackground = true)
