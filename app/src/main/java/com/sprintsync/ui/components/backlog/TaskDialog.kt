@@ -1,5 +1,6 @@
 package com.sprintsync.ui.components.backlog
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -20,6 +21,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -32,19 +34,50 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.sprintsync.R
+import com.sprintsync.data.dtos.MemberDto
 import com.sprintsync.data.dtos.SprintDto
 import com.sprintsync.data.dtos.TaskDto
+import com.sprintsync.data.dtos.TeamDto
+import com.sprintsync.data.dtos.response.TeamResDto
+import com.sprintsync.data.view_models.TeamViewModel
 import com.sprintsync.ui.theme.spacing
 import java.time.LocalDateTime
 
 @Composable
 fun TaskDialog(sprint: SprintDto, onAddTask: (TaskDto) -> Unit) {
+    val teamVM = hiltViewModel<TeamViewModel>()
+    val teamState = teamVM.state.collectAsStateWithLifecycle()
     var isTaskDialogOpen by remember { mutableStateOf(false) }
     var taskName by remember { mutableStateOf("") }
     var taskDescription by remember { mutableStateOf("") }
+    var chosenTeam by remember {
+        mutableStateOf<TeamResDto>(
+            TeamResDto(
+                id = null,
+                name = "",
+                leader = MemberDto(
+                    id = null,
+                    name = "",
+                    uid = "",
+                    email = ""
+                ),
+                members = emptyList(),
+                project = sprint.project
+            )
+        )
+    }
+    var isTeamDialogOpen by remember { mutableStateOf(false) }
+    var assignees by remember { mutableStateOf<List<MemberDto>>(emptyList<MemberDto>()) }
+    var isAssigneeDialogOpen by remember { mutableStateOf(false) }
     var taskDeadline by remember { mutableStateOf(LocalDateTime.now().toString()) }
     var taskPoint by remember { mutableIntStateOf(0) }
+
+    LaunchedEffect(Unit) {
+        teamVM.getTeamsOfProject(sprint.project)
+    }
 
     Row(
         modifier = Modifier
@@ -111,6 +144,49 @@ fun TaskDialog(sprint: SprintDto, onAddTask: (TaskDto) -> Unit) {
                         value = taskDescription,
                         onValueChange = { taskDescription = it })
 
+                    Button(onClick = { isTeamDialogOpen = !isTeamDialogOpen }) {
+                        Text(text = if (chosenTeam.name != "") chosenTeam.name else "Choose Team")
+                    }
+                    AnimatedVisibility(visible = isTeamDialogOpen) {
+                        Column {
+                            teamState.value.dtoList?.forEach {
+                                Row(modifier = Modifier.clickable {
+                                    chosenTeam = it
+                                    assignees = emptyList()
+                                    isTeamDialogOpen = !isTeamDialogOpen
+                                }) {
+                                    Text(text = it.name)
+                                }
+                            }
+                        }
+                    }
+
+                    Button(onClick = { isAssigneeDialogOpen = !isAssigneeDialogOpen }) {
+                        Text(text = if (assignees.isNotEmpty()) assignees.joinToString(", ") { it.name } else "Choose Assignees")
+                    }
+                    AnimatedVisibility(visible = isAssigneeDialogOpen) {
+                        Column {
+                            chosenTeam.members.forEach {
+                                Row(modifier = Modifier.clickable {
+                                    assignees = if (assignees.contains(it)) {
+                                        assignees.filter { it != it }
+                                    } else {
+                                        assignees + it
+                                    }
+                                }) {
+                                    if (assignees.contains(it)) {
+                                        Icon(
+                                            painter = painterResource(id = R.drawable.check_circle),
+                                            contentDescription = "check icon",
+                                            tint = MaterialTheme.colorScheme.onSurface,
+                                        )
+                                    }
+                                    Text(text = it.name)
+                                }
+                            }
+                        }
+                    }
+
                     InputGroup(
                         title = "Deadline",
                         value = taskDeadline,
@@ -127,28 +203,30 @@ fun TaskDialog(sprint: SprintDto, onAddTask: (TaskDto) -> Unit) {
 
                     Button(
                         onClick = {
-                            //TODO: team,assignor,asignees,parent,attachments ko goi dc do ko co assignor
-                            val task = sprint.id?.let {
-                                TaskDto(
-                                    name = taskName,
-                                    description = taskDescription,
-                                    sprint = sprint.id,
-                                    // TODO: add a team id (necessary)
-                                    // This is only a temporary solution
-                                    team = "6566a9fbf5f1813b134e9b60",
-                                    assignor = null,
-                                    assignees = emptyList(),
-                                    parentTask = null,
-                                    attachments = emptyList(),
-                                    statusIndex = 0,
-                                    deadline = taskDeadline,
-                                    point = taskPoint,
-                                    comments = emptyList(),
-                                    labels = emptyList(),
-                                )
+                            if (chosenTeam.id != null && chosenTeam.id != "" && assignees.isNotEmpty()) {
+                                //TODO: team,assignor,asignees,parent,attachments ko goi dc do ko co assignor
+                                val task = sprint.id?.let {
+                                    TaskDto(
+                                        name = taskName,
+                                        description = taskDescription,
+                                        sprint = sprint.id,
+                                        // TODO: add a team id (necessary)
+                                        // This is only a temporary solution
+                                        team = chosenTeam.id!!,
+                                        assignor = null,
+                                        assignees = assignees.map { it.id!! },
+                                        parentTask = null,
+                                        attachments = emptyList(),
+                                        statusIndex = 0,
+                                        deadline = taskDeadline,
+                                        point = taskPoint,
+                                        comments = emptyList(),
+                                        labels = emptyList(),
+                                    )
+                                }
+                                task?.let { onAddTask(it) }
+                                isTaskDialogOpen = !isTaskDialogOpen
                             }
-                            task?.let { onAddTask(it) }
-                            isTaskDialogOpen = !isTaskDialogOpen
                         },
                         modifier = Modifier
                             .border(
