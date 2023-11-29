@@ -20,13 +20,12 @@ class MessageService : FirebaseMessagingService() {
 	override fun onMessageReceived(message: RemoteMessage) {
 		super.onMessageReceived(message)
 
-		val notification = message.notification
 		val data = message.data
 
 		val jobService = ComponentName(this, BackgroundService::class.java)
 		val extras = PersistableBundle().apply {
-			putString("title", notification?.title)
-			putString("body", notification?.body)
+			putString("title", "New task: ${data["taskName"]}")
+			putString("body", data["taskDescription"])
 			putString("taskName", data["taskName"])
 			putString("taskDescription", data["taskDescription"])
 			putString("taskDeadline", data["taskDeadline"])
