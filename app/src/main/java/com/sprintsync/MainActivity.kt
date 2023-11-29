@@ -32,6 +32,7 @@ import com.sprintsync.data.auth.Authenticator
 import com.sprintsync.data.view_models.MemberViewModel
 import com.sprintsync.data.view_models.ProjectViewModel
 import com.sprintsync.data.view_models.ProjectViewViewModel
+import com.sprintsync.data.view_models.TaskViewModel
 import com.sprintsync.ui.components.BottomNavigation
 import com.sprintsync.ui.components.TopAppBar
 import com.sprintsync.ui.components.fileview.AddFileFAB
@@ -164,8 +165,7 @@ fun MainContent() {
                         },
                     ) {
                         ProjectList(
-                            navController,
-                            projectState.dtoList ?: emptyList(),
+                            navController, projectState.dtoList ?: emptyList(),
                             getMyProjects = { projectVM.getMyProjects() },
                             choseProject = { projectVM.choseProject(it) }
                         )
@@ -264,7 +264,15 @@ fun MainContent() {
                                 )
                             }
                         ) {
-                            TaskView(fakeTask, listOf("To do", "In Progress"))
+                            it.arguments?.getString("taskId")
+                                ?.let { it1 ->
+                                    projectState.dto?.let { it2 ->
+                                        TaskView(
+                                            it1,
+                                            it2.statuses
+                                        )
+                                    }
+                                }
                         }
                         composable(
                             Screens.Members.route,
@@ -326,7 +334,7 @@ fun MainContent() {
                     popEnterTransition = {
                         return@composable scaleIn(tween(500))
                     },
-                ) { CalendarView(navController,chosenProject?.statuses) }
+                ) { CalendarView(navController, chosenProject?.statuses) }
                 composable(
                     Screens.Profile.route,
                     enterTransition = {
