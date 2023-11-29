@@ -35,14 +35,15 @@ import com.sprintsync.ui.theme.spacing
 fun MemberCard(
     projectId: String,
     member: MemberDto,
+    role: String
 ) {
-    val memberVM = hiltViewModel<MemberViewModel>()
-    val roleState by memberVM.roleState.collectAsStateWithLifecycle()
-    val role = roleState.dto?.role
-
-    LaunchedEffect(Unit) {
-        member.id?.let { memberVM.getMemberRole(projectId, it) }
-    }
+//    val memberVM = hiltViewModel<MemberViewModel>()
+//    val roleState by memberVM.roleState.collectAsStateWithLifecycle()
+//    val role = roleState.dto?.role
+//
+//    LaunchedEffect(Unit) {
+//        member.id?.let { memberVM.getMemberRole(it, projectId) }
+//    }
 
     val roleColor: Color = MaterialTheme.colorScheme.secondary
     Surface {

@@ -59,6 +59,7 @@ fun Member(projectId: String?) {
                     projectId = projectId,
                     teamName = team.name,
                     memberList = team.members,
+                    leader = team.leader,
                     searchTerm = searchTerm
                 )
             }
@@ -71,6 +72,7 @@ fun TeamCard(
     projectId: String?,
     teamName: String,
     memberList: List<MemberDto?>,
+    leader: MemberDto?,
     searchTerm: String
 ) {
     var isOpen by remember { mutableStateOf(true) }
@@ -101,12 +103,21 @@ fun TeamCard(
                     MaterialTheme.spacing.default
                 )
             ) {
+                if (leader != null && leader.name.contains(searchTerm))
+                    projectId?.let {
+                        MemberCard(
+                            projectId = it,
+                            member = leader,
+                            role = "Leader"
+                        )
+                    }
                 memberList.forEach() { member ->
                     if (member != null && member.name.contains(searchTerm))
                         projectId?.let {
                             MemberCard(
                                 projectId = it,
                                 member = member,
+                                role = "Member"
                             )
                         }
                 }

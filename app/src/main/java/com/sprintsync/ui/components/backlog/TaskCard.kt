@@ -113,12 +113,20 @@ fun TaskCard(task: TaskResDto) {
                 horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.default)
             ) {
                 //TODO: scrummer number missing
-                Text(
-                    text = "Scrummer-${task.name}",
-                    style = MaterialTheme.typography.labelLarge,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                )
-
+                Box(
+                    modifier = Modifier
+                        .width(100.dp)
+                        .background(
+                            color = Color.Transparent,
+                            shape = RoundedCornerShape(size = 8.dp)
+                        )
+                ) {
+                    Text(
+                        text = "Scrummer-${task.name}",
+                        style = MaterialTheme.typography.labelLarge,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
+                }
                 TaskPoint(
                     point = task.point,
                     modifier = Modifier.background(
