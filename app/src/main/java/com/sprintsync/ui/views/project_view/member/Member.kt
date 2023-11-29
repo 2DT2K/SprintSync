@@ -54,7 +54,7 @@ fun Member(projectId: String?) {
         ) {
             SearchBar(placeHolder = "Search a member", onValueChange = { searchTerm = it })
             Spacer(modifier = Modifier.height(MaterialTheme.spacing.medium))
-            teamList?.forEach() { team ->
+            teamList?.forEach { team ->
                 TeamCard(
                     projectId = projectId,
                     teamName = team.name,
