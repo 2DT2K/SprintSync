@@ -10,40 +10,48 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CommentViewModel @Inject constructor(
-	private val service: CommentAPI
+    private val service: CommentAPI
 ) : AbstractViewModel<CommentResDto>() {
-	fun getComment(id: String) {
-		scope.launch {
-			val response = service.getComment(id)
-			update(State(dto = response.data, error = response.err))
-		}
-	}
+    fun getComment(id: String) {
+        scope.launch {
+            val response = service.getComment(id)
+            update(State(dto = response.data, error = response.err))
+        }
+    }
 
-	fun getCommentsOfTask(id: String) {
-		scope.launch {
-			val response = service.getCommentsOfTask(id)
-			update(State(dtoList = response.data, error = response.err))
-		}
-	}
+    fun getCommentsOfTask(id: String) {
+        scope.launch {
+            val response = service.getCommentsOfTask(id)
+            update(State(dtoList = response.data, error = response.err))
+        }
+    }
 
-	fun addComment(dto: CommentDto) {
-		scope.launch {
-			val response = service.addComment(dto)
-			update(State(dto = response.data, error = response.err))
-		}
-	}
+    fun addComment(dto: CommentDto) {
+        scope.launch {
+            val response = service.addComment(dto)
+            update(State(dto = response.data, error = response.err))
+        }
+    }
 
-	fun updateComment(dto: CommentDto) {
-		scope.launch {
-			val response = service.updateComment(dto)
-			update(State(dto = response.data, error = response.err))
-		}
-	}
+    fun addCommentToTask(dto: CommentDto, id: String) {
+        scope.launch {
+            val response = service.addCommentToTask(dto, id)
+            update(State(dto = response.data, dtoList = state.value.dtoList, error = response.err))
+            response.data?.let { addToDtoList(it) }
+        }
+    }
 
-	fun deleteComment(id: String) {
-		scope.launch {
-			val response = service.deleteComment(id)
-			update(State(message = response.data, error = response.err))
-		}
-	}
+    fun updateComment(dto: CommentDto) {
+        scope.launch {
+            val response = service.updateComment(dto)
+            update(State(dto = response.data, error = response.err))
+        }
+    }
+
+    fun deleteComment(id: String) {
+        scope.launch {
+            val response = service.deleteComment(id)
+            update(State(message = response.data, error = response.err))
+        }
+    }
 }

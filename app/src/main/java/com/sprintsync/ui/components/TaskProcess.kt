@@ -17,7 +17,7 @@ import androidx.compose.ui.unit.dp
 fun TaskProcess(
     title: String,
 	color: Long,
-	verticalPadding: Dp = 4.dp,
+	verticalPadding: Dp = 2.5.dp,
 	horizontalPadding: Dp = 8.dp
 ) {
     Box(

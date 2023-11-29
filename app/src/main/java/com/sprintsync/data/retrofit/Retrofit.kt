@@ -20,6 +20,7 @@ class RetrofitSingleton private constructor() {
 	companion object {
 		@Volatile
 		private var instance: RetrofitSingleton? = null
+
 		fun getInstance(): RetrofitSingleton =
 			instance ?: synchronized(this) {
 				instance ?: RetrofitSingleton().also { instance = it }

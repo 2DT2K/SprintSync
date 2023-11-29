@@ -76,7 +76,7 @@ fun TagPopUp(
             Column(
                 modifier = Modifier
                     .background(
-                        color = MaterialTheme.colorScheme.onSecondary,
+                        color = MaterialTheme.colorScheme.secondaryContainer,
                         shape = RoundedCornerShape(size = 16.dp)
                     )
                     .width(300.dp)

@@ -9,9 +9,6 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -96,15 +93,12 @@ fun TaskView(taskId: String, statusList: List<String>) {
                 )
             }
             if (taskDetails != null) {
-                TaskComments(commentList = commentDetails)
+                TaskComments(
+                    commentList = commentDetails,
+                    addComment = { commentVM.addCommentToTask(it,taskId) })
             }
         }
     }
 }
 
 
-//@Preview(showBackground = true)
-//@Composable
-//fun TaskViewPreview() {
-//    TaskView(fakeTask, listOf("To do", "In Progress"))
-//}

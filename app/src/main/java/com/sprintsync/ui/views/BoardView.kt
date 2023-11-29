@@ -78,7 +78,8 @@ fun BoardView(projectID: String?, statusList: List<String>?) {
             }
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.Center
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.Bottom
             ) {
                 BoardViewCategory(
                     categoryName = statusList?.get(it),

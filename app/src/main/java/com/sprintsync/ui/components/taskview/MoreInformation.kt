@@ -182,68 +182,68 @@ fun MoreInformation(
                             updateState = updateState
                         )
                     }
-                    taskDetails.labels?.forEach {
-                        SuggestionChip(
-                            onClick = { /*TODO*/ },
-                            label = { Text(it) },
-                            border = null,
-                            shape = RoundedCornerShape(size = MaterialTheme.spacing.small),
-                            colors = SuggestionChipDefaults.suggestionChipColors(
-                                containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                                labelColor = MaterialTheme.colorScheme.onSecondaryContainer
-                            ),
-                        )
-                    }
-                    Button(
-                        onClick = { isDialogVisible = true },
-                        contentPadding = PaddingValues(
-                            MaterialTheme.spacing.default
+                }
+                taskDetails.labels?.forEach {
+                    SuggestionChip(
+                        onClick = { /*TODO*/ },
+                        label = { Text(it) },
+                        border = null,
+                        shape = RoundedCornerShape(size = MaterialTheme.spacing.small),
+                        colors = SuggestionChipDefaults.suggestionChipColors(
+                            containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                            labelColor = MaterialTheme.colorScheme.onSecondaryContainer
                         ),
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = Color.Transparent,
-                            MaterialTheme.colorScheme.onSecondaryContainer
-                        ),
-                        border = BorderStroke(1.dp, Color(0xFF79747E)),
-                        shape = RoundedCornerShape(size = 4.dp),
-                    ) {
-                        Text(
-                            text = "Add ",
-                            style = TextStyle(
-                                fontSize = 10.sp,
-                                lineHeight = 12.2.sp,
-                                fontWeight = FontWeight(500),
-                                color = Color(0xFF49454F),
-                                textAlign = TextAlign.Center,
-                                letterSpacing = 0.1.sp,
-                            )
+                    )
+                }
+                Button(
+                    onClick = { isDialogVisible = true },
+                    contentPadding = PaddingValues(
+                        MaterialTheme.spacing.default
+                    ),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color.Transparent,
+                        MaterialTheme.colorScheme.onSecondaryContainer
+                    ),
+                    border = BorderStroke(1.dp, Color(0xFF79747E)),
+                    shape = RoundedCornerShape(size = 4.dp),
+                ) {
+                    Text(
+                        text = "Add ",
+                        style = TextStyle(
+                            fontSize = 10.sp,
+                            lineHeight = 12.2.sp,
+                            fontWeight = FontWeight(500),
+                            color = Color(0xFF49454F),
+                            textAlign = TextAlign.Center,
+                            letterSpacing = 0.1.sp,
                         )
-                        Image(
-                            painter = painterResource(id = R.drawable.normal_add),
-                            contentDescription = "",
-                            modifier = Modifier.height(18.dp)
-                        )
-                    }
+                    )
+                    Image(
+                        painter = painterResource(id = R.drawable.normal_add),
+                        contentDescription = "",
+                        modifier = Modifier.height(18.dp)
+                    )
                 }
             }
-            Column(
-                verticalArrangement = Arrangement.spacedBy(7.dp, Alignment.CenterVertically),
-                horizontalAlignment = Alignment.Start,
-                modifier = Modifier.padding(5.dp)
+        }
+        Column(
+            verticalArrangement = Arrangement.spacedBy(7.dp, Alignment.CenterVertically),
+            horizontalAlignment = Alignment.Start,
+            modifier = Modifier.padding(5.dp)
+        ) {
+            Text(
+                text = "Reporter",
+                style = MaterialTheme.typography.labelSmall,
+                color = MaterialTheme.colorScheme.onPrimaryContainer,
+            )
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(
+                    MaterialTheme.spacing.small,
+                    Alignment.Start
+                ),
+                verticalAlignment = Alignment.CenterVertically,
             ) {
-                Text(
-                    text = "Reporter",
-                    style = MaterialTheme.typography.labelSmall,
-                    color = MaterialTheme.colorScheme.onPrimaryContainer,
-                )
-                Row(
-                    horizontalArrangement = Arrangement.spacedBy(
-                        MaterialTheme.spacing.small,
-                        Alignment.Start
-                    ),
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    SimpleMemberInfor(name = taskDetails.assignor.name)
-                }
+                SimpleMemberInfor(name = taskDetails.assignor.name)
             }
         }
     }
