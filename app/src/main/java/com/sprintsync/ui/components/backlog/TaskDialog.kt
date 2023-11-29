@@ -36,13 +36,14 @@ import com.sprintsync.R
 import com.sprintsync.data.dtos.SprintDto
 import com.sprintsync.data.dtos.TaskDto
 import com.sprintsync.ui.theme.spacing
+import java.time.LocalDateTime
 
 @Composable
 fun TaskDialog(sprint: SprintDto, onAddTask: (TaskDto) -> Unit) {
     var isTaskDialogOpen by remember { mutableStateOf(false) }
     var taskName by remember { mutableStateOf("") }
     var taskDescription by remember { mutableStateOf("") }
-    var taskDeadline by remember { mutableStateOf("") }
+    var taskDeadline by remember { mutableStateOf(LocalDateTime.now().toString()) }
     var taskPoint by remember { mutableIntStateOf(0) }
 
     Row(
@@ -130,16 +131,18 @@ fun TaskDialog(sprint: SprintDto, onAddTask: (TaskDto) -> Unit) {
                                     name = taskName,
                                     description = taskDescription,
                                     sprint = sprint.id,
-                                    team = "",
-                                    assignor = "it1.uid",
-                                    assignees = listOf(""),
-                                    parentTask = "",
-                                    attachments = listOf(""),
+                                    // TODO: add a team id (necessary)
+                                    // This is only a temporary solution
+                                    team = "6566a9fbf5f1813b134e9b60",
+                                    assignor = null,
+                                    assignees = emptyList(),
+                                    parentTask = null,
+                                    attachments = emptyList(),
                                     statusIndex = 0,
                                     deadline = taskDeadline,
                                     point = taskPoint,
-                                    comments = listOf(""),
-                                    labels = listOf(""),
+                                    comments = emptyList(),
+                                    labels = emptyList(),
                                 )
                             }
                             task?.let { onAddTask(it) }
