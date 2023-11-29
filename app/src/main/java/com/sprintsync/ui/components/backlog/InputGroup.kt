@@ -40,7 +40,7 @@ fun InputGroup(
         value = value,
         leadingIcon = {
             Text(
-                modifier = Modifier.offset(x = 15.dp),
+                modifier = Modifier.offset(x = 4.dp),
                 text = initialValue,
                 style = MaterialTheme.typography.bodyLarge,
                 color = MaterialTheme.colorScheme.onSecondaryContainer

@@ -17,6 +17,10 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -31,8 +35,10 @@ import com.sprintsync.R
 fun TwoIconTopAppBar(
     title: String,
     backgroundColor: Color = Color(0xFFFFFFFF),
-    navigationOnclick: () -> Unit
+    navigationOnclick: () -> Unit,
+    threeDotContent: @Composable () -> Unit = {}
 ) {
+    var isThreeDotOpen by remember {mutableStateOf(false)}
     TopAppBar(
         colors = TopAppBarDefaults.mediumTopAppBarColors(
             containerColor = backgroundColor
@@ -54,12 +60,17 @@ fun TwoIconTopAppBar(
             }
         },
         actions = {
-            IconButton(onClick = { /*TODO*/ }) {
+            IconButton(onClick = {
+                isThreeDotOpen = !isThreeDotOpen
+            }) {
                 Icon(
                     painter = painterResource(id = R.drawable.three_dot),
                     contentDescription = "",
                     tint = MaterialTheme.colorScheme.onSurface
                 )
+            }
+            if (isThreeDotOpen) {
+                threeDotContent()
             }
         }
     )

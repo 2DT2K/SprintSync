@@ -1,6 +1,7 @@
 package com.sprintsync.ui.components
 
 import android.util.Log
+import androidx.compose.material.IconButton
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavController
 
@@ -23,7 +24,13 @@ fun TopAppBar(
             TwoIconTopAppBar(title = "Board", navigationOnclick = { navController?.popBackStack() })
         }
         "backlog" -> {
-            TwoIconTopAppBar(title = "Backlog", navigationOnclick = { navController?.popBackStack() })
+            TwoIconTopAppBar(
+                title = "Backlog",
+                navigationOnclick = { navController?.popBackStack() },
+                threeDotContent = {
+
+                }
+            )
         }
         "timeline" -> {
             TwoIconTopAppBar(title = "Timeline", navigationOnclick = { navController?.popBackStack() })
