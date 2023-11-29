@@ -17,19 +17,21 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.sprintsync.R
+import com.sprintsync.data.dtos.ProjectDto
+import com.sprintsync.data.view_models.TaskViewModel
 import com.sprintsync.ui.components.IssueItem
 import com.sprintsync.ui.theme.spacing
+import java.time.LocalDateTime
 
 data class MenuIssue(
     val issueType: String,
@@ -66,7 +68,20 @@ val issueList: List<MenuIssue> = listOf(
 )
 
 @Composable
-fun HomePageIssue(navController: NavController? = null) {
+fun HomePageIssue(
+    navController: NavController? = null,
+    projectList: List<ProjectDto>,
+    getMyProjects: () -> Unit
+) {
+    val taskVM = hiltViewModel<TaskViewModel>()
+    val taskState by taskVM.state.collectAsStateWithLifecycle()
+
+    LaunchedEffect(Unit) {
+        getMyProjects()
+        taskVM.getMyTasks()
+    }
+
+
     val scrollState = rememberScrollState()
     Column(
         verticalArrangement = Arrangement.spacedBy(
@@ -108,9 +123,9 @@ fun HomePageIssue(navController: NavController? = null) {
             modifier = Modifier
                 .padding(0.dp)
                 .fillMaxWidth()
-                .heightIn(max = 320.dp)
+                .heightIn(min = 360.dp, max = 400.dp)
                 .background(
-                    color = MaterialTheme.colorScheme.secondaryContainer    ,
+                    color = MaterialTheme.colorScheme.secondaryContainer,
                     shape = RoundedCornerShape(size = 16.dp)
                 )
                 .padding(MaterialTheme.spacing.default)
@@ -121,19 +136,19 @@ fun HomePageIssue(navController: NavController? = null) {
             ),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            issueList.forEach { item ->
+            taskState.dtoList?.forEachIndexed { index, task ->
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     IssueItem(
-                        issueType = item.issueType,
-                        issueDescription = item.issueName,
-                        issueTimeLine = item.issueTime,
+                        issueType = "Task",
+                        issueDescription = task.name,
+                        issueTimeLine = LocalDateTime.now().toString() + " " + task.deadline,
                         onClick = {
-                            when (item.issueType) {
-                                "Task" -> navController?.navigate("task")
-                            }
+                            navController?.navigate("task")
                         }
                     )
-                    if (issueList.size - 1 >= 1 && item != issueList[issueList.size - 1]) {
+                    if (taskState.dtoList!!.size - 1 >= 1 &&
+                        task != taskState.dtoList!![taskState.dtoList!!.size - 1]
+                    ) {
                         Divider(modifier = Modifier.fillMaxWidth(0.9f))
                     }
                 }
@@ -142,8 +157,8 @@ fun HomePageIssue(navController: NavController? = null) {
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun MenuIssuePreview() {
-    HomePageIssue()
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun MenuIssuePreview() {
+//    HomePageIssue()
+//}

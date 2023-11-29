@@ -10,15 +10,18 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
+import com.sprintsync.data.dtos.ProjectDto
 import com.sprintsync.ui.components.homepage.HomePageIssue
 import com.sprintsync.ui.components.homepage.HomePageViews
-import com.sprintsync.ui.theme.SprintSyncTheme
 import com.sprintsync.ui.theme.spacing
 
 @Composable
-fun HomePage(navController: NavController? = null) {
+fun HomePage(
+    navController: NavController? = null,
+    projectList: List<ProjectDto>,
+    getMyProjects: () -> Unit,
+) {
     Surface {
         Column(
             Modifier
@@ -30,13 +33,13 @@ fun HomePage(navController: NavController? = null) {
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             HomePageViews(navController)
-            HomePageIssue(navController)
+            HomePageIssue(navController, projectList, getMyProjects)
         }
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun HomePagePreview() {
-    HomePage()
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun HomePagePreview() {
+//    HomePage()
+//}

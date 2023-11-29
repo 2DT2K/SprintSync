@@ -29,6 +29,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
+import androidx.navigation.NavController
 import com.sprintsync.R
 import com.sprintsync.data.dtos.response.TaskResDto
 import com.sprintsync.ui.components.TaskPoint
@@ -39,7 +40,7 @@ import com.sprintsync.ui.theme.ToDoStatus
 import com.sprintsync.ui.theme.spacing
 
 @Composable
-fun TaskCard(task: TaskResDto) {
+fun TaskCard(task: TaskResDto, navController: NavController? = null) {
     var status = ""
     var backgroundColor: Color = Color.Transparent
     var icon = 0
@@ -69,7 +70,7 @@ fun TaskCard(task: TaskResDto) {
             iconBackgroundColor = MaterialTheme.colorScheme.secondary
         }
 
-        "Bug" -> {
+        "Bug"  -> {
             icon = R.drawable.bug_report
             iconTint = MaterialTheme.colorScheme.onErrorContainer
             iconBackgroundColor = MaterialTheme.colorScheme.errorContainer
@@ -80,7 +81,8 @@ fun TaskCard(task: TaskResDto) {
         modifier = Modifier
             .clickable { }
             .fillMaxWidth()
-            .height(64.dp),
+            .height(64.dp)
+            .clickable(onClick = { navController?.navigate("task/${task.id}") }),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.medium)
     ) {
@@ -115,7 +117,7 @@ fun TaskCard(task: TaskResDto) {
                 //TODO: scrummer number missing
                 Box(
                     modifier = Modifier
-                        .width(100.dp)
+                        .width(200.dp)
                         .background(
                             color = Color.Transparent,
                             shape = RoundedCornerShape(size = 8.dp)
@@ -125,6 +127,7 @@ fun TaskCard(task: TaskResDto) {
                         text = "Scrummer-${task.name}",
                         style = MaterialTheme.typography.labelLarge,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        maxLines = 1
                     )
                 }
                 TaskPoint(
@@ -145,11 +148,11 @@ fun TaskCard(task: TaskResDto) {
 
         val avatar = ContextCompat
             .getDrawable(LocalContext.current, R.drawable.nice_avatar)
-//        ContextCompat
-//            .getDrawable(LocalContext.current, R.drawable.nice_avatar)
-//            ?.let { it1 ->
-//                task.assignees = mutableListOf(it1.toBitmap(), it1.toBitmap())
-//            }
+        //        ContextCompat
+        //            .getDrawable(LocalContext.current, R.drawable.nice_avatar)
+        //            ?.let { it1 ->
+        //                task.assignees = mutableListOf(it1.toBitmap(), it1.toBitmap())
+        //            }
         Row(
             horizontalArrangement = Arrangement.spacedBy((-8).dp, Alignment.End),
             verticalAlignment = Alignment.CenterVertically,
