@@ -38,9 +38,6 @@ fun ChangeTaskStateButton(
     statusList: List<String>,
     taskDetails:TaskResDto?,
 ) {
-    var taskStateTest by remember {
-        mutableStateOf(taskState)
-    }
     val currentTaskDetails = taskDetails?.toDto()
 
     var expanded by remember { mutableStateOf(false) }
@@ -64,7 +61,7 @@ fun ChangeTaskStateButton(
             )
             Spacer(modifier = Modifier.width(MaterialTheme.spacing.small))
             Text(
-                text = taskStateTest,
+                text = taskState,
                 style = MaterialTheme.typography.labelMedium,
                 color = MaterialTheme.colorScheme.onPrimaryContainer
             )
@@ -78,7 +75,6 @@ fun ChangeTaskStateButton(
                 DropdownMenuItem(
                     text = { Text(it) },
                     onClick = {
-                        taskStateTest = it
                         expanded = false
                         if (currentTaskDetails != null) {
                             currentTaskDetails.statusIndex = statusList.indexOf(it)

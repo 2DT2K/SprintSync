@@ -11,6 +11,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -43,6 +44,7 @@ fun TaskView(taskId: String, statusList: List<String>) {
     val taskDetails = taskDetailsState.dto
     val attachmentDetails = attachmentDetailsState.dtoList
     val commentDetails = commentDetailsState.dtoList
+    val taskState = if (taskDetails != null) statusList[taskDetails.statusIndex] else "Loading..."
 
     LaunchedEffect(Unit) {
         taskVM.getTask(taskId)
@@ -50,9 +52,7 @@ fun TaskView(taskId: String, statusList: List<String>) {
         attachmentVM.getAttachmentsOfTask(taskId)
         commentVM.getCommentsOfTask(taskId)
     }
-    val taskState by remember {
-        mutableStateOf(if (taskDetails != null) statusList[taskDetails.statusIndex] else "Loading...")
-    }
+
     Surface {
         Column(
             modifier = Modifier
