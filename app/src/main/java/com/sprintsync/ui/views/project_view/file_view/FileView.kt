@@ -1,5 +1,6 @@
 package com.sprintsync.ui.views.project_view.file_view
 
+import android.util.Log
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -25,40 +26,6 @@ import com.sprintsync.ui.components.fileview.FileCard
 import com.sprintsync.ui.theme.SprintSyncTheme
 import com.sprintsync.ui.theme.spacing
 
-data class Attachment(
-    val id: Int,
-    val name: String,
-    val content: String,
-    val size: String,
-    val user: String,
-    val fileType: String
-)
-
-val fileList = listOf(
-    Attachment(
-        1, "Document 1",
-        "This is the content of Document 1",
-        "0.6 MB",
-        "khoi nguyen the",
-        "pdf"
-    ),
-    Attachment(
-        2,
-        "Image 1", "This is the content of Image 1",
-        "0.6 MB",
-        "khoi nguyen the",
-        "jpg"
-    ),
-    Attachment(
-        3,
-        "Spreadsheet 1",
-        "This is the content of Spreadsheet 1",
-        "0.6 MB",
-        "khoi nguyen the",
-        "xlsx"
-    )
-)
-
 @Composable
 fun FileView(projectId: String? = null) {
     val attachmentVM = hiltViewModel<AttachmentViewModel>()
@@ -71,6 +38,7 @@ fun FileView(projectId: String? = null) {
         }
     }
 
+    Log.d("log-bug-get-file-1", projectId.toString())
     var searchTerm by remember {
         mutableStateOf("")
     }
@@ -86,7 +54,6 @@ fun FileView(projectId: String? = null) {
                         if (file.name.contains(searchTerm)) FileCard(file)
                     }
                 }
-
             }
         }
     }

@@ -1,5 +1,6 @@
 package com.sprintsync.ui.components.fileview
 
+import android.util.Log
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -11,7 +12,7 @@ import com.sprintsync.R
 import com.sprintsync.ui.components.backlog.TaskComposer
 
 @Composable
-fun AddFileFAB() {
+fun AddFileFAB(projectID: String?) {
     val (showBottomSheet,setShowBottomSheet) = remember{ mutableStateOf(false) }
 
     FloatingActionButton(
@@ -26,5 +27,5 @@ fun AddFileFAB() {
             contentDescription = "Add",
         )
     }
-    TaskComposer(showBottomSheet = showBottomSheet, changeVisibility = setShowBottomSheet)
+    TaskComposer(projectID = projectID, showBottomSheet = showBottomSheet, changeVisibility = setShowBottomSheet)
 }

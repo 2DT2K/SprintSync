@@ -41,9 +41,9 @@ class MemberViewModel @Inject constructor(
 		}
 	}
 
-	fun getMemberRole( memberId: String, projectId: String) {
+	fun getMemberRole(memberId: String, projectId: String) {
 		scope.launch {
-			val response = service.getMemberRole(memberId, projectId)
+			val response = service.getMemberRole(memberId ,projectId)
 			updateRole(State(message = response.data, error = response.err))
 		}
 	}

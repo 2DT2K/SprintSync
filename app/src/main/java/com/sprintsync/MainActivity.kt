@@ -1,6 +1,7 @@
 package com.sprintsync
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.AnimatedContentTransitionScope
@@ -16,6 +17,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -29,6 +31,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
 import com.sprintsync.data.auth.Authenticator
+import com.sprintsync.data.view_models.AttachmentViewModel
 import com.sprintsync.data.view_models.MemberViewModel
 import com.sprintsync.data.view_models.ProjectViewModel
 import com.sprintsync.ui.components.BottomNavigation
@@ -75,7 +78,6 @@ fun MainContent() {
     val memberVM = hiltViewModel<MemberViewModel>()
     val projectState by projectVM.state.collectAsStateWithLifecycle()
     val memberState by memberVM.state.collectAsStateWithLifecycle()
-    val memberList = memberState.dtoList
     val chosenProject = projectState.dto
 
     val navController = rememberNavController()
@@ -83,6 +85,9 @@ fun MainContent() {
     var showBottomAndTopBar by remember { mutableStateOf(false) }
     var showFAB by remember { mutableStateOf(false) }
     var route by remember { mutableStateOf("") }
+
+    val userId = memberState.dto?.id
+    val userRole = memberState.message
 
     navController.addOnDestinationChangedListener { _, dest, _ ->
         showBottomAndTopBar =
@@ -102,7 +107,7 @@ fun MainContent() {
         },
         floatingActionButton = {
             if (showFAB) {
-                if (route == "files") AddFileFAB() else AddProjectFAB()
+                if (route == "files") AddFileFAB(chosenProject?.id) else AddProjectFAB()
             }
         },
         containerColor = MaterialTheme.colorScheme.surface,
@@ -234,7 +239,7 @@ fun MainContent() {
                                     tween(500)
                                 )
                             }
-                        ) { FileView() }
+                        ) { FileView(chosenProject?.id) }
                         composable(
                             Screens.Tasks.route,
                             enterTransition = {
@@ -289,7 +294,9 @@ fun MainContent() {
                                     tween(500)
                                 )
                             }
-                        ) { Member(chosenProject?.id) }
+                        ) {
+                            Member(chosenProject?.id, userId, { memberVM.getMe() }, userRole)
+                        }
                         composable(
                             Screens.Reports.route,
                             enterTransition = {
