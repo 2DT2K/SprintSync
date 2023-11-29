@@ -27,6 +27,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.sprintsync.R
 import com.sprintsync.data.dtos.AttachmentDto
+import com.sprintsync.data.dtos.response.AttachmentResDto
 import com.sprintsync.ui.theme.spacing
 
 class Attachment(
@@ -35,7 +36,7 @@ class Attachment(
     val fileSize: Double,
 )
 @Composable
-fun TaskAttachment(attachmentList: List<AttachmentDto>?) {
+fun TaskAttachment(attachmentList: List<AttachmentResDto>?) {
     val context = LocalContext.current
     val filePickerLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent(),

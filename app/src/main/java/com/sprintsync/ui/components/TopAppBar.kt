@@ -71,7 +71,7 @@ fun TopAppBar(
 
         "task/{taskId}"  -> {
             TwoIconTopAppBar(
-                title = "Task $",
+                title = "Task",
                 navigationOnclick = { navController?.popBackStack()
             })
         }

@@ -30,7 +30,7 @@ class SprintViewModel @Inject constructor(
     fun getSprintsOfProject(id: String) {
         scope.launch {
             val response = service.getSprintsOfProject(id)
-            update(State(dtoList = response.data, error = response.err))
+            update(State(dto = state.value.dto, dtoList = response.data, error = response.err))
         }
     }
 
@@ -43,7 +43,7 @@ class SprintViewModel @Inject constructor(
 	fun getActiveSprintByProject(id:String){
 		scope.launch {
 			val response = service.getActiveSprintByProject(id)
-			update(State(dto = response.data, error = response.err))
+			update(State(dto = response.data, dtoList = state.value.dtoList ,error = response.err))
 		}
 	}
 

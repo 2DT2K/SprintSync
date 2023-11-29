@@ -50,6 +50,7 @@ fun Backlog(projectID: String?, navController: NavController? = null) {
     LaunchedEffect(Unit) {
         if (projectID != null) {
             sprintVM.getSprintsOfProject(projectID)
+            sprintVM.getActiveSprintByProject(projectID)
             taskVM.getTasksOfProject(projectID)
         }
     }
@@ -66,7 +67,7 @@ fun Backlog(projectID: String?, navController: NavController? = null) {
         //TODO: wait for active sprint api
         taskState.dtoList?.let {
             CurrentSprintView(
-                sprintState.dtoList,
+                sprintState.dto,
                 it,
                 onAddTask = { task -> taskVM.addTask(task) },
                 navController = navController
@@ -74,7 +75,7 @@ fun Backlog(projectID: String?, navController: NavController? = null) {
         }
         taskState.dtoList?.let {
             IsDoneSprintView(
-                sprintState.dtoList,
+                sprintState.dtoList?.filter { sprint -> sprint.id != sprintState.dto?.id },
                 it,
                 onAddTask = { task -> taskVM.addTask(task) },
                 navController = navController
@@ -85,22 +86,21 @@ fun Backlog(projectID: String?, navController: NavController? = null) {
 
 @Composable
 fun CurrentSprintView(
-    currentSprint: List<SprintDto>?,
+    currentSprint: SprintDto?,
     taskList: List<TaskResDto>,
     onAddTask: (TaskDto) -> Unit,
     navController: NavController? = null
 ) {
-    currentSprint?.forEach() { sprint ->
+    currentSprint?.let {
         SprintCard(
-            sprint = sprint,
+            sprint = it,
             taskList = taskList,
             isActive = true,
             onAddTask = onAddTask,
             navController = navController
         )
-    }.let {
-        if (it != null) Divider()
     }
+    Divider()
 }
 
 @Composable

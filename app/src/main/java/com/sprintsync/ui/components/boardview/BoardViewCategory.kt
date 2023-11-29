@@ -19,21 +19,27 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.sprintsync.R
 import com.sprintsync.data.dtos.response.TaskResDto
 import com.sprintsync.ui.components.boardview.boardview_category_item.BoardViewCategoryItem
 import com.sprintsync.ui.theme.spacing
 
 
-
 @Composable
-fun BoardViewCategory(categoryName: String?,numberOfTask: Number,taskList: List<TaskResDto>?) {
+fun BoardViewCategory(
+    categoryName: String?,
+    numberOfTask: Number,
+    taskList: List<TaskResDto>?,
+    navController: NavController? = null
+) {
     Column(
         verticalArrangement = Arrangement.spacedBy(
             MaterialTheme.spacing.default,
-            Alignment.CenterVertically
+            Alignment.Top
         ),
-        horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier
             .fillMaxWidth(0.96f)
             .background(
                 color = MaterialTheme.colorScheme.background,
@@ -80,7 +86,7 @@ fun BoardViewCategory(categoryName: String?,numberOfTask: Number,taskList: List<
             }
         }
         taskList?.forEach {
-            BoardViewCategoryItem(boardviewItemDetails = it)
+            BoardViewCategoryItem(boardviewItemDetails = it, navController = navController)
         }
     }
 }

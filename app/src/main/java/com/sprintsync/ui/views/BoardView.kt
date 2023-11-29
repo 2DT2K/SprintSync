@@ -27,6 +27,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavController
 import com.sprintsync.data.dtos.response.TaskResDto
 import com.sprintsync.data.view_models.SprintViewModel
 import com.sprintsync.data.view_models.TaskViewModel
@@ -35,7 +36,7 @@ import com.sprintsync.ui.theme.spacing
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun BoardView(projectID: String?, statusList: List<String>?) {
+fun BoardView(projectID: String?, statusList: List<String>?, navController: NavController? = null) {
     val taskViewVM = hiltViewModel<TaskViewModel>()
     val sprintVM = hiltViewModel<SprintViewModel>()
     val tasksState by taskViewVM.state.collectAsStateWithLifecycle()
@@ -61,11 +62,13 @@ fun BoardView(projectID: String?, statusList: List<String>?) {
     })
     Box(
         Modifier
-            .fillMaxHeight()
+            .fillMaxHeight(),
+
     ) {
         HorizontalPager(
             state = pagerState,
             contentPadding = PaddingValues(MaterialTheme.spacing.medium),
+            verticalAlignment = Alignment.Top,
         ) {
             val taskList = tasksState.dtoList
             val taskListWithStatus = mutableListOf<TaskResDto>()
@@ -78,13 +81,12 @@ fun BoardView(projectID: String?, statusList: List<String>?) {
             }
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.Center,
-                verticalAlignment = Alignment.Bottom
             ) {
                 BoardViewCategory(
                     categoryName = statusList?.get(it),
                     numberOfTask = numberOfTaskWithStatus,
-                    taskList = taskListWithStatus
+                    taskList = taskListWithStatus,
+                    navController = navController
                 )
             }
 

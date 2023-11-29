@@ -27,6 +27,9 @@ interface MemberAPI {
 		@Path("projectId") projectId: String
 	): ApiResponse<String>
 
+	@PATCH("members/device/{token}")
+	suspend fun addDevice(@Path("token") token: String): ApiResponse<String>
+
 	@PATCH("members")
 	suspend fun updateMember(@Body dto: MemberDto): ApiResponse<MemberDto>
 

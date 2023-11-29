@@ -180,6 +180,7 @@ fun TaskComposer(
                             } else {
                                 permissionLauncher.launch(android.Manifest.permission.CAMERA)
                             }
+                            changeVisibility(false)
                         }
                         .padding(
                             MaterialTheme.spacing.default,
@@ -237,7 +238,10 @@ fun TaskComposer(
 
                 Row(
                     modifier = Modifier
-                        .clickable { filePickerLauncher.launch("*/*") }
+                        .clickable {
+                            filePickerLauncher.launch("*/*")
+                            changeVisibility(false)
+                        }
                         .padding(
                             MaterialTheme.spacing.default,
                         )

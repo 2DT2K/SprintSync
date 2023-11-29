@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -25,6 +26,7 @@ import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.core.content.ContextCompat
@@ -47,18 +49,18 @@ fun TaskCard(task: TaskResDto, navController: NavController? = null) {
     var iconTint: Color = Color.Transparent
     var iconBackgroundColor: Color = Color.Transparent
     when (task.statusIndex) {
-        1 -> {
+        0 -> {
             status = "To Do"
             backgroundColor = ToDoStatus
         }
 
-        2 -> {
+        1 -> {
             status = "In Progress"
             backgroundColor = InProgressStatus
         }
 
-        3 -> {
-            status = "Productivity"
+        2 -> {
+            status = "Done"
             backgroundColor = ProductivityStatus
         }
     }
@@ -117,31 +119,38 @@ fun TaskCard(task: TaskResDto, navController: NavController? = null) {
                 //TODO: scrummer number missing
                 Box(
                     modifier = Modifier
-                        .width(200.dp)
+                        .weight(1f)
                         .background(
                             color = Color.Transparent,
                             shape = RoundedCornerShape(size = 8.dp)
                         )
                 ) {
                     Text(
+                        modifier = Modifier.widthIn(max = 100.dp),
                         text = "Scrummer-${task.name}",
                         style = MaterialTheme.typography.labelLarge,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        maxLines = 1
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
                     )
                 }
-                TaskPoint(
-                    point = task.point,
-                    modifier = Modifier.background(
-                        color = MaterialTheme.colorScheme.secondaryContainer,
-                        shape = RoundedCornerShape(size = 16.dp)
+                Row(
+                    modifier = Modifier.weight(1f),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.default)
+                ) {
+                    TaskPoint(
+                        point = task.point,
+                        modifier = Modifier.background(
+                            color = MaterialTheme.colorScheme.secondaryContainer,
+                            shape = RoundedCornerShape(size = 16.dp)
+                        )
                     )
-                )
-
-                TaskProcess(
-                    title = status,
-                    color = backgroundColor.toArgb().toLong()
-                )
+                    TaskProcess(
+                        title = status,
+                        color = backgroundColor.toArgb().toLong()
+                    )
+                }
             }
         }
         Spacer(modifier = Modifier.weight(1.0f))

@@ -3,6 +3,7 @@ package com.sprintsync.ui.components.boardview.boardview_category_item
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -22,6 +23,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.sprintsync.R
 import com.sprintsync.data.dtos.response.TaskResDto
 import com.sprintsync.ui.components.TaskPoint
@@ -30,7 +32,7 @@ import com.sprintsync.ui.theme.spacing
 
 
 @Composable
-fun BoardViewCategoryItem(boardviewItemDetails: TaskResDto) {
+fun BoardViewCategoryItem(boardviewItemDetails: TaskResDto, navController: NavController? = null) {
     Column(
         modifier = Modifier
             .background(
@@ -38,6 +40,11 @@ fun BoardViewCategoryItem(boardviewItemDetails: TaskResDto) {
                 shape = RoundedCornerShape(8.dp)
             )
             .fillMaxWidth()
+            .clickable(
+                onClick = {
+                    navController?.navigate("task/${boardviewItemDetails.id}")
+                }
+            )
     ) {
 //        boardviewItemDetails.taskImage?.let {
 //        Image(
@@ -64,7 +71,10 @@ fun BoardViewCategoryItem(boardviewItemDetails: TaskResDto) {
                 letterSpacing = 0.5.sp
             )
             Row(
-                horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.largeDefault, Alignment.Start),
+                horizontalArrangement = Arrangement.spacedBy(
+                    MaterialTheme.spacing.largeDefault,
+                    Alignment.Start
+                ),
                 verticalAlignment = Alignment.Top,
                 modifier = Modifier.height(28.dp)
             ) {
