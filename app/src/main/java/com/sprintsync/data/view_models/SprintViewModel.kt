@@ -28,26 +28,34 @@ class SprintViewModel @Inject constructor(
     }
 
     fun getSprintsOfProject(id: String) {
+        setLoading(true)
         scope.launch {
             val response = service.getSprintsOfProject(id)
             update(State(dtoList = response.data, error = response.err))
+            setLoading(false)
         }
     }
 
     fun getSprintReport(id: String) {
+        setLoading(true)
         scope.launch {
             val response = service.getSprintReport(id)
             response.data?.let { updateReport(it) }
+            setLoading(false)
         }
     }
-	fun getActiveSprintByProject(id:String){
+
+	fun getActiveSprintByProject(id:String) {
+        setLoading(true)
 		scope.launch {
 			val response = service.getActiveSprintByProject(id)
 			update(State(dto = response.data, error = response.err))
+            setLoading(false)
 		}
 	}
 
     fun getInitialSprintReport(projectId: String) {
+        setLoading(true)
         scope.launch {
             val response = service.getSprintsOfProject(projectId)
             update(State(dtoList = response.data, error = response.err))
@@ -57,6 +65,7 @@ class SprintViewModel @Inject constructor(
             if (sprintReport != null) {
                 sprintReport.data?.let { updateReport(it) }
             }
+            setLoading(false)
         }
     }
 

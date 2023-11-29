@@ -17,6 +17,7 @@ import com.sprintsync.data.view_models.AttachmentViewModel
 import com.sprintsync.data.view_models.CommentViewModel
 import com.sprintsync.data.view_models.TaskViewModel
 import com.sprintsync.ui.components.HorizontalDivider
+import com.sprintsync.ui.components.LoadingDialog
 import com.sprintsync.ui.components.taskview.ChangeTaskStateButton
 import com.sprintsync.ui.components.taskview.MoreInformation
 import com.sprintsync.ui.components.taskview.SubTask
@@ -37,6 +38,11 @@ fun TaskView(taskId: String, statusList: List<String>) {
     val subtasksDetails by taskVM.subtasks.collectAsStateWithLifecycle()
     val attachmentDetailsState by attachmentVM.state.collectAsStateWithLifecycle()
     val commentDetailsState by commentVM.state.collectAsStateWithLifecycle()
+    val isTaskLoading by taskVM.isLoading.collectAsStateWithLifecycle()
+    val isAttachmentLoading by attachmentVM.isLoading.collectAsStateWithLifecycle()
+    val isCommentLoading by commentVM.isLoading.collectAsStateWithLifecycle()
+
+    val isLoading = isTaskLoading || isAttachmentLoading || isCommentLoading
 
     val taskDetails = taskDetailsState.dto
     val attachmentDetails = attachmentDetailsState.dtoList
@@ -51,6 +57,9 @@ fun TaskView(taskId: String, statusList: List<String>) {
     }
 
     Surface {
+        if (isLoading) {
+            LoadingDialog(alertText = "Loading...")
+        }
         Column(
             modifier = Modifier
                 .verticalScroll(

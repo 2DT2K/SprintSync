@@ -30,6 +30,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.sprintsync.data.dtos.response.TaskResDto
 import com.sprintsync.data.view_models.SprintViewModel
 import com.sprintsync.data.view_models.TaskViewModel
+import com.sprintsync.ui.components.LoadingDialog
 import com.sprintsync.ui.components.boardview.BoardViewCategory
 import com.sprintsync.ui.theme.spacing
 
@@ -40,6 +41,10 @@ fun BoardView(projectID: String?, statusList: List<String>?) {
     val sprintVM = hiltViewModel<SprintViewModel>()
     val tasksState by taskViewVM.state.collectAsStateWithLifecycle()
     val sprintState by sprintVM.state.collectAsStateWithLifecycle()
+    val isSprintLoading by sprintVM.isLoading.collectAsStateWithLifecycle()
+    val isTaskLoading by taskViewVM.isLoading.collectAsStateWithLifecycle()
+
+    val isLoading = isSprintLoading || isTaskLoading
 
 
     LaunchedEffect(Unit) {
@@ -63,6 +68,9 @@ fun BoardView(projectID: String?, statusList: List<String>?) {
         Modifier
             .fillMaxHeight()
     ) {
+        if (isLoading) {
+            LoadingDialog(alertText = "Loading...")
+        }
         HorizontalPager(
             state = pagerState,
             contentPadding = PaddingValues(MaterialTheme.spacing.medium),

@@ -19,23 +19,29 @@ class AttachmentViewModel @Inject constructor(
 	}
 
 	fun getAttachmentsOfProject(id: String) {
+		setLoading(true)
 		scope.launch {
 			val response = service.getAttachmentsOfProject(id)
 			update(State(dtoList = response.data, error = response.err))
+			setLoading(false)
 		}
 	}
 
 	fun getAttachmentsOfTask(id: String) {
+		setLoading(true)
 		scope.launch {
 			val response = service.getAttachmentsOfTask(id)
 			update(State(dtoList = response.data, error = response.err))
+			setLoading(false)
 		}
 	}
 
 	fun getAttachmentsOfComment(id: String) {
+		setLoading(true)
 		scope.launch {
 			val response = service.getAttachmentsOfComment(id)
 			update(State(dtoList = response.data, error = response.err))
+			setLoading(false)
 		}
 	}
 

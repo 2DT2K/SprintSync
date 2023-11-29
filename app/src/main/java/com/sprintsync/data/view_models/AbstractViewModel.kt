@@ -13,6 +13,10 @@ abstract class AbstractViewModel<T> : ViewModel() {
     private val _state = MutableStateFlow(State<T>())
     val state = _state.asStateFlow()
 
+    private val _isLoading = MutableStateFlow(false)
+    val isLoading = _isLoading.asStateFlow()
+
+    protected fun setLoading(isLoading: Boolean) = _isLoading.update { isLoading }
     protected fun update(newState: State<T>) = _state.update { newState }
     protected fun addToDtoList(item: T) = _state.update {
         State(
