@@ -16,6 +16,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.sprintsync.data.dtos.response.TaskResDto
 import com.sprintsync.data.view_models.SprintViewModel
+import com.sprintsync.ui.components.LoadingDialog
 import com.sprintsync.ui.components.reportview.Problem
 import com.sprintsync.ui.components.reportview.ReportChart
 import com.sprintsync.ui.theme.spacing
@@ -26,6 +27,7 @@ fun ReportView(projectID: String?,statusList:List<String>?) {
     val sprintVM = hiltViewModel<SprintViewModel>()
     val reportState by sprintVM.report.collectAsStateWithLifecycle()
     val sprintState by sprintVM.state.collectAsStateWithLifecycle()
+    val isSprintLoading by sprintVM.isLoading.collectAsStateWithLifecycle()
 
 
     val allTaskInSprint = reportState.listOfTask
@@ -56,6 +58,9 @@ fun ReportView(projectID: String?,statusList:List<String>?) {
         ),
         horizontalAlignment = Alignment.Start,
     ) {
+        if (isSprintLoading) {
+            LoadingDialog(alertText = "Loading...")
+        }
         ReportChart(
             chartData = allTaskInSprint,
             statusList = statusList,

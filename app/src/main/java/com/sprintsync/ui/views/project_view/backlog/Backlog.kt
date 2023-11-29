@@ -36,6 +36,7 @@ import com.sprintsync.data.dtos.TaskDto
 import com.sprintsync.data.dtos.response.TaskResDto
 import com.sprintsync.data.view_models.SprintViewModel
 import com.sprintsync.data.view_models.TaskViewModel
+import com.sprintsync.ui.components.LoadingDialog
 import com.sprintsync.ui.components.backlog.SprintCard
 import com.sprintsync.ui.components.backlog.SprintDialog
 import com.sprintsync.ui.theme.Grey40
@@ -46,6 +47,10 @@ fun Backlog(projectID: String?, navController: NavController? = null) {
     val sprintState by sprintVM.state.collectAsStateWithLifecycle()
     val taskVM = hiltViewModel<TaskViewModel>()
     val taskState by taskVM.state.collectAsStateWithLifecycle()
+    val isSprintLoading by sprintVM.isLoading.collectAsStateWithLifecycle()
+    val isTaskLoading by taskVM.isLoading.collectAsStateWithLifecycle()
+
+    val isLoading = isSprintLoading || isTaskLoading
 
     LaunchedEffect(Unit) {
         if (projectID != null) {
@@ -61,6 +66,9 @@ fun Backlog(projectID: String?, navController: NavController? = null) {
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
     ) {
+        if (isLoading) {
+            LoadingDialog(alertText = "Loading...")
+        }
         if (projectID != null) {
             SprintDialog(projectID = projectID, onAddSprint = { sprintVM.addSprint(it) })
         }

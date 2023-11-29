@@ -20,9 +20,11 @@ class CommentViewModel @Inject constructor(
     }
 
     fun getCommentsOfTask(id: String) {
+        setLoading(true)
         scope.launch {
             val response = service.getCommentsOfTask(id)
             update(State(dtoList = response.data, error = response.err))
+            setLoading(false)
         }
     }
 
@@ -34,10 +36,12 @@ class CommentViewModel @Inject constructor(
     }
 
     fun addCommentToTask(dto: CommentDto, id: String) {
+        setLoading(true)
         scope.launch {
             val response = service.addCommentToTask(dto, id)
             update(State(dto = response.data, dtoList = state.value.dtoList, error = response.err))
             response.data?.let { addToDtoList(it) }
+            setLoading(false)
         }
     }
 

@@ -11,35 +11,41 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AttachmentViewModel @Inject constructor(
-    private val service: AttachmentAPI
-) : AbstractViewModel<AttachmentResDto>() {
-    fun getAttachment(id: String) {
-        scope.launch {
-            val response = service.getAttachment(id)
-            update(State(dto = response.data, error = response.err))
-        }
-    }
+	private val service: AttachmentAPI
+) : AbstractViewModel<AttachmentDto>() {
+	fun getAttachment(id: String) {
+		scope.launch {
+			val response = service.getAttachment(id)
+			update(State(dto = response.data, error = response.err))
+		}
+	}
 
-    fun getAttachmentsOfProject(id: String) {
-        scope.launch {
-            val response = service.getAttachmentsOfProject(id)
-            update(State(dtoList = response.data, error = response.err))
-        }
-    }
+	fun getAttachmentsOfProject(id: String) {
+		setLoading(true)
+		scope.launch {
+			val response = service.getAttachmentsOfProject(id)
+			update(State(dtoList = response.data, error = response.err))
+			setLoading(false)
+		}
+	}
 
-    fun getAttachmentsOfTask(id: String) {
-        scope.launch {
-            val response = service.getAttachmentsOfTask(id)
-            update(State(dtoList = response.data, error = response.err))
-        }
-    }
+	fun getAttachmentsOfTask(id: String) {
+		setLoading(true)
+		scope.launch {
+			val response = service.getAttachmentsOfTask(id)
+			update(State(dtoList = response.data, error = response.err))
+			setLoading(false)
+		}
+	}
 
-    fun getAttachmentsOfComment(id: String) {
-        scope.launch {
-            val response = service.getAttachmentsOfComment(id)
-            update(State(dtoList = response.data, error = response.err))
-        }
-    }
+	fun getAttachmentsOfComment(id: String) {
+		setLoading(true)
+		scope.launch {
+			val response = service.getAttachmentsOfComment(id)
+			update(State(dtoList = response.data, error = response.err))
+			setLoading(false)
+		}
+	}
 
     fun addAttachment(dto: AttachmentDto) {
         scope.launch {

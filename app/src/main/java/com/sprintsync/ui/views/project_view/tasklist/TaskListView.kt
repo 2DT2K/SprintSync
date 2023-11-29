@@ -16,6 +16,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.sprintsync.data.view_models.SprintViewModel
 import com.sprintsync.data.view_models.TaskViewModel
+import com.sprintsync.ui.components.LoadingDialog
 import com.sprintsync.ui.components.SearchBar
 import com.sprintsync.ui.components.tasklist.TaskListSprintCard
 import com.sprintsync.ui.theme.SprintSyncTheme
@@ -27,6 +28,10 @@ fun TaskListView(projectID: String?, navController: NavController? = null) {
     val sprintState by sprintVM.state.collectAsStateWithLifecycle()
     val taskVM = hiltViewModel<TaskViewModel>()
     val taskState by taskVM.state.collectAsStateWithLifecycle()
+    val isSprintLoading by sprintVM.isLoading.collectAsStateWithLifecycle()
+    val isTaskLoading by taskVM.isLoading.collectAsStateWithLifecycle()
+
+    val isLoading = isSprintLoading || isTaskLoading
 
     LaunchedEffect(Unit) {
         if (projectID != null) {
@@ -36,6 +41,9 @@ fun TaskListView(projectID: String?, navController: NavController? = null) {
     }
 
     Surface {
+        if (isLoading) {
+            LoadingDialog(alertText = "Loading...")
+        }
         Column {
             SearchBar(placeHolder = "Search a task")
             Spacer(modifier = Modifier.height(MaterialTheme.spacing.medium))

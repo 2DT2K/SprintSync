@@ -20,52 +20,66 @@ class TaskViewModel @Inject constructor(
     val subtasks = _subtasks.asStateFlow()
     private fun updateSubtasks(newState: List<TaskResDto>) = _subtasks.update { newState }
     fun getTask(id: String) {
+        setLoading(true)
         scope.launch {
             try {
                 val response = service.getTask(id)
                 update(State(dto = response.data, error = response.err))
             } catch (e: Exception) {
                 Log.e("TaskViewModel", e.message ?: "Error")
+            } finally {
+                setLoading(false)
             }
         }
     }
 
     fun getSubTasks(id: String) {
+        setLoading(true)
         scope.launch {
             try {
                 val response = service.getSubTasks(id)
                 response.data?.let { updateSubtasks(it) }
             } catch (e: Exception) {
                 Log.e("TaskViewModel", e.message ?: "Error")
+            } finally {
+                setLoading(false)
             }
         }
     }
 
     fun getTasksOfProject(id: String) {
+        setLoading(true)
         scope.launch {
             val response = service.getTasksOfProject(id)
             update(State(dtoList = response.data, error = response.err))
+            setLoading(false)
         }
     }
 
     fun getTasksOfSprint(id: String) {
+        setLoading(true)
         scope.launch {
             val response = service.getTasksOfSprint(id)
             update(State(dtoList = response.data, error = response.err))
+            setLoading(false)
         }
     }
 
     fun getTasksOfTeam(id: String) {
+        setLoading(true)
         scope.launch {
             val response = service.getTasksOfTeam(id)
             update(State(dtoList = response.data, error = response.err))
+            setLoading(false)
         }
     }
 
     fun getMyTasks() {
+        setLoading(true)
         scope.launch {
             val response = service.getMyTasks()
             update(State(dtoList = response.data, error = response.err))
+            setLoading(false)
         }
     }
 
