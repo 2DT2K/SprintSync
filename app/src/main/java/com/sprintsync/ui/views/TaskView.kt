@@ -8,19 +8,15 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.sprintsync.data.dtos.AttachmentDto
-import com.sprintsync.data.dtos.MemberDto
-import com.sprintsync.data.dtos.TeamDto
-import com.sprintsync.data.dtos.response.CommentResDto
-import com.sprintsync.data.dtos.response.TaskResDto
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.sprintsync.data.view_models.AttachmentViewModel
+import com.sprintsync.data.view_models.CommentViewModel
 import com.sprintsync.data.view_models.TaskViewModel
 import com.sprintsync.ui.components.HorizontalDivider
 import com.sprintsync.ui.components.taskview.ChangeTaskStateButton
@@ -36,12 +32,24 @@ import com.sprintsync.ui.theme.spacing
 @Composable
 fun TaskView(taskId: String, statusList: List<String>) {
     val taskVM = hiltViewModel<TaskViewModel>()
-    val taskDetailsState by taskVM.state.collectAsState()
+    val attachmentVM = hiltViewModel<AttachmentViewModel>()
+    val commentVM = hiltViewModel<CommentViewModel>()
+
+    val taskDetailsState by taskVM.state.collectAsStateWithLifecycle()
+    val subtasksDetails by taskVM.subtasks.collectAsStateWithLifecycle()
+    val attachmentDetailsState by attachmentVM.state.collectAsStateWithLifecycle()
+    val commentDetailsState by commentVM.state.collectAsStateWithLifecycle()
+
     val taskDetails = taskDetailsState.dto
+    val attachmentDetails = attachmentDetailsState.dtoList
+    val commentDetails = commentDetailsState.dtoList
+
     LaunchedEffect(Unit) {
         taskVM.getTask(taskId)
+        taskVM.getSubTasks(taskId)
+        attachmentVM.getAttachmentsOfTask(taskId)
+        commentVM.getCommentsOfTask(taskId)
     }
-
     val taskState by remember {
         mutableStateOf(statusList[taskDetails?.statusIndex!!])
     }
@@ -74,11 +82,11 @@ fun TaskView(taskId: String, statusList: List<String>) {
             }
             HorizontalDivider()
             if (taskDetails != null) {
-                SubTask(subTaskList = taskDetails.subTasks, statusList = statusList)
+                SubTask(subTaskList = subtasksDetails, statusList = statusList)
             }
             HorizontalDivider()
             if (taskDetails != null) {
-                TaskAttachment(attachmentList = taskDetails.attachments)
+                TaskAttachment(attachmentList = attachmentDetails)
             }
             HorizontalDivider()
             if (taskDetails != null) {
@@ -88,100 +96,11 @@ fun TaskView(taskId: String, statusList: List<String>) {
                 )
             }
             if (taskDetails != null) {
-                TaskComments(commentList = taskDetails.comments)
+                TaskComments(commentList = commentDetails)
             }
         }
     }
 }
-
-var fakeTask1: TaskResDto = TaskResDto(
-    id = null,
-    name = "play dota",
-    description = "We cooking to 5k mmr",
-    sprint = "abcd",
-    team = TeamDto(
-        "", "", "",
-        listOf(""), ""
-    ),
-    assignor = MemberDto(null, "1234", "Vo Tin Du", "du@deptrai"),
-    assignees = listOf(MemberDto(null, "2134", "Tran Chien Thang", "thoivay@gmail")),
-    parentTask = null,
-    subTasks = null,
-    attachments = listOf<AttachmentDto>(
-        AttachmentDto(
-            "",
-            "Test",
-            "pdf",
-            6,
-            "20/11/2023",
-            ByteArray(12),
-            "project1"
-        )
-    ),
-    statusIndex = 1,
-    deadline = "20/11/2023",
-    point = 40,
-    comments = listOf(
-        CommentResDto(
-            "",
-            MemberDto(null, "", "Vo Tin Du", "votindu@gmail,com", "12/10/2003"),
-            "Good job",
-            "20/10/2023"
-        ),
-        CommentResDto(
-            "",
-            MemberDto(null, "", "Nguyen Hai Dan", "haidan@gmail,com", "12/8/2003"),
-            "Nice asjdh jksahdj ksahjdkhasjkdh asjkdhjkashja sdbfnjadsbfnas dmbfnasdb fna, mdsbfna",
-            "19/10/2023"
-        )
-    ),
-    labels = listOf("FE", "HomePage")
-)
-
-
-var fakeTask: TaskResDto = TaskResDto(
-    id = null,
-    name = "play dota",
-    description = "We cooking to 5k mmr",
-    sprint = "abcd",
-    team = TeamDto(
-        "", "", "",
-        listOf(""), ""
-    ),
-    assignor = MemberDto(null, "1234", "Vo Tin Du", "du@deptrai"),
-    assignees = listOf(MemberDto(null, "2134", "Tran Chien Thang", "thoivay@gmail")),
-    parentTask = null,
-    subTasks = listOf(fakeTask1, fakeTask1),
-    attachments = listOf<AttachmentDto>(
-        AttachmentDto(
-            "",
-            "Test",
-            "pdf",
-            6,
-            "20/11/2023",
-            ByteArray(12),
-            "project1"
-        )
-    ),
-    statusIndex = 1,
-    deadline = "20/11/2023",
-    point = 40,
-    comments = listOf(
-        CommentResDto(
-            "",
-            MemberDto(null, "", "Vo Tin Du", "votindu@gmail,com", "12/10/2003"),
-            "Good job",
-            "20/10/2023"
-        ),
-        CommentResDto(
-            "",
-            MemberDto(null, "", "Nguyen Hai Dan", "haidan@gmail,com", "12/8/2003"),
-            "Nice asjdh jksahdj ksahjdkhasjkdh asjkdhjkashja sdbfnjadsbfnas dmbfnasdb fna, mdsbfna",
-            "19/10/2023"
-        )
-    ),
-    labels = listOf("FE", "HomePage")
-)
 
 
 //@Preview(showBackground = true)
