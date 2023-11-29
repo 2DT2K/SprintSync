@@ -20,7 +20,7 @@ sealed class Screens (val route: String) {
     data object Backlog : Screens("backlog")
     data object Timeline : Screens("timeline")
     data object Tasks : Screens("tasks")
-    data object Task : Screens("task")
+    data object Task : Screens("task/{taskId}")
     data object Files : Screens("files")
     data object Members : Screens("members")
     data object Reports : Screens("report")

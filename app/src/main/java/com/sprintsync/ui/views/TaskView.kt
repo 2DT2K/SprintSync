@@ -51,7 +51,7 @@ fun TaskView(taskId: String, statusList: List<String>) {
         commentVM.getCommentsOfTask(taskId)
     }
     val taskState by remember {
-        mutableStateOf(statusList[taskDetails?.statusIndex!!])
+        mutableStateOf(if (taskDetails != null) statusList[taskDetails.statusIndex] else "Loading...")
     }
     Surface {
         Column(
