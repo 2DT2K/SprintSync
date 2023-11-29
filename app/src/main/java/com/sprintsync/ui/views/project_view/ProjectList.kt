@@ -18,12 +18,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.sprintsync.data.view_models.ProjectViewViewModel
 import androidx.navigation.NavController
 import com.sprintsync.data.dtos.ProjectDto
-import com.sprintsync.data.view_models.ProjectViewModel
 import com.sprintsync.ui.components.SearchBar
 import com.sprintsync.ui.components.projectlist.ProjectCard
 import com.sprintsync.ui.navigation.Screens
@@ -106,7 +102,7 @@ fun StarredProjectList(
             ) ProjectCard(
                 project = project,
                 index = index,
-                onClick = { onChooseProject(project)  }
+                onClick = { onChooseProject(project) }
             ) {
                 if (onChange != null) {
                     onChange(it)

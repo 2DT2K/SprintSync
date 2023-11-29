@@ -62,7 +62,7 @@ fun TaskCard(task: TaskResDto) {
         }
     }
     //TODO: add type to task
-    when ("task") {
+    when ("Task") {
         "Task" -> {
             icon = R.drawable.check_circle
             iconTint = MaterialTheme.colorScheme.onSecondary
