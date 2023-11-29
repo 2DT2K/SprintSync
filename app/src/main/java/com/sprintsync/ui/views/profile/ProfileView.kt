@@ -1,5 +1,7 @@
 package com.sprintsync.ui.views.profile
 
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -14,7 +16,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -23,14 +27,18 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
+import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecoverableAuthIOException
 import com.sprintsync.R
 import com.sprintsync.data.auth.Authenticator
 import com.sprintsync.data.view_models.AuthViewModel
+import com.sprintsync.google_calendar.triggerConsent
 import com.sprintsync.ui.components.profile.ProfileSettingGroup
 import com.sprintsync.ui.navigation.Screens
 import com.sprintsync.ui.theme.Grey40
 import com.sprintsync.ui.theme.Purple20
 import com.sprintsync.ui.theme.SprintSyncTheme
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 @Composable
 fun ProfileScreen(navController: NavController? = null) {
@@ -42,6 +50,10 @@ fun ProfileScreen(navController: NavController? = null) {
 	LaunchedEffect(authState) {
 		if (!authState.signedIn) navController?.navigate(Screens.Signin.route)
 	}
+
+	val scope = rememberCoroutineScope()
+	val context = LocalContext.current
+	val launcher = rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) {}
 
 	val account = listOf(
 		Setting(R.drawable.edit, "Edit profile"),
@@ -56,7 +68,16 @@ fun ProfileScreen(navController: NavController? = null) {
 	)
 
 	val actions = listOf(
-		Setting(R.drawable.lock, "Trigger Consent") {},
+		Setting(R.drawable.lock, "Trigger Consent") {
+			scope.launch(Dispatchers.IO) {
+				try {
+					triggerConsent(context)
+				}
+				catch (e: UserRecoverableAuthIOException) {
+					launcher.launch(e.intent)
+				}
+			}
+		},
 		Setting(R.drawable.flag, "Report a problem"),
 		Setting(R.drawable.logout, "Log out") { authVM.signOut() },
 	)

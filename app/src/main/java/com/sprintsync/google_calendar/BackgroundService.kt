@@ -30,10 +30,6 @@ class BackgroundService : JobService() {
 			notify(Random.nextInt(), notification)
 		}
 
-
-		val sharedPref = getSharedPreferences("consent", MODE_PRIVATE)
-		if (!sharedPref.getBoolean("state", false)) return true
-
 		val title = extras?.getString("taskName")
 		val description = extras?.getString("taskDescription")
 		val deadline = extras?.getString("taskDeadline")
@@ -41,7 +37,11 @@ class BackgroundService : JobService() {
 		if (deadline.isNullOrEmpty()) return true
 
 		CoroutineScope(Dispatchers.IO).launch {
-			addEvent(applicationContext, title, description, deadline.substring(0, 10))
+			try {
+				addEvent(applicationContext, title, description, deadline.substring(0, 10))
+			}
+			catch (_: Exception) {
+			}
 		}
 
 		return true
