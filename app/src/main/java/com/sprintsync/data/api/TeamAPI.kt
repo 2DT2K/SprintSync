@@ -1,5 +1,6 @@
 package com.sprintsync.data.api
 
+import com.sprintsync.data.dtos.MemberDto
 import com.sprintsync.data.dtos.TeamDto
 import com.sprintsync.data.dtos.response.ApiResponse
 import com.sprintsync.data.dtos.response.TeamResDto
@@ -24,7 +25,7 @@ interface TeamAPI {
 	suspend fun addMember(
 		@Path("email") email: String,
 		@Path("teamId") teamId: String,
-	): ApiResponse<String>
+	): ApiResponse<TeamResDto>
 
 	@PATCH("teams")
 	suspend fun updateTeam(@Body dto: TeamDto): ApiResponse<TeamResDto>

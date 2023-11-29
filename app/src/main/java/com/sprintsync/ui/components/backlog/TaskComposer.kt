@@ -64,7 +64,6 @@ import java.io.File
 import java.net.URI
 import java.time.LocalDateTime
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TaskComposer(
     projectID: String?,

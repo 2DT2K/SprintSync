@@ -1,5 +1,6 @@
 package com.sprintsync.ui.views.project_view.member
 
+import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.clickable
@@ -27,13 +28,16 @@ import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.sprintsync.data.dtos.MemberDto
+import com.sprintsync.data.dtos.TeamDto
 import com.sprintsync.data.view_models.TeamViewModel
 import com.sprintsync.ui.components.SearchBar
 import com.sprintsync.ui.components.member.MemberCard
+import com.sprintsync.ui.components.member.MemberDialog
+import com.sprintsync.ui.components.member.TeamDialog
 import com.sprintsync.ui.theme.spacing
 
 @Composable
-fun Member(projectId: String?) {
+fun Member(projectId: String?, userId: String?, getMyRole: (String) -> Unit, userRole: String?) {
     val teamVM = hiltViewModel<TeamViewModel>()
     val teamState by teamVM.state.collectAsStateWithLifecycle()
     val teamList = teamState.dtoList
@@ -41,9 +45,13 @@ fun Member(projectId: String?) {
     LaunchedEffect(Unit) {
         if (projectId != null) {
             teamVM.getTeamsOfProject(projectId)
+            if (userId != null) {
+                getMyRole(userId)
+            }
         }
     }
 
+    //TODO: need to check role when backend have role
     var searchTerm by remember {
         mutableStateOf("")
     }
@@ -54,13 +62,33 @@ fun Member(projectId: String?) {
         ) {
             SearchBar(placeHolder = "Search a member", onValueChange = { searchTerm = it })
             Spacer(modifier = Modifier.height(MaterialTheme.spacing.medium))
+
+            if (userRole != "member") TeamDialog {
+                val team =
+                    projectId?.let { it1 ->
+                        TeamDto(
+                            id = null, name = it, leader = userId ?: "", members = emptyList(),
+                            it1
+                        )
+                    }
+                if (team != null) {
+                    teamVM.addTeam(team)
+                }
+            }
             teamList?.forEach() { team ->
                 TeamCard(
                     projectId = projectId,
                     teamName = team.name,
                     memberList = team.members,
                     searchTerm = searchTerm
-                )
+                ) {
+                    if (userRole != "member") team.id?.let { it1 ->
+                        teamVM.addMember(
+                            it,
+                            it1
+                        )
+                    }
+                }
             }
         }
     }
@@ -71,7 +99,8 @@ fun TeamCard(
     projectId: String?,
     teamName: String,
     memberList: List<MemberDto?>,
-    searchTerm: String
+    searchTerm: String,
+    onAddMember: (String) -> Unit
 ) {
     var isOpen by remember { mutableStateOf(true) }
 
@@ -110,6 +139,8 @@ fun TeamCard(
                             )
                         }
                 }
+
+                MemberDialog { onAddMember(it) }
             }
         }
     }

@@ -1,4 +1,4 @@
-package com.sprintsync.ui.components.backlog
+package com.sprintsync.ui.components.member
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -32,20 +32,24 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.sprintsync.R
+import com.sprintsync.data.dtos.MemberDto
 import com.sprintsync.data.dtos.SprintDto
 import com.sprintsync.data.dtos.TaskDto
+import com.sprintsync.data.dtos.TeamDto
+import com.sprintsync.data.view_models.TeamViewModel
+import com.sprintsync.ui.components.backlog.DatePickerDialog
+import com.sprintsync.ui.components.backlog.InputGroup
 import com.sprintsync.ui.theme.spacing
 import java.time.LocalDateTime
 
+
 @Composable
-fun TaskDialog(sprint: SprintDto, onAddTask: (TaskDto) -> Unit) {
+fun MemberDialog(onAddMember: (String) -> Unit) {
     var isTaskDialogOpen by remember { mutableStateOf(false) }
-    var isDropdownMenu by remember { mutableStateOf(false) }
-    var taskName by remember { mutableStateOf("") }
-    var taskDescription by remember { mutableStateOf("") }
-    var taskDeadline by remember { mutableStateOf(LocalDateTime.now().toString()) }
-    var taskPoint by remember { mutableIntStateOf(0) }
+    var email by remember { mutableStateOf("") }
 
     Row(
         modifier = Modifier
@@ -64,7 +68,7 @@ fun TaskDialog(sprint: SprintDto, onAddTask: (TaskDto) -> Unit) {
 
         Spacer(modifier = Modifier.width(8.dp))
 
-        Text(text = "Create Task")
+        Text(text = "Add Member")
     }
 
     if (isTaskDialogOpen) {
@@ -103,52 +107,15 @@ fun TaskDialog(sprint: SprintDto, onAddTask: (TaskDto) -> Unit) {
                     )
 
                     InputGroup(
-                        title = "Name",
-                        value = taskName,
-                        onValueChange = { taskName = it })
+                        title = "Email",
+                        value = email,
+                        onValueChange = { email = it })
 
-                    InputGroup(
-                        title = "Description",
-                        value = taskDescription,
-                        onValueChange = { taskDescription = it })
-
-                    InputGroup(
-                        title = "Deadline",
-                        value = taskDeadline,
-                        content = { DatePickerDialog { taskDeadline = it } })
-
-
-                    InputGroup(
-                        type = "number",
-                        title = "Point",
-                        value = if (taskPoint != -1) taskPoint.toString() else ""
-                    ) {
-                        taskPoint = it.toIntOrNull() ?: -1
-                    }
 
                     Button(
                         onClick = {
                             //TODO: team,assignor,asignees,parent,attachments ko goi dc do ko co assignor
-                            val task = sprint.id?.let {
-                                TaskDto(
-                                    name = taskName,
-                                    description = taskDescription,
-                                    sprint = sprint.id,
-                                    // TODO: add a team id (necessary)
-                                    // This is only a temporary solution
-                                    team = "6566a9fbf5f1813b134e9b60",
-                                    assignor = null,
-                                    assignees = emptyList(),
-                                    parentTask = null,
-                                    attachments = emptyList(),
-                                    statusIndex = 1,
-                                    deadline = taskDeadline,
-                                    point = taskPoint,
-                                    comments = emptyList(),
-                                    labels = emptyList(),
-                                )
-                            }
-                            task?.let { onAddTask(it) }
+                            onAddMember(email)
                             isTaskDialogOpen = !isTaskDialogOpen
                         },
                         modifier = Modifier
@@ -171,13 +138,10 @@ fun TaskDialog(sprint: SprintDto, onAddTask: (TaskDto) -> Unit) {
     }
 }
 
-//TODO: add sprint to the project code here
 @Composable
-fun SprintDialog(projectID: String, onAddSprint: (SprintDto) -> Unit) {
+fun TeamDialog(onAddTeam: (String) -> Unit){
     var isSprintDialogOpen by remember { mutableStateOf(false) }
-    var sprintNumber by remember { mutableIntStateOf(-1) }
-    var sprintStartDate by remember { mutableStateOf("") }
-    var sprintEndDate by remember { mutableStateOf("") }
+    var teamName by remember { mutableStateOf("") }
 
     Row(
         modifier = Modifier
@@ -196,7 +160,7 @@ fun SprintDialog(projectID: String, onAddSprint: (SprintDto) -> Unit) {
 
         Spacer(modifier = Modifier.width(8.dp))
 
-        Text(text = "Create Sprint")
+        Text(text = "Create New Team")
     }
 
     if (isSprintDialogOpen) {
@@ -229,7 +193,7 @@ fun SprintDialog(projectID: String, onAddSprint: (SprintDto) -> Unit) {
                 ) {
                     Text(
                         modifier = Modifier.align(Alignment.CenterHorizontally),
-                        text = "Add Sprint",
+                        text = "Add Team",
                         style = MaterialTheme.typography.titleLarge,
                         color = MaterialTheme.colorScheme.onSurface
                     )
@@ -238,40 +202,16 @@ fun SprintDialog(projectID: String, onAddSprint: (SprintDto) -> Unit) {
                         verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.default)
                     ) {
                         InputGroup(
-                            type = "number",
-                            title = "Name",
-                            initialValue = "Sprint ",
-                            value = if (sprintNumber != -1) "$sprintNumber" else "",
-                            onValueChange = {
-                                sprintNumber = it.toIntOrNull() ?: -1
-                            }
-                        )
+                            title = "Team Name",
+                            value = teamName,
+                            onValueChange = { teamName = it })
 
-                        InputGroup(
-                            title = "Start Date",
-                            value = sprintStartDate,
-                            content = { DatePickerDialog { sprintStartDate = it } }
-                        )
-
-
-                        InputGroup(
-                            title = "End Date",
-                            value = sprintEndDate,
-                            content = { DatePickerDialog { sprintEndDate = it } }
-                        )
                     }
 
                     Button(
                         onClick = {
                             //TODO: team,assignor,asignees,parent,attachments ko goi dc do ko co assignor
-                            val sprint = SprintDto(
-                                id = null,
-                                startDate = sprintStartDate,
-                                endDate = sprintEndDate,
-                                sprintNumber = sprintNumber,
-                                project = projectID
-                            )
-                            onAddSprint(sprint)
+                            onAddTeam(teamName)
                             isSprintDialogOpen = !isSprintDialogOpen
                         },
                         modifier = Modifier

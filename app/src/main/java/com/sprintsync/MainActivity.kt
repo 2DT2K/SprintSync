@@ -1,6 +1,7 @@
 package com.sprintsync
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.AnimatedContentTransitionScope
@@ -16,6 +17,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -83,6 +85,13 @@ fun MainContent() {
     var showBottomAndTopBar by remember { mutableStateOf(false) }
     var showFAB by remember { mutableStateOf(false) }
     var route by remember { mutableStateOf("") }
+
+    LaunchedEffect(Unit) {
+        memberVM.getMe()
+    }
+    val userId = memberState.dto?.id
+    val userRole = memberState.message
+    Log.d("log-bug-role",userRole.toString())
 
     navController.addOnDestinationChangedListener { _, dest, _ ->
         showBottomAndTopBar =
@@ -285,7 +294,11 @@ fun MainContent() {
                                     tween(500)
                                 )
                             }
-                        ) { Member(chosenProject?.id) }
+                        ) {
+                            if (userId != null ) {
+                                Member(chosenProject?.id, userId, { memberVM.getMe() }, userRole)
+                            }
+                        }
                         composable(
                             Screens.Reports.route,
                             enterTransition = {

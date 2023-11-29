@@ -3,6 +3,7 @@ package com.sprintsync.data.view_models
 import android.util.Log
 import com.sprintsync.data.api.AttachmentAPI
 import com.sprintsync.data.dtos.AttachmentDto
+import com.sprintsync.data.dtos.response.AttachmentResDto
 import com.sprintsync.data.view_models.state.State
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -11,7 +12,7 @@ import javax.inject.Inject
 @HiltViewModel
 class AttachmentViewModel @Inject constructor(
     private val service: AttachmentAPI
-) : AbstractViewModel<AttachmentDto>() {
+) : AbstractViewModel<AttachmentResDto>() {
     fun getAttachment(id: String) {
         scope.launch {
             val response = service.getAttachment(id)

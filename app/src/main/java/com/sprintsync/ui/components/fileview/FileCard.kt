@@ -19,6 +19,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.sprintsync.R
 import com.sprintsync.data.dtos.AttachmentDto
+import com.sprintsync.data.dtos.response.AttachmentResDto
 import com.sprintsync.ui.theme.SprintSyncTheme
 import com.sprintsync.ui.theme.spacing
 import com.sprintsync.ui.views.project_view.file_view.FileView
@@ -26,7 +27,7 @@ import com.sprintsync.ui.views.project_view.file_view.FileView
 
 @Composable
 fun FileCard(
-    file: AttachmentDto
+    file: AttachmentResDto
 ) {
     // TODO: add more file type to icon
     val icon: Int = when (file.fileType) {

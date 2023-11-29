@@ -1,6 +1,7 @@
 package com.sprintsync.ui.views.profile
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -9,6 +10,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -61,7 +64,7 @@ fun ProfileScreen(navController: NavController? = null) {
 		Setting(R.drawable.logout, "Log out") { authVM.signOut() },
 	)
 
-	Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+	Column(modifier = Modifier.verticalScroll(rememberScrollState()), verticalArrangement = Arrangement.spacedBy(12.dp)) {
 		Row(
 			modifier = Modifier
 				.padding(vertical = 8.dp)
