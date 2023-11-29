@@ -67,6 +67,7 @@ import com.sprintsync.ui.theme.spacing
 @Composable
 fun TaskDialog(sprint: SprintDto, onAddTask: (TaskDto) -> Unit) {
     var isTaskDialogOpen by remember { mutableStateOf(false) }
+    var isDropdownMenu by remember { mutableStateOf(false) }
     var taskName by remember { mutableStateOf("") }
     var taskDescription by remember { mutableStateOf("") }
     var taskDeadline by remember { mutableStateOf("") }
@@ -192,6 +193,7 @@ fun TaskDialog(sprint: SprintDto, onAddTask: (TaskDto) -> Unit) {
     }
 }
 
+//TODO: add sprint to the project code here
 @Composable
 fun SprintDialog(projectID: String, onAddSprint: (SprintDto) -> Unit) {
     var isSprintDialogOpen by remember { mutableStateOf(false) }

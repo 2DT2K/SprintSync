@@ -31,8 +31,6 @@ import androidx.navigation.compose.rememberNavController
 import com.sprintsync.data.auth.Authenticator
 import com.sprintsync.data.view_models.MemberViewModel
 import com.sprintsync.data.view_models.ProjectViewModel
-import com.sprintsync.data.view_models.ProjectViewViewModel
-import com.sprintsync.data.view_models.TaskViewModel
 import com.sprintsync.ui.components.BottomNavigation
 import com.sprintsync.ui.components.TopAppBar
 import com.sprintsync.ui.components.fileview.AddFileFAB
@@ -49,7 +47,6 @@ import com.sprintsync.ui.views.auth.PasswordResetView
 import com.sprintsync.ui.views.auth.SignInView
 import com.sprintsync.ui.views.auth.SignUpView
 import com.sprintsync.ui.views.auth.VerifyAccount
-import com.sprintsync.ui.views.fakeTask
 import com.sprintsync.ui.views.profile.ProfileScreen
 import com.sprintsync.ui.views.project_view.DetailProject
 import com.sprintsync.ui.views.project_view.ProjectList
@@ -105,7 +102,7 @@ fun MainContent() {
         },
         floatingActionButton = {
             if (showFAB) {
-                if (route == "files") AddFileFAB() else AddProjectFAB()
+                if (route == "files") AddFileFAB(chosenProject?.id) else AddProjectFAB()
             }
         },
         containerColor = MaterialTheme.colorScheme.surface,
