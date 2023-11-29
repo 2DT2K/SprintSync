@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.sprintsync.data.view_models.AttachmentViewModel
+import com.sprintsync.ui.components.LoadingDialog
 import com.sprintsync.ui.components.SearchBar
 import com.sprintsync.ui.components.fileview.FileCard
 import com.sprintsync.ui.theme.SprintSyncTheme
@@ -30,6 +31,7 @@ import com.sprintsync.ui.theme.spacing
 fun FileView(projectId: String? = null) {
     val attachmentVM = hiltViewModel<AttachmentViewModel>()
     val attachmentState by attachmentVM.state.collectAsStateWithLifecycle()
+    val isLoading = attachmentVM.isLoading.collectAsStateWithLifecycle().value
     val attachmentList = attachmentState.dtoList
 
     LaunchedEffect(Unit) {
@@ -43,6 +45,9 @@ fun FileView(projectId: String? = null) {
         mutableStateOf("")
     }
     Surface {
+        if (isLoading) {
+            LoadingDialog(alertText = "Loading...")
+        }
         Column(
             modifier = Modifier.animateContentSize()
         ) {

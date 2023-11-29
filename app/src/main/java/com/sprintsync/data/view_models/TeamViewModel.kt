@@ -14,16 +14,20 @@ class TeamViewModel @Inject constructor(
     private val service: TeamAPI
 ) : AbstractViewModel<TeamResDto>() {
     fun getTeam(id: String) {
+        setLoading(true)
         scope.launch {
             val response = service.getTeam(id)
             update(State(dto = response.data, error = response.err))
+            setLoading(false)
         }
     }
 
     fun getTeamsOfProject(id: String) {
+        setLoading(true)
         scope.launch {
             val response = service.getTeamsOfProject(id)
             update(State(dtoList = response.data, error = response.err))
+            setLoading(false)
         }
     }
 

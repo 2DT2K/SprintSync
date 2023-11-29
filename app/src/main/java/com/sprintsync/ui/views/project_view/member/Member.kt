@@ -30,6 +30,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.sprintsync.data.dtos.MemberDto
 import com.sprintsync.data.dtos.TeamDto
 import com.sprintsync.data.view_models.TeamViewModel
+import com.sprintsync.ui.components.LoadingDialog
 import com.sprintsync.ui.components.SearchBar
 import com.sprintsync.ui.components.member.MemberCard
 import com.sprintsync.ui.components.member.MemberDialog
@@ -40,6 +41,7 @@ import com.sprintsync.ui.theme.spacing
 fun Member(projectId: String?, userId: String?, getMyRole: (String) -> Unit, userRole: String?) {
     val teamVM = hiltViewModel<TeamViewModel>()
     val teamState by teamVM.state.collectAsStateWithLifecycle()
+    val isLoading = teamVM.isLoading.collectAsStateWithLifecycle().value
     val teamList = teamState.dtoList
 
     LaunchedEffect(Unit) {
@@ -58,6 +60,9 @@ fun Member(projectId: String?, userId: String?, getMyRole: (String) -> Unit, use
         mutableStateOf("")
     }
     Surface {
+        if (isLoading) {
+            LoadingDialog(alertText = "Loading...")
+        }
         Column(
             modifier = Modifier
                 .verticalScroll(rememberScrollState())
