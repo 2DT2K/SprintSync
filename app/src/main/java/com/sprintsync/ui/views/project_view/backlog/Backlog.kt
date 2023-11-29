@@ -45,6 +45,7 @@ import com.sprintsync.ui.theme.Grey40
 fun Backlog(projectID: String?, navController: NavController? = null) {
     val sprintVM = hiltViewModel<SprintViewModel>()
     val sprintState by sprintVM.state.collectAsStateWithLifecycle()
+    val activeSprint by sprintVM.activeSprint.collectAsStateWithLifecycle()
     val taskVM = hiltViewModel<TaskViewModel>()
     val taskState by taskVM.state.collectAsStateWithLifecycle()
     val isSprintLoading by sprintVM.isLoading.collectAsStateWithLifecycle()
@@ -70,12 +71,15 @@ fun Backlog(projectID: String?, navController: NavController? = null) {
             LoadingDialog(alertText = "Loading...")
         }
         if (projectID != null) {
-            SprintDialog(projectID = projectID, onAddSprint = { sprintVM.addSprint(it) })
+            SprintDialog(
+                projectID = projectID,
+                sprints = sprintState.dtoList ?: emptyList(),
+                onAddSprint = { sprintVM.addSprint(it) })
         }
         //TODO: wait for active sprint api
         taskState.dtoList?.let {
             CurrentSprintView(
-                sprintState.dto,
+                activeSprint,
                 sprintState.dtoList?.filter { sprint -> !sprint.isActive && sprint.completeDate == null },
                 it,
                 onAddTask = { task -> taskVM.addTask(task) },

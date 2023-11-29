@@ -2,13 +2,12 @@ package com.sprintsync.utils
 
 import android.content.Context
 import android.content.Intent
-import android.graphics.BitmapFactory
 import android.os.Environment
 import android.webkit.MimeTypeMap
 import androidx.core.content.FileProvider
-import dagger.hilt.android.qualifiers.ApplicationContext
 import java.io.File
 import java.io.FileOutputStream
+import java.util.Base64
 
 object FileUtility {
     private fun getMimeType(file: File): String? {
@@ -21,7 +20,7 @@ object FileUtility {
     }
 
     fun downloadFile(byteArrayString: String, fileName: String, context: Context) {
-        val byteArray = byteArrayString.toByteArray()
+        val byteArray = Base64.getDecoder().decode(byteArrayString)
         val file = File(context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), fileName)
         val fileOutputStream = FileOutputStream(file)
         fileOutputStream.write(byteArray)

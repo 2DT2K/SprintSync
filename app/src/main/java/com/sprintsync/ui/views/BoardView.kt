@@ -41,7 +41,7 @@ fun BoardView(projectID: String?, statusList: List<String>?, navController: NavC
     val taskViewVM = hiltViewModel<TaskViewModel>()
     val sprintVM = hiltViewModel<SprintViewModel>()
     val tasksState by taskViewVM.state.collectAsStateWithLifecycle()
-    val sprintState by sprintVM.state.collectAsStateWithLifecycle()
+    val activeSprint by sprintVM.activeSprint.collectAsStateWithLifecycle()
     val isSprintLoading by sprintVM.isLoading.collectAsStateWithLifecycle()
     val isTaskLoading by taskViewVM.isLoading.collectAsStateWithLifecycle()
 
@@ -54,8 +54,8 @@ fun BoardView(projectID: String?, statusList: List<String>?, navController: NavC
         }
     }
 
-    LaunchedEffect(sprintState.dto) {
-        sprintState.dto?.id?.let { taskViewVM.getTasksOfSprint(it) }
+    LaunchedEffect(activeSprint) {
+        activeSprint?.id?.let { taskViewVM.getTasksOfSprint(it) }
     }
 
 

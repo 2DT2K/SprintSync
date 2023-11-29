@@ -1,6 +1,7 @@
 package com.sprintsync.data.view_models
 
 import android.annotation.SuppressLint
+import android.widget.Toast
 import com.sprintsync.data.api.SprintAPI
 import com.sprintsync.data.dtos.SprintDto
 import com.sprintsync.data.dtos.response.ReportChartDto
@@ -19,7 +20,12 @@ class SprintViewModel @Inject constructor(
     private val _report = MutableStateFlow(ReportChartDto())
     val report = _report.asStateFlow()
 
+    private val _activeSprint = MutableStateFlow<SprintDto?>(null)
+    val activeSprint = _activeSprint.asStateFlow()
+
     private fun updateReport(dto: ReportChartDto) = _report.update { dto }
+
+    private fun updateActiveSprint(newState: SprintDto) = _activeSprint.update { newState }
 
     fun getSprint(id: String) {
         scope.launch {
@@ -50,7 +56,7 @@ class SprintViewModel @Inject constructor(
         setLoading(true)
 		scope.launch {
 			val response = service.getActiveSprintByProject(id)
-            update(State(dto = response.data, dtoList = state.value.dtoList ,error = response.err))
+            response.data?.let { updateActiveSprint(it) }
             setLoading(false)
 		}
 	}
@@ -81,7 +87,9 @@ class SprintViewModel @Inject constructor(
     fun updateSprint(dto: SprintDto) {
         scope.launch {
             val response = service.updateSprint(dto)
-            update(State(dto = response.data, dtoList = state.value.dtoList, error = response.err))
+            if (response.data != null) {
+                update(State(dto = response.data, dtoList = state.value.dtoList, error = response.err))
+            }
         }
     }
 

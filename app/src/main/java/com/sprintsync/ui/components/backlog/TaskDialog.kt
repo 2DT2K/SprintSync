@@ -42,6 +42,7 @@ import com.sprintsync.data.dtos.SprintDto
 import com.sprintsync.data.dtos.TaskDto
 import com.sprintsync.data.dtos.TeamDto
 import com.sprintsync.data.dtos.response.TeamResDto
+import com.sprintsync.data.view_models.MemberViewModel
 import com.sprintsync.data.view_models.TeamViewModel
 import com.sprintsync.ui.theme.spacing
 import java.time.LocalDateTime
@@ -49,7 +50,10 @@ import java.time.LocalDateTime
 @Composable
 fun TaskDialog(sprint: SprintDto, onAddTask: (TaskDto) -> Unit) {
     val teamVM = hiltViewModel<TeamViewModel>()
+    val memberVM = hiltViewModel<MemberViewModel>()
     val teamState = teamVM.state.collectAsStateWithLifecycle()
+    val memberState = memberVM.state.collectAsStateWithLifecycle()
+    val me = memberState.value.dto
     var isTaskDialogOpen by remember { mutableStateOf(false) }
     var isDropdownMenu by remember { mutableStateOf(false) }
     var taskName by remember { mutableStateOf("") }
@@ -78,6 +82,7 @@ fun TaskDialog(sprint: SprintDto, onAddTask: (TaskDto) -> Unit) {
 
     LaunchedEffect(Unit) {
         teamVM.getTeamsOfProject(sprint.project)
+        memberVM.getMe()
     }
 
     Row(
@@ -162,27 +167,36 @@ fun TaskDialog(sprint: SprintDto, onAddTask: (TaskDto) -> Unit) {
                         }
                     }
 
+                    Button(onClick = {
+                        if (me != null) {
+                            assignees =
+                                if (assignees.contains(me)) assignees.filter { it != me } else assignees + me
+                        }
+                    }) {
+                        Text(text = if (assignees.contains(me)) "Un-assign me" else "Assign me")
+                    }
+
                     Button(onClick = { isAssigneeDialogOpen = !isAssigneeDialogOpen }) {
                         Text(text = if (assignees.isNotEmpty()) assignees.joinToString(", ") { it.name } else "Choose Assignees")
                     }
                     AnimatedVisibility(visible = isAssigneeDialogOpen) {
                         Column {
-                            chosenTeam.members.forEach {
+                            chosenTeam.members.forEach { member ->
                                 Row(modifier = Modifier.clickable {
-                                    assignees = if (assignees.contains(it)) {
-                                        assignees.filter { it != it }
+                                    assignees = if (assignees.contains(member)) {
+                                        assignees.filter { it != member }
                                     } else {
-                                        assignees + it
+                                        assignees + member
                                     }
                                 }) {
-                                    if (assignees.contains(it)) {
+                                    if (assignees.contains(member)) {
                                         Icon(
                                             painter = painterResource(id = R.drawable.check_circle),
                                             contentDescription = "check icon",
                                             tint = MaterialTheme.colorScheme.onSurface,
                                         )
                                     }
-                                    Text(text = it.name)
+                                    Text(text = member.name)
                                 }
                             }
                         }
@@ -250,9 +264,9 @@ fun TaskDialog(sprint: SprintDto, onAddTask: (TaskDto) -> Unit) {
 }
 
 @Composable
-fun SprintDialog(projectID: String, onAddSprint: (SprintDto) -> Unit) {
+fun SprintDialog(projectID: String, sprints: List<SprintDto>, onAddSprint: (SprintDto) -> Unit) {
     var isSprintDialogOpen by remember { mutableStateOf(false) }
-    var sprintNumber by remember { mutableIntStateOf(-1) }
+    val sprintNumber = if (sprints.isEmpty()) 0 else sprints.maxOf { it.sprintNumber } + 1
     var sprintStartDate by remember { mutableStateOf("") }
     var sprintEndDate by remember { mutableStateOf("") }
 
@@ -314,15 +328,7 @@ fun SprintDialog(projectID: String, onAddSprint: (SprintDto) -> Unit) {
                         modifier = Modifier.fillMaxWidth(),
                         verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.default)
                     ) {
-                        InputGroup(
-                            type = "number",
-                            title = "Name",
-                            initialValue = "Sprint ",
-                            value = if (sprintNumber != -1) "$sprintNumber" else "",
-                            onValueChange = {
-                                sprintNumber = it.toIntOrNull() ?: -1
-                            }
-                        )
+                        Text(text = "Sprint $sprintNumber")
 
                         InputGroup(
                             title = "Start Date",
