@@ -1,5 +1,6 @@
 package com.sprintsync.data.view_models
 
+import android.util.Log
 import com.sprintsync.data.api.TaskAPI
 import com.sprintsync.data.dtos.TaskDto
 import com.sprintsync.data.dtos.response.TaskResDto
@@ -20,15 +21,23 @@ class TaskViewModel @Inject constructor(
     private fun updateSubtasks(newState: List<TaskResDto>) = _subtasks.update { newState }
     fun getTask(id: String) {
         scope.launch {
-            val response = service.getTask(id)
-            update(State(dto = response.data, error = response.err))
+            try {
+                val response = service.getTask(id)
+                update(State(dto = response.data, error = response.err))
+            } catch (e: Exception) {
+                Log.e("TaskViewModel", e.message ?: "Error")
+            }
         }
     }
 
     fun getSubTasks(id: String) {
         scope.launch {
-            val response = service.getSubTasks(id)
-            response.data?.let { updateSubtasks(it) }
+            try {
+                val response = service.getSubTasks(id)
+                response.data?.let { updateSubtasks(it) }
+            } catch (e: Exception) {
+                Log.e("TaskViewModel", e.message ?: "Error")
+            }
         }
     }
 
