@@ -12,7 +12,7 @@ import javax.inject.Inject
 @HiltViewModel
 class AttachmentViewModel @Inject constructor(
 	private val service: AttachmentAPI
-) : AbstractViewModel<AttachmentDto>() {
+) : AbstractViewModel<AttachmentResDto>() {
 	fun getAttachment(id: String) {
 		scope.launch {
 			val response = service.getAttachment(id)

@@ -39,6 +39,7 @@ import com.sprintsync.ui.theme.Grey40
 import com.sprintsync.ui.theme.InProgressPoint
 import com.sprintsync.ui.theme.TodoPoint
 import com.sprintsync.ui.theme.spacing
+import java.time.LocalDateTime
 
 @Composable
 fun SprintCard(
@@ -46,6 +47,7 @@ fun SprintCard(
     taskList: List<TaskResDto>,
     isActive: Boolean = false,
     onAddTask: (TaskDto) -> Unit,
+    updateSprint: (SprintDto) -> Unit = {},
     navController: NavController? = null
 ) {
     var isOpen by remember { mutableStateOf(false) }
@@ -133,15 +135,28 @@ fun SprintCard(
                     expanded = isSprintStatusExpanded,
                     onDismissRequest = { isSprintStatusExpanded = false }
                 ) {
-                    DropdownMenuItem(
-                        text = { Text("Refresh") },
-                        onClick = { /* Handle refresh! */ })
-                    DropdownMenuItem(
-                        text = { Text("Refresh") },
-                        onClick = { /* Handle refresh! */ })
-                    DropdownMenuItem(
-                        text = { Text("Refresh") },
-                        onClick = { /* Handle refresh! */ })
+                    if (sprint.isActive) {
+                        DropdownMenuItem(
+                            text = { Text("Complete Sprint") },
+                            onClick = {
+                                isSprintStatusExpanded = false
+                                updateSprint(
+                                    sprint.copy(
+                                        isActive = false,
+                                        completeDate = LocalDateTime.now().toString()
+                                    )
+                                )
+                            })
+                    } else {
+                        DropdownMenuItem(
+                            text = { Text("Active Sprint") },
+                            onClick = {
+                                isSprintStatusExpanded = false
+                                updateSprint(sprint.copy(
+                                    isActive = true,
+                                ))
+                            })
+                    }
                 }
             }
         }

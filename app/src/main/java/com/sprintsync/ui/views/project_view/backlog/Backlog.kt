@@ -76,14 +76,16 @@ fun Backlog(projectID: String?, navController: NavController? = null) {
         taskState.dtoList?.let {
             CurrentSprintView(
                 sprintState.dto,
+                sprintState.dtoList?.filter { sprint -> !sprint.isActive && sprint.completeDate == null },
                 it,
                 onAddTask = { task -> taskVM.addTask(task) },
+                updateSprint = { sprint -> sprintVM.updateSprint(sprint) },
                 navController = navController
             )
         }
         taskState.dtoList?.let {
             IsDoneSprintView(
-                sprintState.dtoList?.filter { sprint -> sprint.id != sprintState.dto?.id },
+                sprintState.dtoList?.filter { sprint -> sprint.completeDate != null },
                 it,
                 onAddTask = { task -> taskVM.addTask(task) },
                 navController = navController
@@ -95,8 +97,10 @@ fun Backlog(projectID: String?, navController: NavController? = null) {
 @Composable
 fun CurrentSprintView(
     currentSprint: SprintDto?,
+    isNotActiveSprints: List<SprintDto>? = null,
     taskList: List<TaskResDto>,
     onAddTask: (TaskDto) -> Unit,
+    updateSprint: (SprintDto) -> Unit = {},
     navController: NavController? = null
 ) {
     currentSprint?.let {
@@ -105,7 +109,18 @@ fun CurrentSprintView(
             taskList = taskList,
             isActive = true,
             onAddTask = onAddTask,
-            navController = navController
+            updateSprint = updateSprint,
+            navController = navController,
+        )
+    }
+    isNotActiveSprints?.forEach() { sprint ->
+        SprintCard(
+            sprint = sprint,
+            taskList = taskList,
+            isActive = false,
+            onAddTask = onAddTask,
+            updateSprint = updateSprint,
+            navController = navController,
         )
     }
     Divider()
@@ -173,7 +188,7 @@ fun IsDoneSprintView(
                         taskList = taskList,
                         isActive = false,
                         onAddTask = onAddTask,
-                        navController = navController
+                        navController = navController,
                     )
                 }
             }

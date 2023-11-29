@@ -343,6 +343,7 @@ fun SprintDialog(projectID: String, onAddSprint: (SprintDto) -> Unit) {
                             //TODO: team,assignor,asignees,parent,attachments ko goi dc do ko co assignor
                             val sprint = SprintDto(
                                 id = null,
+                                isActive = false,
                                 startDate = sprintStartDate,
                                 endDate = sprintEndDate,
                                 sprintNumber = sprintNumber,
