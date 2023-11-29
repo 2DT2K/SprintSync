@@ -6,12 +6,13 @@ import retrofit2.converter.gson.GsonConverterFactory
 class RetrofitSingleton private constructor() {
 	private val okHttpClient = okhttp3.OkHttpClient
 		.Builder()
+		.readTimeout(60, java.util.concurrent.TimeUnit.SECONDS)
 		.addInterceptor(RetrofitInterceptor())
 		.build()
 
 	private val retrofit: Retrofit = Retrofit
 		.Builder()
-		.baseUrl("https://bd56-2405-4803-fd26-2930-c19b-a9a4-61ae-9c2c.ngrok.io/")
+		.baseUrl("https://c73e-2405-4803-fd26-2930-c19b-a9a4-61ae-9c2c.ngrok.io/")
 		.client(okHttpClient)
 		.addConverterFactory(GsonConverterFactory.create())
 		.build()

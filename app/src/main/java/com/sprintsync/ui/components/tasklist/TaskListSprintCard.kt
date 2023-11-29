@@ -29,22 +29,23 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.sprintsync.R
 import com.sprintsync.data.dtos.SprintDto
+import com.sprintsync.data.dtos.TaskDto
+import com.sprintsync.data.dtos.response.TaskResDto
 import com.sprintsync.data.view_models.TaskViewModel
 import com.sprintsync.ui.components.backlog.TaskDialog
 import com.sprintsync.ui.theme.spacing
 
 
 @Composable
-fun TaskListSprintCard(sprint: SprintDto, navController: NavController? = null) {
-    val taskVM = hiltViewModel<TaskViewModel>()
-    val taskState by taskVM.state.collectAsStateWithLifecycle()
+fun TaskListSprintCard(
+    sprint: SprintDto,
+    navController: NavController? = null,
+    taskList: List<TaskResDto>,
+    onAddTask: (TaskDto) -> Unit
+) {
     var isOpen by remember { mutableStateOf(false) }
 
-    LaunchedEffect(Unit) {
-        sprint.id?.let {
-            taskVM.getTasksOfSprint(it)
-        }
-    }
+    val tasksOfThisSprint = taskList.filter { it.sprint == sprint.id }
 
     Column(
         modifier = Modifier
@@ -83,12 +84,13 @@ fun TaskListSprintCard(sprint: SprintDto, navController: NavController? = null) 
                     MaterialTheme.spacing.default
                 )
             ) {
-                taskState.dtoList?.forEach {
+                tasksOfThisSprint.forEach {
                     TaskListCard(it) {
                         navController?.navigate("task")
                     }
                 }
-                TaskDialog(sprint) { taskVM.addTask(it) }
+                TaskDialog(sprint) { task ->
+                    onAddTask(task) }
             }
         }
     }

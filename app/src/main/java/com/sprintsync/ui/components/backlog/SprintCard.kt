@@ -20,7 +20,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -29,13 +28,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavController
 import com.sprintsync.R
-import com.sprintsync.data.dtos.MemberDto
 import com.sprintsync.data.dtos.SprintDto
-import com.sprintsync.data.view_models.MemberViewModel
-import com.sprintsync.data.view_models.TaskViewModel
+import com.sprintsync.data.dtos.TaskDto
+import com.sprintsync.data.dtos.response.TaskResDto
 import com.sprintsync.ui.components.TaskPoint
 import com.sprintsync.ui.theme.DonePoint
 import com.sprintsync.ui.theme.Grey40
@@ -44,16 +41,17 @@ import com.sprintsync.ui.theme.TodoPoint
 import com.sprintsync.ui.theme.spacing
 
 @Composable
-fun SprintCard(sprint: SprintDto, isActive: Boolean = false) {
+fun SprintCard(
+    sprint: SprintDto,
+    taskList: List<TaskResDto>,
+    isActive: Boolean = false,
+    onAddTask: (TaskDto) -> Unit,
+    navController: NavController? = null
+) {
     var isOpen by remember { mutableStateOf(false) }
     var isSprintStatusExpanded by remember { mutableStateOf(false) }
 
-    val taskVM = hiltViewModel<TaskViewModel>()
-    val taskState by taskVM.state.collectAsStateWithLifecycle()
-
-    LaunchedEffect(Unit) {
-        sprint.id?.let { taskVM.getTasksOfSprint(it) }
-    }
+    val tasksOfThisSprint = taskList.filter { it.sprint == sprint.id }
 
     Column(
         modifier = Modifier
@@ -86,7 +84,7 @@ fun SprintCard(sprint: SprintDto, isActive: Boolean = false) {
                     color = MaterialTheme.colorScheme.onSurface,
                 )
                 Text(
-                    text = "Problems: ${taskState.dtoList?.count()}",
+                    text = "Problems: ${tasksOfThisSprint.count()}",
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
@@ -94,9 +92,9 @@ fun SprintCard(sprint: SprintDto, isActive: Boolean = false) {
 
             Spacer(modifier = Modifier.weight(1.0f))
 
-            if (taskState.dtoList?.isEmpty() == false) {
+            if (tasksOfThisSprint.isNotEmpty()) {
                 TaskPoint(
-                    point = taskState.dtoList!!.filter { it.statusIndex == 1 }.sumOf { it.point },
+                    point = tasksOfThisSprint.filter { it.statusIndex == 1 }.sumOf { it.point },
                     modifier = Modifier.background(
                         color = TodoPoint,
                         shape = RoundedCornerShape(size = 16.dp)
@@ -105,7 +103,7 @@ fun SprintCard(sprint: SprintDto, isActive: Boolean = false) {
                 Spacer(modifier = Modifier.width(8.dp))
 
                 TaskPoint(
-                    point = taskState.dtoList!!.filter { it.statusIndex == 2 }.sumOf { it.point },
+                    point = tasksOfThisSprint.filter { it.statusIndex == 2 }.sumOf { it.point },
                     modifier = Modifier.background(
                         color = InProgressPoint,
                         shape = RoundedCornerShape(size = 16.dp)
@@ -114,7 +112,7 @@ fun SprintCard(sprint: SprintDto, isActive: Boolean = false) {
                 Spacer(modifier = Modifier.width(8.dp))
 
                 TaskPoint(
-                    point = taskState.dtoList!!.filter { it.statusIndex == 3 }.sumOf { it.point },
+                    point = tasksOfThisSprint.filter { it.statusIndex == 3 }.sumOf { it.point },
                     modifier = Modifier.background(
                         color = DonePoint,
                         shape = RoundedCornerShape(size = 16.dp)
@@ -155,13 +153,15 @@ fun SprintCard(sprint: SprintDto, isActive: Boolean = false) {
                     end = MaterialTheme.spacing.default
                 )
             ) {
-                taskState.dtoList?.forEach { task ->
+                tasksOfThisSprint.forEach { task ->
                     TaskCard(task = task)
                 }
 
                 // row for creating task
                 if (isActive) {
-                    TaskDialog(sprint) { taskVM.addTask(it) }
+                    TaskDialog(sprint) { task ->
+                        onAddTask(task)
+                    }
                 }
             }
         }

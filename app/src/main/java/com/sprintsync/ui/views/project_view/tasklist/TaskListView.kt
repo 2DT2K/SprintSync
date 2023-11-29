@@ -15,6 +15,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.sprintsync.data.view_models.SprintViewModel
+import com.sprintsync.data.view_models.TaskViewModel
 import com.sprintsync.ui.components.SearchBar
 import com.sprintsync.ui.components.tasklist.TaskListSprintCard
 import com.sprintsync.ui.theme.SprintSyncTheme
@@ -24,10 +25,13 @@ import com.sprintsync.ui.theme.spacing
 fun TaskListView(projectID: String?, navController: NavController? = null) {
     val sprintVM = hiltViewModel<SprintViewModel>()
     val sprintState by sprintVM.state.collectAsStateWithLifecycle()
+    val taskVM = hiltViewModel<TaskViewModel>()
+    val taskState by taskVM.state.collectAsStateWithLifecycle()
 
     LaunchedEffect(Unit) {
         if (projectID != null) {
             sprintVM.getSprintsOfProject(projectID)
+            taskVM.getTasksOfProject(projectID)
         }
     }
 
@@ -36,8 +40,13 @@ fun TaskListView(projectID: String?, navController: NavController? = null) {
             SearchBar(placeHolder = "Search a task")
             Spacer(modifier = Modifier.height(MaterialTheme.spacing.medium))
             sprintState.dtoList?.forEach() {
-                Log.e("Sprint", it.toString())
-                TaskListSprintCard(it, navController)
+                taskState.dtoList?.let { it1 ->
+                    TaskListSprintCard(it, navController, it1) { task ->
+                        taskVM.addTask(
+                            task
+                        )
+                    }
+                }
             }
         }
     }
