@@ -51,7 +51,7 @@ fun ProfileSettingGroup(title: String, settings: List<Setting>) {
 			) {
 				settings.forEach { setting ->
 					Row(
-						modifier = Modifier.clickable { setting.onClick() },
+						modifier = Modifier.fillMaxWidth().clickable { setting.onClick() },
 						horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.large),
 						verticalAlignment = Alignment.CenterVertically
 					) {

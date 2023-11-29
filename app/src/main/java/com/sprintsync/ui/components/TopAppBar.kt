@@ -3,6 +3,7 @@ package com.sprintsync.ui.components
 import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavController
+import com.sprintsync.ui.navigation.Screens
 
 @Composable
 fun TopAppBar(
@@ -11,11 +12,21 @@ fun TopAppBar(
 ) {
     when (route) {
         "homepage"       -> {
-            AvatarTopAppBar(title = "Home")
+            AvatarTopAppBar(
+                title = "Home",
+                navigationOnclick = {
+                    navController?.navigate(Screens.Profile.route)
+                }
+            )
         }
 
         "project_list"   -> {
-            AvatarTopAppBar(title = "Project")
+            AvatarTopAppBar(
+                title = "Project",
+                navigationOnclick = {
+                    navController?.navigate(Screens.Profile.route)
+                }
+            )
         }
 
         "detail_project" -> {
@@ -62,18 +73,30 @@ fun TopAppBar(
         }
 
         "calendar"       -> {
-            AvatarTopAppBar(title = "Calendar")
+            AvatarTopAppBar(
+                title = "Calendar",
+                navigationOnclick = {
+                    navController?.navigate(Screens.Profile.route)
+                }
+            )
         }
 
         "profile"        -> {
-            AvatarTopAppBar(title = "Profile", turnAvatar = false)
+            AvatarTopAppBar(
+                title = "Profile",
+                turnAvatar = false,
+                navigationOnclick = {
+                    navController?.navigate(Screens.Profile.route)
+                }
+            )
         }
 
         "task/{taskId}"  -> {
             TwoIconTopAppBar(
                 title = "Task",
-                navigationOnclick = { navController?.popBackStack()
-            })
+                navigationOnclick = {
+                    navController?.popBackStack()
+                })
         }
 
         else             -> {

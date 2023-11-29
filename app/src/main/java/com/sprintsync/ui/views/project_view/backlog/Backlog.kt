@@ -113,6 +113,7 @@ fun CurrentSprintView(
             navController = navController,
         )
     }
+    Divider()
     isNotActiveSprints?.forEach() { sprint ->
         SprintCard(
             sprint = sprint,

@@ -45,18 +45,18 @@ fun TaskListCard(task: TaskResDto, onClick: () -> Unit = { }) {
         .getDrawable(LocalContext.current, R.drawable.nice_avatar)
 
     when (task.statusIndex) {
-        1 -> {
+        0 -> {
             status = "To Do"
             backgroundColor = ToDoStatus
         }
 
-        2 -> {
+        1 -> {
             status = "In Progress"
             backgroundColor = InProgressStatus
         }
 
-        3 -> {
-            status = "Productivity"
+        2 -> {
+            status = "Done"
             backgroundColor = ProductivityStatus
         }
     }

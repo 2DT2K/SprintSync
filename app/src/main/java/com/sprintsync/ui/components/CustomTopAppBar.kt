@@ -76,7 +76,8 @@ fun TwoIconTopAppBar(
 fun AvatarTopAppBar(
     title: String,
     backgroundColor: Color = Color(0xFFFFFFFF),
-    turnAvatar: Boolean = true
+    turnAvatar: Boolean = true,
+    navigationOnclick: () -> Unit,
 ) {
     TopAppBar(
         colors = TopAppBarDefaults.mediumTopAppBarColors(
@@ -92,7 +93,9 @@ fun AvatarTopAppBar(
         navigationIcon = {
             if (turnAvatar) {
                 IconButton(
-                    onClick = { /*TODO*/ },
+                    onClick = {
+                        navigationOnclick()
+                    },
                     Modifier.size(40.dp)
                 ) {
                     Icon(

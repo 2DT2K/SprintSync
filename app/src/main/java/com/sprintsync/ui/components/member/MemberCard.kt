@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -45,7 +46,7 @@ fun MemberCard(
 //        member.id?.let { memberVM.getMemberRole(it, projectId) }
 //    }
 
-    val roleColor: Color = MaterialTheme.colorScheme.secondary
+    val roleColor: Color = MaterialTheme.colorScheme.secondaryContainer
     Surface {
         Row(
             modifier = Modifier
@@ -77,6 +78,7 @@ fun MemberCard(
                         color = MaterialTheme.colorScheme.onSurface,
                     )
                     Text(
+                        modifier = Modifier.widthIn(max = 180.dp),
                         text = member.email,
                         style = MaterialTheme.typography.bodyLarge,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -99,7 +101,7 @@ fun MemberCard(
                         text = it,
                         style = MaterialTheme.typography.labelMedium,
                         maxLines = 1,
-                        color = MaterialTheme.colorScheme.surface,
+                        color = MaterialTheme.colorScheme.onSecondaryContainer,
                     )
                 }
             }

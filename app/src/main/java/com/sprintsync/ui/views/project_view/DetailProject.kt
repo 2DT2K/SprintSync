@@ -67,7 +67,7 @@ fun DetailProject(navController: NavController? = null) {
                 color = MaterialTheme.colorScheme.onSurface,
             )
         }
-        SearchBar(placeHolder = "Search in this project", onValueChange = { text = it })
+        SearchBar(placeHolder = "Search in this project", onValueChange = { text = it }, isDisable = true)
         LazyVerticalGrid(
             columns = GridCells.Fixed(3),
             verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.default),
