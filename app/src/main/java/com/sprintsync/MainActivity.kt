@@ -49,7 +49,6 @@ import com.sprintsync.ui.views.auth.PasswordResetView
 import com.sprintsync.ui.views.auth.SignInView
 import com.sprintsync.ui.views.auth.SignUpView
 import com.sprintsync.ui.views.auth.VerifyAccount
-import com.sprintsync.ui.views.fakeTask
 import com.sprintsync.ui.views.profile.ProfileScreen
 import com.sprintsync.ui.views.project_view.DetailProject
 import com.sprintsync.ui.views.project_view.ProjectList

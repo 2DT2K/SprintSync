@@ -25,7 +25,6 @@ import com.sprintsync.R
 import com.sprintsync.data.dtos.response.TaskResDto
 import com.sprintsync.ui.components.TaskProcess
 import com.sprintsync.ui.theme.spacing
-import com.sprintsync.ui.views.fakeTask
 
 
 class SubTask(

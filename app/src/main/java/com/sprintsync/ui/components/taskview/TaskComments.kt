@@ -26,6 +26,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.sprintsync.R
+import com.sprintsync.data.dtos.CommentDto
 import com.sprintsync.data.dtos.response.CommentResDto
 import com.sprintsync.ui.components.Comment
 import com.sprintsync.ui.components.CommentTextField

@@ -2,6 +2,7 @@ package com.sprintsync.data.view_models
 
 import com.sprintsync.data.api.CommentAPI
 import com.sprintsync.data.dtos.CommentDto
+import com.sprintsync.data.dtos.response.CommentResDto
 import com.sprintsync.data.view_models.state.State
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -10,7 +11,7 @@ import javax.inject.Inject
 @HiltViewModel
 class CommentViewModel @Inject constructor(
 	private val service: CommentAPI
-) : AbstractViewModel<CommentDto>() {
+) : AbstractViewModel<CommentResDto>() {
 	fun getComment(id: String) {
 		scope.launch {
 			val response = service.getComment(id)

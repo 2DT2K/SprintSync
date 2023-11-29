@@ -10,16 +10,15 @@ data class TaskResDto(
     val name: String,
     val description: String? = null,
     val sprint: String,
-    val team: TeamDto,
+    val team: String?,
     val assignor: MemberDto,
     val assignees: List<MemberDto>,
     val parentTask: String? = null,
-    val subTasks: List<TaskResDto>? = null,
-    val attachments: List<AttachmentDto>? = null,
+    val attachments: List<String>? = null,
     val statusIndex: Int,
     val deadline: String? = null,
     val point: Int = 0,
-    val comments: List<CommentResDto>? = null,
+    val comments: List<String>? = null,
     val labels: List<String>? = null
 ) {
     fun toDto(): TaskDto {
@@ -28,15 +27,15 @@ data class TaskResDto(
             name = name,
             description = description,
             sprint = sprint,
-            team = team.id ?: "",
+            team = team?:"",
             assignor = assignor.id ?: "",
             assignees = assignees.map { it.id ?: "" },
             parentTask = parentTask,
-            attachments = attachments?.map { it.id ?: "" },
+            attachments = attachments,
             statusIndex = statusIndex,
             deadline = deadline,
             point = point,
-            comments = comments?.map { it.id ?: "" },
+            comments = comments,
             labels = labels,
         )
     }
