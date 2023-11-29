@@ -3,8 +3,9 @@
           xmlns:tools="http://schemas.android.com/tools">
 
 	<uses-permission android:name="android.permission.INTERNET" />
-	<uses-permission android:name="android.permission.WRITE_CALENDAR" />
-    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+	<uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+	<uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
 
 	<application
 		android:name=".CoreApp"
@@ -17,6 +18,23 @@
 		android:supportsRtl="true"
 		android:theme="@style/Theme.SprintSync"
 		tools:targetApi="31">
+		<meta-data
+			android:name="com.google.firebase.messaging.default_notification_icon"
+			android:resource="@drawable/notification" />
+
+		<service
+			android:name=".google_calendar.BackgroundService"
+			android:enabled="true"
+			android:exported="true"
+			android:permission="android.permission.BIND_JOB_SERVICE" />
+		<service
+			android:name=".google_calendar.MessageService"
+			android:exported="false">
+			<intent-filter>
+				<action android:name="com.google.firebase.MESSAGING_EVENT" />
+			</intent-filter>
+		</service>
+
 		<activity
 			android:name=".MainActivity"
 			android:exported="true"
