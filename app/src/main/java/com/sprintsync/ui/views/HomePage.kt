@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.sprintsync.data.auth.Authenticator
 import com.sprintsync.data.view_models.MemberViewModel
 import com.sprintsync.ui.components.homepage.HomePageIssue
 import com.sprintsync.ui.components.homepage.HomePageViews
@@ -26,11 +27,12 @@ fun HomePage() {
 
 	LaunchedEffect(Unit) {
 		val sharedPref = context.getSharedPreferences("device", Context.MODE_PRIVATE)
+		val uid = Authenticator.signedInUser?.uid ?: return@LaunchedEffect
+		if (sharedPref.contains(uid)) return@LaunchedEffect
 		val token = sharedPref.getString("token", null) ?: return@LaunchedEffect
-
 		memberVM.addDevice(token)
 		val editor = sharedPref.edit()
-		editor.remove("token")
+		editor.putString(uid, "")
 		editor.apply()
 	}
 

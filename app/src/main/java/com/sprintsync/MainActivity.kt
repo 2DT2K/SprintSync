@@ -21,10 +21,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.core.app.ActivityCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import com.sprintsync.data.auth.Authenticator
 import com.sprintsync.data.view_models.BacklogViewModel
 import com.sprintsync.data.view_models.ProjectViewViewModel
@@ -48,6 +51,8 @@ import com.sprintsync.ui.views.project_view.file_view.FileView
 import com.sprintsync.ui.views.project_view.member.Member
 import com.sprintsync.ui.views.project_view.tasklist.TaskListView
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 
 
 @AndroidEntryPoint
@@ -55,6 +60,16 @@ class MainActivity : ComponentActivity() {
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		installSplashScreen()
+
+		lifecycleScope.launch {
+			try {
+				Firebase.auth.currentUser
+					?.reload()
+					?.await()
+			}
+			catch (_: Exception) {
+			}
+		}
 
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
 			val permissions = arrayOf(android.Manifest.permission.POST_NOTIFICATIONS)
@@ -69,17 +84,19 @@ class MainActivity : ComponentActivity() {
 fun MainContent() {
 	val navController = rememberNavController()
 
-	var showBar by remember { mutableStateOf(false) }
+	var showTopBar by remember { mutableStateOf(false) }
+	var showBottomBar by remember { mutableStateOf(false) }
 	var route by remember { mutableStateOf("") }
 
 	navController.addOnDestinationChangedListener { _, dest, _ ->
-		showBar = dest.route !in listOf("sign_in", "sign_up", "password_reset", "verify_account")
+		showTopBar = dest.route !in listOf("sign_in", "sign_up", "verify_account")
+		showBottomBar = dest.route !in listOf("sign_in", "sign_up", "password_reset", "verify_account")
 		route = dest.route ?: ""
 	}
 
 	Scaffold(
-		topBar = { if (showBar) TopAppBar(route, navController) },
-		bottomBar = { if (showBar) BottomNavigation(navController) }
+		topBar = { if (showTopBar) TopAppBar(route, navController) },
+		bottomBar = { if (showBottomBar) BottomNavigation(navController) }
 	) { paddingValues ->
 		Surface(
 			modifier = Modifier
@@ -88,7 +105,11 @@ fun MainContent() {
 		) {
 			NavHost(
 				navController = navController,
-				startDestination = if (Authenticator.signedIn) Screens.HomeRoute.route else Screens.Signin.route,
+				startDestination = when {
+					!Authenticator.signedIn               -> Screens.Signin.route
+					Authenticator.signedInUser!!.verified -> Screens.HomeRoute.route
+					else                                  -> Screens.VerifyAccount.route
+				},
 				enterTransition = { EnterTransition.None },
 				exitTransition = { ExitTransition.None }
 			) {

@@ -1,5 +1,6 @@
 package com.sprintsync.ui.views.auth
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -48,8 +49,18 @@ fun SignUpView(navController: NavController? = null) {
 	var confirmPasswordError by remember { mutableStateOf("") }
 
 	LaunchedEffect(authState) {
-		if (authState.signedIn) navController?.navigate(Screens.HomeRoute.route)
-//		TODO: Add error handling
+		if (authState.signedIn) navController?.navigate(Screens.VerifyAccount.route)
+		else {
+			Log.e("SignUpView", authState.errorMessage.toString())
+			emailError = "Invalid email"
+			passwordError = "Invalid password"
+		}
+	}
+
+	LaunchedEffect(email, password, confirmPassword) {
+		emailError = ""
+		passwordError = ""
+		confirmPasswordError = ""
 	}
 
 	Surface {
@@ -93,7 +104,8 @@ fun SignUpView(navController: NavController? = null) {
 
 				PasswordField(
 					onValueChange = { password = it },
-					errorText = passwordError
+					errorText = passwordError,
+					isError = emailError.isNotEmpty()
 				)
 
 				PasswordField(
@@ -114,7 +126,18 @@ fun SignUpView(navController: NavController? = null) {
 
 				Surface(modifier = Modifier.weight(1f)) {
 					SignUpButtonGroup(
-						signUp = { authVM.signUp(email, password) },
+						signUp = {
+							if (email.isNotEmpty() && password.isNotEmpty() && confirmPassword == password) {
+								authVM.signUp(email, password)
+								return@SignUpButtonGroup
+							}
+							when {
+								email.isEmpty() -> emailError = "Email is required"
+								password.isEmpty() -> passwordError = "Password is required"
+								confirmPassword.isEmpty() -> confirmPasswordError = "Confirm Password is required"
+								confirmPassword != password -> confirmPasswordError = "Password does not match"
+							}
+						},
 						signIn = { navController?.popBackStack() }
 					)
 				}

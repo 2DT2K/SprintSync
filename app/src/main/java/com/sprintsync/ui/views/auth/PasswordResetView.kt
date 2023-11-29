@@ -146,7 +146,7 @@ fun PasswordResetView(navController: NavController? = null) {
 						.height(48.dp),
 					shape = RoundedCornerShape(40),
 					colors = ButtonDefaults.buttonColors(containerColor = Purple40),
-					onClick = { authVM.resetPassword(email) }
+					onClick = { authVM.resetPassword(email) { navController?.popBackStack() } }
 				) {
 					Text(
 						text = "Submit",

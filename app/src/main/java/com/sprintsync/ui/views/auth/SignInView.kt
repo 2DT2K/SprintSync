@@ -1,6 +1,7 @@
 package com.sprintsync.ui.views.auth
 
 import android.app.Activity.RESULT_OK
+import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
@@ -29,6 +30,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.sprintsync.R
+import com.sprintsync.data.auth.Authenticator
 import com.sprintsync.data.view_models.AuthViewModel
 import com.sprintsync.ui.components.auth.EmailField
 import com.sprintsync.ui.components.auth.PasswordField
@@ -56,8 +58,19 @@ fun SignInView(navController: NavController? = null) {
 	}
 
 	LaunchedEffect(authState) {
-		if (authState.signedIn) navController?.navigate(Screens.Homepage.route)
-//		TODO: Add error handling
+		if (authState.signedIn) navController?.navigate(
+			if (Authenticator.signedInUser!!.verified) Screens.Homepage.route else Screens.VerifyAccount.route
+		)
+		else {
+			Log.e("SignInView", authState.errorMessage.toString())
+			emailError = "Invalid email"
+			passwordError = "Invalid password"
+		}
+	}
+
+	LaunchedEffect(email, password) {
+		emailError = ""
+		passwordError = ""
 	}
 
 	Surface {
@@ -129,7 +142,16 @@ fun SignInView(navController: NavController? = null) {
 				horizontalAlignment = Alignment.CenterHorizontally
 			) {
 				SignInButtonGroup(
-					signInWithPassword = { authVM.signIn(email, password) },
+					signInWithPassword = {
+						if (email.isNotEmpty() && password.isNotEmpty()) {
+							authVM.signIn(email, password)
+							return@SignInButtonGroup
+						}
+						when {
+							email.isEmpty() -> emailError = "Please enter email"
+							password.isEmpty() -> passwordError = "Please enter password"
+						}
+					},
 					signInWithGoogle = { authVM.signIn(launcher) },
 					signUp = { navController?.navigate(Screens.Signup.route) }
 				)

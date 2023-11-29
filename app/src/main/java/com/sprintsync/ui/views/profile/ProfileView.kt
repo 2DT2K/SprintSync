@@ -56,6 +56,7 @@ fun ProfileScreen(navController: NavController? = null) {
 	)
 
 	val actions = listOf(
+		Setting(R.drawable.lock, "Trigger Consent") {},
 		Setting(R.drawable.flag, "Report a problem"),
 		Setting(R.drawable.logout, "Log out") { authVM.signOut() },
 	)

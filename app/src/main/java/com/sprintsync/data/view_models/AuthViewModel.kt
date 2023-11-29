@@ -56,8 +56,8 @@ class AuthViewModel @Inject constructor(
 		}
 	}
 
-	fun resetPassword(email: String) {
-		scope.launch { authenticator.resetPassword(email) }
+	fun resetPassword(email: String, callback: () -> Unit) {
+		scope.launch { authenticator.resetPassword(email); callback() }
 	}
 
 	fun verifyEmail() {

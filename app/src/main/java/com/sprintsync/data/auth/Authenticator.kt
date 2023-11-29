@@ -58,9 +58,8 @@ class Authenticator(context: Context) {
 
 			AuthState(user != null)
 		}
-//      TODO "Handle exceptions"
 		catch (e: Exception) {
-			Log.e("Auth", "Failed to sign up", e)
+			Log.e("Sign Up", e.message.toString())
 			if (e is CancellationException) throw e
 			AuthState(errorMessage = e.message)
 		}
@@ -75,9 +74,8 @@ class Authenticator(context: Context) {
 
 			AuthState(user != null)
 		}
-//      TODO "Handle exceptions"
 		catch (e: Exception) {
-			Log.e("Auth", "Failed to sign in", e)
+			Log.e("Sign In", e.message.toString())
 			if (e is CancellationException) throw e
 			AuthState(errorMessage = e.message)
 		}
@@ -89,10 +87,10 @@ class Authenticator(context: Context) {
 				.sendPasswordResetEmail(email)
 				.await()
 		}
-//      TODO "Handle exceptions"
 		catch (e: Exception) {
-			Log.e("Auth", "Failed to reset password", e)
+			Log.e("Reset Password", e.message.toString())
 			if (e is CancellationException) throw e
+			AuthState(errorMessage = e.message)
 		}
 	}
 
@@ -103,9 +101,8 @@ class Authenticator(context: Context) {
 				.beginSignIn(signInRequest)
 				.await()
 		}
-//      TODO "Handle exceptions"
 		catch (e: Exception) {
-			Log.e("Auth", "Failed to get intent sender", e)
+			Log.e("Get Intent Sender", e.message.toString())
 			if (e is CancellationException) throw e
 			null
 		}?.pendingIntent?.intentSender
@@ -123,9 +120,8 @@ class Authenticator(context: Context) {
 
 			AuthState(user != null)
 		}
-//      TODO "Handle exceptions"
 		catch (e: Exception) {
-			Log.e("Auth", "Failed to sign in with intent", e)
+			Log.e("Google Sign In", e.message.toString())
 			if (e is CancellationException) throw e
 			AuthState(errorMessage = e.message)
 		}
@@ -139,9 +135,8 @@ class Authenticator(context: Context) {
 				?.sendEmailVerification()
 				?.await()
 		}
-//      TODO "Handle exceptions"
 		catch (e: Exception) {
-			Log.e("Auth", "Failed to verify email", e)
+			Log.e("Verify Email", e.message.toString())
 			if (e is CancellationException) throw e
 		}
 	}
@@ -154,9 +149,8 @@ class Authenticator(context: Context) {
 				.signOut()
 				.await()
 		}
-//      TODO "Handle exceptions"
 		catch (e: Exception) {
-			Log.e("Auth", "Failed to sign out", e)
+			Log.e("Sign Out", e.message.toString())
 			if (e is CancellationException) throw e
 		}
 	}
