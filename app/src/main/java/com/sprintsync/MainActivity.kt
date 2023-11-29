@@ -204,7 +204,7 @@ fun MainContent() {
                                     tween(500)
                                 )
                             }
-                        ) { BoardView(chosenProject?.id, chosenProject?.labels) }
+                        ) { BoardView(chosenProject?.id, chosenProject?.statuses) }
                         composable(
                             Screens.Backlog.route,
                             enterTransition = {

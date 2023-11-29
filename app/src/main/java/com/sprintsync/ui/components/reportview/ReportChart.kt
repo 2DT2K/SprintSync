@@ -13,7 +13,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import com.patrykandpatrick.vico.core.entry.FloatEntry
 import com.patrykandpatrick.vico.core.entry.entryModelOf
 import com.sprintsync.data.dtos.SprintDto
@@ -31,7 +30,7 @@ fun ReportChart(
     val listOfCompleteTask = mutableListOf<FloatEntry>()
     val listOfIncompleteTask = mutableListOf<FloatEntry>()
 
-
+    var xValue = 0;
     chartData?.forEach {
         var completeTask = 0;
         it.forEach { it1 ->
@@ -41,10 +40,11 @@ fun ReportChart(
                 }
             }
         }
-        listOfCompleteTask.add(FloatEntry(0f, completeTask.toFloat()))
+        listOfCompleteTask.add(FloatEntry(xValue.toFloat(), completeTask.toFloat()))
         listOfIncompleteTask.add(
-            FloatEntry(0f, (it.size - completeTask).toFloat())
+            FloatEntry(xValue.toFloat(), (it.size - completeTask).toFloat())
         )
+        xValue +=1;
     }
 
     val chartEntryModel = entryModelOf(listOfCompleteTask, listOfIncompleteTask)
