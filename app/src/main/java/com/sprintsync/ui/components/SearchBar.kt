@@ -3,14 +3,12 @@ package com.sprintsync.ui.components
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -26,7 +24,11 @@ import com.sprintsync.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SearchBar(placeHolder: String, onValueChange: ((String) -> Unit)? = null) {
+fun SearchBar(
+    placeHolder: String,
+    onValueChange: ((String) -> Unit)? = null,
+    isDisable: Boolean = false
+) {
     var searchTerm by remember { mutableStateOf("") }
 
     val interactionSource = remember { MutableInteractionSource() }
@@ -36,7 +38,7 @@ fun SearchBar(placeHolder: String, onValueChange: ((String) -> Unit)? = null) {
             searchTerm = it
             onValueChange?.invoke(it)
         },
-        enabled = true,
+        enabled = !isDisable,
         singleLine = true,
         visualTransformation = VisualTransformation.None,
         modifier = Modifier.fillMaxWidth(),
@@ -49,7 +51,12 @@ fun SearchBar(placeHolder: String, onValueChange: ((String) -> Unit)? = null) {
             enabled = true,
             singleLine = true,
             visualTransformation = VisualTransformation.None,
-            placeholder = { Text(text = placeHolder, style = MaterialTheme.typography.labelLarge) },
+            placeholder = {
+                Text(
+                    text = if (isDisable) "Under construction" else placeHolder,
+                    style = MaterialTheme.typography.labelLarge
+                )
+            },
             leadingIcon = {
                 Icon(painterResource(id = R.drawable.search), contentDescription = "search bar")
             },

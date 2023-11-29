@@ -42,7 +42,6 @@ import com.sprintsync.ui.components.SimpleMemberInfor
 import com.sprintsync.ui.components.TagPopUp
 import com.sprintsync.ui.theme.spacing
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MoreInformation(
     updateState: (TaskDto) -> Unit,

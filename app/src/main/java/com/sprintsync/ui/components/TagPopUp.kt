@@ -6,7 +6,6 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -52,7 +51,8 @@ fun TagPopUp(
     taskDetails: TaskDto
 ) {
     AlertDialog(
-        onDismissRequest = { onDismissRequest() }, properties = DialogProperties(
+        onDismissRequest = { onDismissRequest() },
+        properties = DialogProperties(
             usePlatformDefaultWidth = false // disable the default size so that we can customize it
         )
     ) {
@@ -66,22 +66,24 @@ fun TagPopUp(
         var finalTagList by remember {
             mutableStateOf(currentTaskDetails.labels)
         }
-        Box(modifier = Modifier
-            .background(Color.Black.copy(alpha = 0.5f))
-            .fillMaxSize()
-            .clickable { onDismissRequest() }
-            .padding(top = 120.dp)
+        Column(
+            modifier = Modifier
+                .padding(start = 32.dp, end = 32.dp) // margin
+                .background(color = Color.White, shape = RoundedCornerShape(16.dp))
+                .padding(top = 32.dp, bottom = 32.dp) // inner padding
+                .clickable { onDismissRequest() },
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
             val interactionSource = remember { MutableInteractionSource() }
             Column(
                 modifier = Modifier
                     .background(
-                        color = MaterialTheme.colorScheme.secondaryContainer,
+                        color = Color.White,
                         shape = RoundedCornerShape(size = 16.dp)
                     )
                     .width(300.dp)
                     .padding(MaterialTheme.spacing.medium)
-                    .align(alignment = Alignment.TopCenter)
                     .clickable(
                         interactionSource = interactionSource,
                         indication = null

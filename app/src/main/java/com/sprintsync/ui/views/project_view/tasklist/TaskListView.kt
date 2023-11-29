@@ -4,6 +4,8 @@ import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
@@ -40,12 +42,14 @@ fun TaskListView(projectID: String?, navController: NavController? = null) {
         }
     }
 
-    Surface {
+    Surface(
+        modifier = Modifier.verticalScroll(rememberScrollState()),
+    ) {
         if (isLoading) {
             LoadingDialog(alertText = "Loading...")
         }
         Column {
-            SearchBar(placeHolder = "Search a task")
+            SearchBar(placeHolder = "Search a task", isDisable = true)
             Spacer(modifier = Modifier.height(MaterialTheme.spacing.medium))
             sprintState.dtoList?.forEach() {
                 taskState.dtoList?.let { jt ->

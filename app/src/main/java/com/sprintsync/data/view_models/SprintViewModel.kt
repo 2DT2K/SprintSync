@@ -1,5 +1,6 @@
 package com.sprintsync.data.view_models
 
+import android.annotation.SuppressLint
 import com.sprintsync.data.api.SprintAPI
 import com.sprintsync.data.dtos.SprintDto
 import com.sprintsync.data.dtos.response.ReportChartDto
@@ -45,7 +46,7 @@ class SprintViewModel @Inject constructor(
         }
     }
 
-	fun getActiveSprintByProject(id:String) {
+    fun getActiveSprintByProject(id:String) {
         setLoading(true)
 		scope.launch {
 			val response = service.getActiveSprintByProject(id)
@@ -80,7 +81,7 @@ class SprintViewModel @Inject constructor(
     fun updateSprint(dto: SprintDto) {
         scope.launch {
             val response = service.updateSprint(dto)
-            update(State(dto = response.data, error = response.err))
+            update(State(dto = response.data, dtoList = state.value.dtoList, error = response.err))
         }
     }
 
