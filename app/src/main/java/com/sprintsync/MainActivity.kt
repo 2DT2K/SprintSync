@@ -1,5 +1,6 @@
 package com.sprintsync
 
+import android.content.Context
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -73,12 +74,12 @@ class MainActivity : ComponentActivity() {
 			ActivityCompat.requestPermissions(this, permissions, 0)
 		}
 
-		setContent { SprintSyncTheme { MainContent() } }
+		setContent { SprintSyncTheme { MainContent(context = this) } }
 	}
 }
 
 @Composable
-fun MainContent() {
+fun MainContent(context: Context) {
     val projectVM = hiltViewModel<ProjectViewModel>()
     val memberVM = hiltViewModel<MemberViewModel>()
     val projectState by projectVM.state.collectAsStateWithLifecycle()
@@ -244,7 +245,7 @@ fun MainContent() {
                                     tween(500)
                                 )
                             }
-                        ) { FileView(chosenProject?.id) }
+                        ) { FileView(chosenProject?.id, context = context) }
                         composable(
                             Screens.Tasks.route,
                             enterTransition = {

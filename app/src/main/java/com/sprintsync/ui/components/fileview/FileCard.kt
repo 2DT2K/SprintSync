@@ -1,5 +1,6 @@
 package com.sprintsync.ui.components.fileview
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -35,7 +36,8 @@ import java.time.format.DateTimeFormatter
 
 @Composable
 fun FileCard(
-    file: AttachmentResDto
+    file: AttachmentResDto,
+    onClick: (name: String, content: String) -> Unit,
 ) {
     // TODO: add more file type to icon
     val icon: Int = when (file.fileType) {
@@ -59,7 +61,8 @@ fun FileCard(
                     bottom = MaterialTheme.spacing.default,
                 )
                 .fillMaxWidth()
-                 .wrapContentHeight(),
+                .wrapContentHeight()
+                .clickable { onClick(file.name, file.content) },
             horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.default),
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -103,14 +106,5 @@ fun FileCard(
                 }
             }
         }
-    }
-}
-
-
-@Preview(showBackground = true)
-@Composable
-fun FileViewPreview() {
-    SprintSyncTheme {
-        FileView()
     }
 }
