@@ -30,6 +30,7 @@ import androidx.navigation.NavController
 import com.sprintsync.R
 import com.sprintsync.data.dtos.SprintDto
 import com.sprintsync.data.view_models.TaskViewModel
+import com.sprintsync.ui.components.backlog.TaskDialog
 import com.sprintsync.ui.theme.spacing
 
 
@@ -37,7 +38,7 @@ import com.sprintsync.ui.theme.spacing
 fun TaskListSprintCard(sprint: SprintDto, navController: NavController? = null) {
     val taskVM = hiltViewModel<TaskViewModel>()
     val taskState by taskVM.state.collectAsStateWithLifecycle()
-    var isOpen by remember { mutableStateOf(true) }
+    var isOpen by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
         sprint.id?.let {
@@ -87,6 +88,7 @@ fun TaskListSprintCard(sprint: SprintDto, navController: NavController? = null) 
                         navController?.navigate("task")
                     }
                 }
+                TaskDialog(sprint) { taskVM.addTask(it) }
             }
         }
     }

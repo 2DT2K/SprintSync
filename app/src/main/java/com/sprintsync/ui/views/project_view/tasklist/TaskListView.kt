@@ -1,5 +1,6 @@
 package com.sprintsync.ui.views.project_view.tasklist
 
+import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
@@ -35,6 +36,7 @@ fun TaskListView(projectID: String?, navController: NavController? = null) {
             SearchBar(placeHolder = "Search a task")
             Spacer(modifier = Modifier.height(MaterialTheme.spacing.medium))
             sprintState.dtoList?.forEach() {
+                Log.e("Sprint", it.toString())
                 TaskListSprintCard(it, navController)
             }
         }

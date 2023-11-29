@@ -62,7 +62,7 @@ fun TaskDialog(sprint: SprintDto, onAddTask: (TaskDto) -> Unit) {
 
         Spacer(modifier = Modifier.width(8.dp))
 
-        Text(text = "Create")
+        Text(text = "Create Task")
     }
 
     if (isTaskDialogOpen) {
@@ -75,12 +75,14 @@ fun TaskDialog(sprint: SprintDto, onAddTask: (TaskDto) -> Unit) {
             )
         ) {
             Card(
-                modifier = Modifier.verticalScroll(rememberScrollState()),
+                modifier = Modifier
+                    .verticalScroll(rememberScrollState())
+                    .width(360.dp)
+                    .padding(MaterialTheme.spacing.medium),
                 shape = RoundedCornerShape(16.dp),
                 colors = CardDefaults.cardColors(
                     containerColor = MaterialTheme.colorScheme.secondaryContainer
                 ),
-                elevation = CardDefaults.cardElevation(10.dp),
             ) {
                 Column(
                     modifier = Modifier
@@ -189,7 +191,7 @@ fun SprintDialog(projectID: String, onAddSprint: (SprintDto) -> Unit) {
 
         Spacer(modifier = Modifier.width(8.dp))
 
-        Text(text = "Create")
+        Text(text = "Create Sprint")
     }
 
     if (isSprintDialogOpen) {
