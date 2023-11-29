@@ -6,6 +6,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 class RetrofitSingleton private constructor() {
 	private val okHttpClient = okhttp3.OkHttpClient
 		.Builder()
+		.readTimeout(60, java.util.concurrent.TimeUnit.SECONDS)
 		.addInterceptor(RetrofitInterceptor())
 		.build()
 
@@ -19,7 +20,6 @@ class RetrofitSingleton private constructor() {
 	companion object {
 		@Volatile
 		private var instance: RetrofitSingleton? = null
-
 		fun getInstance(): RetrofitSingleton =
 			instance ?: synchronized(this) {
 				instance ?: RetrofitSingleton().also { instance = it }

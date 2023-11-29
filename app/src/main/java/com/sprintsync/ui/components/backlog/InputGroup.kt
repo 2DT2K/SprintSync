@@ -38,13 +38,18 @@ fun InputGroup(
                 onClick = {}
             ),
         value = value,
-        leadingIcon = {
-            Text(
-                modifier = Modifier.offset(x = 15.dp),
-                text = initialValue,
-                style = MaterialTheme.typography.bodyLarge,
-                color = MaterialTheme.colorScheme.onSecondaryContainer
-            )
+        leadingIcon =
+        if (initialValue != "") {
+            {
+                Text(
+                    modifier = Modifier.offset(x = 8.dp),
+                    text = initialValue,
+                    style = MaterialTheme.typography.bodyLarge,
+                    color = MaterialTheme.colorScheme.onSecondaryContainer
+                )
+            }
+        } else {
+            null
         },
         onValueChange = { onValueChange(it) },
         keyboardOptions = KeyboardOptions(

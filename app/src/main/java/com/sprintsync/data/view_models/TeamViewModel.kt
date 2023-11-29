@@ -33,6 +33,13 @@ class TeamViewModel @Inject constructor(
 		}
 	}
 
+	fun addMember(email: String, teamId: String) {
+		scope.launch {
+			val response = service.addMember(email, teamId)
+			update(State(message = response.data, error = response.err))
+		}
+	}
+
 	fun updateTeam(dto: TeamDto) {
 		scope.launch {
 			val response = service.updateTeam(dto)

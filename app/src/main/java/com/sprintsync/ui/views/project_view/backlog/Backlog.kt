@@ -1,6 +1,5 @@
 package com.sprintsync.ui.views.project_view.backlog
 
-import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.clickable
@@ -15,7 +14,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Button
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -28,30 +26,31 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavController
 import com.sprintsync.R
 import com.sprintsync.data.dtos.SprintDto
-import com.sprintsync.data.view_models.BacklogViewModel
+import com.sprintsync.data.dtos.TaskDto
+import com.sprintsync.data.dtos.response.TaskResDto
 import com.sprintsync.data.view_models.SprintViewModel
 import com.sprintsync.data.view_models.TaskViewModel
 import com.sprintsync.ui.components.backlog.SprintCard
 import com.sprintsync.ui.components.backlog.SprintDialog
 import com.sprintsync.ui.theme.Grey40
-import com.sprintsync.ui.theme.SprintSyncTheme
-import java.time.LocalDate
-import java.time.LocalDateTime
 
 @Composable
-fun Backlog(projectID: String?) {
+fun Backlog(projectID: String?, navController: NavController? = null) {
     val sprintVM = hiltViewModel<SprintViewModel>()
     val sprintState by sprintVM.state.collectAsStateWithLifecycle()
+    val taskVM = hiltViewModel<TaskViewModel>()
+    val taskState by taskVM.state.collectAsStateWithLifecycle()
 
     LaunchedEffect(Unit) {
         if (projectID != null) {
             sprintVM.getSprintsOfProject(projectID)
+            taskVM.getTasksOfProject(projectID)
         }
     }
 
@@ -65,22 +64,52 @@ fun Backlog(projectID: String?) {
             SprintDialog(projectID = projectID, onAddSprint = { sprintVM.addSprint(it) })
         }
         //TODO: wait for active sprint api
-        CurrentSprintView(sprintState.dtoList)
-        IsDoneSprintView(sprintState.dtoList)
+        taskState.dtoList?.let {
+            CurrentSprintView(
+                sprintState.dtoList,
+                it,
+                onAddTask = { task -> taskVM.addTask(task) },
+                navController = navController
+            )
+        }
+        taskState.dtoList?.let {
+            IsDoneSprintView(
+                sprintState.dtoList,
+                it,
+                onAddTask = { task -> taskVM.addTask(task) },
+                navController = navController
+            )
+        }
     }
 }
 
 @Composable
-fun CurrentSprintView(currentSprint: List<SprintDto>?) {
+fun CurrentSprintView(
+    currentSprint: List<SprintDto>?,
+    taskList: List<TaskResDto>,
+    onAddTask: (TaskDto) -> Unit,
+    navController: NavController? = null
+) {
     currentSprint?.forEach() { sprint ->
-        SprintCard(sprint = sprint, isActive = true)
+        SprintCard(
+            sprint = sprint,
+            taskList = taskList,
+            isActive = true,
+            onAddTask = onAddTask,
+            navController = navController
+        )
     }.let {
         if (it != null) Divider()
     }
 }
 
 @Composable
-fun IsDoneSprintView(doneSprints: List<SprintDto>?) {
+fun IsDoneSprintView(
+    doneSprints: List<SprintDto>?,
+    taskList: List<TaskResDto>,
+    onAddTask: (TaskDto) -> Unit,
+    navController: NavController? = null
+) {
     var isOpen by remember {
         mutableStateOf(false)
     }
@@ -131,19 +160,16 @@ fun IsDoneSprintView(doneSprints: List<SprintDto>?) {
         AnimatedVisibility(visible = isOpen) {
             Column {
                 doneSprints?.forEach() { sprint ->
-                    SprintCard(sprint = sprint)
+                    SprintCard(
+                        sprint = sprint,
+                        taskList = taskList,
+                        isActive = false,
+                        onAddTask = onAddTask,
+                        navController = navController
+                    )
                 }
             }
         }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun BacklogPreview() {
-    val backlogViewModel = BacklogViewModel("")
-    SprintSyncTheme {
-
     }
 }
 

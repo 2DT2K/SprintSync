@@ -1,68 +1,42 @@
 package com.sprintsync.ui.components.backlog
 
-import android.util.Log
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.DatePicker
-import androidx.compose.material3.DatePickerDialog
-import androidx.compose.material3.DisplayMode
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.OutlinedTextFieldDefaults
-import androidx.compose.material3.SnackbarHost
-import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
-import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
-import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.sprintsync.R
 import com.sprintsync.data.dtos.SprintDto
 import com.sprintsync.data.dtos.TaskDto
-import com.sprintsync.data.view_models.MemberViewModel
-import com.sprintsync.data.view_models.TeamViewModel
 import com.sprintsync.ui.theme.spacing
+import java.time.LocalDateTime
 
 @Composable
 fun TaskDialog(sprint: SprintDto, onAddTask: (TaskDto) -> Unit) {
@@ -70,7 +44,7 @@ fun TaskDialog(sprint: SprintDto, onAddTask: (TaskDto) -> Unit) {
     var isDropdownMenu by remember { mutableStateOf(false) }
     var taskName by remember { mutableStateOf("") }
     var taskDescription by remember { mutableStateOf("") }
-    var taskDeadline by remember { mutableStateOf("") }
+    var taskDeadline by remember { mutableStateOf(LocalDateTime.now().toString()) }
     var taskPoint by remember { mutableIntStateOf(0) }
 
     Row(
@@ -90,7 +64,7 @@ fun TaskDialog(sprint: SprintDto, onAddTask: (TaskDto) -> Unit) {
 
         Spacer(modifier = Modifier.width(8.dp))
 
-        Text(text = "Create")
+        Text(text = "Create Task")
     }
 
     if (isTaskDialogOpen) {
@@ -103,12 +77,14 @@ fun TaskDialog(sprint: SprintDto, onAddTask: (TaskDto) -> Unit) {
             )
         ) {
             Card(
-                modifier = Modifier.verticalScroll(rememberScrollState()),
+                modifier = Modifier
+                    .verticalScroll(rememberScrollState())
+                    .width(360.dp)
+                    .padding(MaterialTheme.spacing.medium),
                 shape = RoundedCornerShape(16.dp),
                 colors = CardDefaults.cardColors(
                     containerColor = MaterialTheme.colorScheme.secondaryContainer
                 ),
-                elevation = CardDefaults.cardElevation(10.dp),
             ) {
                 Column(
                     modifier = Modifier
@@ -158,16 +134,18 @@ fun TaskDialog(sprint: SprintDto, onAddTask: (TaskDto) -> Unit) {
                                     name = taskName,
                                     description = taskDescription,
                                     sprint = sprint.id,
-                                    team = "",
-                                    assignor = "it1.uid",
-                                    assignees = listOf(""),
-                                    parentTask = "",
-                                    attachments = listOf(""),
+                                    // TODO: add a team id (necessary)
+                                    // This is only a temporary solution
+                                    team = "6566a9fbf5f1813b134e9b60",
+                                    assignor = null,
+                                    assignees = emptyList(),
+                                    parentTask = null,
+                                    attachments = emptyList(),
                                     statusIndex = 0,
                                     deadline = taskDeadline,
                                     point = taskPoint,
-                                    comments = listOf(""),
-                                    labels = listOf(""),
+                                    comments = emptyList(),
+                                    labels = emptyList(),
                                 )
                             }
                             task?.let { onAddTask(it) }
@@ -218,7 +196,7 @@ fun SprintDialog(projectID: String, onAddSprint: (SprintDto) -> Unit) {
 
         Spacer(modifier = Modifier.width(8.dp))
 
-        Text(text = "Create")
+        Text(text = "Create Sprint")
     }
 
     if (isSprintDialogOpen) {
@@ -228,15 +206,17 @@ fun SprintDialog(projectID: String, onAddSprint: (SprintDto) -> Unit) {
             },
             properties = DialogProperties(
                 usePlatformDefaultWidth = false
-            )
+            ),
         ) {
             Card(
-                modifier = Modifier.verticalScroll(rememberScrollState()),
+                modifier = Modifier
+                    .verticalScroll(rememberScrollState())
+                    .width(360.dp)
+                    .padding(MaterialTheme.spacing.medium),
                 shape = RoundedCornerShape(16.dp),
                 colors = CardDefaults.cardColors(
                     containerColor = MaterialTheme.colorScheme.secondaryContainer
                 ),
-                elevation = CardDefaults.cardElevation(10.dp),
             ) {
                 Column(
                     modifier = Modifier
@@ -245,34 +225,41 @@ fun SprintDialog(projectID: String, onAddSprint: (SprintDto) -> Unit) {
                             vertical = MaterialTheme.spacing.default,
                             horizontal = MaterialTheme.spacing.medium
                         ),
-                    verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.default)
+                    verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.medium)
                 ) {
                     Text(
                         modifier = Modifier.align(Alignment.CenterHorizontally),
-                        text = "Add Task",
+                        text = "Add Sprint",
                         style = MaterialTheme.typography.titleLarge,
                         color = MaterialTheme.colorScheme.onSurface
                     )
+                    Column(
+                        modifier = Modifier.fillMaxWidth(),
+                        verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.default)
+                    ) {
+                        InputGroup(
+                            type = "number",
+                            title = "Name",
+                            initialValue = "Sprint ",
+                            value = if (sprintNumber != -1) "$sprintNumber" else "",
+                            onValueChange = {
+                                sprintNumber = it.toIntOrNull() ?: -1
+                            }
+                        )
 
-                    InputGroup(
-                        type = "number",
-                        title = "Name",
-                        initialValue = "Sprint:",
-                        value = if (sprintNumber != -1) "    $sprintNumber" else "    ",
-                        onValueChange = {
-                            sprintNumber = it.replace(" ", "").toIntOrNull() ?: -1
-                        })
-
-                    InputGroup(
-                        title = "Start Date",
-                        value = sprintStartDate,
-                        content = { DatePickerDialog { sprintStartDate = it } })
+                        InputGroup(
+                            title = "Start Date",
+                            value = sprintStartDate,
+                            content = { DatePickerDialog { sprintStartDate = it } }
+                        )
 
 
-                    InputGroup(
-                        title = "End Date",
-                        value = sprintEndDate,
-                        content = { DatePickerDialog { sprintEndDate = it } })
+                        InputGroup(
+                            title = "End Date",
+                            value = sprintEndDate,
+                            content = { DatePickerDialog { sprintEndDate = it } }
+                        )
+                    }
 
                     Button(
                         onClick = {
@@ -291,7 +278,7 @@ fun SprintDialog(projectID: String, onAddSprint: (SprintDto) -> Unit) {
                             .border(
                                 0.dp,
                                 Color.Transparent,
-                                RoundedCornerShape(3.dp)
+                                RoundedCornerShape(4.dp)
                             )
                             .align(Alignment.CenterHorizontally)
                     ) {

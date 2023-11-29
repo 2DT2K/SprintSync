@@ -20,6 +20,12 @@ interface TeamAPI {
 	@POST("teams")
 	suspend fun addTeam(@Body dto: TeamDto): ApiResponse<TeamResDto>
 
+	@POST("teams/add-member/{email}/team/{teamId}")
+	suspend fun addMember(
+		@Path("email") email: String,
+		@Path("teamId") teamId: String,
+	): ApiResponse<String>
+
 	@PATCH("teams")
 	suspend fun updateTeam(@Body dto: TeamDto): ApiResponse<TeamResDto>
 
