@@ -36,9 +36,9 @@ fun FileView(projectId: String? = null) {
         if (projectId != null) {
             attachmentVM.getAttachmentsOfProject(projectId)
         }
-        Log.d("log-bug-get-file", attachmentList.toString())
     }
 
+    Log.d("log-bug-get-file-1", projectId.toString())
     var searchTerm by remember {
         mutableStateOf("")
     }

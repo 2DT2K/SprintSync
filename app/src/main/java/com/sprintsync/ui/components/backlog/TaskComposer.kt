@@ -121,9 +121,7 @@ fun TaskComposer(
                 project = projectID ?: "",
                 fileType = "image/jpeg"
             )
-//
-//            attachmentVM.addAttachment(attachment)
-
+            attachmentVM.addAttachment(attachment)
             stream.close()
         }
     )
@@ -154,10 +152,6 @@ fun TaskComposer(
         }
     }
 
-    Column {
-        Text(text = "fasdfasd")
-        bitmap?.let { Image(bitmap= it.asImageBitmap(), contentDescription = "fads" ) }
-    }
     Box(modifier = Modifier) {
         CustomModalBottomSheet(
             isSheetShown = showBottomSheet,

@@ -51,6 +51,8 @@ fun Member(projectId: String?, userId: String?, getMyRole: (String) -> Unit, use
         }
     }
 
+    Log.d("log-bug-getmem",teamList.toString())
+
     //TODO: need to check role when backend have role
     var searchTerm by remember {
         mutableStateOf("")

@@ -31,6 +31,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
 import com.sprintsync.data.auth.Authenticator
+import com.sprintsync.data.view_models.AttachmentViewModel
 import com.sprintsync.data.view_models.MemberViewModel
 import com.sprintsync.data.view_models.ProjectViewModel
 import com.sprintsync.ui.components.BottomNavigation
@@ -77,7 +78,6 @@ fun MainContent() {
     val memberVM = hiltViewModel<MemberViewModel>()
     val projectState by projectVM.state.collectAsStateWithLifecycle()
     val memberState by memberVM.state.collectAsStateWithLifecycle()
-    val memberList = memberState.dtoList
     val chosenProject = projectState.dto
 
     val navController = rememberNavController()
@@ -86,12 +86,8 @@ fun MainContent() {
     var showFAB by remember { mutableStateOf(false) }
     var route by remember { mutableStateOf("") }
 
-    LaunchedEffect(Unit) {
-        memberVM.getMe()
-    }
     val userId = memberState.dto?.id
     val userRole = memberState.message
-    Log.d("log-bug-role",userRole.toString())
 
     navController.addOnDestinationChangedListener { _, dest, _ ->
         showBottomAndTopBar =
@@ -239,7 +235,7 @@ fun MainContent() {
                                     tween(500)
                                 )
                             }
-                        ) { FileView() }
+                        ) { FileView(chosenProject?.id) }
                         composable(
                             Screens.Tasks.route,
                             enterTransition = {
@@ -295,9 +291,7 @@ fun MainContent() {
                                 )
                             }
                         ) {
-                            if (userId != null ) {
-                                Member(chosenProject?.id, userId, { memberVM.getMe() }, userRole)
-                            }
+                            Member(chosenProject?.id, userId, { memberVM.getMe() }, userRole)
                         }
                         composable(
                             Screens.Reports.route,
