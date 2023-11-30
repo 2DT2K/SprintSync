@@ -36,7 +36,8 @@ class ProjectViewModel @Inject constructor(
 	fun addProject(dto: ProjectDto) {
 		scope.launch {
 			val response = service.addProject(dto)
-			update(State(dto = response.data, error = response.err))
+			update(State(dto = response.data, dtoList = state.value.dtoList, error = response.err))
+			response.data?.let { addToDtoList(it) }
 		}
 	}
 

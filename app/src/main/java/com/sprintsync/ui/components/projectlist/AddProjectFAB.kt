@@ -10,9 +10,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.res.painterResource
 import com.sprintsync.R
+import com.sprintsync.data.dtos.ProjectDto
 
 @Composable
-fun AddProjectFAB() {
+fun AddProjectFAB(onAddProject: (ProjectDto) -> Unit) {
     var isOpen by remember { mutableStateOf(false) }
     FloatingActionButton(
         onClick = {
@@ -26,5 +27,8 @@ fun AddProjectFAB() {
             contentDescription = "Add",
         )
     }
-    CreateProjectPopup(isOpen) { state -> isOpen = state }
+    CreateProjectPopup(
+        showBottomSheet = isOpen,
+        changeSheetState = { state -> isOpen = state },
+        onAddProject = { onAddProject(it) })
 }

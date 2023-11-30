@@ -65,17 +65,17 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-	override fun onCreate(savedInstanceState: Bundle?) {
-		super.onCreate(savedInstanceState)
-		installSplashScreen()
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        installSplashScreen()
 
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-			val permissions = arrayOf(android.Manifest.permission.POST_NOTIFICATIONS)
-			ActivityCompat.requestPermissions(this, permissions, 0)
-		}
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            val permissions = arrayOf(android.Manifest.permission.POST_NOTIFICATIONS)
+            ActivityCompat.requestPermissions(this, permissions, 0)
+        }
 
-		setContent { SprintSyncTheme { MainContent(context = this) } }
-	}
+        setContent { SprintSyncTheme { MainContent(context = this) } }
+    }
 }
 
 @Composable
@@ -113,7 +113,11 @@ fun MainContent(context: Context) {
         },
         floatingActionButton = {
             if (showFAB) {
-                if (route == "files") AddFileFAB(chosenProject?.id) else AddProjectFAB()
+                if (route == "files") AddFileFAB(chosenProject?.id) else AddProjectFAB(onAddProject = {
+                    projectVM.addProject(
+                        it
+                    )
+                })
             }
         },
         containerColor = MaterialTheme.colorScheme.surface,
@@ -152,11 +156,13 @@ fun MainContent(context: Context) {
                     popExitTransition = {
                         return@composable fadeOut(tween(500))
                     },
-                ) { HomePage(
-                    navController,
-                    projectState.dtoList ?: emptyList(),
-                    getMyProjects = { projectVM.getMyProjects() }
-                ) }
+                ) {
+                    HomePage(
+                        navController,
+                        projectState.dtoList ?: emptyList(),
+                        getMyProjects = { projectVM.getMyProjects() }
+                    )
+                }
                 navigation(
                     startDestination = Screens.Project.route,
                     route = Screens.ProjectRoute.route,
