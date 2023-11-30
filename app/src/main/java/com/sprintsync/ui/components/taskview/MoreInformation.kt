@@ -35,17 +35,17 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sprintsync.R
+import com.sprintsync.data.dtos.MemberDto
+import com.sprintsync.data.dtos.TaskDto
+import com.sprintsync.data.dtos.response.TaskResDto
 import com.sprintsync.ui.components.SimpleMemberInfor
 import com.sprintsync.ui.components.TagPopUp
 import com.sprintsync.ui.theme.spacing
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MoreInformation(
-    point: Number,
-    assigneeList: List<String>,
-    taskTag: List<String>,
-    reporter: String
+    updateState: (TaskDto) -> Unit,
+    taskDetails: TaskResDto,
 ) {
     var isDialogVisible by remember { mutableStateOf(false) }
     Column(
@@ -120,7 +120,8 @@ fun MoreInformation(
                     color = MaterialTheme.colorScheme.onPrimaryContainer,
                 )
                 Text(
-                    text = point.toString(), style = MaterialTheme.typography.labelMedium,
+                    text = taskDetails.point.toString(),
+                    style = MaterialTheme.typography.labelMedium,
                     color = MaterialTheme.colorScheme.onSecondaryContainer,
                 )
             }
@@ -145,8 +146,8 @@ fun MoreInformation(
                 ),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                assigneeList.forEach {
-                    SimpleMemberInfor(name = it)
+                taskDetails.assignees.forEach {
+                    SimpleMemberInfor(name = it.name)
                 }
             }
         }
@@ -173,9 +174,15 @@ fun MoreInformation(
                     .height(MaterialTheme.spacing.extraLarge)
             ) {
                 if (isDialogVisible) {
-                    TagPopUp({ isDialogVisible = false }, tagList = listOf("FE","HomePage"))
+                    taskDetails.labels?.let {
+                        TagPopUp(
+                            { isDialogVisible = false },
+                            taskDetails = taskDetails.toDto(),
+                            updateState = updateState
+                        )
+                    }
                 }
-                taskTag.forEach {
+                taskDetails.labels?.forEach {
                     SuggestionChip(
                         onClick = { /*TODO*/ },
                         label = { Text(it) },
@@ -235,19 +242,14 @@ fun MoreInformation(
                 ),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                SimpleMemberInfor(name = reporter)
+                SimpleMemberInfor(name = taskDetails.assignor.name)
             }
         }
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun MoreInformationPreview() {
-    MoreInformation(
-        70,
-        listOf("Nguyen Hai Dan", "Tran Chien Thang"),
-        listOf("Homepage", "FE"),
-        "Vo Tin Du"
-    )
-}
+//    @Preview(showBackground = true)
+//    @Composable
+//    fun MoreInformationPreview() {
+//
+//    }

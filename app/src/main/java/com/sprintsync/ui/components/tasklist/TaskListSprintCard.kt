@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
@@ -16,6 +15,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -23,17 +23,29 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavController
 import com.sprintsync.R
-import com.sprintsync.data.view_models.BacklogViewModel
-import com.sprintsync.ui.theme.Grey40
+import com.sprintsync.data.dtos.SprintDto
+import com.sprintsync.data.dtos.TaskDto
+import com.sprintsync.data.dtos.response.TaskResDto
+import com.sprintsync.data.view_models.TaskViewModel
+import com.sprintsync.ui.components.backlog.TaskDialog
 import com.sprintsync.ui.theme.spacing
 
 
 @Composable
-fun TaskListSprintCard(sprint: BacklogViewModel.Sprint) {
+fun TaskListSprintCard(
+    sprint: SprintDto,
+    navController: NavController? = null,
+    taskList: List<TaskResDto>,
+    onAddTask: (TaskDto) -> Unit
+) {
     var isOpen by remember { mutableStateOf(false) }
+
+    val tasksOfThisSprint = taskList.filter { it.sprint == sprint.id }
 
     Column(
         modifier = Modifier
@@ -45,14 +57,13 @@ fun TaskListSprintCard(sprint: BacklogViewModel.Sprint) {
             modifier = Modifier
                 .fillMaxWidth()
                 .clickable { isOpen = !isOpen }
-                .padding(vertical = 8.dp)
-                .height(24.dp),
+                .padding(vertical = MaterialTheme.spacing.default),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = sprint.sprintName,
+                text = "Sprint ${sprint.sprintNumber}",
+                style = MaterialTheme.typography.titleSmall,
                 color = MaterialTheme.colorScheme.onBackground,
-                fontWeight = FontWeight.Bold
             )
 
             Spacer(modifier = Modifier.weight(1.0f))
@@ -62,21 +73,24 @@ fun TaskListSprintCard(sprint: BacklogViewModel.Sprint) {
                 modifier = Modifier
                     .size(28.dp),
                 painter = painterResource(id = arrowIcon),
-                tint = Grey40,
+                tint = MaterialTheme.colorScheme.onBackground,
                 contentDescription = null
             )
         }
 
         AnimatedVisibility(visible = isOpen) {
             Column(
-                modifier = Modifier.padding(end = 8.dp),
                 verticalArrangement = Arrangement.spacedBy(
                     MaterialTheme.spacing.default
                 )
             ) {
-                sprint.task.forEach {
-                    TaskListCard(it)
+                tasksOfThisSprint.forEach {
+                    TaskListCard(it) {
+                        navController?.navigate("task/${it.id}")
+                    }
                 }
+                TaskDialog(sprint) { task ->
+                    onAddTask(task) }
             }
         }
     }

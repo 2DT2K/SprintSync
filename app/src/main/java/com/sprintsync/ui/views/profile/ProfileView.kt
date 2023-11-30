@@ -3,6 +3,7 @@ package com.sprintsync.ui.views.profile
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -11,7 +12,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Divider
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -39,11 +43,11 @@ import com.sprintsync.ui.theme.Purple20
 import com.sprintsync.ui.theme.SprintSyncTheme
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import com.sprintsync.ui.theme.spacing
 
 @Composable
 fun ProfileScreen(navController: NavController? = null) {
 	val user = Authenticator.signedInUser
-
 	val authVM = hiltViewModel<AuthViewModel>()
 	val authState by authVM.state.collectAsStateWithLifecycle()
 
@@ -57,7 +61,7 @@ fun ProfileScreen(navController: NavController? = null) {
 
 	val account = listOf(
 		Setting(R.drawable.edit, "Edit profile"),
-		Setting(R.drawable.notification, "Notifications"),
+		Setting(R.drawable.notification_oulined, "Notifications"),
 		Setting(R.drawable.dark_mode, "Turn on dark mode"),
 		Setting(R.drawable.language, "Language")
 	)
@@ -82,7 +86,7 @@ fun ProfileScreen(navController: NavController? = null) {
 		Setting(R.drawable.logout, "Log out") { authVM.signOut() },
 	)
 
-	Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+	Column(modifier = Modifier.verticalScroll(rememberScrollState()), verticalArrangement = Arrangement.spacedBy(12.dp)) {
 		Row(
 			modifier = Modifier
 				.padding(vertical = 8.dp)
@@ -102,24 +106,22 @@ fun ProfileScreen(navController: NavController? = null) {
 				Box(modifier = Modifier) {
 					Text(
 						text = user?.name ?: "",
-						fontSize = 16.sp,
-						fontWeight = FontWeight.Bold,
-						color = Purple20
+						style = MaterialTheme.typography.displaySmall,
+						color = MaterialTheme.colorScheme.onSurface
 					)
 				}
 
 				Box(modifier = Modifier) {
 					Text(
 						text = user?.email ?: "",
-						fontSize = 14.sp,
-						fontWeight = FontWeight(500),
-						color = Grey40
+						style = MaterialTheme.typography.bodyMedium,
+						color = MaterialTheme.colorScheme.onSurfaceVariant
 					)
 				}
 			}
 		}
 
-		Divider(modifier = Modifier.padding(horizontal = 12.dp))
+		Divider(modifier = Modifier.padding(horizontal = MaterialTheme.spacing.smallMedium))
 
 		ProfileSettingGroup(title = "Account", settings = account)
 

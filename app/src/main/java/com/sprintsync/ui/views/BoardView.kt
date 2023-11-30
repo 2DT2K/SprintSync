@@ -1,5 +1,6 @@
 package com.sprintsync.ui.views
 
+import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -16,37 +17,85 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavController
+import com.sprintsync.data.dtos.response.TaskResDto
+import com.sprintsync.data.view_models.SprintViewModel
+import com.sprintsync.data.view_models.TaskViewModel
+import com.sprintsync.ui.components.LoadingDialog
 import com.sprintsync.ui.components.boardview.BoardViewCategory
-import com.sprintsync.ui.components.boardview.fakedata
 import com.sprintsync.ui.theme.spacing
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun BoardView() {
-    var pageCount = 4
+fun BoardView(projectID: String?, statusList: List<String>?, navController: NavController? = null) {
+    val taskViewVM = hiltViewModel<TaskViewModel>()
+    val sprintVM = hiltViewModel<SprintViewModel>()
+    val tasksState by taskViewVM.state.collectAsStateWithLifecycle()
+    val activeSprint by sprintVM.activeSprint.collectAsStateWithLifecycle()
+    val isSprintLoading by sprintVM.isLoading.collectAsStateWithLifecycle()
+    val isTaskLoading by taskViewVM.isLoading.collectAsStateWithLifecycle()
+
+    val isLoading = isSprintLoading || isTaskLoading
+
+
+    LaunchedEffect(Unit) {
+        if (projectID != null) {
+            sprintVM.getActiveSprintByProject(projectID)
+        }
+    }
+
+    LaunchedEffect(activeSprint) {
+        activeSprint?.id?.let { taskViewVM.getTasksOfSprint(it) }
+    }
+
+
+    val pageCount = 3
+
     @OptIn(ExperimentalFoundationApi::class)
     val pagerState = rememberPagerState(pageCount = {
-        4
+        3
     })
     Box(
         Modifier
-            .fillMaxHeight()
+            .fillMaxHeight(),
+
     ) {
+        if (isLoading) {
+            LoadingDialog(alertText = "Loading...")
+        }
         HorizontalPager(
             state = pagerState,
             contentPadding = PaddingValues(MaterialTheme.spacing.medium),
+            verticalAlignment = Alignment.Top,
         ) {
+            val taskList = tasksState.dtoList
+            val taskListWithStatus = mutableListOf<TaskResDto>()
+            var numberOfTaskWithStatus = 0;
+            taskList?.forEach { it1 ->
+                if (it1.statusIndex == it) {
+                    numberOfTaskWithStatus += 1;
+                    taskListWithStatus.add(it1)
+                }
+            }
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.Center
             ) {
-                BoardViewCategory(boardviewCategory = fakedata)
+                BoardViewCategory(
+                    categoryName = statusList?.get(it),
+                    numberOfTask = numberOfTaskWithStatus,
+                    taskList = taskListWithStatus,
+                    navController = navController
+                )
             }
 
         }
@@ -76,5 +125,5 @@ fun BoardView() {
 @Preview(showBackground = true)
 @Composable
 fun BoardViewPreview() {
-	BoardView()
+    BoardView("6524172bb9f63b47c37b739e", listOf("Todo"))
 }

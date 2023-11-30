@@ -1,19 +1,25 @@
 package com.sprintsync
 
+import android.content.Context
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
 import androidx.compose.animation.core.tween
-import androidx.compose.animation.slideInHorizontally
-import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -21,24 +27,28 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.core.app.ActivityCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.lifecycle.lifecycleScope
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
 import com.sprintsync.data.auth.Authenticator
-import com.sprintsync.data.view_models.BacklogViewModel
-import com.sprintsync.data.view_models.ProjectViewViewModel
+import com.sprintsync.data.view_models.AttachmentViewModel
+import com.sprintsync.data.view_models.MemberViewModel
+import com.sprintsync.data.view_models.ProjectViewModel
 import com.sprintsync.ui.components.BottomNavigation
 import com.sprintsync.ui.components.TopAppBar
+import com.sprintsync.ui.components.fileview.AddFileFAB
+import com.sprintsync.ui.components.projectlist.AddProjectFAB
 import com.sprintsync.ui.navigation.Screens
 import com.sprintsync.ui.theme.SprintSyncTheme
+import com.sprintsync.ui.theme.spacing
 import com.sprintsync.ui.views.BoardView
 import com.sprintsync.ui.views.CalendarView
 import com.sprintsync.ui.views.HomePage
 import com.sprintsync.ui.views.ReportView
+import com.sprintsync.ui.views.TaskView
 import com.sprintsync.ui.views.auth.PasswordResetView
 import com.sprintsync.ui.views.auth.SignInView
 import com.sprintsync.ui.views.auth.SignUpView
@@ -51,8 +61,6 @@ import com.sprintsync.ui.views.project_view.file_view.FileView
 import com.sprintsync.ui.views.project_view.member.Member
 import com.sprintsync.ui.views.project_view.tasklist.TaskListView
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.tasks.await
 
 
 @AndroidEntryPoint
@@ -61,261 +69,300 @@ class MainActivity : ComponentActivity() {
 		super.onCreate(savedInstanceState)
 		installSplashScreen()
 
-		lifecycleScope.launch {
-			try {
-				Firebase.auth.currentUser
-					?.reload()
-					?.await()
-			}
-			catch (_: Exception) {
-			}
-		}
-
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
 			val permissions = arrayOf(android.Manifest.permission.POST_NOTIFICATIONS)
 			ActivityCompat.requestPermissions(this, permissions, 0)
 		}
 
-		setContent { SprintSyncTheme { MainContent() } }
+		setContent { SprintSyncTheme { MainContent(context = this) } }
 	}
 }
 
 @Composable
-fun MainContent() {
-	val navController = rememberNavController()
+fun MainContent(context: Context) {
+    val projectVM = hiltViewModel<ProjectViewModel>()
+    val memberVM = hiltViewModel<MemberViewModel>()
+    val projectState by projectVM.state.collectAsStateWithLifecycle()
+    val memberState by memberVM.state.collectAsStateWithLifecycle()
+    val chosenProject = projectState.dto
 
-	var showTopBar by remember { mutableStateOf(false) }
-	var showBottomBar by remember { mutableStateOf(false) }
-	var route by remember { mutableStateOf("") }
+    val navController = rememberNavController()
 
-	navController.addOnDestinationChangedListener { _, dest, _ ->
-		showTopBar = dest.route !in listOf("sign_in", "sign_up", "verify_account")
-		showBottomBar = dest.route !in listOf("sign_in", "sign_up", "password_reset", "verify_account")
-		route = dest.route ?: ""
-	}
+    var showBottomAndTopBar by remember { mutableStateOf(false) }
+    var showFAB by remember { mutableStateOf(false) }
+    var route by remember { mutableStateOf("") }
 
-	Scaffold(
-		topBar = { if (showTopBar) TopAppBar(route, navController) },
-		bottomBar = { if (showBottomBar) BottomNavigation(navController) }
-	) { paddingValues ->
-		Surface(
-			modifier = Modifier
-				.fillMaxSize()
-				.padding(paddingValues)
-		) {
-			NavHost(
-				navController = navController,
-				startDestination = when {
-					!Authenticator.signedIn               -> Screens.Signin.route
-					Authenticator.signedInUser!!.verified -> Screens.HomeRoute.route
-					else                                  -> Screens.VerifyAccount.route
-				},
-				enterTransition = { EnterTransition.None },
-				exitTransition = { ExitTransition.None }
-			) {
-				composable(Screens.Signin.route) { SignInView(navController) }
-				composable(Screens.Signup.route) { SignUpView(navController) }
-				composable(Screens.PasswordReset.route) { PasswordResetView(navController) }
-				composable(Screens.VerifyAccount.route) { VerifyAccount(navController) }
-				navigation(
-					startDestination = Screens.Homepage.route,
-					route = Screens.HomeRoute.route
-				) {
-					composable(
-						Screens.Homepage.route,
-						enterTransition = {
-							when (initialState.destination.route) {
-								Screens.Project.route  -> slideInHorizontally(
-									initialOffsetX = { -it },
-									animationSpec = tween(100)
-								)
+    val userId = memberState.dto?.id
+    val userRole = memberState.message
 
-								Screens.Calendar.route -> slideInHorizontally(
-									initialOffsetX = { -it * 2 },
-									animationSpec = tween(100)
-								)
+    navController.addOnDestinationChangedListener { _, dest, _ ->
+        showBottomAndTopBar =
+            dest.route !in listOf("sign_in", "sign_up", "password_reset", "verify_account")
+        route = dest.route ?: ""
+        showFAB = dest.route in listOf("project_list", "files", "tasks", "people", "team")
+    }
 
-								Screens.Profile.route  -> slideInHorizontally(
-									initialOffsetX = { -it * 3 },
-									animationSpec = tween(100)
-								)
+    Scaffold(
+        topBar = {
+            if (showBottomAndTopBar) {
+                TopAppBar(route, navController)
+            }
+        },
+        bottomBar = {
+            if (showBottomAndTopBar) BottomNavigation(navController)
+        },
+        floatingActionButton = {
+            if (showFAB) {
+                if (route == "files") AddFileFAB(chosenProject?.id) else AddProjectFAB()
+            }
+        },
+        containerColor = MaterialTheme.colorScheme.surface,
+    ) { paddingValues ->
+        Surface(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(
+                    top = paddingValues.calculateTopPadding(),
+                    bottom = paddingValues.calculateBottomPadding(),
+                    start = MaterialTheme.spacing.medium,
+                    end = MaterialTheme.spacing.medium,
+                ),
+        ) {
+            NavHost(
+                navController = navController,
+                startDestination = if (Authenticator.signedIn) Screens.Homepage.route else Screens.Signin.route,
+                enterTransition = { EnterTransition.None },
+                exitTransition = { ExitTransition.None }
+            ) {
+                composable(Screens.Signin.route) { SignInView(navController) }
+                composable(Screens.Signup.route) { SignUpView(navController) }
+                composable(Screens.PasswordReset.route) { PasswordResetView(navController) }
+                composable(Screens.VerifyAccount.route) { VerifyAccount(navController) }
+                composable(
+                    Screens.Homepage.route,
+                    enterTransition = {
+                        return@composable fadeIn(tween(500))
+                    },
+                    exitTransition = {
+                        return@composable fadeOut(tween(500))
+                    },
+                    popEnterTransition = {
+                        return@composable scaleIn(tween(500))
+                    },
+                    popExitTransition = {
+                        return@composable fadeOut(tween(500))
+                    },
+                ) { HomePage(
+                    navController,
+                    projectState.dtoList ?: emptyList(),
+                    getMyProjects = { projectVM.getMyProjects() }
+                ) }
+                navigation(
+                    startDestination = Screens.Project.route,
+                    route = Screens.ProjectRoute.route,
+                ) {
+                    composable(
+                        Screens.Project.route,
+                        enterTransition = {
+                            return@composable fadeIn(tween(500))
+                        },
+                        exitTransition = {
+                            return@composable fadeOut(tween(500))
+                        },
+                        popEnterTransition = {
+                            return@composable scaleIn(tween(500))
+                        },
+                        popExitTransition = {
+                            return@composable fadeOut(tween(500))
+                        },
+                    ) {
+                        ProjectList(
+                            navController, projectState.dtoList ?: emptyList(),
+                            getMyProjects = { projectVM.getMyProjects() },
+                            choseProject = { projectVM.choseProject(it) }
+                        )
+                    }
+                    navigation(
+                        startDestination = Screens.DetailProject.route,
+                        route = Screens.DetailsProjectRoute.route
+                    ) {
+                        composable(
+                            Screens.DetailProject.route,
+                            enterTransition = {
+                                return@composable fadeIn(tween(500))
+                            },
+                            exitTransition = {
+                                return@composable fadeOut(tween(500))
+                            },
+                            popEnterTransition = {
+                                return@composable slideIntoContainer(
+                                    AnimatedContentTransitionScope.SlideDirection.End,
+                                    tween(500)
+                                )
+                            },
+                        ) { DetailProject(navController) }
+                        composable(
+                            Screens.Board.route,
+                            enterTransition = {
+                                return@composable fadeIn(tween(500))
+                            },
+                            exitTransition = {
+                                return@composable fadeOut(tween(500))
+                            },
+                            popExitTransition = {
+                                return@composable slideOutOfContainer(
+                                    AnimatedContentTransitionScope.SlideDirection.End,
+                                    tween(500)
+                                )
+                            }
+                        ) { BoardView(chosenProject?.id, chosenProject?.statuses, navController) }
+                        composable(
+                            Screens.Backlog.route,
+                            enterTransition = {
+                                return@composable fadeIn(tween(500))
+                            },
+                            exitTransition = {
+                                return@composable fadeOut(tween(500))
+                            },
+                            popExitTransition = {
+                                return@composable slideOutOfContainer(
+                                    AnimatedContentTransitionScope.SlideDirection.End,
+                                    tween(500)
+                                )
+                            }
+                        ) { Backlog(projectState.dto?.id, navController) }
+                        composable(
+                            Screens.Files.route,
+                            enterTransition = {
+                                return@composable fadeIn(tween(500))
+                            },
+                            exitTransition = {
+                                return@composable fadeOut(tween(500))
+                            },
+                            popExitTransition = {
+                                return@composable slideOutOfContainer(
+                                    AnimatedContentTransitionScope.SlideDirection.End,
+                                    tween(500)
+                                )
+                            }
+                        ) { FileView(chosenProject?.id, context = context) }
+                        composable(
+                            Screens.Tasks.route,
+                            enterTransition = {
+                                return@composable fadeIn(tween(500))
+                            },
+                            exitTransition = {
+                                return@composable fadeOut(tween(500))
+                            },
+                            popExitTransition = {
+                                return@composable slideOutOfContainer(
+                                    AnimatedContentTransitionScope.SlideDirection.End,
+                                    tween(500)
+                                )
+                            }
+                        ) { TaskListView(chosenProject?.id, navController) }
+                        composable(
+                            Screens.Task.route,
+                            enterTransition = {
+                                return@composable fadeIn(tween(500))
+                            },
+                            exitTransition = {
+                                return@composable fadeOut(tween(500))
+                            },
+                            popExitTransition = {
+                                return@composable slideOutOfContainer(
+                                    AnimatedContentTransitionScope.SlideDirection.End,
+                                    tween(500)
+                                )
+                            }
+                        ) {
+                            it.arguments?.getString("taskId")
+                                ?.let { it1 ->
+                                    projectState.dto?.let { it2 ->
+                                        TaskView(
+                                            it1,
+                                            it2.statuses
+                                        )
+                                    }
+                                }
+                        }
+                        composable(
+                            Screens.Members.route,
+                            enterTransition = {
+                                return@composable fadeIn(tween(500))
+                            },
+                            exitTransition = {
+                                return@composable fadeOut(tween(500))
+                            },
+                            popExitTransition = {
+                                return@composable slideOutOfContainer(
+                                    AnimatedContentTransitionScope.SlideDirection.End,
+                                    tween(500)
+                                )
+                            }
+                        ) {
+                            Member(chosenProject?.id, userId, { memberVM.getMe() }, userRole)
+                        }
+                        composable(
+                            Screens.Reports.route,
+                            enterTransition = {
+                                return@composable fadeIn(tween(500))
+                            },
+                            exitTransition = {
+                                return@composable fadeOut(tween(500))
+                            },
+                            popExitTransition = {
+                                return@composable slideOutOfContainer(
+                                    AnimatedContentTransitionScope.SlideDirection.End,
+                                    tween(500)
+                                )
+                            }
+                        ) { ReportView(chosenProject?.id, chosenProject?.statuses) }
+                        composable(
+                            Screens.Timeline.route,
+                            enterTransition = {
+                                return@composable fadeIn(tween(500))
+                            },
+                            exitTransition = {
+                                return@composable fadeOut(tween(500))
+                            },
+                            popExitTransition = {
+                                return@composable slideOutOfContainer(
+                                    AnimatedContentTransitionScope.SlideDirection.End,
+                                    tween(500)
+                                )
+                            }
+                        ) {
+                            //TODO: CAN NOT DO THIS
+                        }
+                    }
+                }
+                composable(
+                    Screens.Calendar.route,
+                    enterTransition = {
+                        return@composable fadeIn(tween(500))
+                    },
+                    exitTransition = {
+                        return@composable fadeOut(tween(500))
+                    },
+                    popEnterTransition = {
+                        return@composable scaleIn(tween(500))
+                    },
+                ) { CalendarView(navController, chosenProject?.statuses) }
+                composable(
+                    Screens.Profile.route,
+                    enterTransition = {
+                        return@composable fadeIn(tween(500))
+                    },
+                    exitTransition = {
+                        return@composable fadeOut(tween(500))
+                    },
+                    popEnterTransition = {
+                        return@composable scaleIn(tween(500))
+                    },
+                ) { ProfileScreen(navController) }
+            }
 
-								else                   -> null
-							}
-						},
-						exitTransition = {
-							when (targetState.destination.route) {
-								Screens.Project.route  -> slideOutHorizontally(
-									targetOffsetX = { -it },
-									animationSpec = tween(100)
-								)
-
-								Screens.Calendar.route -> slideOutHorizontally(
-									targetOffsetX = { -it * 2 },
-									animationSpec = tween(100)
-								)
-
-								Screens.Profile.route  -> slideOutHorizontally(
-									targetOffsetX = { -it * 3 },
-									animationSpec = tween(100)
-								)
-
-								else                   -> null
-							}
-						}
-					) {
-						HomePage()
-					}
-					navigation(
-						startDestination = Screens.Project.route,
-						route = Screens.ProjectRoute.route
-					) {
-						composable(
-							Screens.Project.route,
-							enterTransition = {
-								when (initialState.destination.route) {
-									Screens.Homepage.route -> slideInHorizontally(
-										initialOffsetX = { it },
-										animationSpec = tween(100)
-									)
-
-									Screens.Calendar.route -> slideInHorizontally(
-										initialOffsetX = { -it },
-										animationSpec = tween(100)
-									)
-
-									Screens.Profile.route  -> slideInHorizontally(
-										initialOffsetX = { -it * 2 },
-										animationSpec = tween(100)
-									)
-
-									else                   -> null
-								}
-							},
-							exitTransition = {
-								when (targetState.destination.route) {
-									Screens.Homepage.route -> slideOutHorizontally(
-										targetOffsetX = { it },
-										animationSpec = tween(100)
-									)
-
-									Screens.Calendar.route -> slideOutHorizontally(
-										targetOffsetX = { -it },
-										animationSpec = tween(100)
-									)
-
-									Screens.Profile.route  -> slideOutHorizontally(
-										targetOffsetX = { -it * 2 },
-										animationSpec = tween(100)
-									)
-
-									else                   -> null
-								}
-							}
-						) { ProjectList(ProjectViewViewModel(), navController) }
-						navigation(
-							startDestination = Screens.DetailProject.route,
-							route = Screens.DetailsProjectRoute.route
-						) {
-							composable(Screens.DetailProject.route) { DetailProject(navController) }
-							composable(Screens.Board.route) { BoardView() }
-							composable(Screens.Backlog.route) { Backlog(BacklogViewModel("")) }
-							composable(Screens.Files.route) { FileView() }
-							composable(Screens.Tasks.route) { TaskListView() }
-							composable(Screens.People.route) { Member() }
-							composable(Screens.Reports.route) { ReportView() }
-							composable(Screens.Timeline.route) { /*TODO: CAN NOT DO THIS*/ }
-							composable(Screens.Team.route) {/*TODO: IS DOING*/ }
-						}
-					}
-					composable(
-						Screens.Calendar.route,
-						enterTransition = {
-							when (initialState.destination.route) {
-								Screens.Homepage.route -> slideInHorizontally(
-									initialOffsetX = { it * 2 },
-									animationSpec = tween(100)
-								)
-
-								Screens.Project.route  -> slideInHorizontally(
-									initialOffsetX = { it },
-									animationSpec = tween(100)
-								)
-
-								Screens.Profile.route  -> slideInHorizontally(
-									initialOffsetX = { -it },
-									animationSpec = tween(100)
-								)
-
-								else                   -> null
-							}
-						},
-						exitTransition = {
-							when (targetState.destination.route) {
-								Screens.Homepage.route -> slideOutHorizontally(
-									targetOffsetX = { it * 2 },
-									animationSpec = tween(100)
-								)
-
-								Screens.Project.route  -> slideOutHorizontally(
-									targetOffsetX = { it },
-									animationSpec = tween(100)
-								)
-
-								Screens.Profile.route  -> slideOutHorizontally(
-									targetOffsetX = { -it },
-									animationSpec = tween(100)
-								)
-
-								else                   -> null
-							}
-						}
-					) { CalendarView(navController) }
-					composable(
-						Screens.Profile.route,
-						enterTransition = {
-							when (initialState.destination.route) {
-								Screens.Homepage.route -> slideInHorizontally(
-									initialOffsetX = { it * 3 },
-									animationSpec = tween(100)
-								)
-
-								Screens.Project.route  -> slideInHorizontally(
-									initialOffsetX = { it * 2 },
-									animationSpec = tween(100)
-								)
-
-								Screens.Calendar.route -> slideInHorizontally(
-									initialOffsetX = { it },
-									animationSpec = tween(100)
-								)
-
-								else                   -> null
-							}
-						},
-						exitTransition = {
-							when (targetState.destination.route) {
-								Screens.Homepage.route -> slideOutHorizontally(
-									targetOffsetX = { it * 3 },
-									animationSpec = tween(100)
-								)
-
-								Screens.Project.route  -> slideOutHorizontally(
-									targetOffsetX = { it * 3 },
-									animationSpec = tween(100)
-								)
-
-								Screens.Calendar.route -> slideOutHorizontally(
-									targetOffsetX = { it },
-									animationSpec = tween(100)
-								)
-
-								else                   -> null
-							}
-						}
-					) { ProfileScreen(navController) }
-				}
-			}
-		}
-	}
+        }
+    }
 }

@@ -26,17 +26,21 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.sprintsync.R
+import com.sprintsync.data.dtos.TaskDto
+import com.sprintsync.data.dtos.response.TaskResDto
 import com.sprintsync.ui.theme.spacing
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ChangeTaskStateButton(taskState: String) {
+fun ChangeTaskStateButton(
+    taskState: String,
+    updateState: (TaskDto) -> Unit,
+    statusList: List<String>,
+    taskDetails:TaskResDto?,
+) {
+    val currentTaskDetails = taskDetails?.toDto()
 
-    var taskStateTest by remember {
-        mutableStateOf("IN PROGRESS")
-    }
     var expanded by remember { mutableStateOf(false) }
-    val menuList = listOf<String>("To do", "In Progress", "Stuck", "Review", "Done")
     Box {
         Button(
             onClick = { expanded = !expanded },
@@ -57,7 +61,7 @@ fun ChangeTaskStateButton(taskState: String) {
             )
             Spacer(modifier = Modifier.width(MaterialTheme.spacing.small))
             Text(
-                text = taskStateTest,
+                text = taskState,
                 style = MaterialTheme.typography.labelMedium,
                 color = MaterialTheme.colorScheme.onPrimaryContainer
             )
@@ -67,12 +71,15 @@ fun ChangeTaskStateButton(taskState: String) {
             onDismissRequest = { expanded = false },
             modifier = Modifier.wrapContentWidth()
         ) {
-            menuList.forEach {
+            statusList.forEach {
                 DropdownMenuItem(
                     text = { Text(it) },
                     onClick = {
-                        taskStateTest = it
                         expanded = false
+                        if (currentTaskDetails != null) {
+                            currentTaskDetails.statusIndex = statusList.indexOf(it)
+                            updateState(currentTaskDetails)
+                        }
                     },
                 )
             }
@@ -83,5 +90,5 @@ fun ChangeTaskStateButton(taskState: String) {
 @Preview(showBackground = true)
 @Composable
 fun ChangeStatePreview() {
-    ChangeTaskStateButton(taskState = "IN PROGRESS")
+//    ChangeTaskStateButton(taskState = "IN PROGRESS")
 }

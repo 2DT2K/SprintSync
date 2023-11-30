@@ -54,7 +54,7 @@ fun EditProfile() {
 
 		ProfileInfoCard(
 			title = "Date of Birth",
-			value = userPassword,
+			value = userDateOfBirth,
 			content = {
 				DateWheelPicker {
 					userDateOfBirth = it
@@ -64,7 +64,7 @@ fun EditProfile() {
 
 		ProfileInfoCard(
 			title = "Country/Region",
-			value = userPassword,
+			value = userCountry,
 			content = {
 				CountryDropDownMenu {
 					userCountry = it

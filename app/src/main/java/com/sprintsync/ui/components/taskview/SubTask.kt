@@ -14,7 +14,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -22,9 +21,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
-import androidx.core.content.ContextCompat
-import androidx.core.graphics.drawable.toBitmap
 import com.sprintsync.R
+import com.sprintsync.data.dtos.response.TaskResDto
 import com.sprintsync.ui.components.TaskProcess
 import com.sprintsync.ui.theme.spacing
 
@@ -38,7 +36,7 @@ class SubTask(
 
 
 @Composable
-fun SubTask(subTaskList: List<SubTask>) {
+fun SubTask(subTaskList: List<TaskResDto>?, statusList:List<String>) {
     val context = LocalContext.current
     // Add ImageBitmap objects to the list
 
@@ -57,7 +55,7 @@ fun SubTask(subTaskList: List<SubTask>) {
             style = MaterialTheme.typography.labelSmall,
             color = MaterialTheme.colorScheme.onPrimaryContainer,
         )
-        subTaskList.forEach {
+        subTaskList?.forEach {
             Row(
                 horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.default, Alignment.Start),
                 verticalAlignment = Alignment.CenterVertically,
@@ -73,7 +71,7 @@ fun SubTask(subTaskList: List<SubTask>) {
                         contentScale = ContentScale.None,
                     )
                     Text(
-                        text = it.taskNavigation,
+                        text = "SCURMMER",
                         style = MaterialTheme.typography.bodyMedium,
                         color= MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -83,7 +81,7 @@ fun SubTask(subTaskList: List<SubTask>) {
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Text(
-                        text = it.taskName,
+                        text = it.name,
                         modifier = Modifier.width(110.dp),
                         style = MaterialTheme.typography.bodyMedium,
                         color= MaterialTheme.colorScheme.onSecondaryContainer,
@@ -100,16 +98,16 @@ fun SubTask(subTaskList: List<SubTask>) {
                         horizontalArrangement = Arrangement.spacedBy((-14).dp, Alignment.End),
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
-                        ContextCompat
-                            .getDrawable(context, R.drawable.nice_avatar)
-                            ?.let { it1 ->
-                                it.assignees.add(
-                                    it1.toBitmap()
-                                )
-                            }
+//                        ContextCompat
+//                            .getDrawable(context, R.drawable.nice_avatar)
+//                            ?.let { it1 ->
+//                                it.assignees.add(
+//                                    it1.toBitmap()
+//                                )
+//                            }
                         it.assignees.forEachIndexed { index, image ->
                             Image(
-                                bitmap = image.asImageBitmap(),
+                                painterResource(id = R.drawable.nice_avatar),
                                 contentDescription = "",
                                 modifier = Modifier
                                     .zIndex(index.toFloat())
@@ -118,10 +116,10 @@ fun SubTask(subTaskList: List<SubTask>) {
                             )
                         }
                     }
-                    when (it.status) {
-                        "In progress" -> TaskProcess(title = "In progress", color = 0xFFF7C84F)
-                        "Productivity" -> TaskProcess(title = "Productivity", color = 0xFFAA60AB)
-                        "Todo" -> TaskProcess(title = "Todo", color = 0xFF4CF590)
+                    when (statusList[it.statusIndex]) {
+                        "In progress" -> TaskProcess(title = "In progress", color = 0xFF4CF590)
+                        "Done" -> TaskProcess(title = "Productivity", color = 0xFF00B383)
+                        "To Do" -> TaskProcess(title = "Todo", color = 0xFF4F8FF5)
                     }
                 }
             }
@@ -129,28 +127,10 @@ fun SubTask(subTaskList: List<SubTask>) {
     }
 }
 
-var subTask1 = SubTask(
-    status = "In progress",
-    taskName = "Study MonggoDB",
-    taskNavigation = "SCRUMMER-1",
-    assignees = mutableListOf(),
-)
-var subTask2 = SubTask(
-    status = "Productivity",
-    taskName = "Some longgggggggggggggggggggggggggggggggggggggggggg",
-    taskNavigation = "SCRUMMER-1",
-    assignees = mutableListOf(),
-)
-var subTask3 = SubTask(
-    status = "Todo",
-    taskName = "Play dota",
-    taskNavigation = "SCRUMMER-1",
-    assignees = mutableListOf(),
-)
-var fakeData = listOf<SubTask>(subTask1, subTask2, subTask3)
 
-@Preview(showBackground = true)
-@Composable
-fun SubTaskPreview() {
-    SubTask(fakeData)
-}
+
+//@Preview(showBackground = true)
+//@Composable
+//fun SubTaskPreview() {
+//    SubTask(fakeTask.subTask, listOf("To do","In Progress"))
+//}

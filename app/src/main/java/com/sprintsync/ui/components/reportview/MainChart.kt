@@ -46,7 +46,7 @@ fun MainChart(chartEntryModel: ChartEntryModel) {
             }
             datasetLineSPec.add(
                 LineChart.LineSpec(
-                    lineColor = Color(0xFF04BFDA).toArgb(),
+                    lineColor = Color.Green.toArgb(),
                     lineBackgroundShader = DynamicShaders.fromBrush(
                         brush = Brush.verticalGradient(
                             listOf(
@@ -59,7 +59,7 @@ fun MainChart(chartEntryModel: ChartEntryModel) {
             )
             datasetLineSPec.add(
                 LineChart.LineSpec(
-                    lineColor = Color.Gray.toArgb(),
+                    lineColor = Color.Cyan.toArgb(),
                 )
             )
             ProvideChartStyle(

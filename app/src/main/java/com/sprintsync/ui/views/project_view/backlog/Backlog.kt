@@ -18,7 +18,7 @@ import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -26,102 +26,178 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavController
 import com.sprintsync.R
-import com.sprintsync.data.view_models.BacklogViewModel
+import com.sprintsync.data.dtos.SprintDto
+import com.sprintsync.data.dtos.TaskDto
+import com.sprintsync.data.dtos.response.TaskResDto
+import com.sprintsync.data.view_models.SprintViewModel
+import com.sprintsync.data.view_models.TaskViewModel
+import com.sprintsync.ui.components.LoadingDialog
 import com.sprintsync.ui.components.backlog.SprintCard
+import com.sprintsync.ui.components.backlog.SprintDialog
 import com.sprintsync.ui.theme.Grey40
-import com.sprintsync.ui.theme.SprintSyncTheme
 
 @Composable
-fun Backlog(backlogViewModel: BacklogViewModel) {
-	val backlogUiState by backlogViewModel.uiState.collectAsState()
+fun Backlog(projectID: String?, navController: NavController? = null) {
+    val sprintVM = hiltViewModel<SprintViewModel>()
+    val sprintState by sprintVM.state.collectAsStateWithLifecycle()
+    val activeSprint by sprintVM.activeSprint.collectAsStateWithLifecycle()
+    val taskVM = hiltViewModel<TaskViewModel>()
+    val taskState by taskVM.state.collectAsStateWithLifecycle()
+    val isSprintLoading by sprintVM.isLoading.collectAsStateWithLifecycle()
+    val isTaskLoading by taskVM.isLoading.collectAsStateWithLifecycle()
 
-	Column(
-		modifier = Modifier
-			.animateContentSize()
-			.fillMaxSize()
-			.verticalScroll(rememberScrollState())
-	) {
-		CurrentSprintView(backlogUiState.activeSprint)
-		Divider()
-		IsDoneSprintView(backlogUiState.doneSprints)
-	}
+    val isLoading = isSprintLoading || isTaskLoading
+
+    LaunchedEffect(Unit) {
+        if (projectID != null) {
+            sprintVM.getSprintsOfProject(projectID)
+            sprintVM.getActiveSprintByProject(projectID)
+            taskVM.getTasksOfProject(projectID)
+        }
+    }
+
+    Column(
+        modifier = Modifier
+            .animateContentSize()
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
+    ) {
+        if (isLoading) {
+            LoadingDialog(alertText = "Loading...")
+        }
+        if (projectID != null) {
+            SprintDialog(
+                projectID = projectID,
+                sprints = sprintState.dtoList ?: emptyList(),
+                onAddSprint = { sprintVM.addSprint(it) })
+        }
+        //TODO: wait for active sprint api
+        taskState.dtoList?.let {
+            CurrentSprintView(
+                activeSprint,
+                sprintState.dtoList?.filter { sprint -> !sprint.isActive && sprint.completeDate == null },
+                it,
+                onAddTask = { task -> taskVM.addTask(task) },
+                updateSprint = { sprint -> sprintVM.updateSprint(sprint) },
+                navController = navController
+            )
+        }
+        taskState.dtoList?.let {
+            IsDoneSprintView(
+                sprintState.dtoList?.filter { sprint -> sprint.completeDate != null },
+                it,
+                onAddTask = { task -> taskVM.addTask(task) },
+                navController = navController
+            )
+        }
+    }
 }
 
 @Composable
-fun CurrentSprintView(currentSprint: List<BacklogViewModel.Sprint>) {
-	currentSprint.forEach() { sprint ->
-		SprintCard(sprint = sprint, isActive = true)
-	}
+fun CurrentSprintView(
+    currentSprint: SprintDto?,
+    isNotActiveSprints: List<SprintDto>? = null,
+    taskList: List<TaskResDto>,
+    onAddTask: (TaskDto) -> Unit,
+    updateSprint: (SprintDto) -> Unit = {},
+    navController: NavController? = null
+) {
+    currentSprint?.let {
+        SprintCard(
+            sprint = it,
+            taskList = taskList,
+            isActive = true,
+            onAddTask = onAddTask,
+            updateSprint = updateSprint,
+            navController = navController,
+        )
+    }
+    Divider()
+    isNotActiveSprints?.forEach() { sprint ->
+        SprintCard(
+            sprint = sprint,
+            taskList = taskList,
+            isActive = false,
+            onAddTask = onAddTask,
+            updateSprint = updateSprint,
+            navController = navController,
+        )
+    }
+    Divider()
 }
 
 @Composable
-fun IsDoneSprintView(doneSprints: List<BacklogViewModel.Sprint>) {
-	var isOpen by remember {
-		mutableStateOf(false)
-	}
+fun IsDoneSprintView(
+    doneSprints: List<SprintDto>?,
+    taskList: List<TaskResDto>,
+    onAddTask: (TaskDto) -> Unit,
+    navController: NavController? = null
+) {
+    var isOpen by remember {
+        mutableStateOf(false)
+    }
 
-	Column(
-		modifier = Modifier
-			.animateContentSize()
-			.wrapContentHeight(),
-	) {
-		Row(
-			modifier = Modifier
-				.fillMaxWidth()
-				.clickable {
-					isOpen = !isOpen
-				}
-				.padding(top = 8.dp, bottom = 8.dp)
-				.height(40.dp),
-			verticalAlignment = Alignment.CenterVertically
-		) {
-			Icon(
-				painter = painterResource(
-					id = if (isOpen) R.drawable.arrow_down_2
-					else R.drawable.arrow_up
-				),
-				modifier = Modifier
-					.width(28.dp)
-					.height(28.dp),
-				tint = Grey40,
-				contentDescription = null
-			)
+    Column(
+        modifier = Modifier
+            .animateContentSize()
+            .wrapContentHeight(),
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .clickable {
+                    isOpen = !isOpen
+                }
+                .padding(top = 8.dp, bottom = 8.dp)
+                .height(40.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Icon(
+                painter = painterResource(
+                    id = if (isOpen) R.drawable.arrow_down_2
+                    else R.drawable.arrow_up
+                ),
+                modifier = Modifier
+                    .width(28.dp)
+                    .height(28.dp),
+                tint = Grey40,
+                contentDescription = null
+            )
 
-			Spacer(modifier = Modifier.width(8.dp))
-			Column {
-				Text(
-					text = "IsDone Sprint",
-				)
-			}
+            Spacer(modifier = Modifier.width(8.dp))
+            Column {
+                Text(
+                    text = "IsDone Sprint",
+                )
+            }
 
-			Spacer(modifier = Modifier.weight(1.0f))
+            Spacer(modifier = Modifier.weight(1.0f))
 
-			Icon(
-				painter = painterResource(R.drawable.more),
-				contentDescription = null,
-				modifier = Modifier.clickable(onClick = {})
-			)
-		}
+            Icon(
+                painter = painterResource(R.drawable.more),
+                contentDescription = null,
+                modifier = Modifier.clickable(onClick = {})
+            )
+        }
 
-		AnimatedVisibility(visible = isOpen) {
-			Column {
-				doneSprints.forEach() { sprint ->
-					SprintCard(sprint = sprint)
-				}
-			}
-		}
-	}
-}
-
-@Preview(showBackground = true)
-@Composable
-fun BacklogPreview() {
-	val backlogViewModel = BacklogViewModel("")
-	SprintSyncTheme {
-		Backlog(backlogViewModel)
-	}
+        AnimatedVisibility(visible = isOpen) {
+            Column {
+                doneSprints?.forEach() { sprint ->
+                    SprintCard(
+                        sprint = sprint,
+                        taskList = taskList,
+                        isActive = false,
+                        onAddTask = onAddTask,
+                        navController = navController,
+                    )
+                }
+            }
+        }
+    }
 }
 

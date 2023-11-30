@@ -4,10 +4,8 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -19,9 +17,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.TextFieldDefaults.TextFieldDecorationBox
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -31,7 +27,6 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.SuggestionChip
 import androidx.compose.material3.SuggestionChipDefaults
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -42,45 +37,53 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
 import com.sprintsync.R
+import com.sprintsync.data.dtos.TaskDto
 import com.sprintsync.ui.theme.spacing
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TagPopUp(onDismissRequest: () -> Unit, tagList: List<String>) {
+fun TagPopUp(
+    onDismissRequest: () -> Unit,
+    updateState: (TaskDto) -> Unit,
+    taskDetails: TaskDto
+) {
     AlertDialog(
-        onDismissRequest = { onDismissRequest() }, properties = DialogProperties(
+        onDismissRequest = { onDismissRequest() },
+        properties = DialogProperties(
             usePlatformDefaultWidth = false // disable the default size so that we can customize it
         )
     ) {
+        val currentTaskDetails = taskDetails
         var textState by remember {
             mutableStateOf("")
         }
         var currentTagList by remember {
-            mutableStateOf(tagList)
+            mutableStateOf(currentTaskDetails.labels)
         }
         var finalTagList by remember {
-            mutableStateOf(tagList)
+            mutableStateOf(currentTaskDetails.labels)
         }
-        Box(modifier = Modifier
-            .background(Color.Black.copy(alpha = 0.5f))
-            .fillMaxSize()
-            .clickable { onDismissRequest() }
-            .padding(top = 120.dp)
+        Column(
+            modifier = Modifier
+                .padding(start = 32.dp, end = 32.dp) // margin
+                .background(color = Color.White, shape = RoundedCornerShape(16.dp))
+                .padding(top = 32.dp, bottom = 32.dp) // inner padding
+                .clickable { onDismissRequest() },
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
             val interactionSource = remember { MutableInteractionSource() }
             Column(
                 modifier = Modifier
                     .background(
-                        color = MaterialTheme.colorScheme.onSecondary,
+                        color = Color.White,
                         shape = RoundedCornerShape(size = 16.dp)
                     )
                     .width(300.dp)
                     .padding(MaterialTheme.spacing.medium)
-                    .align(alignment = Alignment.TopCenter)
                     .clickable(
                         interactionSource = interactionSource,
                         indication = null
@@ -122,7 +125,7 @@ fun TagPopUp(onDismissRequest: () -> Unit, tagList: List<String>) {
 
                             }
                     ) {
-                        currentTagList.forEach {
+                        currentTagList?.forEach {
                             Row(
                                 horizontalArrangement = Arrangement.SpaceBetween,
                                 modifier = Modifier.fillMaxWidth()
@@ -142,9 +145,9 @@ fun TagPopUp(onDismissRequest: () -> Unit, tagList: List<String>) {
                                 )
                                 IconButton(onClick = {
                                     finalTagList = if (checkState) {
-                                        finalTagList.minus(it)
+                                        finalTagList?.minus(it)
                                     } else {
-                                        finalTagList.plus(it)
+                                        finalTagList?.plus(it)
                                     }
                                     checkState = !checkState
 
@@ -184,10 +187,10 @@ fun TagPopUp(onDismissRequest: () -> Unit, tagList: List<String>) {
                                 .height(52.dp)
                         )
                         IconButton(onClick = {
-                            if (textState.isNotEmpty() && !currentTagList.any {
+                            if (textState.isNotEmpty() && !currentTagList?.any {
                                     it.equals(textState, ignoreCase = true)
-                                }) {
-                                currentTagList = currentTagList.plus(textState)
+                                }!!) {
+                                currentTagList = currentTagList?.plus(textState)
                                 finalTagList = currentTagList
                                 textState = ""
                             }
@@ -201,8 +204,9 @@ fun TagPopUp(onDismissRequest: () -> Unit, tagList: List<String>) {
                     }
                     Button(
                         onClick = {
+                            currentTaskDetails.labels = finalTagList
+                            updateState(currentTaskDetails)
                             onDismissRequest()
-
                         },
                         modifier = Modifier
                             .border(
@@ -227,8 +231,8 @@ fun TagPopUp(onDismissRequest: () -> Unit, tagList: List<String>) {
 }
 
 
-@Preview(showBackground = true)
-@Composable
-fun TagPopUpPreview() {
-    TagPopUp({}, listOf("HomePage", "FE"))
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun TagPopUpPreview() {
+//    TagPopUp({}, listOf("HomePage", "FE"))
+//}

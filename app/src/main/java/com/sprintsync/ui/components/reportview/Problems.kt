@@ -31,15 +31,16 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sprintsync.R
+import com.sprintsync.data.dtos.response.TaskResDto
 import com.sprintsync.ui.components.TaskPoint
 import com.sprintsync.ui.components.TaskProcess
 import com.sprintsync.ui.theme.spacing
-import com.sprintsync.ui.views.Task
-import com.sprintsync.ui.views.fakeData
+
+
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun Problem(title: String, incompleProblems: List<Task>) {
+fun Problem(title: String, incompleteProblems: List<TaskResDto>,statusList:List<String>?) {
     Column(
         verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.default, Alignment.Top),
         horizontalAlignment = Alignment.Start,
@@ -73,9 +74,9 @@ fun Problem(title: String, incompleProblems: List<Task>) {
                     text = "Key", style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
-                incompleProblems.forEach {
+                incompleteProblems.forEach {
                     Text(
-                        text = it.taskNavigation,
+                        text = "SCRUMMER",
                         modifier = Modifier.height(MaterialTheme.spacing.mediumLarge),
                         style = TextStyle(
                             fontSize = 10.sp,
@@ -126,7 +127,7 @@ fun Problem(title: String, incompleProblems: List<Task>) {
                                     style = MaterialTheme.typography.bodySmall,
                                     color = MaterialTheme.colorScheme.onSurfaceVariant
                                 )
-                                incompleProblems.forEach { it2 ->
+                                incompleteProblems.forEach { it2 ->
                                     Text(
                                         text = it2.name,
                                         Modifier
@@ -155,7 +156,7 @@ fun Problem(title: String, incompleProblems: List<Task>) {
                                     style = MaterialTheme.typography.bodySmall,
                                     color = MaterialTheme.colorScheme.onSurfaceVariant
                                 )
-                                incompleProblems.forEach { it2 ->
+                                incompleteProblems.forEach { it2 ->
                                     Row(
                                         horizontalArrangement = Arrangement.spacedBy(
                                             0.dp,
@@ -163,7 +164,7 @@ fun Problem(title: String, incompleProblems: List<Task>) {
                                         ),
                                         verticalAlignment = Alignment.CenterVertically,
                                     ) {
-                                        when (it2.issueType) {
+                                        when ("Task") {
                                             "Task" -> {
                                                 Image(
                                                     painter = painterResource(
@@ -208,16 +209,15 @@ fun Problem(title: String, incompleProblems: List<Task>) {
                                     style = MaterialTheme.typography.bodySmall,
                                     color = MaterialTheme.colorScheme.onSurfaceVariant
                                 )
-                                incompleProblems.forEach { it3 ->
+                                incompleteProblems.forEach { it3 ->
                                     var color = 0L
-                                    when (it3.taskState) {
-                                        "In Progress" -> color = 0xFFF7C84F
-                                        "Review" -> color = 0xFF4FF7E3
-                                        "Todo" -> color = 0xFF4FF774
+                                    when (statusList?.get(it3.statusIndex)) {
+                                        "In Progress" -> color = 0xFF4CF590
+                                        "Done" -> color = 0xFF00B383
+                                        "To Do" -> color = 0xFF4F8FF5
                                     }
-                                    TaskProcess(title = it3.taskState, color = color)
-
-
+                                    statusList?.get(it3.statusIndex)
+                                        ?.let { it1 -> TaskProcess(title = it1, color = color) }
                                 }
                             }
                             Column(
@@ -232,7 +232,7 @@ fun Problem(title: String, incompleProblems: List<Task>) {
                                     style = MaterialTheme.typography.bodySmall,
                                     color = MaterialTheme.colorScheme.onSurfaceVariant
                                 )
-                                incompleProblems.forEach { it4 ->
+                                incompleteProblems.forEach { it4 ->
                                     Row(
                                         horizontalArrangement = Arrangement.spacedBy(
                                             (-14).dp,
@@ -241,7 +241,6 @@ fun Problem(title: String, incompleProblems: List<Task>) {
                                         verticalAlignment = Alignment.CenterVertically,
                                     ) {
                                         it4.assignees.forEach {
-
                                             Image(
                                                 painter = painterResource(
                                                     id = R.drawable.nice_avatar
@@ -266,7 +265,7 @@ fun Problem(title: String, incompleProblems: List<Task>) {
                                     style = MaterialTheme.typography.bodySmall,
                                     color = MaterialTheme.colorScheme.onSurfaceVariant
                                 )
-                                incompleProblems.forEach { item ->
+                                incompleteProblems.forEach { item ->
                                     TaskPoint(
                                         point = item.point, Modifier
                                             .background(
@@ -285,11 +284,11 @@ fun Problem(title: String, incompleProblems: List<Task>) {
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun IncompleteProblemPreview() {
-    Problem(
-        title = "Incomplete problem",
-        incompleProblems = listOf(fakeData, fakeData, fakeData, fakeData)
-    )
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun IncompleteProblemPreview() {
+//    Problem(
+//        title = "Incomplete problem",
+//        incompleProblems = listOf(fakeData, fakeData, fakeData, fakeData)
+//    )
+//}
