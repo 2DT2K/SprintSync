@@ -7,100 +7,108 @@ import com.sprintsync.ui.navigation.Screens
 
 @Composable
 fun TopAppBar(
-    route: String,
-    navController: NavController? = null
+	route: String,
+	navController: NavController? = null
 ) {
-    when (route) {
-        "homepage"       -> {
-            AvatarTopAppBar(
-                title = "Home",
-                navigationOnclick = {
-                    navController?.navigate(Screens.Profile.route)
-                }
-            )
-        }
+	when (route) {
+		"password_reset" -> {
+			TwoIconTopAppBar(title = "",
+				navigationOnclick = {
+					navController?.popBackStack()
+				}
+			)
+		}
 
-        "project_list"   -> {
-            AvatarTopAppBar(
-                title = "Project",
-                navigationOnclick = {
-                    navController?.navigate(Screens.Profile.route)
-                }
-            )
-        }
+		"homepage"       -> {
+			AvatarTopAppBar(
+				title = "Home",
+				navigationOnclick = {
+					navController?.navigate(Screens.Profile.route)
+				}
+			)
+		}
 
-        "detail_project" -> {
-            TwoIconTopAppBar(
-                title = "Project",
-                navigationOnclick = { navController?.popBackStack() })
-        }
+		"project_list"   -> {
+			AvatarTopAppBar(
+				title = "Project",
+				navigationOnclick = {
+					navController?.navigate(Screens.Profile.route)
+				}
+			)
+		}
 
-        "board"          -> {
-            TwoIconTopAppBar(title = "Board", navigationOnclick = { navController?.popBackStack() })
-        }
+		"detail_project" -> {
+			TwoIconTopAppBar(
+				title = "Project",
+				navigationOnclick = { navController?.popBackStack() })
+		}
 
-        "backlog"        -> {
-            TwoIconTopAppBar(
-                title = "Backlog",
-                navigationOnclick = { navController?.popBackStack() }
-            )
-        }
+		"board"          -> {
+			TwoIconTopAppBar(title = "Board", navigationOnclick = { navController?.popBackStack() })
+		}
 
-        "timeline"       -> {
-            TwoIconTopAppBar(
-                title = "Timeline",
-                navigationOnclick = { navController?.popBackStack() })
-        }
+		"backlog"        -> {
+			TwoIconTopAppBar(
+				title = "Backlog",
+				navigationOnclick = { navController?.popBackStack() }
+			)
+		}
 
-        "tasks"          -> {
-            TwoIconTopAppBar(title = "Tasks", navigationOnclick = { navController?.popBackStack() })
-        }
+		"timeline"       -> {
+			TwoIconTopAppBar(
+				title = "Timeline",
+				navigationOnclick = { navController?.popBackStack() })
+		}
 
-        "files"          -> {
-            TwoIconTopAppBar(title = "Files", navigationOnclick = { navController?.popBackStack() })
-        }
+		"tasks"          -> {
+			TwoIconTopAppBar(title = "Tasks", navigationOnclick = { navController?.popBackStack() })
+		}
 
-        "members"        -> {
-            TwoIconTopAppBar(
-                title = "Member",
-                navigationOnclick = { navController?.popBackStack() })
-        }
+		"files"          -> {
+			TwoIconTopAppBar(title = "Files", navigationOnclick = { navController?.popBackStack() })
+		}
 
-        "report"         -> {
-            TwoIconTopAppBar(
-                title = "Report",
-                navigationOnclick = { navController?.popBackStack() })
-        }
+		"members"        -> {
+			TwoIconTopAppBar(
+				title = "Member",
+				navigationOnclick = { navController?.popBackStack() })
+		}
 
-        "calendar"       -> {
-            AvatarTopAppBar(
-                title = "Calendar",
-                navigationOnclick = {
-                    navController?.navigate(Screens.Profile.route)
-                }
-            )
-        }
+		"report"         -> {
+			TwoIconTopAppBar(
+				title = "Report",
+				navigationOnclick = { navController?.popBackStack() })
+		}
 
-        "profile"        -> {
-            AvatarTopAppBar(
-                title = "Profile",
-                turnAvatar = false,
-                navigationOnclick = {
-                    navController?.navigate(Screens.Profile.route)
-                }
-            )
-        }
+		"calendar"       -> {
+			AvatarTopAppBar(
+				title = "Calendar",
+				navigationOnclick = {
+					navController?.navigate(Screens.Profile.route)
+				}
+			)
+		}
 
-        "task/{taskId}"  -> {
-            TwoIconTopAppBar(
-                title = "Task",
-                navigationOnclick = {
-                    navController?.popBackStack()
-                })
-        }
+		"profile"        -> {
+			AvatarTopAppBar(
+				title = "Profile",
+				turnAvatar = false,
+				navigationOnclick = {
+					navController?.navigate(Screens.Profile.route)
+				}
+			)
+		}
 
-        else             -> {
-            Log.d("TopAppBar", "Route not found")
-        }
-    }
+		"task/{taskId}"  -> {
+			TwoIconTopAppBar(
+				title = "Task",
+				navigationOnclick = {
+					navController?.popBackStack()
+				})
+		}
+
+		else             -> {
+			Log.d("TopAppBar", "Route not found")
+		}
+	}
 }

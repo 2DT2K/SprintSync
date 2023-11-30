@@ -3,7 +3,6 @@ package com.sprintsync
 import android.content.Context
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.AnimatedContentTransitionScope
@@ -19,7 +18,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -29,12 +27,14 @@ import androidx.core.app.ActivityCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import com.sprintsync.data.auth.Authenticator
-import com.sprintsync.data.view_models.AttachmentViewModel
 import com.sprintsync.data.view_models.MemberViewModel
 import com.sprintsync.data.view_models.ProjectViewModel
 import com.sprintsync.ui.components.BottomNavigation
@@ -61,6 +61,8 @@ import com.sprintsync.ui.views.project_view.file_view.FileView
 import com.sprintsync.ui.views.project_view.member.Member
 import com.sprintsync.ui.views.project_view.tasklist.TaskListView
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 
 
 @AndroidEntryPoint
@@ -69,10 +71,20 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         installSplashScreen()
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            val permissions = arrayOf(android.Manifest.permission.POST_NOTIFICATIONS)
-            ActivityCompat.requestPermissions(this, permissions, 0)
-        }
+		lifecycleScope.launch {
+			try {
+				Firebase.auth.currentUser
+					?.reload()
+					?.await()
+			}
+			catch (_: Exception) {
+			}
+		}
+
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+			val permissions = arrayOf(android.Manifest.permission.POST_NOTIFICATIONS)
+			ActivityCompat.requestPermissions(this, permissions, 0)
+		}
 
         setContent { SprintSyncTheme { MainContent(context = this) } }
     }
@@ -80,20 +92,20 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun MainContent(context: Context) {
-    val projectVM = hiltViewModel<ProjectViewModel>()
-    val memberVM = hiltViewModel<MemberViewModel>()
-    val projectState by projectVM.state.collectAsStateWithLifecycle()
-    val memberState by memberVM.state.collectAsStateWithLifecycle()
-    val chosenProject = projectState.dto
+	val projectVM = hiltViewModel<ProjectViewModel>()
+	val memberVM = hiltViewModel<MemberViewModel>()
+	val projectState by projectVM.state.collectAsStateWithLifecycle()
+	val memberState by memberVM.state.collectAsStateWithLifecycle()
+	val chosenProject = projectState.dto
 
-    val navController = rememberNavController()
+	val navController = rememberNavController()
 
     var showBottomAndTopBar by remember { mutableStateOf(false) }
     var showFAB by remember { mutableStateOf(false) }
     var route by remember { mutableStateOf("") }
 
-    val userId = memberState.dto?.id
-    val userRole = memberState.message
+	val userId = memberState.dto?.id
+	val userRole = memberState.message
 
     navController.addOnDestinationChangedListener { _, dest, _ ->
         showBottomAndTopBar =
@@ -369,6 +381,6 @@ fun MainContent(context: Context) {
                 ) { ProfileScreen(navController) }
             }
 
-        }
-    }
+		}
+	}
 }
