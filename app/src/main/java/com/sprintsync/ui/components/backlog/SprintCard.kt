@@ -96,7 +96,7 @@ fun SprintCard(
 
             if (tasksOfThisSprint.isNotEmpty()) {
                 TaskPoint(
-                    point = tasksOfThisSprint.filter { it.statusIndex == 1 }.sumOf { it.point },
+                    point = tasksOfThisSprint.filter { it.statusIndex == 0 }.sumOf { it.point },
                     modifier = Modifier.background(
                         color = TodoPoint,
                         shape = RoundedCornerShape(size = 16.dp)
@@ -105,7 +105,7 @@ fun SprintCard(
                 Spacer(modifier = Modifier.width(8.dp))
 
                 TaskPoint(
-                    point = tasksOfThisSprint.filter { it.statusIndex == 2 }.sumOf { it.point },
+                    point = tasksOfThisSprint.filter { it.statusIndex == 1 }.sumOf { it.point },
                     modifier = Modifier.background(
                         color = InProgressPoint,
                         shape = RoundedCornerShape(size = 16.dp)
@@ -114,7 +114,7 @@ fun SprintCard(
                 Spacer(modifier = Modifier.width(8.dp))
 
                 TaskPoint(
-                    point = tasksOfThisSprint.filter { it.statusIndex == 3 }.sumOf { it.point },
+                    point = tasksOfThisSprint.filter { it.statusIndex == 2 }.sumOf { it.point },
                     modifier = Modifier.background(
                         color = DonePoint,
                         shape = RoundedCornerShape(size = 16.dp)

@@ -119,6 +119,9 @@ fun MainContent(context: Context) {
             if (showBottomAndTopBar) {
                 TopAppBar(route, navController)
             }
+            else if (route == Screens.VerifyAccount.route) {
+                TopAppBar(route, navController)
+            }
         },
         bottomBar = {
             if (showBottomAndTopBar) BottomNavigation(navController)

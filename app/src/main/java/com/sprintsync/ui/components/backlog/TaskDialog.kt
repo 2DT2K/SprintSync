@@ -1,9 +1,11 @@
 package com.sprintsync.ui.components.backlog
 
+import android.widget.Space
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -14,6 +16,8 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.DropdownMenu
+import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -40,7 +44,6 @@ import com.sprintsync.R
 import com.sprintsync.data.dtos.MemberDto
 import com.sprintsync.data.dtos.SprintDto
 import com.sprintsync.data.dtos.TaskDto
-import com.sprintsync.data.dtos.TeamDto
 import com.sprintsync.data.dtos.response.TeamResDto
 import com.sprintsync.data.view_models.MemberViewModel
 import com.sprintsync.data.view_models.TeamViewModel
@@ -150,23 +153,8 @@ fun TaskDialog(sprint: SprintDto, onAddTask: (TaskDto) -> Unit) {
                         value = taskDescription,
                         onValueChange = { taskDescription = it })
 
-                    Button(onClick = { isTeamDialogOpen = !isTeamDialogOpen }) {
-                        Text(text = if (chosenTeam.name != "") chosenTeam.name else "Choose Team")
-                    }
-                    AnimatedVisibility(visible = isTeamDialogOpen) {
-                        Column {
-                            teamState.value.dtoList?.forEach {
-                                Row(modifier = Modifier.clickable {
-                                    chosenTeam = it
-                                    assignees = emptyList()
-                                    isTeamDialogOpen = !isTeamDialogOpen
-                                }) {
-                                    Text(text = it.name)
-                                }
-                            }
-                        }
-                    }
-
+//                    Button(onClick = { isTeamDialogOpen = !isTeamDialogOpen }) {
+//                    }
                     Button(onClick = {
                         if (me != null) {
                             assignees =
@@ -176,31 +164,130 @@ fun TaskDialog(sprint: SprintDto, onAddTask: (TaskDto) -> Unit) {
                         Text(text = if (assignees.contains(me)) "Un-assign me" else "Assign me")
                     }
 
-                    Button(onClick = { isAssigneeDialogOpen = !isAssigneeDialogOpen }) {
-                        Text(text = if (assignees.isNotEmpty()) assignees.joinToString(", ") { it.name } else "Choose Assignees")
-                    }
-                    AnimatedVisibility(visible = isAssigneeDialogOpen) {
-                        Column {
-                            chosenTeam.members.forEach { member ->
-                                Row(modifier = Modifier.clickable {
-                                    assignees = if (assignees.contains(member)) {
-                                        assignees.filter { it != member }
-                                    } else {
-                                        assignees + member
+                    Box(
+                        contentAlignment = Alignment.CenterStart,
+                    ) {
+//                        Text(text = if (chosenTeam.name != "") chosenTeam.name else "Choose Team")
+                        Row(
+                            Modifier
+                                .fillMaxWidth()
+                                .border(
+                                    1.dp,
+                                    MaterialTheme.colorScheme.onSurface,
+                                    RoundedCornerShape(4.dp)
+                                )
+                                .padding(4.dp)
+                                .clickable(onClick = {
+                                    isTeamDialogOpen = !isTeamDialogOpen
+                                }),
+                            horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Text(text = if (chosenTeam.name != "") chosenTeam.name else "Choose Team")
+                            Icon(
+                                painter = painterResource(id = R.drawable.arrow_down),
+                                contentDescription = ""
+                            )
+                        }
+                        DropdownMenu(
+                            expanded = isTeamDialogOpen,
+                            onDismissRequest = { isTeamDialogOpen = !isTeamDialogOpen }) {
+                            AnimatedVisibility(visible = isTeamDialogOpen) {
+                                Column {
+                                    teamState.value.dtoList?.forEach {
+                                        DropdownMenuItem(onClick = {
+                                            chosenTeam = it
+                                            assignees = emptyList()
+                                            isTeamDialogOpen = !isTeamDialogOpen
+                                        }) {
+                                            Text(text = it.name)
+                                        }
                                     }
-                                }) {
-                                    if (assignees.contains(member)) {
-                                        Icon(
-                                            painter = painterResource(id = R.drawable.check_circle),
-                                            contentDescription = "check icon",
-                                            tint = MaterialTheme.colorScheme.onSurface,
-                                        )
-                                    }
-                                    Text(text = member.name)
                                 }
                             }
                         }
                     }
+
+//                    Button(onClick = { isAssigneeDialogOpen = !isAssigneeDialogOpen }) {
+//                        Text(text = if (assignees.isNotEmpty()) assignees.joinToString(", ") { it.name } else "Choose Assignees")
+//                    }
+//                    AnimatedVisibility(visible = isAssigneeDialogOpen) {
+//                        Column {
+//                            chosenTeam.members.forEach { member ->
+//                                Row(modifier = Modifier.clickable {
+//                                    assignees = if (assignees.contains(member)) {
+//                                        assignees.filter { it != member }
+//                                    } else {
+//                                        assignees + member
+//                                    }
+//                                }) {
+//                                    if (assignees.contains(member)) {
+//                                        Icon(
+//                                            painter = painterResource(id = R.drawable.check_circle),
+//                                            contentDescription = "check icon",
+//                                            tint = MaterialTheme.colorScheme.onSurface,
+//                                        )
+//                                    }
+//                                    Text(text = member.name)
+//                                }
+//                            }
+//                        }
+//                    }
+                    Box(
+                        contentAlignment = Alignment.CenterStart,
+                    ) {
+                        Row(
+                            Modifier
+                                .fillMaxWidth()
+                                .border(
+                                    1.dp,
+                                    MaterialTheme.colorScheme.onSurface,
+                                    RoundedCornerShape(4.dp)
+                                )
+                                .padding(4.dp)
+                                .clickable(onClick = {
+                                    isAssigneeDialogOpen = !isAssigneeDialogOpen
+                                }),
+                            horizontalArrangement = Arrangement.spacedBy(
+                                8.dp,
+                                Alignment.CenterHorizontally
+                            ),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Text(text = if (assignees.isNotEmpty()) assignees.joinToString(", ") { it.name } else "Choose Assignees")
+                            Icon(
+                                painter = painterResource(id = R.drawable.arrow_down),
+                                contentDescription = ""
+                            )
+                        }
+                        DropdownMenu(
+                            expanded = isAssigneeDialogOpen,
+                            onDismissRequest = { isAssigneeDialogOpen = !isAssigneeDialogOpen }) {
+                            AnimatedVisibility(visible = isAssigneeDialogOpen) {
+                                Column {
+                                    chosenTeam.members.forEach { member ->
+                                        DropdownMenuItem(onClick = {
+                                            assignees = if (assignees.contains(member)) {
+                                                assignees.filter { it != member }
+                                            } else {
+                                                assignees + member
+                                            }
+                                        }) {
+                                            if (assignees.contains(member)) {
+                                                Icon(
+                                                    painter = painterResource(id = R.drawable.check_circle),
+                                                    contentDescription = "check icon",
+                                                    tint = MaterialTheme.colorScheme.onSurface,
+                                                )
+                                            }
+                                            Text(text = member.name)
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+//
 
                     InputGroup(
                         title = "Deadline",

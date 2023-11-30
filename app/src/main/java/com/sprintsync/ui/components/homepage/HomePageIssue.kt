@@ -39,34 +39,6 @@ data class MenuIssue(
     val issueTime: String
 )
 
-val issueList: List<MenuIssue> = listOf(
-    MenuIssue(
-        issueType = "Task",
-        issueName = "Finish Sprint1",
-        issueTime = "now"
-    ),
-    MenuIssue(
-        issueType = "Task",
-        issueName = "Finish all home work",
-        issueTime = "1 days ago"
-    ),
-    MenuIssue(
-        issueType = "Task",
-        issueName = "Reach 5k mmr again",
-        issueTime = "2 days ago"
-    ),
-    MenuIssue(
-        issueType = "Bug",
-        issueName = "SprintSync",
-        issueTime = "3 days ago"
-    ),
-    MenuIssue(
-        issueType = "Project",
-        issueName = "No idea",
-        issueTime = "1 week ago"
-    )
-)
-
 @Composable
 fun HomePageIssue(
     navController: NavController? = null,
@@ -86,9 +58,9 @@ fun HomePageIssue(
     Column(
         verticalArrangement = Arrangement.spacedBy(
             MaterialTheme.spacing.default,
-            Alignment.CenterVertically
+            Alignment.Top
         ),
-        horizontalAlignment = Alignment.CenterHorizontally,
+        horizontalAlignment = Alignment.Start,
 
         ) {
         Row(
@@ -132,7 +104,7 @@ fun HomePageIssue(
                 .verticalScroll(state = scrollState),
             verticalArrangement = Arrangement.spacedBy(
                 MaterialTheme.spacing.small,
-                Alignment.CenterVertically
+                Alignment.Top
             ),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
