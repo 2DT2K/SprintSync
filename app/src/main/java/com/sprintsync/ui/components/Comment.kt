@@ -19,6 +19,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sprintsync.R
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 @Composable
 fun Comment(
@@ -68,7 +70,9 @@ fun Comment(
 					)
 				)
 				Text(
-					text = commentTime,
+					text = LocalDateTime.parse(commentTime).format(
+						DateTimeFormatter.ofPattern("dd/MM/yyyy")
+					),
 					style = TextStyle(
 						fontSize = 10.sp,
 						lineHeight = 8.sp,
