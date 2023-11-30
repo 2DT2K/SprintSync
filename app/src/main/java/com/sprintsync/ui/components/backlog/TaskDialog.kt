@@ -141,7 +141,7 @@ fun TaskDialog(sprint: SprintDto, onAddTask: (TaskDto) -> Unit) {
                                     assignees = emptyList(),
                                     parentTask = null,
                                     attachments = emptyList(),
-                                    statusIndex = 1,
+                                    statusIndex = 0,
                                     deadline = taskDeadline,
                                     point = taskPoint,
                                     comments = emptyList(),

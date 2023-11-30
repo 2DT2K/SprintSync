@@ -46,17 +46,17 @@ fun TaskCard(task: TaskResDto) {
     var iconTint: Color = Color.Transparent
     var iconBackgroundColor: Color = Color.Transparent
     when (task.statusIndex) {
-        1 -> {
+        0 -> {
             status = "To Do"
             backgroundColor = ToDoStatus
         }
 
-        2 -> {
+        1 -> {
             status = "In Progress"
             backgroundColor = InProgressStatus
         }
 
-        3 -> {
+        2 -> {
             status = "Productivity"
             backgroundColor = ProductivityStatus
         }
