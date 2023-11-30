@@ -1,12 +1,16 @@
 package com.sprintsync.google_calendar
 
-import android.app.job.JobInfo
-import android.app.job.JobScheduler
-import android.content.ComponentName
-import android.os.Build
-import android.os.PersistableBundle
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.NotificationManager.IMPORTANCE_HIGH
+import androidx.core.app.NotificationCompat
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
+import com.sprintsync.R
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlin.random.Random
 
 class MessageService : FirebaseMessagingService() {
 	override fun onNewToken(token: String) {
@@ -22,21 +26,32 @@ class MessageService : FirebaseMessagingService() {
 
 		val data = message.data
 
-		val jobService = ComponentName(this, BackgroundService::class.java)
-		val extras = PersistableBundle().apply {
-			putString("title", "New task: ${data["taskName"]}")
-			putString("body", data["taskDescription"])
-			putString("taskName", data["taskName"])
-			putString("taskDescription", data["taskDescription"])
-			putString("taskDeadline", data["taskDeadline"])
+		val notification = NotificationCompat
+			.Builder(this, "SprintSync")
+			.setSmallIcon(R.drawable.notification)
+			.setContentTitle("New task: ${data["taskName"]}")
+			.setContentText(data["taskDescription"])
+			.setAutoCancel(true)
+			.build()
+
+		val channel = NotificationChannel("SprintSync", "SprintSync", IMPORTANCE_HIGH)
+		(getSystemService(NOTIFICATION_SERVICE) as NotificationManager).apply {
+			createNotificationChannel(channel)
+			notify(Random.nextInt(), notification)
 		}
-		val jobBuilder = JobInfo
-			.Builder(1, jobService)
-			.setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
-			.setBackoffCriteria(15000, JobInfo.BACKOFF_POLICY_LINEAR)
-			.setExtras(extras)
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) jobBuilder.setExpedited(true)
-		val jobScheduler = getSystemService(JOB_SCHEDULER_SERVICE) as JobScheduler
-		jobScheduler.schedule(jobBuilder.build())
+
+		val title = data["taskName"]
+		val description = data["taskDescription"]
+		val deadline = data["taskDeadline"]
+
+		if (deadline.isNullOrEmpty()) return
+
+		CoroutineScope(Dispatchers.IO).launch {
+			try {
+				addEvent(applicationContext, title, description, deadline.substring(0, 10))
+			}
+			catch (_: Exception) {
+			}
+		}
 	}
 }
