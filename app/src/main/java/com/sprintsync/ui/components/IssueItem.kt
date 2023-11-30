@@ -29,101 +29,103 @@ import java.time.format.DateTimeFormatter
 
 @Composable
 fun IssueItem(
-    issueType: String,
-    issueDescription: String,
-    issueTimeLine: String,
-    onClick: () -> Unit = {}
+	issueType: String,
+	issueDescription: String,
+	issueTimeLine: String,
+	onClick: () -> Unit = {}
 ) {
-    val issueTypePicModifier = Modifier
-        .size(32.dp)
-        .background(
-            color = when (issueType) {
-                "Task"    -> MaterialTheme.colorScheme.secondary
-                "Bug"     -> MaterialTheme.colorScheme.errorContainer
-                "Project" -> MaterialTheme.colorScheme.tertiary
-                else      -> Color(0xFF000000)
-            },
-            shape = RoundedCornerShape(size = 8.dp)
-        )
-        .padding(MaterialTheme.spacing.small)
-    Surface(color = Color.Unspecified, onClick = onClick) {
-        Row(
-            horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.default),
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(MaterialTheme.spacing.default)
-        ) {
-            Box(
-                contentAlignment = Alignment.Center,
-                modifier = issueTypePicModifier
-            ) {
-                when (issueType) {
-                    "Task"    -> Icon(
-                        painter = painterResource(id = R.drawable.check_circle),
-                        contentDescription = "",
-                        tint = MaterialTheme.colorScheme.onPrimaryContainer
-                    )
+	val issueTypePicModifier = Modifier
+		.size(32.dp)
+		.background(
+			color = when (issueType) {
+				"Task"    -> MaterialTheme.colorScheme.secondary
+				"Bug"     -> MaterialTheme.colorScheme.errorContainer
+				"Project" -> MaterialTheme.colorScheme.tertiary
+				else      -> Color(0xFF000000)
+			},
+			shape = RoundedCornerShape(size = 8.dp)
+		)
+		.padding(MaterialTheme.spacing.small)
+	Surface(color = Color.Unspecified, onClick = onClick) {
+		Row(
+			horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.default),
+			verticalAlignment = Alignment.CenterVertically,
+			modifier = Modifier
+				.fillMaxWidth()
+				.padding(MaterialTheme.spacing.default)
+		) {
+			Box(
+				contentAlignment = Alignment.Center,
+				modifier = issueTypePicModifier
+			) {
+				when (issueType) {
+					"Task"    -> Icon(
+						painter = painterResource(id = R.drawable.check_circle),
+						contentDescription = "",
+						tint = MaterialTheme.colorScheme.onPrimaryContainer
+					)
 
-                    "Bug"     -> Icon(
-                        painter = painterResource(id = R.drawable.bug_report),
-                        contentDescription = "",
-                        tint = MaterialTheme.colorScheme.onErrorContainer
-                    )
+					"Bug"     -> Icon(
+						painter = painterResource(id = R.drawable.bug_report),
+						contentDescription = "",
+						tint = MaterialTheme.colorScheme.onErrorContainer
+					)
 
-                    "Project" -> Icon(
-                        painter = painterResource(id = R.drawable.folder_fill),
-                        contentDescription = "",
-                        tint = MaterialTheme.colorScheme.onTertiary
-                    )
+					"Project" -> Icon(
+						painter = painterResource(id = R.drawable.folder_fill),
+						contentDescription = "",
+						tint = MaterialTheme.colorScheme.onTertiary
+					)
 
-                    else      -> {
+					else      -> {
 
-                    }
-                }
-            }
-            Column(
-                modifier = Modifier
-                    .fillMaxHeight()
-                    .fillMaxWidth()
-            ) {
-                Row(
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Text(
-                        text = issueType,
-                        style = MaterialTheme.typography.titleSmall,
-                    )
-                    Text(
-                        text = LocalDateTime.parse(issueTimeLine).format(
-                            DateTimeFormatter.ofPattern("dd/MM/yyyy")
-                        ),
-                        style = MaterialTheme.typography.bodySmall,
-                    )
-                }
-                Row(
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .fillMaxHeight()
-                ) {
-                    Text(
-                        text = issueDescription,
-                        style = MaterialTheme.typography.bodyMedium,
-                    )
-                }
-            }
-        }
-    }
+					}
+				}
+			}
+			Column(
+				modifier = Modifier
+					.fillMaxHeight()
+					.fillMaxWidth()
+			) {
+				Row(
+					horizontalArrangement = Arrangement.SpaceBetween,
+					verticalAlignment = Alignment.CenterVertically,
+					modifier = Modifier.fillMaxWidth()
+				) {
+					Text(
+						text = issueType,
+						style = MaterialTheme.typography.titleSmall,
+					)
+					Text(
+						text = LocalDateTime
+							.parse(issueTimeLine)
+							.format(
+								DateTimeFormatter.ofPattern("dd/MM/yyyy")
+							),
+						style = MaterialTheme.typography.bodySmall,
+					)
+				}
+				Row(
+					horizontalArrangement = Arrangement.SpaceBetween,
+					verticalAlignment = Alignment.CenterVertically,
+					modifier = Modifier
+						.fillMaxWidth()
+						.fillMaxHeight()
+				) {
+					Text(
+						text = issueDescription,
+						style = MaterialTheme.typography.bodyMedium,
+					)
+				}
+			}
+		}
+	}
 }
 
 @Preview(showBackground = true)
 @Composable
 fun IssueItemPreview() {
-    IssueItem("Task", "Design UI for HomePage", "now")
+	IssueItem("Task", "Design UI for HomePage", "now")
 }
 
 
