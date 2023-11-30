@@ -12,7 +12,7 @@ class RetrofitSingleton private constructor() {
 
 	private val retrofit: Retrofit = Retrofit
 		.Builder()
-		.baseUrl("https://d106-113-185-53-150.ngrok.io/")
+		.baseUrl("https://4b15-2001-ee0-1a5d-9e42-a82a-2746-c7bb-a23f.ngrok-free.app/")
 		.client(okHttpClient)
 		.addConverterFactory(GsonConverterFactory.create())
 		.build()
