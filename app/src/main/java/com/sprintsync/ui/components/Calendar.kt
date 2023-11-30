@@ -36,6 +36,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavController
 import com.sprintsync.R
 import com.sprintsync.data.dtos.response.TaskResDto
 import com.sprintsync.data.view_models.TaskViewModel
@@ -57,16 +58,17 @@ import java.util.Locale
 
 
 @Composable
-fun Calendar(statusList: List<String>?) {
+fun Calendar(statusList: List<String>?, navController: NavController) {
     val taskViewVM = hiltViewModel<TaskViewModel>()
     val tasksState by taskViewVM.state.collectAsStateWithLifecycle()
+    val isTaskLoading by taskViewVM.isLoading.collectAsStateWithLifecycle()
+    val isLoading = isTaskLoading
 
     val allTask = tasksState.dtoList
     LaunchedEffect(Unit) {
         taskViewVM.getMyTasks()
         Log.d("log calendar", allTask.toString())
     }
-
 
     val (currentDaySelected, setCurrentDaySelected) = remember {
         mutableStateOf(LocalDateTime.now())
@@ -78,6 +80,9 @@ fun Calendar(statusList: List<String>?) {
         ),
         horizontalAlignment = Alignment.Start,
     ) {
+        if (isLoading) {
+            LoadingDialog(alertText = "Loading...")
+        }
         SelectableCalendar(
             modifier = Modifier.animateContentSize(),
             showAdjacentMonths = true,
@@ -295,8 +300,8 @@ private fun MonthHeader(monthState: MonthState) {
 }
 
 
-@Preview(showBackground = true)
-@Composable
-fun CalendarPreview() {
-    Calendar(listOf("To Do", "In Progress", "Done"))
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun CalendarPreview() {
+//    Calendar(listOf("To Do", "In Progress", "Done"))
+//}

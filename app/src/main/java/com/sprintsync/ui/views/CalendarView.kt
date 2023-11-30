@@ -12,7 +12,7 @@ import com.sprintsync.ui.components.Calendar
 @Composable
 fun CalendarView(navController: NavController? = null, statusList:List<String>?) {
     Column(horizontalAlignment = Alignment.Start) {
-        Calendar(statusList)
+        navController?.let { Calendar(statusList, it) }
     }
 }
 
