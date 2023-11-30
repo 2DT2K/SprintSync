@@ -138,14 +138,16 @@ fun HomePageIssue(
         ) {
             taskState.dtoList?.forEachIndexed { index, task ->
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    IssueItem(
-                        issueType = "Task",
-                        issueDescription = task.name,
-                        issueTimeLine = LocalDateTime.now().toString() + " " + task.deadline,
-                        onClick = {
-                            navController?.navigate("task")
-                        }
-                    )
+                    task.deadline?.let {
+                        IssueItem(
+                            issueType = "Task",
+                            issueDescription = task.name,
+                            issueTimeLine = it,
+                            onClick = {
+                                navController?.navigate("task")
+                            }
+                        )
+                    }
                     if (taskState.dtoList!!.size - 1 >= 1 &&
                         task != taskState.dtoList!![taskState.dtoList!!.size - 1]
                     ) {

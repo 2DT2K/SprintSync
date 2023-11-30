@@ -24,6 +24,8 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.sprintsync.R
 import com.sprintsync.ui.theme.spacing
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 @Composable
 fun IssueItem(
@@ -95,7 +97,9 @@ fun IssueItem(
                         style = MaterialTheme.typography.titleSmall,
                     )
                     Text(
-                        text = issueTimeLine,
+                        text = LocalDateTime.parse(issueTimeLine).format(
+                            DateTimeFormatter.ofPattern("dd/MM/yyyy")
+                        ),
                         style = MaterialTheme.typography.bodySmall,
                     )
                 }

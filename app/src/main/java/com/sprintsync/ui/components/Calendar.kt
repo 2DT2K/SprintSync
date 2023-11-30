@@ -2,6 +2,7 @@ package com.sprintsync.ui.components
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.util.Log
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -63,6 +64,7 @@ fun Calendar(statusList: List<String>?) {
     val allTask = tasksState.dtoList
     LaunchedEffect(Unit) {
         taskViewVM.getMyTasks()
+        Log.d("log calendar", allTask.toString())
     }
 
 
