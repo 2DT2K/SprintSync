@@ -16,48 +16,98 @@ class TeamViewModel @Inject constructor(
     fun getTeam(id: String) {
         setLoading(true)
         scope.launch {
-            val response = service.getTeam(id)
-            update(State(dto = response.data, error = response.err))
-            setLoading(false)
+            try {
+                val response = service.getTeam(id)
+                update(State(dto = response.data, error = response.err))
+            } catch (e: Exception) {
+                Log.e("TeamViewModel", e.message ?: "Error")
+            } finally {
+                setLoading(false)
+            }
         }
     }
 
     fun getTeamsOfProject(id: String) {
         setLoading(true)
         scope.launch {
-            val response = service.getTeamsOfProject(id)
-            update(State(dtoList = response.data, error = response.err))
-            setLoading(false)
+            try {
+                val response = service.getTeamsOfProject(id)
+                update(State(dtoList = response.data, error = response.err))
+            } catch (e: Exception) {
+                Log.e("TeamViewModel", e.message ?: "Error")
+            } finally {
+                setLoading(false)
+            }
         }
     }
 
     fun addTeam(dto: TeamDto) {
+        setLoading(true)
         scope.launch {
-            val response = service.addTeam(dto)
-            update(State(dto = response.data, dtoList = state.value.dtoList, error = response.err))
-            response.data?.let { addToDtoList(it) }
+            try {
+                val response = service.addTeam(dto)
+                update(
+                    State(
+                        dto = response.data,
+                        dtoList = state.value.dtoList,
+                        error = response.err
+                    )
+                )
+                response.data?.let { addToDtoList(it) }
+            } catch (e: Exception) {
+                Log.e("TeamViewModel", e.message ?: "Error")
+            } finally {
+                setLoading(false)
+            }
         }
     }
 
     fun addMember(email: String, teamId: String) {
+        setLoading(true)
         scope.launch {
-            val response = service.addMember(email, teamId)
-            update(State(dto = response.data,dtoList = state.value.dtoList, error = response.err))
-            response.data?.let { addToDtoList(it) }
+            try {
+                val response = service.addMember(email, teamId)
+                update(
+                    State(
+                        dto = response.data,
+                        dtoList = state.value.dtoList,
+                        error = response.err
+                    )
+                )
+                response.data?.let { addToDtoList(it) }
+            } catch (e: Exception) {
+                Log.e("TeamViewModel", e.message ?: "Error")
+            } finally {
+                setLoading(false)
+            }
         }
     }
 
     fun updateTeam(dto: TeamDto) {
+        setLoading(true)
         scope.launch {
-            val response = service.updateTeam(dto)
-            update(State(dto = response.data, error = response.err))
+            try {
+                val response = service.updateTeam(dto)
+                update(State(dto = response.data, error = response.err))
+            } catch (e: Exception) {
+                Log.e("TeamViewModel", e.message ?: "Error")
+            } finally {
+                setLoading(false)
+            }
         }
     }
 
     fun deleteTeam(id: String) {
+        setLoading(true)
         scope.launch {
-            val response = service.deleteTeam(id)
-            update(State(message = response.data, error = response.err))
+            try {
+                val response = service.deleteTeam(id)
+                update(State(message = response.data, error = response.err))
+            } catch (e: Exception) {
+                Log.e("TeamViewModel", e.message ?: "Error")
+            } finally {
+                setLoading(false)
+            }
         }
     }
 }

@@ -1,6 +1,7 @@
 package com.sprintsync.data.view_models
 
 import android.util.Log
+import com.google.android.play.integrity.internal.f
 import com.sprintsync.data.api.TaskAPI
 import com.sprintsync.data.dtos.TaskDto
 import com.sprintsync.data.dtos.response.TaskResDto
@@ -50,58 +51,105 @@ class TaskViewModel @Inject constructor(
     fun getTasksOfProject(id: String) {
         setLoading(true)
         scope.launch {
-            val response = service.getTasksOfProject(id)
-            update(State(dtoList = response.data, error = response.err))
-            setLoading(false)
+            try {
+                val response = service.getTasksOfProject(id)
+                update(State(dtoList = response.data, error = response.err))
+            } catch (e: Exception) {
+                Log.e("TaskViewModel", e.message ?: "Error")
+            } finally {
+                setLoading(false)
+            }
         }
     }
 
     fun getTasksOfSprint(id: String) {
         setLoading(true)
         scope.launch {
-            val response = service.getTasksOfSprint(id)
-            update(State(dtoList = response.data, error = response.err))
-            setLoading(false)
+            try {
+                val response = service.getTasksOfSprint(id)
+                update(State(dtoList = response.data, error = response.err))
+            } catch (e: Exception) {
+                Log.e("TaskViewModel", e.message ?: "Error")
+            } finally {
+                setLoading(false)
+            }
         }
     }
 
     fun getTasksOfTeam(id: String) {
         setLoading(true)
         scope.launch {
-            val response = service.getTasksOfTeam(id)
-            update(State(dtoList = response.data, error = response.err))
-            setLoading(false)
+            try {
+                val response = service.getTasksOfTeam(id)
+                update(State(dtoList = response.data, error = response.err))
+            } catch (e: Exception) {
+                Log.e("TaskViewModel", e.message ?: "Error")
+            } finally {
+                setLoading(false)
+            }
         }
     }
 
     fun getMyTasks() {
         setLoading(true)
         scope.launch {
-            val response = service.getMyTasks()
-            update(State(dtoList = response.data, error = response.err))
-            setLoading(false)
+            try {
+                val response = service.getMyTasks()
+                update(State(dtoList = response.data, error = response.err))
+            } catch (e: Exception) {
+                Log.e("TaskViewModel", e.message ?: "Error")
+            } finally {
+                setLoading(false)
+            }
         }
     }
 
     fun addTask(task: TaskDto) {
+        setLoading(true)
         scope.launch {
-            val response = service.addTask(task)
-            update(State(dto = response.data, dtoList = state.value.dtoList, error = response.err))
-            response.data?.let { addToDtoList(it) }
+            try {
+                val response = service.addTask(task)
+                update(
+                    State(
+                        dto = response.data,
+                        dtoList = state.value.dtoList,
+                        error = response.err
+                    )
+                )
+                response.data?.let { addToDtoList(it) }
+            } catch (e: Exception) {
+                Log.e("TaskViewModel", e.message ?: "Error")
+            } finally {
+                setLoading(false)
+            }
         }
     }
 
     fun updateTask(task: TaskDto) {
+        setLoading(true)
         scope.launch {
-            val response = service.updateTask(task)
-            update(State(dto = response.data, error = response.err))
+            try {
+                val response = service.updateTask(task)
+                update(State(dto = response.data, error = response.err))
+            } catch (e: Exception) {
+                Log.e("TaskViewModel", e.message ?: "Error")
+            } finally {
+                setLoading(false)
+            }
         }
     }
 
     fun deleteTask(id: String) {
+        setLoading(true)
         scope.launch {
-            val response = service.deleteTask(id)
-            update(State(message = response.data, error = response.err))
+            try {
+                val response = service.deleteTask(id)
+                update(State(message = response.data, error = response.err))
+            } catch (e: Exception) {
+                Log.e("TaskViewModel", e.message ?: "Error")
+            } finally {
+                setLoading(false)
+            }
         }
     }
 }
